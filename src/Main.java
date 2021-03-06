@@ -13,8 +13,8 @@ public class Main implements JmmParser {
 	public JmmParserResult parse(String jmmCode) {
 		
 		try {
-		    Calculator myCalc = new Calculator(new StringReader(jmmCode));
-    		SimpleNode root = myCalc.Expression(); // returns reference to root node
+			Parser myCalc = new Parser(new StringReader(jmmCode));
+    		SimpleNode root = myCalc.Program(); // returns reference to root node
             	
     		root.dump(""); // prints the tree on the screen
     	
@@ -29,6 +29,9 @@ public class Main implements JmmParser {
         if (args[0].contains("fail")) {
             throw new RuntimeException("It's supposed to fail");
         }
+
+        Main main = new Main();
+        JmmParserResult jmmParserResult = main.parse("../docs/teste1.jmm");
     }
 
 

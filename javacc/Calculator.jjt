@@ -8,7 +8,7 @@ PARSER_BEGIN(Calculator)
 
 public class Calculator
 {
-    public static void main(String args[]) throws ParseException {
+    /*public static void main(String args[]) throws ParseException {
       	System.out.println("Write an arithmetic expression:");
 		Calculator myCalc = new Calculator(System.in);
 		SimpleNode root = myCalc.Expression(); // returns reference to root node
@@ -16,7 +16,7 @@ public class Calculator
 		root.dump(""); // prints the tree on the screen
 
 		//System.out.println("Expression value: "+myCalc.eval(root));
-    }
+    }*/
 	
 }
 
