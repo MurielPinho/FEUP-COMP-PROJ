@@ -5,11 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12342425-4e64-4c2f-9f53-ad8b2569e888" name="Default Changelist" comment="">
-<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-=======
->>>>>>> 749e971efc149390ac85fae241da10edc847863d
+      <change beforePath="$PROJECT_DIR$/javacc/ParseException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javacc/Parser.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/javacc/Parser.jj" beforeDir="false" afterPath="$PROJECT_DIR$/javacc/Parser.jj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javacc/ParserConstants.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javacc/ParserTokenManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javacc/SimpleCharStream.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javacc/Token.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javacc/TokenMgrError.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +65,21 @@
       <recent name="C:\Users\Mariana Soares\Desktop\cadeiras\2ºsemestre\COMP\projeto\comp2021-6c" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -72,7 +91,7 @@
       <workItem from="1615045709000" duration="963000" />
       <workItem from="1615046898453" duration="1621000" />
       <workItem from="1615080448219" duration="9682000" />
-      <workItem from="1615121662437" duration="4954000" />
+      <workItem from="1615121662437" duration="6107000" />
     </task>
     <servers />
   </component>
