@@ -1,14 +1,26 @@
 options
 {
-    LOOKAHEAD=1;
+    LOOKAHEAD=2;
 }
 
 PARSER_BEGIN(Parser)
 
 
-public class Parser {
+import java.io.StringReader;
 
+public class Parser {
+    public Parser(StringReader stringReader) throws ParseException{
+
+        //System.out.println("Write an arithmetic expression:");
+		//Parser myProg = new Parser(System.in);
+		/*SimpleNode root = */ Program(); // returns reference to root node
+
+		//root.dump(""); // prints the tree on the screen
+
+		//System.out.println("Expression value: "+myCalc.eval(root));
+    }
 }
+
 
 PARSER_END(Parser)
 
@@ -19,19 +31,20 @@ SKIP :
 
 TOKEN:
 {
-    	< INTEGER: (["0"-"9"])+ >
-    |   <IDENTIFIER: ["a"-"z", "A"-"Z"](["a"-"z", "A"-"Z", "0"-"9"])*>
-	|   <INTEGERLITERAL: "A" >
+    	//< INTEGER: (["0"-"9"])+ >
+    <IDENTIFIER: ["a"-"z", "A"-"Z"](["a"-"z", "A"-"Z", "0"-"9"])*>
+	|   <INTEGERLITERAL: (["0"-"9"])+ >
 }
 
-SimpleNode Program(): {}
+void Program(): {}
 {
     ImportDeclaration() ClassDeclaration() <EOF>
 }
 
 void ImportDeclaration(): {}
 {
-    ("import" <IDENTIFIER> ("." <IDENTIFIER>)* ";")*
+   ("import" <IDENTIFIER> ("." <IDENTIFIER>)* ";")*
+//( "import" ["static"] <IDENTIFIER> [ "." <IDENTIFIER> "(" [ ( Type() | "void" ) ( "," ( Type() | "void" )  )* ] ")" [ Type() | "void" ] ] ";" )*
 }
 
 void ClassDeclaration(): {}
@@ -49,55 +62,47 @@ void VarDeclaration(): {}
 
 void MethodDeclaration(): {}
 {
-    "public" Type() <IDENTIFIER> "(" (Type() <IDENTIFIER> ("," Type() <IDENTIFIER>)*)? ")" "{"
+    "public" ((Type() <IDENTIFIER> "(" (Type() <IDENTIFIER> ("," Type() <IDENTIFIER>)*)? ")" "{"
     (VarDeclaration())*
     (Statement())*
     "return" Expression() ";"
-    "}"
-    | "public" "static" "void" "main" "(" "String" "[" "]" <IDENTIFIER> ")" "{"
-      (VarDeclaration())*
-      (Statement())*
-      "}"
+    "}") | ("static" "void" "main" "(" "String" "[" "]" <IDENTIFIER> ")" "{"
+                 (VarDeclaration())*
+                 (Statement())*
+                 "}"))
 }
 
 void Type(): {}
 {
-    "int" "[" "]" | "boolean" | "int" | <IDENTIFIER>
+    "int" ("[" "]")? | "boolean" | <IDENTIFIER>
 }
 
 void Statement(): {}
 {
-    "{" Statement() "}"
+    "{" (Statement())* "}"
     | "if" "(" Expression() ")" Statement() "else" Statement()
     | "while" "(" Expression() ")" Statement()
     | Expression() ";"
-    | <IDENTIFIER> "=" Expression() ";"
-    | <IDENTIFIER> "[" Expression() "]" "=" Expression() ";"
+    | <IDENTIFIER> (("=" Expression() ";") | ("[" Expression() "]" "=" Expression() ";"))
 }
 
 void Expression(): {}
 {
-    Expression2() Expression1()
+    <INTEGERLITERAL> (SecondExpression())?
+    | "true" (SecondExpression())?
+    | "false" (SecondExpression())?
+    | <IDENTIFIER> (SecondExpression())?
+    | "this" (SecondExpression())?
+    | "new" (("int" "[" Expression() "]" SecondExpression()) | (<IDENTIFIER> "(" ")" (SecondExpression())?))
+    | "!" Expression() (SecondExpression())?
+    | "(" Expression() ")" (SecondExpression())?
 }
 
-void Expression1(): {}
-{
-    ("&&" | "<" | "+" | "-" | "*" | "/") Expression2() Expression1()
-    | "[" Expression2() Expression1() "]"
-    | "." "length"
-    | "." <IDENTIFIER> "(" (Expression2() Expression1() ("," Expression2() Expression1())*)? ")"
-    | "new" "int" "[" Expression2() Expression1() "]"
-    | "!" Expression2() Expression1()
-    | "(" Expression2() Expression1() ")"
-}
 
-void Expression2():{}
+void SecondExpression(): {}
 {
-    "." "length"
-    | <INTEGERLITERAL>
-    | "true"
-    | "false"
-    | <IDENTIFIER>
-    | "this"
-    | "new" <IDENTIFIER> "(" ")"
+    ("&&" | "<" | "+" | "-" | "*" | "/") Expression() (SecondExpression())?
+    |"[" Expression() "]" (SecondExpression())?
+    |"." "length" (SecondExpression())?
+    |"." <IDENTIFIER> "(" (Expression() ("," Expression())*)? ")" (SecondExpression())?
 }

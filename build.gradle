@@ -39,9 +39,10 @@ compileJavacc {
 sourceSets {
    main {
       java {
-         srcDir 'src'
-         srcDir 'src-lib'
-         srcDir 'generated'
+          srcDir 'src'
+          srcDir 'src-lib'
+          srcDir 'generated'
+          srcDir 'javacc'
       }
    }
 	
