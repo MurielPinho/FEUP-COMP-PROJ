@@ -1,6 +1,6 @@
 options
 {
-    LOOKAHEAD=2;
+    LOOKAHEAD=1;
 }
 
 PARSER_BEGIN(Parser)
@@ -44,7 +44,7 @@ void Program(): {}
 void ImportDeclaration(): {}
 {
    ("import" <IDENTIFIER> ("." <IDENTIFIER>)* ";")*
-//( "import" ["static"] <IDENTIFIER> [ "." <IDENTIFIER> "(" [ ( Type() | "void" ) ( "," ( Type() | "void" )  )* ] ")" [ Type() | "void" ] ] ";" )*
+
 }
 
 void ClassDeclaration(): {}
@@ -63,18 +63,21 @@ void VarDeclaration(): {}
 void MethodDeclaration(): {}
 {
     "public" ((Type() <IDENTIFIER> "(" (Type() <IDENTIFIER> ("," Type() <IDENTIFIER>)*)? ")" "{"
-    (VarDeclaration())*
+    (LOOKAHEAD(2) VarDeclaration())*
     (Statement())*
     "return" Expression() ";"
-    "}") | ("static" "void" "main" "(" "String" "[" "]" <IDENTIFIER> ")" "{"
-                 (VarDeclaration())*
+    "}")
+    | ("static" "void" "main" "(" "String" "[" "]" <IDENTIFIER> ")" "{"
+                 (LOOKAHEAD(2) VarDeclaration())*
                  (Statement())*
                  "}"))
 }
 
 void Type(): {}
 {
-    "int" ("[" "]")? | "boolean" | <IDENTIFIER>
+    "int" ("[" "]")?
+    | "boolean"
+    | <IDENTIFIER>
 }
 
 void Statement(): {}
@@ -83,26 +86,28 @@ void Statement(): {}
     | "if" "(" Expression() ")" Statement() "else" Statement()
     | "while" "(" Expression() ")" Statement()
     | Expression() ";"
-    | <IDENTIFIER> (("=" Expression() ";") | ("[" Expression() "]" "=" Expression() ";"))
+    | LOOKAHEAD(2) <IDENTIFIER> (("=" Expression() ";")
+    | ("[" Expression() "]" "=" Expression() ";"))
 }
 
 void Expression(): {}
 {
-    <INTEGERLITERAL> (SecondExpression())?
-    | "true" (SecondExpression())?
-    | "false" (SecondExpression())?
-    | <IDENTIFIER> (SecondExpression())?
-    | "this" (SecondExpression())?
-    | "new" (("int" "[" Expression() "]" SecondExpression()) | (<IDENTIFIER> "(" ")" (SecondExpression())?))
-    | "!" Expression() (SecondExpression())?
-    | "(" Expression() ")" (SecondExpression())?
+    <INTEGERLITERAL> (LOOKAHEAD(2) SecondExpression())?
+    | "true" (LOOKAHEAD(2) SecondExpression())?
+    | "false" (LOOKAHEAD(2) SecondExpression())?
+    | <IDENTIFIER> (LOOKAHEAD(2) SecondExpression())?
+    | "this" (LOOKAHEAD(2) SecondExpression())?
+    | "new" (("int" "[" Expression() "]" LOOKAHEAD(2) SecondExpression())
+    | (<IDENTIFIER> "(" ")" (LOOKAHEAD(2) SecondExpression())?))
+    | "!" Expression() (LOOKAHEAD(2) SecondExpression())?
+    | "(" Expression() ")" (LOOKAHEAD(2) SecondExpression())?
 }
 
 
 void SecondExpression(): {}
 {
-    ("&&" | "<" | "+" | "-" | "*" | "/") Expression() (SecondExpression())?
-    |"[" Expression() "]" (SecondExpression())?
-    |"." "length" (SecondExpression())?
-    |"." <IDENTIFIER> "(" (Expression() ("," Expression())*)? ")" (SecondExpression())?
+    ("&&" | "<" | "+" | "-" | "*" | "/") Expression() (LOOKAHEAD(2) SecondExpression())?
+    |"[" Expression() "]" (LOOKAHEAD(2) SecondExpression())?
+    |LOOKAHEAD(2) "." "length" (LOOKAHEAD(2) SecondExpression())?
+    |LOOKAHEAD(2) "." <IDENTIFIER> "(" (Expression() ("," Expression())*)? ")" (LOOKAHEAD(2) SecondExpression())?
 }

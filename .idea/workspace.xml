@@ -6,14 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="12342425-4e64-4c2f-9f53-ad8b2569e888" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/javacc/ParseException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/javacc/Parser.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/javacc/Parser.jj" beforeDir="false" afterPath="$PROJECT_DIR$/javacc/Parser.jj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/javacc/ParserConstants.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/javacc/ParserTokenManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/javacc/SimpleCharStream.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/javacc/Token.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/javacc/TokenMgrError.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
