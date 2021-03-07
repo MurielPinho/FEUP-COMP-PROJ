@@ -6,6 +6,8 @@ import pt.up.fe.comp.jmm.report.Report;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.io.StringReader;
+import java.util.*;
+import java.io.*;
 
 public class Main implements JmmParser {
 
@@ -20,12 +22,12 @@ public class Main implements JmmParser {
 		//return new JmmParserResult(root, new ArrayList<Report>());
 	}*/
 
-    public static void main(String[] args) throws ParseException {
-        System.out.println("Executing with args: " + Arrays.toString(args));
+    public static void main(String[] args) throws ParseException, FileNotFoundException {
+        /*System.out.println("Executing with args: " + Arrays.toString(args));
         if (args[0].contains("fail")) {
             throw new RuntimeException("It's supposed to fail");
-        }
-        Parser myProg = new Parser(new StringReader("../docs/teste1.jmm"));
+        }*/
+        Parser myProg = new Parser("docs/teste1.jmm");
        /* Main main = new Main();
         JmmParserResult jmmParserResult = main.parse("../docs/teste1.jmm");*/
     }

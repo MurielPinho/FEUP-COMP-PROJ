@@ -5,14 +5,21 @@ options
 
 PARSER_BEGIN(Parser)
 
+import java.util.*;
+import java.io.*;
 
 import java.io.StringReader;
 
+
 public class Parser {
-    public Parser(StringReader stringReader) throws ParseException{
+    public Parser(String stringReader) throws ParseException, FileNotFoundException{
 
         //System.out.println("Write an arithmetic expression:");
-		//Parser myProg = new Parser(System.in);
+
+        System.setIn(new FileInputStream(stringReader));
+
+		Parser myProg = new Parser(System.in);
+
 		/*SimpleNode root = */ Program(); // returns reference to root node
 
 		//root.dump(""); // prints the tree on the screen
@@ -26,14 +33,34 @@ PARSER_END(Parser)
 
 SKIP :
 {
-	" " | "\r" | "\t"
+	" " | "\r" | "\t" | "\n"
 }
 
 TOKEN:
 {
-    	//< INTEGER: (["0"-"9"])+ >
-    <IDENTIFIER: ["a"-"z", "A"-"Z"](["a"-"z", "A"-"Z", "0"-"9"])*>
+    <IF: "if">
+    |   <INT: "int">
+    |   <NEW: "new">
+    |   <VOID: "void">
+    |   <ELSE: "else">
+    |   <TRUE: "true">
+    |   <MAIN: "main">
+    |   <THIS: "this">
+    |   <WHILE: "while">
+    |   <FALSE: "false">
+    |   <CLASS: "class">
+    |   <PUBLIC: "public">
+    |   <STATIC: "static">
+    |   <STRING: "String">
+    |   <LENGTH: "length">
+    |   <RETURN: "return">
+    |   <IMPORT: "import">
+    |   <BOOLEAN: "boolean">
+    |   <EXTENDS: "extends">
+    //|   <IDENTIFIER: ["a"-"z", "A"-"Z"](["a"-"z", "A"-"Z", "0"-"9"])*>
+    | <IDENTIFIER: ((["$"]|["_"]|["A"-"Z"]|["a"-"z"])(["$"]|["0"-"9"]|["A"-"Z"]|["a"-"z"]|["_"])*)>
 	|   <INTEGERLITERAL: (["0"-"9"])+ >
+
 }
 
 void Program(): {}
@@ -43,13 +70,12 @@ void Program(): {}
 
 void ImportDeclaration(): {}
 {
-   ("import" <IDENTIFIER> ("." <IDENTIFIER>)* ";")*
-
+   (<IMPORT> <IDENTIFIER> ("." <IDENTIFIER>)* ";")*
 }
 
 void ClassDeclaration(): {}
 {
-    "class" <IDENTIFIER> ("extends" <IDENTIFIER>)? "{"
+    <CLASS> <IDENTIFIER> (<EXTENDS> <IDENTIFIER>)? "{"
     (VarDeclaration())*
     (MethodDeclaration())*
     "}"
@@ -57,57 +83,95 @@ void ClassDeclaration(): {}
 
 void VarDeclaration(): {}
 {
-    Type() <IDENTIFIER> ";"
+    Type() VarDeclaration1()
+}
+
+void VarDeclaration1():{}
+{
+    <IDENTIFIER> ";"
 }
 
 void MethodDeclaration(): {}
 {
-    "public" ((Type() <IDENTIFIER> "(" (Type() <IDENTIFIER> ("," Type() <IDENTIFIER>)*)? ")" "{"
-    (LOOKAHEAD(2) VarDeclaration())*
-    (Statement())*
-    "return" Expression() ";"
-    "}")
-    | ("static" "void" "main" "(" "String" "[" "]" <IDENTIFIER> ")" "{"
-                 (LOOKAHEAD(2) VarDeclaration())*
-                 (Statement())*
-                 "}"))
+    <PUBLIC> 
+    ((
+        Type() <IDENTIFIER> "(" (Type() <IDENTIFIER> ("," Type() <IDENTIFIER>)*)? ")" "{"
+        MethodBody()
+        "return" Expression() ";"
+        "}"
+    ) 
+    | 
+    (
+        <STATIC> <VOID> <MAIN> "(" <STRING> "[" "]" <IDENTIFIER> ")" "{"
+        MethodBody() ";"
+        "}"
+    ))
+}
+
+void MethodBody(): {}
+{
+    (
+        (<IDENTIFIER>((VarDeclaration1() MethodBody()) | (Statement2() (Statement())*)))
+        | (Type1() VarDeclaration1() MethodBody())
+        | (Statement1() (Statement())*)
+    )?
 }
 
 void Type(): {}
 {
-    "int" ("[" "]")?
-    | "boolean"
-    | <IDENTIFIER>
+    Type1() | <IDENTIFIER>
+}
+
+void Type1():{}
+{
+    (<INT> ("[" "]")?) | <BOOLEAN>
 }
 
 void Statement(): {}
 {
+    Statement1()
+    | (<IDENTIFIER> Statement2())
+}
+
+void Statement1():{}
+{
     "{" (Statement())* "}"
-    | "if" "(" Expression() ")" Statement() "else" Statement()
-    | "while" "(" Expression() ")" Statement()
-    | Expression() ";"
-    | LOOKAHEAD(2) <IDENTIFIER> (("=" Expression() ";")
-    | ("[" Expression() "]" "=" Expression() ";"))
+    | (<IF> "(" Expression() ")" Statement() <ELSE> Statement())
+    | (<WHILE> "(" Expression() ")" Statement())
+    | (Expression3() Expression1() ";")
+}
+
+void Statement2():{}
+{
+    ("=" Expression() ";") | ("[" Expression() "]" ("=" Expression() ";")?) | Expression5()
 }
 
 void Expression(): {}
 {
-    <INTEGERLITERAL> (LOOKAHEAD(2) SecondExpression())?
-    | "true" (LOOKAHEAD(2) SecondExpression())?
-    | "false" (LOOKAHEAD(2) SecondExpression())?
-    | <IDENTIFIER> (LOOKAHEAD(2) SecondExpression())?
-    | "this" (LOOKAHEAD(2) SecondExpression())?
-    | "new" (("int" "[" Expression() "]" LOOKAHEAD(2) SecondExpression())
-    | (<IDENTIFIER> "(" ")" (LOOKAHEAD(2) SecondExpression())?))
-    | "!" Expression() (LOOKAHEAD(2) SecondExpression())?
-    | "(" Expression() ")" (LOOKAHEAD(2) SecondExpression())?
+    Expression2() Expression1()
 }
 
-
-void SecondExpression(): {}
+void Expression1():{}
 {
-    ("&&" | "<" | "+" | "-" | "*" | "/") Expression() (LOOKAHEAD(2) SecondExpression())?
-    |"[" Expression() "]" (LOOKAHEAD(2) SecondExpression())?
-    |LOOKAHEAD(2) "." "length" (LOOKAHEAD(2) SecondExpression())?
-    |LOOKAHEAD(2) "." <IDENTIFIER> "(" (Expression() ("," Expression())*)? ")" (LOOKAHEAD(2) SecondExpression())?
+    Expression5()
+    | ("[" Expression2() Expression1() "]")
+    | {}
+}
+
+void Expression2():{}
+{
+    Expression3() | <IDENTIFIER>
+}
+
+void Expression3():{}
+{
+    <INTEGERLITERAL> | <TRUE> | <FALSE> | <THIS> | (<NEW> ((<IDENTIFIER> "(" ")") | (<INT> "[" Expression2() Expression1() "]")))
+    | ("!" Expression2() Expression1())
+    | ("(" Expression2() Expression1() ")")
+}
+
+void Expression5():{}
+{
+    (("&&" | "<" | "+" | "-" | "*" | "/") Expression2() Expression1())
+    | ("." (("length") | (<IDENTIFIER> "(" (Expression2() Expression1() ("," Expression2() Expression1())*)? ")")))
 }
