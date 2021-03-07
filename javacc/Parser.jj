@@ -43,8 +43,8 @@ void Program(): {}
 
 void ImportDeclaration(): {}
 {
-//    ("import" <IDENTIFIER> ("." <IDENTIFIER>)* ";")*
-( "import" ["static"] <IDENTIFIER> [ "." <IDENTIFIER> "(" [ ( Type() | "void" ) ( "," ( Type() | "void" )  )* ] ")" [ Type() | "void" ] ] ";" )*
+   ("import" <IDENTIFIER> ("." <IDENTIFIER>)* ";")*
+//( "import" ["static"] <IDENTIFIER> [ "." <IDENTIFIER> "(" [ ( Type() | "void" ) ( "," ( Type() | "void" )  )* ] ")" [ Type() | "void" ] ] ";" )*
 }
 
 void ClassDeclaration(): {}
