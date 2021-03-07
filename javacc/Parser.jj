@@ -6,9 +6,21 @@ options
 PARSER_BEGIN(Parser)
 
 
-public class Parser {
+import java.io.StringReader;
 
+public class Parser {
+    public Parser(StringReader stringReader) throws ParseException{
+
+        //System.out.println("Write an arithmetic expression:");
+		//Parser myProg = new Parser(System.in);
+		/*SimpleNode root = */ Program(); // returns reference to root node
+
+		//root.dump(""); // prints the tree on the screen
+
+		//System.out.println("Expression value: "+myCalc.eval(root));
+    }
 }
+
 
 PARSER_END(Parser)
 
@@ -19,12 +31,12 @@ SKIP :
 
 TOKEN:
 {
-    	< INTEGER: (["0"-"9"])+ >
-    |   <IDENTIFIER: ["a"-"z", "A"-"Z"](["a"-"z", "A"-"Z", "0"-"9"])*>
-	|   <INTEGERLITERAL: "A" >
+    	//< INTEGER: (["0"-"9"])+ >
+    <IDENTIFIER: ["a"-"z", "A"-"Z"](["a"-"z", "A"-"Z", "0"-"9"])*>
+	|   <INTEGERLITERAL: (["0"-"9"])+ >
 }
 
-SimpleNode Program(): {}
+void Program(): {}
 {
     ImportDeclaration() ClassDeclaration() <EOF>
 }
@@ -77,17 +89,22 @@ void Statement(): {}
 
 void Expression(): {}
 {
-    Expression() ("&&" | "<" | "+" | "-" | "*" | "/") Expression()
-    | Expression() "[" Expression() "]"
-    | Expression() "." "length"
-    | Expression() "." <IDENTIFIER> "(" (Expression() ("," Expression())*)? ")"
-    | <INTEGERLITERAL>
-    | "true"
-    | "false"
-    | <IDENTIFIER>
-    | "this"
-    | "new" "int" "[" Expression() "]"
-    | "new" <IDENTIFIER> "(" ")"
-    | "!" Expression()
-    | "(" Expression() ")"
+    <INTEGERLITERAL> (SecondExpression())?
+    | "true" (SecondExpression())?
+    | "false" (SecondExpression())?
+    | <IDENTIFIER> (SecondExpression())?
+    | "this" SecondExpression()
+    | "new" "int" "[" Expression() "]" SecondExpression()
+    | "new" <IDENTIFIER> "(" ")" SecondExpression()
+    | "!" Expression() SecondExpression()
+    | "(" Expression() ")" SecondExpression()
+}
+
+
+void SecondExpression(): {}
+{
+    ("&&" | "<" | "+" | "-" | "*" | "/") Expression() SecondExpression()
+    |"[" Expression() "]" SecondExpression()
+    |"." "length" SecondExpression()
+    |"." <IDENTIFIER> "(" (Expression() ("," Expression())*)? ")" SecondExpression()
 }
