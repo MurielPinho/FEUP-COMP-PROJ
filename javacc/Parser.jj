@@ -1,6 +1,6 @@
 options
 {
-    LOOKAHEAD=2;
+    LOOKAHEAD=1;
 }
 
 PARSER_BEGIN(Parser)
@@ -62,20 +62,19 @@ void VarDeclaration(): {}
 
 void MethodDeclaration(): {}
 {
-    "public" Type() <IDENTIFIER> "(" (Type() <IDENTIFIER> ("," Type() <IDENTIFIER>)*)? ")" "{"
+    "public" ((Type() <IDENTIFIER> "(" (Type() <IDENTIFIER> ("," Type() <IDENTIFIER>)*)? ")" "{"
     (VarDeclaration())*
     (Statement())*
     "return" Expression() ";"
-    "}"
-    | "public" "static" "void" "main" "(" "String" "[" "]" <IDENTIFIER> ")" "{"
-      (VarDeclaration())*
-      (Statement())*
-      "}"
+    "}") | ("static" "void" "main" "(" "String" "[" "]" <IDENTIFIER> ")" "{"
+                 (VarDeclaration())*
+                 (Statement())*
+                 "}"))
 }
 
 void Type(): {}
 {
-    "int" "[" "]" | "boolean" | "int" | <IDENTIFIER>
+    "int" ("[" "]")? | "boolean" | <IDENTIFIER>
 }
 
 void Statement(): {}
@@ -84,8 +83,7 @@ void Statement(): {}
     | "if" "(" Expression() ")" Statement() "else" Statement()
     | "while" "(" Expression() ")" Statement()
     | Expression() ";"
-    | <IDENTIFIER> "=" Expression() ";"
-    | <IDENTIFIER> "[" Expression() "]" "=" Expression() ";"
+    | <IDENTIFIER> (("=" Expression() ";") | ("[" Expression() "]" "=" Expression() ";"))
 }
 
 void Expression(): {}
@@ -95,8 +93,7 @@ void Expression(): {}
     | "false" (SecondExpression())?
     | <IDENTIFIER> (SecondExpression())?
     | "this" (SecondExpression())?
-    | "new" "int" "[" Expression() "]" SecondExpression()
-    | "new" <IDENTIFIER> "(" ")" (SecondExpression())?
+    | "new" (("int" "[" Expression() "]" SecondExpression()) | (<IDENTIFIER> "(" ")" (SecondExpression())?))
     | "!" Expression() (SecondExpression())?
     | "(" Expression() ")" (SecondExpression())?
 }
