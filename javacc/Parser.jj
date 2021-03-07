@@ -1,6 +1,6 @@
 options
 {
-    LOOKAHEAD=1;
+    LOOKAHEAD=2;
 }
 
 PARSER_BEGIN(Parser)
@@ -43,7 +43,8 @@ void Program(): {}
 
 void ImportDeclaration(): {}
 {
-    ("import" <IDENTIFIER> ("." <IDENTIFIER>)* ";")*
+//    ("import" <IDENTIFIER> ("." <IDENTIFIER>)* ";")*
+( "import" ["static"] <IDENTIFIER> [ "." <IDENTIFIER> "(" [ ( Type() | "void" ) ( "," ( Type() | "void" )  )* ] ")" [ Type() | "void" ] ] ";" )*
 }
 
 void ClassDeclaration(): {}
@@ -79,7 +80,7 @@ void Type(): {}
 
 void Statement(): {}
 {
-    "{" Statement() "}"
+    "{" (Statement())* "}"
     | "if" "(" Expression() ")" Statement() "else" Statement()
     | "while" "(" Expression() ")" Statement()
     | Expression() ";"
@@ -93,18 +94,18 @@ void Expression(): {}
     | "true" (SecondExpression())?
     | "false" (SecondExpression())?
     | <IDENTIFIER> (SecondExpression())?
-    | "this" SecondExpression()
+    | "this" (SecondExpression())?
     | "new" "int" "[" Expression() "]" SecondExpression()
-    | "new" <IDENTIFIER> "(" ")" SecondExpression()
-    | "!" Expression() SecondExpression()
-    | "(" Expression() ")" SecondExpression()
+    | "new" <IDENTIFIER> "(" ")" (SecondExpression())?
+    | "!" Expression() (SecondExpression())?
+    | "(" Expression() ")" (SecondExpression())?
 }
 
 
 void SecondExpression(): {}
 {
-    ("&&" | "<" | "+" | "-" | "*" | "/") Expression() SecondExpression()
-    |"[" Expression() "]" SecondExpression()
-    |"." "length" SecondExpression()
-    |"." <IDENTIFIER> "(" (Expression() ("," Expression())*)? ")" SecondExpression()
+    ("&&" | "<" | "+" | "-" | "*" | "/") Expression() (SecondExpression())?
+    |"[" Expression() "]" (SecondExpression())?
+    |"." "length" (SecondExpression())?
+    |"." <IDENTIFIER> "(" (Expression() ("," Expression())*)? ")" (SecondExpression())?
 }
