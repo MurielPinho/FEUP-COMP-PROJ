@@ -77,17 +77,27 @@ void Statement(): {}
 
 void Expression(): {}
 {
-    Expression() ("&&" | "<" | "+" | "-" | "*" | "/") Expression()
-    | Expression() "[" Expression() "]"
-    | Expression() "." "length"
-    | Expression() "." <IDENTIFIER> "(" (Expression() ("," Expression())*)? ")"
+    Expression2() Expression1()
+}
+
+void Expression1(): {}
+{
+    ("&&" | "<" | "+" | "-" | "*" | "/") Expression2() Expression1()
+    | "[" Expression2() Expression1() "]"
+    | "." "length"
+    | "." <IDENTIFIER> "(" (Expression2() Expression1() ("," Expression2() Expression1())*)? ")"
+    | "new" "int" "[" Expression2() Expression1() "]"
+    | "!" Expression2() Expression1()
+    | "(" Expression2() Expression1() ")"
+}
+
+void Expression2():{}
+{
+    "." "length"
     | <INTEGERLITERAL>
     | "true"
     | "false"
     | <IDENTIFIER>
     | "this"
-    | "new" "int" "[" Expression() "]"
     | "new" <IDENTIFIER> "(" ")"
-    | "!" Expression()
-    | "(" Expression() ")"
 }
