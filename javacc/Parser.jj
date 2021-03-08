@@ -32,9 +32,18 @@ public class Parser {
 PARSER_END(Parser)
 
 SKIP :
-{
-	" " | "\r" | "\t" | "\n"
+{    < "//" (~["\r", "\n"])* >
+    | < "/*" > : COMMENTS
+	| " " | "\r" | "\t" | "\n"
 }
+
+<COMMENTS> SKIP :
+{
+  < "*/" > : DEFAULT
+| < ~[] >
+}
+
+
 
 TOKEN:
 {
