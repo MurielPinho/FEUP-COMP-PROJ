@@ -443,7 +443,6 @@ public class Parser implements ParserConstants {
   static final public void While() throws ParseException {
     try {
       jj_consume_token(WHILE);
-System.out.println("aqui");
       WhileExpression();
     } catch (ParseException e) {
 System.out.println("Erro on while loop:parse");
