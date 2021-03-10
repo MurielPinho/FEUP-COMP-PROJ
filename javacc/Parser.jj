@@ -14,7 +14,7 @@ import java.io.StringReader;
 public class Parser {
     public Parser(String stringReader) throws ParseException, FileNotFoundException{
 
-        //System.out.println("Write an arithmetic expression:");
+        System.out.println("Parsing...");
 
         System.setIn(new FileInputStream(stringReader));
 
@@ -146,8 +146,24 @@ void Statement1():{}
 {
     "{" (Statement())* "}"
     | (<IF> "(" Expression() ")" Statement() <ELSE> Statement())
-    | (<WHILE> "(" Expression() ")" Statement())
+    | While()
     | (Expression3() Expression1() ";")
+}
+
+void While():{}
+{
+    try{
+        <WHILE> WhileExpression()
+    }
+    catch(ParseException e) {
+        System.out.println("Erro on while loop:parse");
+    }
+    Statement()
+}
+
+void WhileExpression():{}
+{
+    "(" Expression() ")" 
 }
 
 void Statement2():{}

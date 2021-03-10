@@ -5,9 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12342425-4e64-4c2f-9f53-ad8b2569e888" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parser.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/teste1.jmm" beforeDir="false" afterPath="$PROJECT_DIR$/docs/teste1.jmm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/ParseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/ParseException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/ParserTokenManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/ParserTokenManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/SimpleCharStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/SimpleCharStream.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/TokenMgrError.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/TokenMgrError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/parser.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javacc/Parser.jj" beforeDir="false" afterPath="$PROJECT_DIR$/javacc/Parser.jj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
