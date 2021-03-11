@@ -8,9 +8,11 @@ import java.io.StringReader;
 
 public class Parser implements ParserConstants {
     private static int whileExpressionErrorsCounter;
+    private static int whileExpressionParCounter;
 
     public Parser(String stringReader) throws ParseException, FileNotFoundException{
         this.whileExpressionErrorsCounter = 0;
+        this.whileExpressionParCounter = 0;
 
         System.out.println("Parsing...");
 
@@ -27,19 +29,23 @@ public class Parser implements ParserConstants {
 
     /* Skips the while expression until if finds the token "{" */
     public static void skipWhileExpression() {
+        Token prev; // will store the previous token
+
         do{
-           Token token = getNextToken();
-           if(token.kind != LBRACKET) System.out.println(token.kind);
-        } while(token.kind != LBRACKET && token.kind != 0);
+            prev = token;
+            Token token = getNextToken();
+        } while(token.kind != LBRACKET && token.kind != EOF);
+
+        if(token.kind == LBRACKET)
+            token = prev;
     }
 
     /* Handles with while expression error */
     public static void handleWhileExpressionError(ParseException exception) {
         System.out.println("Error on while");
-        System.out.println(exception.currentToken);
 
         whileExpressionErrorsCounter++;
-        if(whileExpressionErrorsCounter > 10) {
+        if(whileExpressionErrorsCounter == 10) {
             System.out.println("STOP!!!");
         }
 

@@ -13,7 +13,7 @@ import java.io.StringReader;
 
 public class Parser {
     private static int whileExpressionErrorsCounter;
-
+    
     public Parser(String stringReader) throws ParseException, FileNotFoundException{
         this.whileExpressionErrorsCounter = 0;
 
@@ -32,19 +32,23 @@ public class Parser {
 
     /* Skips the while expression until if finds the token "{" */
     public static void skipWhileExpression() {
+        Token prev; // will store the previous token
+        
         do{
-           Token token = getNextToken(); 
-           if(token.kind != LBRACKET) System.out.println(token.kind);
+            prev = token;
+            Token token = getNextToken(); 
         } while(token.kind != LBRACKET && token.kind != EOF);
+
+        if(token.kind == LBRACKET)
+            token = prev;
     }
 
     /* Handles with while expression error */
     public static void handleWhileExpressionError(ParseException exception) {
         System.out.println("Error on while");
-        System.out.println(exception.currentToken);
         
         whileExpressionErrorsCounter++;
-        if(whileExpressionErrorsCounter > 10) {
+        if(whileExpressionErrorsCounter == 10) {
             System.out.println("STOP!!!");
         }
 

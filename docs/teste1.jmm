@@ -2,7 +2,7 @@ import io;
 class Fac {
     public int ComputeFac(int num) {
         int num_aux;
-        while(a +){
+        while(a+)b5 {
             a=1;
         }
         if (num < 1)
