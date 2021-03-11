@@ -1,0 +1,246 @@
+options
+{
+    LOOKAHEAD=1;
+}
+
+PARSER_BEGIN(Parser)
+
+import java.util.*;
+import java.io.*;
+
+import java.io.StringReader;
+
+
+public class Parser {
+    private static int whileExpressionErrorsCounter;
+    
+    public Parser(String stringReader) throws ParseException, FileNotFoundException{
+        this.whileExpressionErrorsCounter = 0;
+
+        System.out.println("Parsing...");
+
+        System.setIn(new FileInputStream(stringReader));
+		Parser myProg = new Parser(System.in);
+        myProg.Program();
+
+		SimpleNode root = Program();  // returns reference to root node
+
+		root.dump(""); // prints the tree on the screen
+
+		//System.out.println("Expression value: "+myCalc.eval(root));
+    }
+
+    /* Skips the while expression until if finds the token "{" */
+    public static void skipWhileExpression() {
+        Token prev; // will store the previous token
+        
+        do{
+            prev = token;
+            Token token = getNextToken(); 
+        } while(token.kind != LBRACKET && token.kind != EOF);
+
+        if(token.kind == LBRACKET)
+            token = prev;
+    }
+
+    /* Handles with while expression error */
+    public static void handleWhileExpressionError(ParseException exception) {
+        System.out.println("Error on while");
+        
+        whileExpressionErrorsCounter++;
+        if(whileExpressionErrorsCounter == 10) {
+            System.out.println("STOP!!!");
+        }
+
+        skipWhileExpression();
+    }
+}
+
+
+PARSER_END(Parser)
+
+SKIP :
+{    < "//" (~["\r", "\n"])* >
+    | < "/*" > : COMMENTS
+	| " " | "\r" | "\t" | "\n"
+}
+
+<COMMENTS> SKIP :
+{
+  < "*/" > : DEFAULT
+| < ~[] >
+}
+
+
+
+TOKEN:
+{
+        <IF: "if">
+    |   <INT: "int">
+    |   <NEW: "new">
+    |   <VOID: "void">
+    |   <ELSE: "else">
+    |   <TRUE: "true">
+    |   <MAIN: "main">
+    |   <THIS: "this">
+    |   <WHILE: "while">
+    |   <FALSE: "false">
+    |   <CLASS: "class">
+    |   <PUBLIC: "public">
+    |   <STATIC: "static">
+    |   <STRING: "String">
+    |   <LENGTH: "length">
+    |   <RETURN: "return">
+    |   <IMPORT: "import">
+    |   <BOOLEAN: "boolean">
+    |   <EXTENDS: "extends">
+    |   <LBRACKET: "{">
+    |   <RBRACKET: "}">
+    |   <LPAR: "(">
+    |   <RPAR: ")">
+    |   <LRPAR: "[">
+    |   <RRPAR: "]">
+    |   <NOT: "!">
+    |   <DOT: ".">
+    |   <EQUAL: "=">
+    |   <VIRG: ",">
+    |   <PVIRG: ";">
+    |   <AND: "&&">
+    |   <LESS: "<">
+    |   <PLUS: "+">
+    |   <MINUS: "-">
+    |   <MULT: "*">
+    |   <DIV: "/">
+    |   <IDENTIFIER: ((["$"]|["_"]|["A"-"Z"]|["a"-"z"])(["$"]|["0"-"9"]|["A"-"Z"]|["a"-"z"]|["_"])*)>
+	|   <INTEGERLITERAL: (["0"-"9"])+ >
+
+}
+
+SimpleNode Program(): {}
+{
+    ImportDeclaration() ClassDeclaration() <EOF> {return jjtThis;}
+}
+
+void ImportDeclaration(): {}
+{
+   (<IMPORT> <IDENTIFIER> (<DOT> <IDENTIFIER>)* <PVIRG>)*
+}
+
+void ClassDeclaration(): {}
+{
+    <CLASS> <IDENTIFIER> (<EXTENDS> <IDENTIFIER>)? <LBRACKET>
+    (VarDeclaration())*
+    (MethodDeclaration())*
+    <RBRACKET>
+}
+
+void VarDeclaration(): {}
+{
+    Type() VarDeclaration1()
+}
+
+void VarDeclaration1():{}
+{
+    <IDENTIFIER> <PVIRG>
+}
+
+void MethodDeclaration(): {}
+{
+    <PUBLIC> 
+    ((
+        Type() <IDENTIFIER> <LPAR> (Type() <IDENTIFIER> (<VIRG> Type() <IDENTIFIER>)*)? <RPAR> <LBRACKET>
+        MethodBody()
+        <RETURN> Expression() <PVIRG>
+        <RBRACKET>
+    ) 
+    | 
+    (
+        <STATIC> <VOID> <MAIN> <LPAR> <STRING> <LRPAR> <RRPAR> <IDENTIFIER> <RPAR> <LBRACKET>
+        MethodBody() <PVIRG>
+        <RBRACKET>
+    ))
+}
+
+void MethodBody(): {}
+{
+    (
+        (<IDENTIFIER>((VarDeclaration1() MethodBody()) | (Statement2() (Statement())*)))
+        | (Type1() VarDeclaration1() MethodBody())
+        | (Statement1() (Statement())*)
+    )?
+}
+
+void Type(): {}
+{
+    Type1() | <IDENTIFIER>
+}
+
+void Type1():{}
+{
+    (<INT> (<LRPAR> <RRPAR>)?) | <BOOLEAN>
+}
+
+void Statement(): {}
+{
+    Statement1()
+    | (<IDENTIFIER> Statement2())
+}
+
+void Statement1():{}
+{
+    <LBRACKET> (Statement())* <RBRACKET>
+    | (<IF> <LPAR> Expression() <RPAR> Statement() <ELSE> Statement())
+    | While()
+    | (Expression3() Expression1() <PVIRG>)
+}
+
+void While():{}
+{
+    try{
+        <WHILE> WhileExpression()
+    }
+    catch(ParseException e) {
+        handleWhileExpressionError(e);
+    }
+    Statement()
+}
+
+void WhileExpression():{}
+{
+    <LPAR> Expression() <RPAR> 
+}
+
+void Statement2():{}
+{
+    (<EQUAL> Expression() <PVIRG>) | (<LRPAR> Expression() <RRPAR> (<EQUAL> Expression() <PVIRG>)?) | Expression5()
+}
+
+void Expression(): {}
+{
+    Expression2() Expression1()
+}
+
+void Expression1():{}
+{
+    Expression5()
+    | (<LRPAR> Expression2() Expression1() <RRPAR>)
+    | {}
+}
+
+void Expression2():{}
+{
+    Expression3() | <IDENTIFIER>
+}
+
+void Expression3():{}
+{
+    <INTEGERLITERAL> | <TRUE> | <FALSE> | <THIS> | (<NEW> ((<IDENTIFIER> <LPAR> <RPAR>) | (<INT> <LRPAR> Expression2() Expression1() <RRPAR>)))
+    | (<NOT> Expression2() Expression1())
+    | (<LPAR> Expression2() Expression1() <RPAR>)
+}
+
+void Expression5():{}
+{
+    ((<AND> | <LESS> | <PLUS> | <MINUS> | <MULT> | <DIV>) Expression2() Expression1())
+    | (<DOT> ((<LENGTH>) | (<IDENTIFIER> <LPAR> (Expression2() Expression1() (<VIRG> Expression2() Expression1())*)? <RPAR>)))
+}
