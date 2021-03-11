@@ -28,6 +28,7 @@ public class Main implements JmmParser {
             throw new RuntimeException("It's supposed to fail");
         }*/
         Parser myProg = new Parser("docs/teste1.jmm");
+        // myProg.Program();
        /* Main main = new Main();
         JmmParserResult jmmParserResult = main.parse("../docs/teste1.jmm");*/
     }

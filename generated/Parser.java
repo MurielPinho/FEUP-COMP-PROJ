@@ -7,19 +7,44 @@ import java.io.StringReader;
 
 
 public class Parser implements ParserConstants {
+    private static int whileExpressionErrorsCounter;
+
     public Parser(String stringReader) throws ParseException, FileNotFoundException{
+        this.whileExpressionErrorsCounter = 0;
 
         System.out.println("Parsing...");
 
         System.setIn(new FileInputStream(stringReader));
-
                 Parser myProg = new Parser(System.in);
+        myProg.Program();
+        System.out.println("Fim");
 
-                /*SimpleNode root = */ Program(); // returns reference to root node
+                /*SimpleNode root = Program(); */ // returns reference to root node
 
                 //root.dump(""); // prints the tree on the screen
 
                 //System.out.println("Expression value: "+myCalc.eval(root));
+    }
+
+    /* Skips the while expression until if finds the token "{" */
+    public static void skipWhileExpression() {
+        do{
+           Token token = getNextToken();
+           if(token.kind != 0) System.out.println(token.kind);
+        } while(token.kind != LBRACKET && token.kind != 0);
+    }
+
+    /* Handles with while expression error */
+    public static void handleWhileExpressionError(ParseException exception) {
+        System.out.println("Error on while");
+        System.out.println(exception.currentToken);
+
+        whileExpressionErrorsCounter++;
+        if(whileExpressionErrorsCounter > 10) {
+            System.out.println("STOP!!!");
+        }
+
+        skipWhileExpression();
     }
 
   static final public void Program() throws ParseException {
@@ -45,7 +70,7 @@ public class Parser implements ParserConstants {
       label_2:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case 30:{
+        case 31:{
           ;
           break;
           }
@@ -53,10 +78,10 @@ public class Parser implements ParserConstants {
           jj_la1[1] = jj_gen;
           break label_2;
         }
-        jj_consume_token(30);
+        jj_consume_token(31);
         jj_consume_token(IDENTIFIER);
       }
-      jj_consume_token(31);
+      jj_consume_token(32);
     }
   }
 
@@ -73,7 +98,7 @@ public class Parser implements ParserConstants {
       jj_la1[2] = jj_gen;
       ;
     }
-    jj_consume_token(32);
+    jj_consume_token(LBRACKET);
     label_3:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -112,7 +137,7 @@ public class Parser implements ParserConstants {
 
   static final public void VarDeclaration1() throws ParseException {
     jj_consume_token(IDENTIFIER);
-    jj_consume_token(31);
+    jj_consume_token(32);
   }
 
   static final public void MethodDeclaration() throws ParseException {
@@ -152,11 +177,11 @@ public class Parser implements ParserConstants {
         ;
       }
       jj_consume_token(36);
-      jj_consume_token(32);
+      jj_consume_token(LBRACKET);
       MethodBody();
       jj_consume_token(RETURN);
       Expression();
-      jj_consume_token(31);
+      jj_consume_token(32);
       jj_consume_token(33);
       break;
       }
@@ -170,9 +195,9 @@ public class Parser implements ParserConstants {
       jj_consume_token(38);
       jj_consume_token(IDENTIFIER);
       jj_consume_token(36);
-      jj_consume_token(32);
+      jj_consume_token(LBRACKET);
       MethodBody();
-      jj_consume_token(31);
+      jj_consume_token(32);
       jj_consume_token(33);
       break;
       }
@@ -193,9 +218,9 @@ public class Parser implements ParserConstants {
     case WHILE:
     case FALSE:
     case BOOLEAN:
+    case LBRACKET:
     case IDENTIFIER:
     case INTEGERLITERAL:
-    case 32:
     case 34:
     case 40:{
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -207,7 +232,7 @@ public class Parser implements ParserConstants {
           MethodBody();
           break;
           }
-        case 30:
+        case 31:
         case 37:
         case 39:
         case 41:
@@ -226,9 +251,9 @@ public class Parser implements ParserConstants {
             case THIS:
             case WHILE:
             case FALSE:
+            case LBRACKET:
             case IDENTIFIER:
             case INTEGERLITERAL:
-            case 32:
             case 34:
             case 40:{
               ;
@@ -262,8 +287,8 @@ public class Parser implements ParserConstants {
       case THIS:
       case WHILE:
       case FALSE:
+      case LBRACKET:
       case INTEGERLITERAL:
-      case 32:
       case 34:
       case 40:{
         Statement1();
@@ -276,9 +301,9 @@ public class Parser implements ParserConstants {
           case THIS:
           case WHILE:
           case FALSE:
+          case LBRACKET:
           case IDENTIFIER:
           case INTEGERLITERAL:
-          case 32:
           case 34:
           case 40:{
             ;
@@ -358,8 +383,8 @@ public class Parser implements ParserConstants {
     case THIS:
     case WHILE:
     case FALSE:
+    case LBRACKET:
     case INTEGERLITERAL:
-    case 32:
     case 34:
     case 40:{
       Statement1();
@@ -379,8 +404,8 @@ public class Parser implements ParserConstants {
 
   static final public void Statement1() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 32:{
-      jj_consume_token(32);
+    case LBRACKET:{
+      jj_consume_token(LBRACKET);
       label_8:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -390,9 +415,9 @@ public class Parser implements ParserConstants {
         case THIS:
         case WHILE:
         case FALSE:
+        case LBRACKET:
         case IDENTIFIER:
         case INTEGERLITERAL:
-        case 32:
         case 34:
         case 40:{
           ;
@@ -430,7 +455,7 @@ public class Parser implements ParserConstants {
     case 40:{
       Expression3();
       Expression1();
-      jj_consume_token(31);
+      jj_consume_token(32);
       break;
       }
     default:
@@ -445,7 +470,7 @@ public class Parser implements ParserConstants {
       jj_consume_token(WHILE);
       WhileExpression();
     } catch (ParseException e) {
-System.out.println("Erro on while loop:parse");
+handleWhileExpressionError(e);
     }
     Statement();
   }
@@ -461,7 +486,7 @@ System.out.println("Erro on while loop:parse");
     case 39:{
       jj_consume_token(39);
       Expression();
-      jj_consume_token(31);
+      jj_consume_token(32);
       break;
       }
     case 37:{
@@ -472,7 +497,7 @@ System.out.println("Erro on while loop:parse");
       case 39:{
         jj_consume_token(39);
         Expression();
-        jj_consume_token(31);
+        jj_consume_token(32);
         break;
         }
       default:
@@ -481,7 +506,7 @@ System.out.println("Erro on while loop:parse");
       }
       break;
       }
-    case 30:
+    case 31:
     case 41:
     case 42:
     case 43:
@@ -505,7 +530,7 @@ System.out.println("Erro on while loop:parse");
 
   static final public void Expression1() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 30:
+    case 31:
     case 41:
     case 42:
     case 43:
@@ -655,8 +680,8 @@ System.out.println("Erro on while loop:parse");
       Expression1();
       break;
       }
-    case 30:{
-      jj_consume_token(30);
+    case 31:{
+      jj_consume_token(31);
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case LENGTH:{
         jj_consume_token(LENGTH);
@@ -732,10 +757,10 @@ System.out.println("Erro on while loop:parse");
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x2000000,0x40000000,0x8000000,0x14000400,0x100000,0x0,0x14000400,0x14200400,0x30074a00,0x50000000,0x30074a00,0x34074e00,0x34074e00,0x14000400,0x0,0x4000400,0x30074a00,0x30074a00,0x20074a00,0x0,0x40000000,0x40000000,0x30054800,0x10000400,0x20054800,0x0,0x0,0x30054800,0x10800000,0x40000000,};
+      jj_la1_0 = new int[] {0x2000000,0x80000000,0x8000000,0x24000400,0x100000,0x0,0x24000400,0x24200400,0x70074a00,0xa0000000,0x70074a00,0x74074e00,0x74074e00,0x24000400,0x0,0x4000400,0x70074a00,0x70074a00,0x50074a00,0x0,0x80000000,0x80000000,0x60054800,0x20000400,0x40054800,0x0,0x0,0x60054800,0x20800000,0x80000000,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x8,0x0,0x0,0x105,0x7ea0,0x105,0x105,0x105,0x0,0x20,0x0,0x105,0x105,0x105,0x80,0x7ea0,0x7e20,0x104,0x0,0x104,0x7e00,0x8,0x104,0x0,0x7e00,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x8,0x0,0x0,0x104,0x7ea0,0x104,0x104,0x104,0x0,0x20,0x0,0x104,0x104,0x104,0x80,0x7ea0,0x7e20,0x104,0x0,0x104,0x7e00,0x8,0x104,0x0,0x7e00,};
    }
 
   /** Constructor with InputStream. */

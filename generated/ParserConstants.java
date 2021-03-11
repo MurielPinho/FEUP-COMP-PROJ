@@ -47,9 +47,11 @@ public interface ParserConstants {
   /** RegularExpression Id. */
   int EXTENDS = 27;
   /** RegularExpression Id. */
-  int IDENTIFIER = 28;
+  int LBRACKET = 28;
   /** RegularExpression Id. */
-  int INTEGERLITERAL = 29;
+  int IDENTIFIER = 29;
+  /** RegularExpression Id. */
+  int INTEGERLITERAL = 30;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -86,11 +88,11 @@ public interface ParserConstants {
     "\"import\"",
     "\"boolean\"",
     "\"extends\"",
+    "\"{\"",
     "<IDENTIFIER>",
     "<INTEGERLITERAL>",
     "\".\"",
     "\";\"",
-    "\"{\"",
     "\"}\"",
     "\"(\"",
     "\",\"",

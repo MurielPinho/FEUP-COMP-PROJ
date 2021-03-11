@@ -12,19 +12,43 @@ import java.io.StringReader;
 
 
 public class Parser {
+    private static int whileExpressionErrorsCounter;
+
     public Parser(String stringReader) throws ParseException, FileNotFoundException{
+        this.whileExpressionErrorsCounter = 0;
 
         System.out.println("Parsing...");
 
         System.setIn(new FileInputStream(stringReader));
-
 		Parser myProg = new Parser(System.in);
+        myProg.Program();
 
-		/*SimpleNode root = */ Program(); // returns reference to root node
+		/*SimpleNode root = Program(); */ // returns reference to root node
 
 		//root.dump(""); // prints the tree on the screen
 
 		//System.out.println("Expression value: "+myCalc.eval(root));
+    }
+
+    /* Skips the while expression until if finds the token "{" */
+    public static void skipWhileExpression() {
+        do{
+           Token token = getNextToken(); 
+           if(token.kind != 0) System.out.println(token.kind);
+        } while(token.kind != LBRACKET && token.kind != 0);
+    }
+
+    /* Handles with while expression error */
+    public static void handleWhileExpressionError(ParseException exception) {
+        System.out.println("Error on while");
+        System.out.println(exception.currentToken);
+        
+        whileExpressionErrorsCounter++;
+        if(whileExpressionErrorsCounter > 10) {
+            System.out.println("STOP!!!");
+        }
+
+        skipWhileExpression();
     }
 }
 
@@ -47,7 +71,7 @@ SKIP :
 
 TOKEN:
 {
-    <IF: "if">
+        <IF: "if">
     |   <INT: "int">
     |   <NEW: "new">
     |   <VOID: "void">
@@ -66,8 +90,8 @@ TOKEN:
     |   <IMPORT: "import">
     |   <BOOLEAN: "boolean">
     |   <EXTENDS: "extends">
-    //|   <IDENTIFIER: ["a"-"z", "A"-"Z"](["a"-"z", "A"-"Z", "0"-"9"])*>
-    | <IDENTIFIER: ((["$"]|["_"]|["A"-"Z"]|["a"-"z"])(["$"]|["0"-"9"]|["A"-"Z"]|["a"-"z"]|["_"])*)>
+    |   <LBRACKET: "{">
+    |   <IDENTIFIER: ((["$"]|["_"]|["A"-"Z"]|["a"-"z"])(["$"]|["0"-"9"]|["A"-"Z"]|["a"-"z"]|["_"])*)>
 	|   <INTEGERLITERAL: (["0"-"9"])+ >
 
 }
@@ -156,7 +180,7 @@ void While():{}
         <WHILE> WhileExpression()
     }
     catch(ParseException e) {
-        System.out.println("Erro on while loop:parse");
+        handleWhileExpressionError(e);
     }
     Statement()
 }
