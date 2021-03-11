@@ -34,8 +34,8 @@ public class Parser {
     public static void skipWhileExpression() {
         do{
            Token token = getNextToken(); 
-           if(token.kind != 0) System.out.println(token.kind);
-        } while(token.kind != LBRACKET && token.kind != 0);
+           if(token.kind != LBRACKET) System.out.println(token.kind);
+        } while(token.kind != LBRACKET && token.kind != EOF);
     }
 
     /* Handles with while expression error */
@@ -91,6 +91,22 @@ TOKEN:
     |   <BOOLEAN: "boolean">
     |   <EXTENDS: "extends">
     |   <LBRACKET: "{">
+    |   <RBRACKET: "}">
+    |   <LPAR: "(">
+    |   <RPAR: ")">
+    |   <LRPAR: "[">
+    |   <RRPAR: "]">
+    |   <NOT: "!">
+    |   <DOT: ".">
+    |   <EQUAL: "=">
+    |   <VIRG: ",">
+    |   <PVIRG: ";">
+    |   <AND: "&&">
+    |   <LESS: "<">
+    |   <PLUS: "+">
+    |   <MINUS: "-">
+    |   <MULT: "*">
+    |   <DIV: "/">
     |   <IDENTIFIER: ((["$"]|["_"]|["A"-"Z"]|["a"-"z"])(["$"]|["0"-"9"]|["A"-"Z"]|["a"-"z"]|["_"])*)>
 	|   <INTEGERLITERAL: (["0"-"9"])+ >
 
@@ -103,15 +119,15 @@ void Program(): {}
 
 void ImportDeclaration(): {}
 {
-   (<IMPORT> <IDENTIFIER> ("." <IDENTIFIER>)* ";")*
+   (<IMPORT> <IDENTIFIER> (<DOT> <IDENTIFIER>)* <PVIRG>)*
 }
 
 void ClassDeclaration(): {}
 {
-    <CLASS> <IDENTIFIER> (<EXTENDS> <IDENTIFIER>)? "{"
+    <CLASS> <IDENTIFIER> (<EXTENDS> <IDENTIFIER>)? <LBRACKET>
     (VarDeclaration())*
     (MethodDeclaration())*
-    "}"
+    <RBRACKET>
 }
 
 void VarDeclaration(): {}
@@ -121,23 +137,23 @@ void VarDeclaration(): {}
 
 void VarDeclaration1():{}
 {
-    <IDENTIFIER> ";"
+    <IDENTIFIER> <PVIRG>
 }
 
 void MethodDeclaration(): {}
 {
     <PUBLIC> 
     ((
-        Type() <IDENTIFIER> "(" (Type() <IDENTIFIER> ("," Type() <IDENTIFIER>)*)? ")" "{"
+        Type() <IDENTIFIER> <LPAR> (Type() <IDENTIFIER> (<VIRG> Type() <IDENTIFIER>)*)? <RPAR> <LBRACKET>
         MethodBody()
-        "return" Expression() ";"
-        "}"
+        <RETURN> Expression() <PVIRG>
+        <RBRACKET>
     ) 
     | 
     (
-        <STATIC> <VOID> <MAIN> "(" <STRING> "[" "]" <IDENTIFIER> ")" "{"
-        MethodBody() ";"
-        "}"
+        <STATIC> <VOID> <MAIN> <LPAR> <STRING> <LRPAR> <RRPAR> <IDENTIFIER> <RPAR> <LBRACKET>
+        MethodBody() <PVIRG>
+        <RBRACKET>
     ))
 }
 
@@ -157,7 +173,7 @@ void Type(): {}
 
 void Type1():{}
 {
-    (<INT> ("[" "]")?) | <BOOLEAN>
+    (<INT> (<LRPAR> <RRPAR>)?) | <BOOLEAN>
 }
 
 void Statement(): {}
@@ -168,10 +184,10 @@ void Statement(): {}
 
 void Statement1():{}
 {
-    "{" (Statement())* "}"
-    | (<IF> "(" Expression() ")" Statement() <ELSE> Statement())
+    <LBRACKET> (Statement())* <RBRACKET>
+    | (<IF> <LPAR> Expression() <RPAR> Statement() <ELSE> Statement())
     | While()
-    | (Expression3() Expression1() ";")
+    | (Expression3() Expression1() <PVIRG>)
 }
 
 void While():{}
@@ -187,12 +203,12 @@ void While():{}
 
 void WhileExpression():{}
 {
-    "(" Expression() ")" 
+    <LPAR> Expression() <RPAR> 
 }
 
 void Statement2():{}
 {
-    ("=" Expression() ";") | ("[" Expression() "]" ("=" Expression() ";")?) | Expression5()
+    (<EQUAL> Expression() <PVIRG>) | (<LRPAR> Expression() <RRPAR> (<EQUAL> Expression() <PVIRG>)?) | Expression5()
 }
 
 void Expression(): {}
@@ -203,7 +219,7 @@ void Expression(): {}
 void Expression1():{}
 {
     Expression5()
-    | ("[" Expression2() Expression1() "]")
+    | (<LRPAR> Expression2() Expression1() <RRPAR>)
     | {}
 }
 
@@ -214,13 +230,13 @@ void Expression2():{}
 
 void Expression3():{}
 {
-    <INTEGERLITERAL> | <TRUE> | <FALSE> | <THIS> | (<NEW> ((<IDENTIFIER> "(" ")") | (<INT> "[" Expression2() Expression1() "]")))
-    | ("!" Expression2() Expression1())
-    | ("(" Expression2() Expression1() ")")
+    <INTEGERLITERAL> | <TRUE> | <FALSE> | <THIS> | (<NEW> ((<IDENTIFIER> <LPAR> <RPAR>) | (<INT> <LRPAR> Expression2() Expression1() <RRPAR>)))
+    | (<NOT> Expression2() Expression1())
+    | (<LPAR> Expression2() Expression1() <RPAR>)
 }
 
 void Expression5():{}
 {
-    (("&&" | "<" | "+" | "-" | "*" | "/") Expression2() Expression1())
-    | ("." (("length") | (<IDENTIFIER> "(" (Expression2() Expression1() ("," Expression2() Expression1())*)? ")")))
+    ((<AND> | <LESS> | <PLUS> | <MINUS> | <MULT> | <DIV>) Expression2() Expression1())
+    | (<DOT> ((<LENGTH>) | (<IDENTIFIER> <LPAR> (Expression2() Expression1() (<VIRG> Expression2() Expression1())*)? <RPAR>)))
 }

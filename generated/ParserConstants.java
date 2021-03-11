@@ -49,9 +49,41 @@ public interface ParserConstants {
   /** RegularExpression Id. */
   int LBRACKET = 28;
   /** RegularExpression Id. */
-  int IDENTIFIER = 29;
+  int RBRACKET = 29;
   /** RegularExpression Id. */
-  int INTEGERLITERAL = 30;
+  int LPAR = 30;
+  /** RegularExpression Id. */
+  int RPAR = 31;
+  /** RegularExpression Id. */
+  int LRPAR = 32;
+  /** RegularExpression Id. */
+  int RRPAR = 33;
+  /** RegularExpression Id. */
+  int NOT = 34;
+  /** RegularExpression Id. */
+  int DOT = 35;
+  /** RegularExpression Id. */
+  int EQUAL = 36;
+  /** RegularExpression Id. */
+  int VIRG = 37;
+  /** RegularExpression Id. */
+  int PVIRG = 38;
+  /** RegularExpression Id. */
+  int AND = 39;
+  /** RegularExpression Id. */
+  int LESS = 40;
+  /** RegularExpression Id. */
+  int PLUS = 41;
+  /** RegularExpression Id. */
+  int MINUS = 42;
+  /** RegularExpression Id. */
+  int MULT = 43;
+  /** RegularExpression Id. */
+  int DIV = 44;
+  /** RegularExpression Id. */
+  int IDENTIFIER = 45;
+  /** RegularExpression Id. */
+  int INTEGERLITERAL = 46;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -89,24 +121,24 @@ public interface ParserConstants {
     "\"boolean\"",
     "\"extends\"",
     "\"{\"",
-    "<IDENTIFIER>",
-    "<INTEGERLITERAL>",
-    "\".\"",
-    "\";\"",
     "\"}\"",
     "\"(\"",
-    "\",\"",
     "\")\"",
     "\"[\"",
     "\"]\"",
-    "\"=\"",
     "\"!\"",
+    "\".\"",
+    "\"=\"",
+    "\",\"",
+    "\";\"",
     "\"&&\"",
     "\"<\"",
     "\"+\"",
     "\"-\"",
     "\"*\"",
     "\"/\"",
+    "<IDENTIFIER>",
+    "<INTEGERLITERAL>",
   };
 
 }
