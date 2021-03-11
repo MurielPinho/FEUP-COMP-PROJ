@@ -8,11 +8,9 @@ import java.io.StringReader;
 
 public class Parser implements ParserConstants {
     private static int whileExpressionErrorsCounter;
-    private static int whileExpressionParCounter;
 
     public Parser(String stringReader) throws ParseException, FileNotFoundException{
         this.whileExpressionErrorsCounter = 0;
-        this.whileExpressionParCounter = 0;
 
         System.out.println("Parsing...");
 
