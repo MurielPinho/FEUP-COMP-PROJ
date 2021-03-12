@@ -5,14 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12342425-4e64-4c2f-9f53-ad8b2569e888" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/docs/teste1.jmm" beforeDir="false" afterPath="$PROJECT_DIR$/docs/teste1.jmm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/javacc/Parser.jjt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generated/ParseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/ParseException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generated/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/ParserConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/ParserConstants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generated/ParserTokenManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/ParserTokenManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generated/SimpleCharStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/SimpleCharStream.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/SimpleNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/SimpleNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generated/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/Token.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generated/TokenMgrError.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/TokenMgrError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generated/parser.properties" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/javacc/Parser.jj" beforeDir="false" afterPath="$PROJECT_DIR$/javacc/Parser.jj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,6 +70,19 @@
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
