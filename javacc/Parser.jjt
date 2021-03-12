@@ -12,8 +12,8 @@ import java.io.StringReader;
 
 
 public class Parser {
-    private static int whileExpressionErrorsCounter;
-    
+    private int whileExpressionErrorsCounter;
+
     public Parser(String stringReader) throws ParseException, FileNotFoundException{
         this.whileExpressionErrorsCounter = 0;
 
@@ -21,9 +21,9 @@ public class Parser {
 
         System.setIn(new FileInputStream(stringReader));
 		Parser myProg = new Parser(System.in);
-        myProg.Program();
 
-		SimpleNode root = Program();  // returns reference to root node
+
+		SimpleNode root = myProg.Program();  // returns reference to root node
 
 		root.dump(""); // prints the tree on the screen
 
@@ -31,12 +31,13 @@ public class Parser {
     }
 
     /* Skips the while expression until if finds the token "{" */
-    public static void skipWhileExpression() {
+    public void skipWhileExpression() {
         Token prev; // will store the previous token
-        
+        // token;
+
         do{
             prev = token;
-            Token token = getNextToken(); 
+            Token token = getNextToken();
         } while(token.kind != LBRACKET && token.kind != EOF);
 
         if(token.kind == LBRACKET)
@@ -44,9 +45,9 @@ public class Parser {
     }
 
     /* Handles with while expression error */
-    public static void handleWhileExpressionError(ParseException exception) {
+    public void handleWhileExpressionError(ParseException exception) {
         System.out.println("Error on while");
-        
+
         whileExpressionErrorsCounter++;
         if(whileExpressionErrorsCounter == 10) {
             System.out.println("STOP!!!");
@@ -146,14 +147,14 @@ void VarDeclaration1():{}
 
 void MethodDeclaration(): {}
 {
-    <PUBLIC> 
+    <PUBLIC>
     ((
         Type() <IDENTIFIER> <LPAR> (Type() <IDENTIFIER> (<VIRG> Type() <IDENTIFIER>)*)? <RPAR> <LBRACKET>
         MethodBody()
         <RETURN> Expression() <PVIRG>
         <RBRACKET>
-    ) 
-    | 
+    )
+    |
     (
         <STATIC> <VOID> <MAIN> <LPAR> <STRING> <LRPAR> <RRPAR> <IDENTIFIER> <RPAR> <LBRACKET>
         MethodBody() <PVIRG>
@@ -207,7 +208,7 @@ void While():{}
 
 void WhileExpression():{}
 {
-    <LPAR> Expression() <RPAR> 
+    <LPAR> Expression() <RPAR>
 }
 
 void Statement2():{}

@@ -55,7 +55,9 @@ class SimpleNode implements Node {
      toString(String), otherwise overriding toString() is probably all
      you need to do. */
 
-  public String toString() { return ParserTreeConstants.jjtNodeName[id]; }
+  public String toString() {
+    return ParserTreeConstants.jjtNodeName[id];
+  }
   public String toString(String prefix) { return prefix + toString(); }
 
   /* Override this method if you want to customize how the node dumps
@@ -74,4 +76,4 @@ class SimpleNode implements Node {
   }
 }
 
-/* JavaCC - OriginalChecksum=a51fccc59325bf18af7cee8bc3fd0ecd (do not edit this line) */
+/* JavaCC - OriginalChecksum=c6a53a7e2b2b8ce930bd6fa4f9a48784 (do not edit this line) */
