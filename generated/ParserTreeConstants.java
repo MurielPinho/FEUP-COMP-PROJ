@@ -2,14 +2,38 @@
 public interface ParserTreeConstants
 {
   public int JJTVOID = 0;
-  public int JJTIMPORTDECLARATION = 1;
-  public int JJTCLASS = 2;
+  public int JJTIMPORTS = 1;
+  public int JJTIMPORT = 2;
+  public int JJTCLASS = 3;
+  public int JJTVARDECLARATION = 4;
+  public int JJTVARTYPE = 5;
+  public int JJTVARID = 6;
+  public int JJTMETHODDECLARATION = 7;
+  public int JJTRETURNTYPE = 8;
+  public int JJTMETHODBODY = 9;
+  public int JJTRETURNSTATEMENT = 10;
+  public int JJTMETHODPARAMS = 11;
+  public int JJTMETHODPARAM = 12;
+  public int JJTPARAMTYPE = 13;
+  public int JJTPARAM = 14;
 
 
   public String[] jjtNodeName = {
     "void",
-    "ImportDeclaration",
+    "Imports",
+    "Import",
     "Class",
+    "VarDeclaration",
+    "VarType",
+    "VarId",
+    "MethodDeclaration",
+    "ReturnType",
+    "MethodBody",
+    "ReturnStatement",
+    "MethodParams",
+    "MethodParam",
+    "ParamType",
+    "Param",
   };
 }
-/* JavaCC - OriginalChecksum=67fda3dff9d3cd98da83a6d9c57c859a (do not edit this line) */
+/* JavaCC - OriginalChecksum=18121cce71d397522b0a0f288480ea47 (do not edit this line) */

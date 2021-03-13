@@ -20,18 +20,11 @@ public class Parser {
         System.out.println("Parsing...");
 
         System.setIn(new FileInputStream(stringReader));
-		Parser myProg = new Parser(System.in);
-
-
-		SimpleNode root = myProg.Program();  // returns reference to root node
+        
+		Parser parser = new Parser(System.in);
+		SimpleNode root = parser.Program();  // returns reference to root node
 
 		root.dump(""); // prints the tree on the screen
-
-		//System.out.println("Expression value: "+myCalc.eval(root));
-    }
-
-    public static void main(String[] args) {
-        Parser parser = new Parser("docs/teste1.jmm");
     }
 
     /* Skips the while expression until if finds the token "{" */
