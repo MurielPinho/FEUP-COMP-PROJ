@@ -30,14 +30,17 @@ public class Parser {
 		//System.out.println("Expression value: "+myCalc.eval(root));
     }
 
+    public static void main(String[] args) {
+        Parser parser = new Parser("docs/teste1.jmm");
+    }
+
     /* Skips the while expression until if finds the token "{" */
     public void skipWhileExpression() {
         Token prev; // will store the previous token
-        // token;
 
         do{
             prev = token;
-            Token token = getNextToken();
+            token = getNextToken();
         } while(token.kind != LBRACKET && token.kind != EOF);
 
         if(token.kind == LBRACKET)
@@ -117,52 +120,73 @@ TOKEN:
 
 }
 
-SimpleNode Program(): {}
+SimpleNode Program() #void: {}
 {
     ImportDeclaration() ClassDeclaration() <EOF> {return jjtThis;}
 }
 
-void ImportDeclaration(): {}
+void ImportDeclaration()  #Imports: {
+    Token base, comp;
+    String importText = "";
+}
 {
-   (<IMPORT> <IDENTIFIER> (<DOT> <IDENTIFIER>)* <PVIRG>)*
+   (<IMPORT> base = <IDENTIFIER> (<DOT> comp = <IDENTIFIER> {importText += "." + comp.image;})* <PVIRG> {jjtThis.value = base.image + importText;} #Import)*
 }
 
-void ClassDeclaration(): {}
+void ClassDeclaration() #Class: {
+    Token name, comp;
+}
 {
-    <CLASS> <IDENTIFIER> (<EXTENDS> <IDENTIFIER>)? <LBRACKET>
-    (VarDeclaration())*
-    (MethodDeclaration())*
+    <CLASS> name = <IDENTIFIER> {jjtThis.value = name.image;} (<EXTENDS> comp = <IDENTIFIER> {jjtThis.value += " " + comp.image;})? <LBRACKET>
+        (VarDeclaration())*
+        (MethodDeclaration())*
     <RBRACKET>
 }
 
 void VarDeclaration(): {}
 {
-    Type() VarDeclaration1()
+    Type() #VarType VarDeclaration1()
 }
 
-void VarDeclaration1():{}
+void VarDeclaration1() #VarId:{
+    Token id;
+}
 {
-    <IDENTIFIER> <PVIRG>
+    id = <IDENTIFIER> {jjtThis.value = id.image;} <PVIRG>
 }
 
-void MethodDeclaration(): {}
+void MethodDeclaration(): {
+    Token name;
+}
 {
     <PUBLIC>
     ((
-        Type() <IDENTIFIER> <LPAR> (Type() <IDENTIFIER> (<VIRG> Type() <IDENTIFIER>)*)? <RPAR> <LBRACKET>
-        MethodBody()
-        <RETURN> Expression() <PVIRG>
+        Type() #ReturnType name = <IDENTIFIER> {jjtThis.value = name.image;} <LPAR> (MethodParams())? <RPAR> <LBRACKET>
+            MethodBody() #MethodBody()
+            <RETURN> Expression() #ReturnStatement <PVIRG>
         <RBRACKET>
     )
     |
     (
         <STATIC> <VOID> <MAIN> <LPAR> <STRING> <LRPAR> <RRPAR> <IDENTIFIER> <RPAR> <LBRACKET>
-        MethodBody() <PVIRG>
+            MethodBody() #MethodBody()
         <RBRACKET>
     ))
 }
 
-void MethodBody(): {}
+void MethodParams():{}
+{
+    MethodParam() (<VIRG> MethodParam())*
+}
+
+void MethodParam(): {
+    Token name;
+}
+{
+    Type()  #ParamType name = <IDENTIFIER> {jjtThis.value = name.image;} #Param
+}
+
+void MethodBody() #void: {}
 {
     (
         (<IDENTIFIER>((VarDeclaration1() MethodBody()) | (Statement2() (Statement())*)))
@@ -171,23 +195,25 @@ void MethodBody(): {}
     )?
 }
 
-void Type(): {}
+void Type() #void: {
+    Token type;
+}
 {
-    Type1() | <IDENTIFIER>
+    Type1() | type = <IDENTIFIER> {jjtThis.value = type.image;}
 }
 
-void Type1():{}
+void Type1() #void:{}
 {
-    (<INT> (<LRPAR> <RRPAR>)?) | <BOOLEAN>
+    (<INT> {jjtThis.value = "int";} (<LRPAR> <RRPAR> {jjtThis.value = "[]";})?) | <BOOLEAN> {jjtThis.value = "boolean";}
 }
 
-void Statement(): {}
+void Statement() #void: {}
 {
     Statement1()
     | (<IDENTIFIER> Statement2())
 }
 
-void Statement1():{}
+void Statement1() #void:{}
 {
     <LBRACKET> (Statement())* <RBRACKET>
     | (<IF> <LPAR> Expression() <RPAR> Statement() <ELSE> Statement())
@@ -195,7 +221,7 @@ void Statement1():{}
     | (Expression3() Expression1() <PVIRG>)
 }
 
-void While():{}
+void While() #void:{}
 {
     try{
         <WHILE> WhileExpression()
@@ -206,41 +232,41 @@ void While():{}
     Statement()
 }
 
-void WhileExpression():{}
+void WhileExpression() #void:{}
 {
     <LPAR> Expression() <RPAR>
 }
 
-void Statement2():{}
+void Statement2() #void:{}
 {
-    (<EQUAL> Expression() <PVIRG>) | (<LRPAR> Expression() <RRPAR> (<EQUAL> Expression() <PVIRG>)?) | Expression5()
+    (<EQUAL> Expression() <PVIRG>) | (<LRPAR> Expression() <RRPAR> (<EQUAL> Expression() <PVIRG>)?) | Expression4()
 }
 
-void Expression(): {}
+void Expression() #void: {}
 {
     Expression2() Expression1()
 }
 
-void Expression1():{}
+void Expression1() #void:{}
 {
-    Expression5()
+    Expression4()
     | (<LRPAR> Expression2() Expression1() <RRPAR>)
     | {}
 }
 
-void Expression2():{}
+void Expression2() #void:{}
 {
     Expression3() | <IDENTIFIER>
 }
 
-void Expression3():{}
+void Expression3() #void:{}
 {
     <INTEGERLITERAL> | <TRUE> | <FALSE> | <THIS> | (<NEW> ((<IDENTIFIER> <LPAR> <RPAR>) | (<INT> <LRPAR> Expression2() Expression1() <RRPAR>)))
     | (<NOT> Expression2() Expression1())
     | (<LPAR> Expression2() Expression1() <RPAR>)
 }
 
-void Expression5():{}
+void Expression4() #void:{}
 {
     ((<AND> | <LESS> | <PLUS> | <MINUS> | <MULT> | <DIV>) Expression2() Expression1())
     | (<DOT> ((<LENGTH>) | (<IDENTIFIER> <LPAR> (Expression2() Expression1() (<VIRG> Expression2() Expression1())*)? <RPAR>)))
