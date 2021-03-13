@@ -33,6 +33,7 @@ public class Parser {
         do{
             prev = token;
             token = getNextToken();
+            System.out.println(token);
         } while(token.kind != LBRACKET && token.kind != EOF);
 
         if(token.kind == LBRACKET)
@@ -112,7 +113,7 @@ TOKEN:
 
 }
 
-SimpleNode Program() #void: {}
+SimpleNode Program(): {}
 {
     ImportDeclaration() ClassDeclaration() <EOF> {return jjtThis;}
 }
@@ -137,7 +138,7 @@ void ClassDeclaration() #Class: {
 
 void VarDeclaration(): {}
 {
-    Type() #VarType VarDeclaration1()
+    Type() VarDeclaration1()
 }
 
 void VarDeclaration1() #VarId:{
@@ -154,14 +155,14 @@ void MethodDeclaration(): {
     <PUBLIC>
     ((
         Type() #ReturnType name = <IDENTIFIER> {jjtThis.val = name.image;} <LPAR> (MethodParams())? <RPAR> <LBRACKET>
-            MethodBody() #MethodBody()
+            MethodBody() #MethodBody
             <RETURN> Expression() #ReturnStatement <PVIRG>
         <RBRACKET>
     )
     |
     (
         <STATIC> <VOID> <MAIN> <LPAR> <STRING> <LRPAR> <RRPAR> <IDENTIFIER> <RPAR> <LBRACKET>
-            MethodBody() #MethodBody()
+            MethodBody() #MethodBody <PVIRG>
         <RBRACKET>
     ))
 }
@@ -175,7 +176,7 @@ void MethodParam(): {
     Token name;
 }
 {
-    Type()  #ParamType name = <IDENTIFIER> {jjtThis.val = name.image;} #Param
+    Type() name = <IDENTIFIER> {jjtThis.val = name.image;} #Param
 }
 
 void MethodBody() #void: {}
@@ -187,14 +188,14 @@ void MethodBody() #void: {}
     )?
 }
 
-void Type() #void: {
+void Type(): {
     Token type;
 }
 {
     Type1() | type = <IDENTIFIER> {jjtThis.val = type.image;}
 }
 
-void Type1() #void:{}
+void Type1():{}
 {
     (<INT> {jjtThis.val = "int";} (<LRPAR> <RRPAR> {jjtThis.val = "[]";})?) | <BOOLEAN> {jjtThis.val = "boolean";}
 }
