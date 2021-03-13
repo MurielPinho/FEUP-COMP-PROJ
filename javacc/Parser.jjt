@@ -123,14 +123,14 @@ void ImportDeclaration()  #Imports: {
     String importText = "";
 }
 {
-   (<IMPORT> base = <IDENTIFIER> (<DOT> comp = <IDENTIFIER> {importText += "." + comp.image;})* <PVIRG> {jjtThis.value = base.image + importText;} #Import)*
+   (<IMPORT> base = <IDENTIFIER> (<DOT> comp = <IDENTIFIER> {importText += "." + comp.image;})* <PVIRG> {jjtThis.val = base.image + importText;} #Import)*
 }
 
 void ClassDeclaration() #Class: {
     Token name, comp;
 }
 {
-    <CLASS> name = <IDENTIFIER> {jjtThis.value = name.image;} (<EXTENDS> comp = <IDENTIFIER> {jjtThis.value += " " + comp.image;})? <LBRACKET>
+    <CLASS> name = <IDENTIFIER> {jjtThis.val = name.image;} (<EXTENDS> comp = <IDENTIFIER> {jjtThis.val += " " + comp.image;})? <LBRACKET>
         (VarDeclaration())*
         (MethodDeclaration())*
     <RBRACKET>
@@ -145,7 +145,7 @@ void VarDeclaration1() #VarId:{
     Token id;
 }
 {
-    id = <IDENTIFIER> {jjtThis.value = id.image;} <PVIRG>
+    id = <IDENTIFIER> {jjtThis.val = id.image;} <PVIRG>
 }
 
 void MethodDeclaration(): {
@@ -154,7 +154,7 @@ void MethodDeclaration(): {
 {
     <PUBLIC>
     ((
-        Type() #ReturnType name = <IDENTIFIER> {jjtThis.value = name.image;} <LPAR> (MethodParams())? <RPAR> <LBRACKET>
+        Type() #ReturnType name = <IDENTIFIER> {jjtThis.val = name.image;} <LPAR> (MethodParams())? <RPAR> <LBRACKET>
             MethodBody() #MethodBody()
             <RETURN> Expression() #ReturnStatement <PVIRG>
         <RBRACKET>
@@ -176,7 +176,7 @@ void MethodParam(): {
     Token name;
 }
 {
-    Type()  #ParamType name = <IDENTIFIER> {jjtThis.value = name.image;} #Param
+    Type()  #ParamType name = <IDENTIFIER> {jjtThis.val = name.image;} #Param
 }
 
 void MethodBody() #void: {}
@@ -192,12 +192,12 @@ void Type() #void: {
     Token type;
 }
 {
-    Type1() | type = <IDENTIFIER> {jjtThis.value = type.image;}
+    Type1() | type = <IDENTIFIER> {jjtThis.val = type.image;}
 }
 
 void Type1() #void:{}
 {
-    (<INT> {jjtThis.value = "int";} (<LRPAR> <RRPAR> {jjtThis.value = "[]";})?) | <BOOLEAN> {jjtThis.value = "boolean";}
+    (<INT> {jjtThis.val = "int";} (<LRPAR> <RRPAR> {jjtThis.val = "[]";})?) | <BOOLEAN> {jjtThis.val = "boolean";}
 }
 
 void Statement() #void: {}

@@ -145,7 +145,7 @@ void ImportDeclaration()          : {/*@bgen(jjtree) Imports */
                                                                                                           jjtree.closeNodeScope(jjtn001, true);
                                                                                                           jjtc001 = false;
                                                                                                         }
-/*@egen*/ {jjtn001.value = base.image + importText;}/*@bgen(jjtree)*/
+/*@egen*/ {jjtn001.val = base.image + importText;}/*@bgen(jjtree)*/
                                                                                                         } finally {
                                                                                                           if (jjtc001) {
                                                                                                             jjtree.closeNodeScope(jjtn001, true);
@@ -170,7 +170,7 @@ void ClassDeclaration()       : {/*@bgen(jjtree) Class */
 {/*@bgen(jjtree) Class */
     try {
 /*@egen*/
-    <CLASS> name = <IDENTIFIER> {jjtn000.value = name.image;} (<EXTENDS> comp = <IDENTIFIER> {jjtn000.value += " " + comp.image;})? <LBRACKET>
+    <CLASS> name = <IDENTIFIER> {jjtn000.val = name.image;} (<EXTENDS> comp = <IDENTIFIER> {jjtn000.val += " " + comp.image;})? <LBRACKET>
         (VarDeclaration())*
         (MethodDeclaration())*
     <RBRACKET>/*@bgen(jjtree)*/
@@ -264,7 +264,7 @@ void VarDeclaration1()       :{/*@bgen(jjtree) VarId */
 {/*@bgen(jjtree) VarId */
     try {
 /*@egen*/
-    id = <IDENTIFIER> {jjtn000.value = id.image;} <PVIRG>/*@bgen(jjtree)*/
+    id = <IDENTIFIER> {jjtn000.val = id.image;} <PVIRG>/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
@@ -312,7 +312,7 @@ void MethodDeclaration(): {/*@bgen(jjtree) MethodDeclaration */
             jjtree.closeNodeScope(jjtn001, true);
           }
         }
-/*@egen*/             name = <IDENTIFIER> {jjtn000.value = name.image;} <LPAR> (MethodParams())? <RPAR> <LBRACKET>/*@bgen(jjtree) #MethodBody(true) */
+/*@egen*/             name = <IDENTIFIER> {jjtn000.val = name.image;} <LPAR> (MethodParams())? <RPAR> <LBRACKET>/*@bgen(jjtree) #MethodBody(true) */
             {
               SimpleNode jjtn002 = new SimpleNode(JJTMETHODBODY);
               boolean jjtc002 = true;
@@ -506,7 +506,7 @@ void MethodParam(): {/*@bgen(jjtree) MethodParam */
                                              jjtree.closeNodeScope(jjtn002, true);
                                              jjtc002 = false;
                                            }
-/*@egen*/ {jjtn002.value = name.image;}/*@bgen(jjtree)*/
+/*@egen*/ {jjtn002.val = name.image;}/*@bgen(jjtree)*/
                                            } finally {
                                              if (jjtc002) {
                                                jjtree.closeNodeScope(jjtn002, true);
@@ -548,12 +548,12 @@ void Type()      : {
     Token type;
 }
 {
-    Type1() | type = <IDENTIFIER> {jjtn000.value = type.image;}
+    Type1() | type = <IDENTIFIER> {jjtn000.val = type.image;}
 }
 
 void Type1()      :{}
 {
-    (<INT> {jjtn000.value = "int";} (<LRPAR> <RRPAR> {jjtn000.value = "[]";})?) | <BOOLEAN> {jjtn000.value = "boolean";}
+    (<INT> {jjtn000.val = "int";} (<LRPAR> <RRPAR> {jjtn000.val = "[]";})?) | <BOOLEAN> {jjtn000.val = "boolean";}
 }
 
 void Statement()      : {}

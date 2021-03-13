@@ -96,7 +96,7 @@ SimpleNode jjtn001 = new SimpleNode(JJTIMPORT);
         try {
 jjtree.closeNodeScope(jjtn001, true);
                                                                                                           jjtc001 = false;
-jjtn001.value = base.image + importText;
+jjtn001.val = base.image + importText;
         } finally {
 if (jjtc001) {
                                                                                                             jjtree.closeNodeScope(jjtn001, true);
@@ -117,12 +117,12 @@ if (jjtc000) {
     try {
       jj_consume_token(CLASS);
       name = jj_consume_token(IDENTIFIER);
-jjtn000.value = name.image;
+jjtn000.val = name.image;
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case EXTENDS:{
         jj_consume_token(EXTENDS);
         comp = jj_consume_token(IDENTIFIER);
-jjtn000.value += " " + comp.image;
+jjtn000.val += " " + comp.image;
         break;
         }
       default:
@@ -237,7 +237,7 @@ if (jjtc000) {
     jjtree.openNodeScope(jjtn000);Token id;
     try {
       id = jj_consume_token(IDENTIFIER);
-jjtn000.value = id.image;
+jjtn000.val = id.image;
       jj_consume_token(PVIRG);
     } finally {
 if (jjtc000) {
@@ -281,7 +281,7 @@ if (jjtc001) {
           }
         }
         name = jj_consume_token(IDENTIFIER);
-jjtn000.value = name.image;
+jjtn000.val = name.image;
         jj_consume_token(LPAR);
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case INT:
@@ -490,7 +490,7 @@ SimpleNode jjtn002 = new SimpleNode(JJTPARAM);
       try {
 jjtree.closeNodeScope(jjtn002, true);
                                              jjtc002 = false;
-jjtn002.value = name.image;
+jjtn002.val = name.image;
       } finally {
 if (jjtc002) {
                                                jjtree.closeNodeScope(jjtn002, true);
@@ -648,7 +648,7 @@ if (jjtc000) {
       }
     case IDENTIFIER:{
       type = jj_consume_token(IDENTIFIER);
-jjtn000.value = type.image;
+jjtn000.val = type.image;
       break;
       }
     default:
@@ -662,12 +662,12 @@ jjtn000.value = type.image;
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case INT:{
       jj_consume_token(INT);
-jjtn000.value = "int";
+jjtn000.val = "int";
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case LRPAR:{
         jj_consume_token(LRPAR);
         jj_consume_token(RRPAR);
-jjtn000.value = "[]";
+jjtn000.val = "[]";
         break;
         }
       default:
@@ -678,7 +678,7 @@ jjtn000.value = "[]";
       }
     case BOOLEAN:{
       jj_consume_token(BOOLEAN);
-jjtn000.value = "boolean";
+jjtn000.val = "boolean";
       break;
       }
     default:
