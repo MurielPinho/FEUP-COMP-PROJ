@@ -17,9 +17,9 @@ class SimpleNode implements Node, JmmNode {
   protected Object value;
   protected Parser parser;
 
-    // added
-    public String val;
-    // public Operator op = null;
+  // added
+  public String val;
+  // public Operator op = null;
 
   public SimpleNode(int i) {
     id = i;

@@ -42,7 +42,6 @@ sourceSets {
           srcDir 'src'
           srcDir 'src-lib'
           srcDir 'generated'
-          srcDir 'javacc'
       }
    }
 	
