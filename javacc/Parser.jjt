@@ -162,7 +162,7 @@ void MethodDeclaration(): {
     |
     (
         <STATIC> <VOID> <MAIN> <LPAR> <STRING> <LRPAR> <RRPAR> <IDENTIFIER> <RPAR> <LBRACKET>
-            MethodBody() #MethodBody <PVIRG>
+            MethodBody() #MethodBody
         <RBRACKET>
     ))
 }
@@ -182,8 +182,8 @@ void MethodParam(): {
 void MethodBody() #void: {}
 {
     (
-        (<IDENTIFIER>((VarDeclaration1() MethodBody()) | (Statement2() (Statement())*)))
-        | (Type1() VarDeclaration1() MethodBody())
+        (<IDENTIFIER>((VarDeclaration1() #VarWithTypeIdent MethodBody()) | (Statement2() (Statement())*)))
+        | (Type1() VarDeclaration1() #Var(2) MethodBody())
         | (Statement1() (Statement())*)
     )?
 }
@@ -232,7 +232,7 @@ void WhileExpression() #void:{}
 
 void Statement2() #void:{}
 {
-    (<EQUAL> Expression() <PVIRG>) | (<LRPAR> Expression() <RRPAR> (<EQUAL> Expression() <PVIRG>)?) | Expression4()
+    (<EQUAL> Expression() <PVIRG>) | (<LRPAR> Expression() <RRPAR> (<EQUAL> Expression() <PVIRG>)?) | (Expression4() <PVIRG>)
 }
 
 void Expression() #void: {}

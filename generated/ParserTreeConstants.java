@@ -15,8 +15,10 @@ public interface ParserTreeConstants
   public int JJTMETHODPARAM = 11;
   public int JJTPARAM = 12;
   public int JJTVOID = 13;
-  public int JJTTYPE = 14;
-  public int JJTTYPE1 = 15;
+  public int JJTVARWITHTYPEIDENT = 14;
+  public int JJTVAR = 15;
+  public int JJTTYPE = 16;
+  public int JJTTYPE1 = 17;
 
 
   public String[] jjtNodeName = {
@@ -34,8 +36,10 @@ public interface ParserTreeConstants
     "MethodParam",
     "Param",
     "void",
+    "VarWithTypeIdent",
+    "Var",
     "Type",
     "Type1",
   };
 }
-/* JavaCC - OriginalChecksum=9ddb8e99eb637b0a7806889c1ad24829 (do not edit this line) */
+/* JavaCC - OriginalChecksum=cef1e260c7070346489fead274d5f65b (do not edit this line) */
