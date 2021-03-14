@@ -17,9 +17,7 @@ class SimpleNode implements Node, JmmNode {
   protected Object value;
   protected Parser parser;
 
-  // added
-  public String val;
-  // public Operator op = null;
+  public String val = "";
 
   public SimpleNode(int i) {
     id = i;
@@ -111,7 +109,7 @@ class SimpleNode implements Node, JmmNode {
      out its children. */
 
   public void dump(String prefix) {
-    System.out.println(toString(prefix));
+    System.out.println(toString(prefix) + " => " + this.val);
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
         SimpleNode n = (SimpleNode)children[i];

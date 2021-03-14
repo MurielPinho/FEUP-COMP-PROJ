@@ -13,12 +13,9 @@ public interface ParserTreeConstants
   public int JJTRETURNSTATEMENT = 9;
   public int JJTMETHODPARAMS = 10;
   public int JJTMETHODPARAM = 11;
-  public int JJTPARAM = 12;
-  public int JJTVOID = 13;
-  public int JJTVARWITHTYPEIDENT = 14;
-  public int JJTVAR = 15;
-  public int JJTTYPE = 16;
-  public int JJTTYPE1 = 17;
+  public int JJTVOID = 12;
+  public int JJTTYPE = 13;
+  public int JJTVARDECLARARTION = 14;
 
 
   public String[] jjtNodeName = {
@@ -34,12 +31,9 @@ public interface ParserTreeConstants
     "ReturnStatement",
     "MethodParams",
     "MethodParam",
-    "Param",
     "void",
-    "VarWithTypeIdent",
-    "Var",
     "Type",
-    "Type1",
+    "VarDeclarartion",
   };
 }
-/* JavaCC - OriginalChecksum=cef1e260c7070346489fead274d5f65b (do not edit this line) */
+/* JavaCC - OriginalChecksum=9bb5e38bd175078329aad07804946b68 (do not edit this line) */

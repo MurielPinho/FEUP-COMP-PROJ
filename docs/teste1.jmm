@@ -7,6 +7,36 @@ class Fac {
         while(a+)b5 {
             a=1;
         }
+        while(a+)b5 {
+            a=1;
+        }
+        while(a+)b5 {
+            a=1;
+        }
+        while(a+)b5 {
+            a=1;
+        }
+        while(a+)b5 {
+            a=1;
+        }
+        while(a+)b5 {
+            a=1;
+        }
+        while(a+)b5 {
+            a=1;
+        }
+        while(a+)b5 {
+            a=1;
+        }
+        while(a+)b5 {
+            a=1;
+        }
+        while(a+)b5 {
+            a=1;
+        }
+        /*while(a+)b5 {
+            a=1;
+        }*/
         if (num < 1)
             num_aux = 1;
         else

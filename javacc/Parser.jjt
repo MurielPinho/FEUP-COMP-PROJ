@@ -12,6 +12,7 @@ import java.io.StringReader;
 
 public class Parser {
     private int whileExpressionErrorsCounter;
+    private int MAX_WHILE_EXPRESSION_ERRORS = 10;
 
     public Parser(String stringReader) throws ParseException, FileNotFoundException{
         this.whileExpressionErrorsCounter = 0;
@@ -33,7 +34,6 @@ public class Parser {
         do{
             prev = token;
             token = getNextToken();
-            System.out.println(token);
         } while(token.kind != LBRACKET && token.kind != EOF);
 
         if(token.kind == LBRACKET)
@@ -41,12 +41,13 @@ public class Parser {
     }
 
     /* Handles with while expression error */
-    public void handleWhileExpressionError(ParseException exception) {
+    public void handleWhileExpressionError(ParseException exception) throws ParseException {
         System.out.println("Error on while");
 
         whileExpressionErrorsCounter++;
-        if(whileExpressionErrorsCounter == 10) {
-            System.out.println("STOP!!!");
+        if(whileExpressionErrorsCounter > MAX_WHILE_EXPRESSION_ERRORS) {
+            System.out.println("Number Maximum of While Expression Errors: " + MAX_WHILE_EXPRESSION_ERRORS + "; exceeded");
+            throw new ParseException();
         }
 
         skipWhileExpression();
@@ -176,28 +177,30 @@ void MethodParam(): {
     Token name;
 }
 {
-    Type() name = <IDENTIFIER> {jjtThis.val = name.image;} #Param
+    Type() name = <IDENTIFIER> {jjtThis.val = name.image;} #VarId(0)
 }
 
-void MethodBody() #void: {}
+void MethodBody() #void: {
+    Token type;
+}
 {
     (
-        (<IDENTIFIER>((VarDeclaration1() #VarWithTypeIdent MethodBody()) | (Statement2() (Statement())*)))
-        | (Type1() VarDeclaration1() #Var(2) MethodBody())
+        (type = <IDENTIFIER> {jjtThis.val = type.image;} #Type(0) ((VarDeclaration1() #VarDeclarartion(2) MethodBody()) | (Statement2() (Statement())*)))
+        | (Type1() VarDeclaration1() #VarDeclarartion(2) MethodBody())
         | (Statement1() (Statement())*)
     )?
 }
 
-void Type(): {
+void Type() #void: {
     Token type;
 }
 {
-    Type1() | type = <IDENTIFIER> {jjtThis.val = type.image;}
+    Type1() | type = <IDENTIFIER> {jjtThis.val = type.image;} #Type(0)
 }
 
-void Type1():{}
+void Type1() #void:{}
 {
-    (<INT> {jjtThis.val = "int";} (<LRPAR> <RRPAR> {jjtThis.val = "[]";})?) | <BOOLEAN> {jjtThis.val = "boolean";}
+    (<INT> {jjtThis.val = "int";} (<LRPAR> <RRPAR> {jjtThis.val = "[]";})?) #Type(0) | <BOOLEAN> {jjtThis.val = "boolean";} #Type(0)
 }
 
 void Statement() #void: {}
