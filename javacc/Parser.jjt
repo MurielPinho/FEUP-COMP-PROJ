@@ -12,7 +12,7 @@ import java.io.StringReader;
 
 public class Parser {
     private int whileExpressionErrorsCounter;
-    private int MAX_WHILE_EXPRESSION_ERRORS = 10;
+    private int MAX_WHILE_EXPRESSION_ERRORS = 5;
 
     public Parser(String stringReader) throws ParseException, FileNotFoundException{
         this.whileExpressionErrorsCounter = 0;
@@ -46,7 +46,7 @@ public class Parser {
         whileExpressionErrorsCounter++;
         
         if(whileExpressionErrorsCounter > MAX_WHILE_EXPRESSION_ERRORS) {
-            System.out.println("Maximum Number of While Expression Errors: " + MAX_WHILE_EXPRESSION_ERRORS + "; Exceeded");
+            System.out.println("Maximum Number of While Expression Errors(" + MAX_WHILE_EXPRESSION_ERRORS + ") exceeded.");
             throw new ParseException();
         }
         else{
