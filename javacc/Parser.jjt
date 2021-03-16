@@ -12,7 +12,7 @@ import java.io.StringReader;
 
 public class Parser {
     private int whileExpressionErrorsCounter;
-    private int MAX_WHILE_EXPRESSION_ERRORS = 5;
+    private int MAX_WHILE_EXPRESSION_ERRORS = 10;
 
     public Parser(String stringReader) throws ParseException, FileNotFoundException{
         this.whileExpressionErrorsCounter = 0;
@@ -155,23 +155,25 @@ void VarDeclaration1() #VarId:{
     id = <IDENTIFIER> {jjtThis.val = id.image;} <PVIRG>
 }
 
-void MethodDeclaration(): {
-    Token name;
-}
+void MethodDeclaration(): {}
 {
-    <PUBLIC>
-    ((
-        Type() #ReturnType name = <IDENTIFIER> {jjtThis.val = name.image;} <LPAR> (MethodParams())? <RPAR> <LBRACKET>
-            MethodBody() #MethodBody
-            <RETURN> Expression() #ReturnStatement <PVIRG>
-        <RBRACKET>
-    )
-    |
-    (
-        <STATIC> <VOID> <MAIN> <LPAR> <STRING> <LRPAR> <RRPAR> <IDENTIFIER> <RPAR> <LBRACKET>
-            MethodBody() #MethodBody
-        <RBRACKET>
-    ))
+    <PUBLIC> (RegularMethod() | Main())
+}
+
+void RegularMethod(): {
+    Token name;
+} 
+{
+    Type() #ReturnType name = <IDENTIFIER> {jjtThis.val = name.image;} <LPAR> (MethodParams())? <RPAR> <LBRACKET>
+        MethodBody() #MethodBody
+        <RETURN> Expression() #ReturnStatement <PVIRG>
+    <RBRACKET>
+}
+
+void Main(): {} {
+    <STATIC> <VOID> <MAIN> <LPAR> <STRING> <LRPAR> <RRPAR> <IDENTIFIER> <RPAR> <LBRACKET>
+        MethodBody() #MethodBody
+    <RBRACKET>
 }
 
 void MethodParams():{}

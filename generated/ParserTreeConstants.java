@@ -8,14 +8,16 @@ public interface ParserTreeConstants
   public int JJTVARDECLARATION = 4;
   public int JJTVARID = 5;
   public int JJTMETHODDECLARATION = 6;
-  public int JJTRETURNTYPE = 7;
-  public int JJTMETHODBODY = 8;
-  public int JJTRETURNSTATEMENT = 9;
-  public int JJTMETHODPARAMS = 10;
-  public int JJTMETHODPARAM = 11;
-  public int JJTVOID = 12;
-  public int JJTTYPE = 13;
-  public int JJTVARDECLARARTION = 14;
+  public int JJTREGULARMETHOD = 7;
+  public int JJTRETURNTYPE = 8;
+  public int JJTMETHODBODY = 9;
+  public int JJTRETURNSTATEMENT = 10;
+  public int JJTMAIN = 11;
+  public int JJTMETHODPARAMS = 12;
+  public int JJTMETHODPARAM = 13;
+  public int JJTVOID = 14;
+  public int JJTTYPE = 15;
+  public int JJTVARDECLARARTION = 16;
 
 
   public String[] jjtNodeName = {
@@ -26,9 +28,11 @@ public interface ParserTreeConstants
     "VarDeclaration",
     "VarId",
     "MethodDeclaration",
+    "RegularMethod",
     "ReturnType",
     "MethodBody",
     "ReturnStatement",
+    "Main",
     "MethodParams",
     "MethodParam",
     "void",
@@ -36,4 +40,4 @@ public interface ParserTreeConstants
     "VarDeclarartion",
   };
 }
-/* JavaCC - OriginalChecksum=9bb5e38bd175078329aad07804946b68 (do not edit this line) */
+/* JavaCC - OriginalChecksum=0bc586d1ecf3e78dcf47d892568b10cd (do not edit this line) */
