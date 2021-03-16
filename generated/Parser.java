@@ -6,15 +6,14 @@ import java.io.*;
 import java.io.StringReader;
 
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
-  protected static JJTParserState jjtree = new JJTParserState();private int whileExpressionErrorsCounter;
-    private int MAX_WHILE_EXPRESSION_ERRORS = 10;
+  protected static JJTParserState jjtree = new JJTParserState();private int whileExpressionErrorsCounter = 0;
+    private int MAX_WHILE_EXPRESSION_ERRORS = 5;
+    private ArrayList<String> errorMessages = new ArrayList<String>();
 
-    public Parser(StringReader stringReader) throws ParseException, FileNotFoundException{
-        this.whileExpressionErrorsCounter = 0;
-
+    public Parser(String stringReader) throws ParseException, FileNotFoundException{
         System.out.println("Parsing...");
 
-        //System.setIn(stringReader);
+        System.setIn(new FileInputStream(stringReader));
                 Parser parser = new Parser(System.in);
                 SimpleNode root = parser.Program();  // returns reference to root node
 
@@ -36,21 +35,25 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
 
     /* Handles with while expression error */
     public void handleWhileExpressionError(ParseException exception) throws ParseException {
-
         whileExpressionErrorsCounter++;
 
-        if(whileExpressionErrorsCounter > MAX_WHILE_EXPRESSION_ERRORS) {
-            System.out.println("Maximum Number of While Expression Errors(" + MAX_WHILE_EXPRESSION_ERRORS + ") exceeded.");
+        if(whileExpressionErrorsCounter > this.MAX_WHILE_EXPRESSION_ERRORS) {
+            System.out.println("Maximum Number of While Expression Errors(" + this.MAX_WHILE_EXPRESSION_ERRORS + ") exceeded.");
+            this.printErrorMessages();
             throw new ParseException();
         }
-        else{
-            System.out.println("Error Number "+whileExpressionErrorsCounter+" -> "+ exception);
-        }
-
-
-
+        else this.buildErrorMessage(exception);
 
         skipWhileExpression();
+    }
+
+    private void buildErrorMessage(ParseException exception) {
+        this.errorMessages.add("Error Number "+ whileExpressionErrorsCounter + " -> " + exception);
+    }
+
+    private void printErrorMessages() {
+        for(int i = 0; i < this.errorMessages.size(); i++)
+            System.out.println(this.errorMessages.get(i));
     }
 
   final public SimpleNode Program() throws ParseException {/*@bgen(jjtree) Program */
