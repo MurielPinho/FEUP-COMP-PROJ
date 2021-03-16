@@ -20,7 +20,6 @@ public class Parser {
         System.out.println("Parsing...");
 
         System.setIn(new FileInputStream(stringReader));
-        
 		Parser parser = new Parser(System.in);
 		SimpleNode root = parser.Program();  // returns reference to root node
 

@@ -9,13 +9,12 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
   protected static JJTParserState jjtree = new JJTParserState();private int whileExpressionErrorsCounter;
     private int MAX_WHILE_EXPRESSION_ERRORS = 10;
 
-    public Parser(String stringReader) throws ParseException, FileNotFoundException{
+    public Parser(StringReader stringReader) throws ParseException, FileNotFoundException{
         this.whileExpressionErrorsCounter = 0;
 
         System.out.println("Parsing...");
 
-        System.setIn(new FileInputStream(stringReader));
-
+        //System.setIn(stringReader);
                 Parser parser = new Parser(System.in);
                 SimpleNode root = parser.Program();  // returns reference to root node
 
