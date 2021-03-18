@@ -133,7 +133,7 @@ void ImportDeclaration()  #Imports: {
 }
 {
    (<IMPORT> base = <IDENTIFIER> (<DOT> comp = <IDENTIFIER> {importText += "." + comp.image;})*
-   <PVIRG> {jjtThis.val = base.image + importText;} #Import)*
+   <PVIRG> {jjtThis.val = base.image + importText;} #Import(0))*
 }
 
 void ClassDeclaration() #Class: {
