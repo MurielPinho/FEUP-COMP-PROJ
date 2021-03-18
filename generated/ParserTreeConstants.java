@@ -3,7 +3,7 @@ public interface ParserTreeConstants
 {
   public int JJTPROGRAM = 0;
   public int JJTIMPORTS = 1;
-  public int JJTIMPORT = 2;
+  public int JJTIMPORTDECLARATION = 2;
   public int JJTCLASS = 3;
   public int JJTVARDECLARATION = 4;
   public int JJTVARID = 5;
@@ -18,25 +18,41 @@ public interface ParserTreeConstants
   public int JJTVOID = 14;
   public int JJTTYPE = 15;
   public int JJTVARDECLARARTION = 16;
-  public int JJTSCOPE = 17;
-  public int JJTIF = 18;
-  public int JJTELSE = 19;
-  public int JJTWHILE = 20;
-  public int JJTASSIGNMENT = 21;
-  public int JJTARRAY = 22;
-  public int JJTINDICE = 23;
-  public int JJTCONSTRUCTOR = 24;
-  public int JJTNEWINTARRAY = 25;
-  public int JJTNOT = 26;
-  public int JJTLENGTH = 27;
-  public int JJTPARAMETER = 28;
-  public int JJTMETHOD = 29;
+  public int JJTVAR = 17;
+  public int JJTASSIGNMENT = 18;
+  public int JJTSCOPE = 19;
+  public int JJTIFANDELSE = 20;
+  public int JJTIFEXPRESSION = 21;
+  public int JJTIFBODY = 22;
+  public int JJTELSEBODY = 23;
+  public int JJTWHILE = 24;
+  public int JJTWHILEEXPRESSION = 25;
+  public int JJTWHILEBODY = 26;
+  public int JJTARRAYINDEX = 27;
+  public int JJTINTEGERLITERAL = 28;
+  public int JJTTRUE = 29;
+  public int JJTFALSE = 30;
+  public int JJTTHIS = 31;
+  public int JJTCONSTRUCTORCLASS = 32;
+  public int JJTCONSTRUCTORINTARRAY = 33;
+  public int JJTNOT = 34;
+  public int JJTSUBEXPRESSION = 35;
+  public int JJTAND = 36;
+  public int JJTLESS = 37;
+  public int JJTPLUS = 38;
+  public int JJTMINUS = 39;
+  public int JJTMULT = 40;
+  public int JJTDIV = 41;
+  public int JJTLENGTH = 42;
+  public int JJTMETHODINVOCATION = 43;
+  public int JJTMETHODARGS = 44;
+  public int JJTMETHODARG = 45;
 
 
   public String[] jjtNodeName = {
     "Program",
     "Imports",
-    "Import",
+    "ImportDeclaration",
     "Class",
     "VarDeclaration",
     "VarId",
@@ -51,19 +67,35 @@ public interface ParserTreeConstants
     "void",
     "Type",
     "VarDeclarartion",
-    "Scope",
-    "If",
-    "Else",
-    "While",
+    "Var",
     "Assignment",
-    "Array",
-    "Indice",
-    "Constructor",
-    "NewIntArray",
+    "Scope",
+    "IfAndElse",
+    "IfExpression",
+    "IfBody",
+    "ElseBody",
+    "While",
+    "WhileExpression",
+    "WhileBody",
+    "ArrayIndex",
+    "IntegerLiteral",
+    "True",
+    "False",
+    "This",
+    "ConstructorClass",
+    "ConstructorIntArray",
     "Not",
+    "SubExpression",
+    "And",
+    "Less",
+    "Plus",
+    "Minus",
+    "Mult",
+    "Div",
     "Length",
-    "Parameter",
-    "Method",
+    "MethodInvocation",
+    "MethodArgs",
+    "MethodArg",
   };
 }
-/* JavaCC - OriginalChecksum=20a7a64a4cf671810661277a88d7d596 (do not edit this line) */
+/* JavaCC - OriginalChecksum=d5a2598130f36d0dc248f6e959e50f5a (do not edit this line) */

@@ -124,16 +124,19 @@ TOKEN:
 
 SimpleNode Program(): {}
 {
-    ImportDeclaration() ClassDeclaration() <EOF> {return jjtThis;}
+    Imports() ClassDeclaration() <EOF> {return jjtThis;}
 }
 
-void ImportDeclaration()  #Imports: {
+void Imports(): {}
+{
+   (ImportDeclaration())*
+}
+
+void ImportDeclaration():{
     Token base, comp;
-    String importText = "";
 }
 {
-   (<IMPORT> base = <IDENTIFIER> (<DOT> comp = <IDENTIFIER> {importText += "." + comp.image;})*
-   <PVIRG> {jjtThis.val = base.image + importText;} #Import(0))*
+    <IMPORT> base = <IDENTIFIER> {jjtThis.val = base.image;}  (<DOT> comp = <IDENTIFIER> {jjtThis.val += "." + comp.image;})* <PVIRG>
 }
 
 void ClassDeclaration() #Class: {
@@ -228,14 +231,14 @@ void Statement1() #void:{}
     Scope()
     | IfAndElse()
     | While()
-    ->| (Expression3() Expression1() <PVIRG>)
+    | (Expression3() Expression1() <PVIRG>)
 }
 
 void Statement2() #void:{}
 {
     Assignment()
-    ->| (<LRPAR> Expression() <RRPAR> #Array(3) (Assignment())?) 
-    ->| (Expression4() <PVIRG>)
+    | (ArrayIndex() (Assignment())?) 
+    | (Expression4() <PVIRG>)
 }
 
 void Assignment():{}
@@ -289,6 +292,11 @@ void WhileBody():{}
     Statement()
 }
 
+void ArrayIndex():{}
+{
+    <LRPAR> Expression() <RRPAR>
+}
+
 void Expression() #void: {}
 {
     Expression2() Expression1()
@@ -297,7 +305,7 @@ void Expression() #void: {}
 void Expression1() #void:{}
 {
     Expression4()
-    | (<LRPAR> Expression2() Expression1() <RRPAR>) #Index(2)
+    | ArrayIndex()
     | {}
 }
 
@@ -305,29 +313,24 @@ void Expression2() #void:{
   Token name;
 }
 {
-    ->Expression3() | name = <IDENTIFIER> {jjtThis.val = name.image;}
+    Expression3() | name = <IDENTIFIER> {jjtThis.val = name.image;} #Var(0)
 }
 
 void Expression3() #void:{
-  Token name, comp;
+  Token name;
 }
 {
     name = <INTEGERLITERAL> {jjtThis.val = name.image;} #IntegerLiteral(0)
     | <TRUE> #True(0)
     | <FALSE> #False(0)
     | <THIS> #This(0)
-    -> | (comp = <NEW> {jjtThis.val = comp.image;}((name = <IDENTIFIER> {jjtThis.val = name.image;} <LPAR> <RPAR>) #Constructor(4)
-    ->											| (name = <INT> {jjtThis.val = name.image;} <LRPAR> Expression2() Expression1() <RRPAR> #NewIntArray(5))))
+    | (<NEW> ((name = <IDENTIFIER> {jjtThis.val = name.image;} <LPAR> <RPAR>) #ConstructorClass(0)
+             |(<INT> <LRPAR> Expression2() Expression1() <RRPAR> #ConstructorIntArray(2))))
     | (<NOT> Expression2() Expression1() #Not(2))
-    ->| (<LPAR> Expression2() Expression1() <RPAR>)
+    | (<LPAR> Expression() <RPAR>) #SubExpression()
 }
 
-void Expression4() #void:{
-  Token name, base1, base2, comp1, comp2;
-  String otherParams = "";
-  String baseString = "";
-  String compString = "";
-}
+void Expression4() #void:{}
 {
     ((<AND> #And(0)
      |<LESS> #Less(0)
@@ -335,7 +338,22 @@ void Expression4() #void:{
      |<MINUS> #Minus(0)
      |<MULT> #Mult(0)
      |<DIV> #Div(0)) Expression2() Expression1())
-    | (<DOT> #DOT(0) ((<LENGTH>) #Length(0) 
-    ->| (name = <IDENTIFIER> {jjtThis.val = name.image;} <LPAR> (base2 = Expression2() {baseString += base2.image;} base1 = Expression1() {baseString += base1.image;} #Parameter(2) {jjtThis.val = baseString;}
-    ->(<VIRG> comp2 = Expression2() {compString += comp2.image;} comp1 = Expression1() {compString += comp1.image;} #Parameter(3) {jjtThis.val = compString; otherParams += ", " + compString; compString = "";})*)? <RPAR>)) #Method)
+    | (<DOT> ((<LENGTH>) #Length(0) | MethodInvocation()))
+}
+
+void MethodInvocation():{
+    Token name;
+}
+{
+    name = <IDENTIFIER> {jjtThis.val = name.image;} MethodArgs()
+}
+
+void MethodArgs():{}
+{
+    <LPAR> (MethodArg() (<VIRG> MethodArg())*)? <RPAR>
+}
+
+void MethodArg():{}
+{
+    Expression2() Expression1()
 }
