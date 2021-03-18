@@ -12,7 +12,7 @@ import java.io.StringReader;
 
 public class Parser {
     private int whileExpressionErrorsCounter = 0;
-    private int MAX_WHILE_EXPRESSION_ERRORS = 5;
+    private int MAX_WHILE_EXPRESSION_ERRORS = 300;
     private ArrayList<String> errorMessages = new ArrayList<String>();
 
     public Parser(String stringReader) throws ParseException, FileNotFoundException{
@@ -132,7 +132,8 @@ void ImportDeclaration()  #Imports: {
     String importText = "";
 }
 {
-   (<IMPORT> base = <IDENTIFIER> (<DOT> comp = <IDENTIFIER> {importText += "." + comp.image;})* <PVIRG> {jjtThis.val = base.image + importText;} #Import)*
+   (<IMPORT> base = <IDENTIFIER> (<DOT> comp = <IDENTIFIER> {importText += "." + comp.image;})*
+   <PVIRG> {jjtThis.val = base.image + importText;} #Import)*
 }
 
 void ClassDeclaration() #Class: {
@@ -195,7 +196,8 @@ void MethodBody() #void: {
 }
 {
     (
-        (type = <IDENTIFIER> {jjtThis.val = type.image;} #Type(0) ((VarDeclaration1() #VarDeclarartion(2) MethodBody()) | (Statement2() (Statement())*)))
+        (type = <IDENTIFIER> {jjtThis.val = type.image;} #Type(0) ((VarDeclaration1() #VarDeclarartion(2) MethodBody())
+        | (Statement2() (Statement())*)))
         | (Type1() VarDeclaration1() #VarDeclarartion(2) MethodBody())
         | (Statement1() (Statement())*)
     )?
@@ -221,10 +223,17 @@ void Statement() #void: {}
 
 void Statement1() #void:{}
 {
-    <LBRACKET> (Statement())* <RBRACKET>
-    | (<IF> <LPAR> Expression() <RPAR> Statement() <ELSE> Statement())
-    | While()
+    <LBRACKET> (Statement())* <RBRACKET> #Scope(3)
+    | (<IF> #If <LPAR> Expression() <RPAR> Statement() <ELSE> #Else Statement())
+    | While() #While
     | (Expression3() Expression1() <PVIRG>)
+}
+
+void Statement2() #void:{}
+{
+    (<EQUAL> Expression() <PVIRG>) #Assignment(3)
+    | (<LRPAR> Expression() <RRPAR> #Array(3) (<EQUAL> Expression() <PVIRG> #Assignment(3))?) 
+    | (Expression4() <PVIRG>)
 }
 
 void While() #void:{}
@@ -243,11 +252,6 @@ void WhileExpression() #void:{}
     <LPAR> Expression() <RPAR>
 }
 
-void Statement2() #void:{}
-{
-    (<EQUAL> Expression() <PVIRG>) | (<LRPAR> Expression() <RRPAR> (<EQUAL> Expression() <PVIRG>)?) | (Expression4() <PVIRG>)
-}
-
 void Expression() #void: {}
 {
     Expression2() Expression1()
@@ -256,24 +260,45 @@ void Expression() #void: {}
 void Expression1() #void:{}
 {
     Expression4()
-    | (<LRPAR> Expression2() Expression1() <RRPAR>)
+    | (<LRPAR> Expression2() Expression1() <RRPAR>) #Indice(4)
     | {}
 }
 
-void Expression2() #void:{}
+void Expression2() #void:{
+  Token name;
+}
 {
-    Expression3() | <IDENTIFIER>
+    Expression3() | name = <IDENTIFIER> {jjtThis.val = name.image;}
 }
 
-void Expression3() #void:{}
+void Expression3() #void:{
+  Token name, comp;
+}
 {
-    <INTEGERLITERAL> | <TRUE> | <FALSE> | <THIS> | (<NEW> ((<IDENTIFIER> <LPAR> <RPAR>) | (<INT> <LRPAR> Expression2() Expression1() <RRPAR>)))
-    | (<NOT> Expression2() Expression1())
+    name = <INTEGERLITERAL> {jjtThis.val = name.image;}
+    | name = <TRUE> {jjtThis.val = name.image;}
+    | name = <FALSE> {jjtThis.val = name.image;}
+    | name = <THIS> {jjtThis.val = name.image;}
+    | (comp = <NEW> {jjtThis.val = comp.image;}((name = <IDENTIFIER> {jjtThis.val = name.image;} <LPAR> <RPAR>) #Constructor(4)
+    											| (name = <INT> {jjtThis.val = name.image;} <LRPAR> Expression2() Expression1() <RRPAR> #NewIntArray(5))))
+    | (<NOT> #Not Expression2() Expression1())
     | (<LPAR> Expression2() Expression1() <RPAR>)
 }
 
-void Expression4() #void:{}
+void Expression4() #void:{
+  Token name, base1, base2, comp1, comp2;
+  String otherParams = "";
+  String baseString = "";
+  String compString = "";
+}
 {
-    ((<AND> | <LESS> | <PLUS> | <MINUS> | <MULT> | <DIV>) Expression2() Expression1())
-    | (<DOT> ((<LENGTH>) | (<IDENTIFIER> <LPAR> (Expression2() Expression1() (<VIRG> Expression2() Expression1())*)? <RPAR>)))
+    ((name = <AND> {jjtThis.val = name.image;}
+     | name = <LESS> {jjtThis.val = name.image;}
+     | name = <PLUS> {jjtThis.val = name.image;}
+     | name = <MINUS> {jjtThis.val = name.image;}
+     | name = <MULT> {jjtThis.val = name.image;}
+     | name = <DIV> {jjtThis.val = name.image;}) Expression2() Expression1())
+    | (<DOT> ((<LENGTH>) #Length(2) |
+    (name = <IDENTIFIER> {jjtThis.val = name.image;} <LPAR> (base2 = Expression2() {baseString += base2.image;} base1 = Expression1() {baseString += base1.image;} #Parameter(2) {jjtThis.val = baseString;}
+    (<VIRG> comp2 = Expression2() {compString += comp2.image;} comp1 = Expression1() {compString += comp1.image;} #Parameter(3) {jjtThis.val = compString; otherParams += ", " + compString; compString = "";})*)? <RPAR>)) #Method)
 }
