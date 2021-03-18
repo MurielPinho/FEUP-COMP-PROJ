@@ -11,31 +11,37 @@ import java.io.*;
 
 public class Main implements JmmParser {
 
+    @Override
+	public JmmParserResult parse(String jmmCode) {
+        try {
+            System.setIn(new FileInputStream(jmmCode));
+            Parser myProg = new Parser(System.in);
+            SimpleNode root = myProg.Program(); // returns reference to root node
 
-/*	public void parse(String jmmCode) {
+            root.dump(""); // prints the tree on the screen
+            root.toJson();
 
-		Parser myProg = new Parser(new StringReader(jmmCode));
-		//SimpleNode root = myProg.Program(); // returns reference to root node
+            return new JmmParserResult(root, new ArrayList<Report>());
+        } 
+        catch(Exception e) {
+            throw new RuntimeException("Error while parsing", e);
+        }
+	}
 
-		//root.dump(""); // prints the tree on the screen
+    public static void main(String[] args) {
+        System.out.println("Executing with args: " + Arrays.toString(args));
 
-		//return new JmmParserResult(root, new ArrayList<Report>());
-	}*/
+        Main main = new Main();
+        String file = main.parseInput(args);
 
-    public static void main(String[] args) throws ParseException, FileNotFoundException {
-        /*System.out.println("Executing with args: " + Arrays.toString(args));
-        if (args[0].contains("fail")) {
-            throw new RuntimeException("It's supposed to fail");
-        }*/
-        Parser myProg = new Parser("docs/teste1.jmm");
-        // myProg.Program();
-       /* Main main = new Main();
-        JmmParserResult jmmParserResult = main.parse("../docs/teste1.jmm");*/
+        JmmParserResult jmmParserResult = main.parse(file);
     }
 
-
-    @Override
-    public JmmParserResult parse(String jmmCode) {
-        return null;
+    public String parseInput(String[] args){
+        if(args.length != 0){
+            if (args[0].contains("fail")) throw new RuntimeException("It's supposed to fail");
+            else return args[0];
+        }
+        else return "docs/teste1.jmm";
     }
 }
