@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="12342425-4e64-4c2f-9f53-ad8b2569e888" name="Default Changelist" comment="" />
+    <list default="true" id="12342425-4e64-4c2f-9f53-ad8b2569e888" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/Parser.jj" beforeDir="false" afterPath="$PROJECT_DIR$/generated/Parser.jj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/SimpleNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/SimpleNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javacc/Parser.jjt" beforeDir="false" afterPath="$PROJECT_DIR$/javacc/Parser.jjt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javacc/SimpleNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/javacc/SimpleNode.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,7 +52,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/generated" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -76,6 +83,7 @@
       <workItem from="1615244305176" duration="3011000" />
       <workItem from="1615385215709" duration="1042000" />
       <workItem from="1615724486510" duration="2000" />
+      <workItem from="1616092641442" duration="1230000" />
     </task>
     <servers />
   </component>
