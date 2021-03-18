@@ -12,7 +12,7 @@ import java.io.StringReader;
 
 public class Parser {
     private int whileExpressionErrorsCounter = 0;
-    private int MAX_WHILE_EXPRESSION_ERRORS = 5;
+    private int MAX_WHILE_EXPRESSION_ERRORS = 300;
     private ArrayList<String> errorMessages = new ArrayList<String>();
 
     public Parser(String stringReader) throws ParseException, FileNotFoundException{
@@ -124,15 +124,19 @@ TOKEN:
 
 SimpleNode Program(): {}
 {
-    ImportDeclaration() ClassDeclaration() <EOF> {return jjtThis;}
+    Imports() ClassDeclaration() <EOF> {return jjtThis;}
 }
 
-void ImportDeclaration()  #Imports: {
+void Imports(): {}
+{
+   (ImportDeclaration())*
+}
+
+void ImportDeclaration():{
     Token base, comp;
-    String importText = "";
 }
 {
-   (<IMPORT> base = <IDENTIFIER> (<DOT> comp = <IDENTIFIER> {importText += "." + comp.image;})* <PVIRG> {jjtThis.val = base.image + importText;} #Import)*
+    <IMPORT> base = <IDENTIFIER> {jjtThis.val = base.image;}  (<DOT> comp = <IDENTIFIER> {jjtThis.val += "." + comp.image;})* <PVIRG>
 }
 
 void ClassDeclaration() #Class: {
@@ -195,7 +199,8 @@ void MethodBody() #void: {
 }
 {
     (
-        (type = <IDENTIFIER> {jjtThis.val = type.image;} #Type(0) ((VarDeclaration1() #VarDeclarartion(2) MethodBody()) | (Statement2() (Statement())*)))
+        (type = <IDENTIFIER> {jjtThis.val = type.image;} #Type(0) ((VarDeclaration1() #VarDeclarartion(2) MethodBody())
+        | (Statement2() (Statement())*)))
         | (Type1() VarDeclaration1() #VarDeclarartion(2) MethodBody())
         | (Statement1() (Statement())*)
     )?
@@ -213,21 +218,60 @@ void Type1() #void:{}
     (<INT> {jjtThis.val = "int";} (<LRPAR> <RRPAR> {jjtThis.val = "[]";})?) #Type(0) | <BOOLEAN> {jjtThis.val = "boolean";} #Type(0)
 }
 
-void Statement() #void: {}
+void Statement() #void: {
+    Token name;
+}
 {
     Statement1()
-    | (<IDENTIFIER> Statement2())
+    | (name = <IDENTIFIER> {jjtThis.val = name.image;} Statement2()) #Var
 }
 
 void Statement1() #void:{}
 {
-    <LBRACKET> (Statement())* <RBRACKET>
-    | (<IF> <LPAR> Expression() <RPAR> Statement() <ELSE> Statement())
+    Scope()
+    | IfAndElse()
     | While()
     | (Expression3() Expression1() <PVIRG>)
 }
 
-void While() #void:{}
+void Statement2() #void:{}
+{
+    Assignment()
+    | (ArrayIndex() (Assignment())?) 
+    | (Expression4() <PVIRG>)
+}
+
+void Assignment():{}
+{
+    <EQUAL> Expression() <PVIRG>
+}
+
+void Scope():{}
+{
+    <LBRACKET> (Statement())* <RBRACKET>
+}
+
+void IfAndElse():{}
+{
+    <IF> IfExpression() IfBody() <ELSE> ElseBody()
+}
+
+void IfExpression():{}
+{
+    <LPAR> Expression() <RPAR>
+}
+
+void IfBody():{}
+{
+    Statement()
+}
+
+void ElseBody():{}
+{
+    Statement()
+}
+
+void While():{}
 {
     try{
         <WHILE> WhileExpression()
@@ -235,17 +279,22 @@ void While() #void:{}
     catch(ParseException e) {
         handleWhileExpressionError(e);
     }
-    Statement()
+    WhileBody()
 }
 
-void WhileExpression() #void:{}
+void WhileExpression():{}
 {
     <LPAR> Expression() <RPAR>
 }
 
-void Statement2() #void:{}
+void WhileBody():{}
 {
-    (<EQUAL> Expression() <PVIRG>) | (<LRPAR> Expression() <RRPAR> (<EQUAL> Expression() <PVIRG>)?) | (Expression4() <PVIRG>)
+    Statement()
+}
+
+void ArrayIndex():{}
+{
+    <LRPAR> Expression() <RRPAR>
 }
 
 void Expression() #void: {}
@@ -256,24 +305,55 @@ void Expression() #void: {}
 void Expression1() #void:{}
 {
     Expression4()
-    | (<LRPAR> Expression2() Expression1() <RRPAR>)
+    | ArrayIndex()
     | {}
 }
 
-void Expression2() #void:{}
+void Expression2() #void:{
+  Token name;
+}
 {
-    Expression3() | <IDENTIFIER>
+    Expression3() | name = <IDENTIFIER> {jjtThis.val = name.image;} #Var(0)
 }
 
-void Expression3() #void:{}
+void Expression3() #void:{
+  Token name;
+}
 {
-    <INTEGERLITERAL> | <TRUE> | <FALSE> | <THIS> | (<NEW> ((<IDENTIFIER> <LPAR> <RPAR>) | (<INT> <LRPAR> Expression2() Expression1() <RRPAR>)))
-    | (<NOT> Expression2() Expression1())
-    | (<LPAR> Expression2() Expression1() <RPAR>)
+    name = <INTEGERLITERAL> {jjtThis.val = name.image;} #IntegerLiteral(0)
+    | <TRUE> #True(0)
+    | <FALSE> #False(0)
+    | <THIS> #This(0)
+    | (<NEW> ((name = <IDENTIFIER> {jjtThis.val = name.image;} <LPAR> <RPAR>) #ConstructorClass(0)
+             |(<INT> <LRPAR> Expression2() Expression1() <RRPAR> #ConstructorIntArray(2))))
+    | (<NOT> Expression2() Expression1() #Not(2))
+    | (<LPAR> Expression() <RPAR>) #SubExpression()
 }
 
 void Expression4() #void:{}
 {
-    ((<AND> | <LESS> | <PLUS> | <MINUS> | <MULT> | <DIV>) Expression2() Expression1())
-    | (<DOT> ((<LENGTH>) | (<IDENTIFIER> <LPAR> (Expression2() Expression1() (<VIRG> Expression2() Expression1())*)? <RPAR>)))
+    ((<AND> #And(0)
+     |<LESS> #Less(0)
+     |<PLUS> #Plus(0)
+     |<MINUS> #Minus(0)
+     |<MULT> #Mult(0)
+     |<DIV> #Div(0)) Expression2() Expression1())
+    | (<DOT> ((<LENGTH>) #Length(0) | MethodInvocation()))
+}
+
+void MethodInvocation():{
+    Token name;
+}
+{
+    name = <IDENTIFIER> {jjtThis.val = name.image;} MethodArgs()
+}
+
+void MethodArgs():{}
+{
+    <LPAR> (MethodArg() (<VIRG> MethodArg())*)? <RPAR>
+}
+
+void MethodArg():{}
+{
+    Expression2() Expression1()
 }
