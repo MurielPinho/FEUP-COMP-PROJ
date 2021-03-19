@@ -16,7 +16,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/ {/*@
 
 /*@egen*/
     private int whileExpressionErrorsCounter = 0;
-    private int MAX_WHILE_EXPRESSION_ERRORS = 300;
+    private int MAX_WHILE_EXPRESSION_ERRORS =18;
     private ArrayList<String> errorMessages = new ArrayList<String>();
 
     /*public Parser(String file) throws ParseException, FileNotFoundException{
@@ -60,7 +60,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/ {/*@
         this.errorMessages.add("Error Number "+ whileExpressionErrorsCounter + " -> " + exception);
     }
 
-    private void printErrorMessages() {
+    public void printErrorMessages() {
         for(int i = 0; i < this.errorMessages.size(); i++)
             System.out.println(this.errorMessages.get(i));
     }
@@ -982,7 +982,13 @@ void While():{/*@bgen(jjtree) While */
     catch(ParseException e) {
         handleWhileExpressionError(e);
     }
-    WhileBody()/*@bgen(jjtree)*/
+    
+     <EOF>/*@bgen(jjtree)*/
+           {
+             jjtree.closeNodeScope(jjtn000, true);
+             jjtc000 = false;
+           }
+/*@egen*/ {throw new ParseException();} | WhileBody()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
