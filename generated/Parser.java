@@ -10,15 +10,15 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     private int MAX_WHILE_EXPRESSION_ERRORS = 300;
     private ArrayList<String> errorMessages = new ArrayList<String>();
 
-    public Parser(String file) throws ParseException, FileNotFoundException{
+    /*public Parser(String file) throws ParseException, FileNotFoundException{
         // System.out.println("Parsing...");
 
         System.setIn(new FileInputStream(file));
-                Parser parser = new Parser(System.in);
-                //SimpleNode root = parser.Program();  // returns reference to root node
+		Parser parser = new Parser(System.in);
+		//SimpleNode root = parser.Program();  // returns reference to root node
 
-                //root.dump(""); // prints the tree on the screen
-    }
+		//root.dump(""); // prints the tree on the screen
+    }*/
 
     /* Skips the while expression until if finds the token "{" */
     public void skipWhileExpression() {

@@ -35,7 +35,7 @@ class SimpleNode implements Node, JmmNode {
   
   public List<String> getAttributes() {
     List<String> ret = new ArrayList<>();
-    ret.add("name"); ret.add("val");
+    if(val != "") ret.add("val");
 
     return ret;
   }
@@ -46,7 +46,6 @@ class SimpleNode implements Node, JmmNode {
 
   public String get(String attribute) {
     if(attribute.equals("val")) return val;
-    else if(attribute.equals("name")) return toString();
     else return null;
   }
   
