@@ -11,6 +11,7 @@ import java.io.*;
 import java.io.StringReader;
 
 public class Parser {
+    private int countWhileExpressionParetheses = 0;
     private int whileExpressionErrorsCounter = 0;
     private int MAX_WHILE_EXPRESSION_ERRORS = 300;
     private ArrayList<String> errorMessages = new ArrayList<String>();
@@ -28,11 +29,15 @@ public class Parser {
     /* Skips the while expression until if finds the token "{" */
     public void skipWhileExpression() {
         Token prev; // will store the previous token
+        int parenthesisCounter = 0;
 
         do{
             prev = token;
             token = getNextToken();
-        } while(token.kind != LBRACKET && token.kind != EOF);
+
+            if(token.kind == LPAR) countWhileExpressionParetheses++;
+            else if(token.kind == RPAR) countWhileExpressionParetheses--;
+        } while(token.kind != LBRACKET && token.kind != EOF && countWhileExpressionParetheses != 0);
 
         if(token.kind == LBRACKET)
             token = prev;
@@ -284,7 +289,7 @@ void While():{}
 
 void WhileExpression():{}
 {
-    <LPAR> Expression() <RPAR>
+    <LPAR> {countWhileExpressionParetheses = 1;} Expression() <RPAR> {countWhileExpressionParetheses--;}
 }
 
 void WhileBody():{}
@@ -327,7 +332,7 @@ void Expression3() #void:{
     | (<NEW> ((name = <IDENTIFIER> {jjtThis.put("val", name.image);} <LPAR> <RPAR>) #ConstructorClass(0)
              |(<INT> <LRPAR> Expression() <RRPAR> #ConstructorIntArray)))
     | (<NOT> Expression() #Not(2))
-    | (<LPAR> Expression() <RPAR>) #SubExpression
+    | (<LPAR> {countWhileExpressionParetheses++;} Expression() <RPAR> {countWhileExpressionParetheses--;}) #SubExpression
 }
 
 void Expression4() #void:{}

@@ -6,7 +6,8 @@ import java.io.*;
 import java.io.StringReader;
 
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
-  protected static JJTParserState jjtree = new JJTParserState();private int whileExpressionErrorsCounter = 0;
+  protected static JJTParserState jjtree = new JJTParserState();private int countWhileExpressionParetheses = 0;
+    private int whileExpressionErrorsCounter = 0;
     private int MAX_WHILE_EXPRESSION_ERRORS = 300;
     private ArrayList<String> errorMessages = new ArrayList<String>();
 
@@ -23,11 +24,15 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     /* Skips the while expression until if finds the token "{" */
     public void skipWhileExpression() {
         Token prev; // will store the previous token
+        int parenthesisCounter = 0;
 
         do{
             prev = token;
             token = getNextToken();
-        } while(token.kind != LBRACKET && token.kind != EOF);
+
+            if(token.kind == LPAR) countWhileExpressionParetheses++;
+            else if(token.kind == RPAR) countWhileExpressionParetheses--;
+        } while(token.kind != LBRACKET && token.kind != EOF && countWhileExpressionParetheses != 0);
 
         if(token.kind == LBRACKET)
             token = prev;
@@ -1188,8 +1193,12 @@ if (jjtc000) {
   jjtree.openNodeScope(jjtn000);
     try {
       jj_consume_token(LPAR);
+countWhileExpressionParetheses = 1;
       Expression();
       jj_consume_token(RPAR);
+jjtree.closeNodeScope(jjtn000, true);
+                                                                       jjtc000 = false;
+countWhileExpressionParetheses--;
     } catch (Throwable jjte000) {
 if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1462,8 +1471,12 @@ SimpleNode jjtn008 = new SimpleNode(JJTSUBEXPRESSION);
         jjtree.openNodeScope(jjtn008);
       try {
         jj_consume_token(LPAR);
+countWhileExpressionParetheses++;
         Expression();
         jj_consume_token(RPAR);
+jjtree.closeNodeScope(jjtn008, true);
+                                                                        jjtc008 = false;
+countWhileExpressionParetheses--;
       } catch (Throwable jjte008) {
 if (jjtc008) {
           jjtree.clearNodeScope(jjtn008);
