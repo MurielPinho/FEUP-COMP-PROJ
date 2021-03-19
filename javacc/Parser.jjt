@@ -15,14 +15,14 @@ public class Parser {
     private int MAX_WHILE_EXPRESSION_ERRORS = 300;
     private ArrayList<String> errorMessages = new ArrayList<String>();
 
-    public Parser(String stringReader) throws ParseException, FileNotFoundException{
-        System.out.println("Parsing...");
+    public Parser(String file) throws ParseException, FileNotFoundException{
+        // System.out.println("Parsing...");
 
-        System.setIn(new FileInputStream(stringReader));
+        System.setIn(new FileInputStream(file));
 		Parser parser = new Parser(System.in);
-		SimpleNode root = parser.Program();  // returns reference to root node
+		//SimpleNode root = parser.Program();  // returns reference to root node
 
-		root.dump(""); // prints the tree on the screen
+		//root.dump(""); // prints the tree on the screen
     }
 
     /* Skips the while expression until if finds the token "{" */
@@ -304,9 +304,8 @@ void Expression() #void: {}
 
 void Expression1() #void:{}
 {
-    Expression4()
-    | ArrayIndex()
-    | {}
+    (Expression4()
+    | ArrayIndex())?
 }
 
 void Expression2() #void:{
@@ -325,9 +324,9 @@ void Expression3() #void:{
     | <FALSE> #False(0)
     | <THIS> #This(0)
     | (<NEW> ((name = <IDENTIFIER> {jjtThis.val = name.image;} <LPAR> <RPAR>) #ConstructorClass(0)
-             |(<INT> <LRPAR> Expression2() Expression1() <RRPAR> #ConstructorIntArray(2))))
-    | (<NOT> Expression2() Expression1() #Not(2))
-    | (<LPAR> Expression() <RPAR>) #SubExpression()
+             |(<INT> <LRPAR> Expression() <RRPAR> #ConstructorIntArray)))
+    | (<NOT> Expression() #Not(2))
+    | (<LPAR> Expression() <RPAR>) #SubExpression
 }
 
 void Expression4() #void:{}
@@ -337,7 +336,7 @@ void Expression4() #void:{}
      |<PLUS> #Plus(0)
      |<MINUS> #Minus(0)
      |<MULT> #Mult(0)
-     |<DIV> #Div(0)) Expression2() Expression1())
+     |<DIV> #Div(0)) Expression())
     | (<DOT> ((<LENGTH>) #Length(0) | MethodInvocation()))
 }
 
@@ -355,5 +354,5 @@ void MethodArgs():{}
 
 void MethodArg():{}
 {
-    Expression2() Expression1()
+    Expression()
 }

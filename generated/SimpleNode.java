@@ -34,19 +34,30 @@ class SimpleNode implements Node, JmmNode {
   }
   
   public List<String> getAttributes() {
-	throw new RuntimeException("Not implemented yet");
+    System.out.println("oi");
+    List<String> ret = new ArrayList<>();
+    ret.add("name"); ret.add("val");
+	// throw new RuntimeException("Not implemented yet");
+    return ret;
   }
 
   public void put(String attribute, String value) {
+    // System.out.println("aqui hey");
 	throw new RuntimeException("Not implemented yet");	  
   }
 
   public String get(String attribute) {
-	throw new RuntimeException("Not implemented yet");
+    // System.out.println("aqui hey");
+    if(attribute.equals("val")) return val;
+    else if(attribute.equals("name")) return toString();
+    else return null;
+	// throw new RuntimeException("Not implemented yet");
   }
   
   public List<JmmNode> getChildren() {
-    return (children == null) ? new ArrayList<>() : Arrays.asList((JmmNode[])children);
+    // System.out.println("aqui hey");
+    // return (children == null) ? new ArrayList<>() : Arrays.asList((JmmNode[])children);
+    return JmmNode.convertChildren(children);
   }
   
   public int getNumChildren() {
