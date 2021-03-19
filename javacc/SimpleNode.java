@@ -6,7 +6,7 @@ import java.lang.RuntimeException;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.HashMap;
 
 public
 class SimpleNode implements Node, JmmNode {
@@ -17,7 +17,7 @@ class SimpleNode implements Node, JmmNode {
   protected Object value;
   protected Parser parser;
 
-  public String val = "";
+  private HashMap<String , String> attributes = new HashMap<>();
 
   public SimpleNode(int i) {
     id = i;
@@ -34,19 +34,15 @@ class SimpleNode implements Node, JmmNode {
   }
   
   public List<String> getAttributes() {
-    List<String> ret = new ArrayList<>();
-    if(val != "") ret.add("val");
-
-    return ret;
+    return new ArrayList<>(this.attributes.keySet());
   }
 
   public void put(String attribute, String value) {
-	  throw new RuntimeException("Not implemented yet");	  
+	  this.attributes.put(attribute, value);
   }
 
   public String get(String attribute) {
-    if(attribute.equals("val")) return val;
-    else return null;
+    return this.attributes.get(attribute);
   }
   
   public List<JmmNode> getChildren() {
@@ -113,7 +109,7 @@ class SimpleNode implements Node, JmmNode {
      out its children. */
 
   public void dump(String prefix) {
-    System.out.println(toString(prefix) + " => " + this.val);
+    System.out.println(toString(prefix));
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
         SimpleNode n = (SimpleNode)children[i];

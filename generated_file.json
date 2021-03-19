@@ -1,0 +1,480 @@
+{
+  "kind": "Program",
+  "attributes": {},
+  "children": [
+    {
+      "kind": "Imports",
+      "attributes": {},
+      "children": [
+        {
+          "kind": "ImportDeclaration",
+          "attributes": {
+            "val": "io.jgh.op.i"
+          },
+          "children": []
+        },
+        {
+          "kind": "ImportDeclaration",
+          "attributes": {
+            "val": "a"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "Class",
+      "attributes": {
+        "val": "Fac"
+      },
+      "children": [
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {},
+          "children": [
+            {
+              "kind": "RegularMethod",
+              "attributes": {
+                "val": "ComputeFac"
+              },
+              "children": [
+                {
+                  "kind": "ReturnType",
+                  "attributes": {},
+                  "children": [
+                    {
+                      "kind": "Type",
+                      "attributes": {
+                        "val": "int"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "kind": "MethodParams",
+                  "attributes": {},
+                  "children": [
+                    {
+                      "kind": "MethodParam",
+                      "attributes": {},
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "num"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "MethodBody",
+                  "attributes": {},
+                  "children": [
+                    {
+                      "kind": "VarDeclarartion",
+                      "attributes": {},
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "num_aux"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclarartion",
+                      "attributes": {},
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "ab"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "a"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "While",
+                      "attributes": {},
+                      "children": [
+                        {
+                          "kind": "WhileBody",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "Scope",
+                              "attributes": {},
+                              "children": [
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "a"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "Assignment",
+                                      "attributes": {},
+                                      "children": [
+                                        {
+                                          "kind": "IntegerLiteral",
+                                          "attributes": {
+                                            "val": "1"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "While",
+                      "attributes": {},
+                      "children": [
+                        {
+                          "kind": "WhileExpression",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "a"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "Less",
+                              "attributes": {},
+                              "children": []
+                            },
+                            {
+                              "kind": "IntegerLiteral",
+                              "attributes": {
+                                "val": "1"
+                              },
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "WhileBody",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "Scope",
+                              "attributes": {},
+                              "children": [
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "a"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "Assignment",
+                                      "attributes": {},
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "a"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "kind": "Plus",
+                                          "attributes": {},
+                                          "children": []
+                                        },
+                                        {
+                                          "kind": "IntegerLiteral",
+                                          "attributes": {
+                                            "val": "1"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "IfAndElse",
+                      "attributes": {},
+                      "children": [
+                        {
+                          "kind": "IfExpression",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "num"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "Less",
+                              "attributes": {},
+                              "children": []
+                            },
+                            {
+                              "kind": "IntegerLiteral",
+                              "attributes": {
+                                "val": "1"
+                              },
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "IfBody",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "num_aux"
+                              },
+                              "children": [
+                                {
+                                  "kind": "Assignment",
+                                  "attributes": {},
+                                  "children": [
+                                    {
+                                      "kind": "IntegerLiteral",
+                                      "attributes": {
+                                        "val": "1"
+                                      },
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "ElseBody",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "num_aux"
+                              },
+                              "children": [
+                                {
+                                  "kind": "Assignment",
+                                  "attributes": {},
+                                  "children": [
+                                    {
+                                      "kind": "Var",
+                                      "attributes": {
+                                        "val": "num"
+                                      },
+                                      "children": []
+                                    },
+                                    {
+                                      "kind": "Mult",
+                                      "attributes": {},
+                                      "children": []
+                                    },
+                                    {
+                                      "kind": "SubExpression",
+                                      "attributes": {},
+                                      "children": [
+                                        {
+                                          "kind": "This",
+                                          "attributes": {},
+                                          "children": []
+                                        },
+                                        {
+                                          "kind": "MethodInvocation",
+                                          "attributes": {
+                                            "val": "ComputeFac"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "MethodArgs",
+                                              "attributes": {},
+                                              "children": [
+                                                {
+                                                  "kind": "MethodArg",
+                                                  "attributes": {},
+                                                  "children": [
+                                                    {
+                                                      "kind": "Var",
+                                                      "attributes": {
+                                                        "val": "num"
+                                                      },
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "kind": "Minus",
+                                                      "attributes": {},
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "kind": "IntegerLiteral",
+                                                      "attributes": {
+                                                        "val": "1"
+                                                      },
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "ReturnStatement",
+                  "attributes": {},
+                  "children": [
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "num_aux"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {},
+          "children": [
+            {
+              "kind": "Main",
+              "attributes": {},
+              "children": [
+                {
+                  "kind": "MethodBody",
+                  "attributes": {},
+                  "children": [
+                    {
+                      "kind": "Type",
+                      "attributes": {
+                        "val": "io"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "MethodInvocation",
+                      "attributes": {
+                        "val": "println"
+                      },
+                      "children": [
+                        {
+                          "kind": "MethodArgs",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "MethodArg",
+                              "attributes": {},
+                              "children": [
+                                {
+                                  "kind": "ConstructorClass",
+                                  "attributes": {
+                                    "val": "Fac"
+                                  },
+                                  "children": []
+                                },
+                                {
+                                  "kind": "MethodInvocation",
+                                  "attributes": {
+                                    "val": "ComputeFac"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "MethodArgs",
+                                      "attributes": {},
+                                      "children": [
+                                        {
+                                          "kind": "MethodArg",
+                                          "attributes": {},
+                                          "children": [
+                                            {
+                                              "kind": "IntegerLiteral",
+                                              "attributes": {
+                                                "val": "10"
+                                              },
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

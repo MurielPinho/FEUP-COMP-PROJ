@@ -1,4 +1,3 @@
-
 import pt.up.fe.comp.jmm.JmmParser;
 import pt.up.fe.comp.jmm.JmmParserResult;
 import pt.up.fe.comp.jmm.report.Report;
@@ -19,7 +18,8 @@ public class Main implements JmmParser {
             SimpleNode root = myProg.Program(); // returns reference to root node
 
             // root.dump(""); // prints the tree on the screen
-            root.toJson();
+            String json = root.toJson();
+            this.createJSONfile(json);
 
             myProg.printErrorMessages();
 
@@ -31,7 +31,9 @@ public class Main implements JmmParser {
 	}
 
     public static void main(String[] args) {
+        System.out.println("\n#######################\n");
         System.out.println("Executing with args: " + Arrays.toString(args));
+        System.out.println("\n#######################\n");
 
         Main main = new Main();
         String file = main.parseInput(args);
@@ -45,5 +47,26 @@ public class Main implements JmmParser {
             else return args[0];
         }
         else return "docs/teste1.jmm";
+    }
+
+    private void createJSONfile(String json) {
+        try {
+            System.out.println("\n#######################\n");
+            System.out.println("Craeting JSON file...");
+            
+            File file = new File("./generated_file.json");
+            file.createNewFile();
+
+            FileWriter myWriter = new FileWriter(file);
+            myWriter.write(json);
+            myWriter.close();
+
+            System.out.println("JSON file created at: ./generated_file.json");
+            System.out.println("\n#######################\n");
+        }
+        catch(Exception e){
+            System.out.println("Error creating JSON file!");
+            System.out.println("\n#######################\n");
+        }
     }
 }

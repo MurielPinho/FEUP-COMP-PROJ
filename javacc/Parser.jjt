@@ -12,7 +12,7 @@ import java.io.StringReader;
 
 public class Parser {
     private int whileExpressionErrorsCounter = 0;
-    private int MAX_WHILE_EXPRESSION_ERRORS =18;
+    private int MAX_WHILE_EXPRESSION_ERRORS = 300;
     private ArrayList<String> errorMessages = new ArrayList<String>();
 
     /*public Parser(String file) throws ParseException, FileNotFoundException{
@@ -133,17 +133,17 @@ void Imports(): {}
 }
 
 void ImportDeclaration():{
-    Token base, comp;
+    Token name;
 }
 {
-    <IMPORT> base = <IDENTIFIER> {jjtThis.val = base.image;}  (<DOT> comp = <IDENTIFIER> {jjtThis.val += "." + comp.image;})* <PVIRG>
+    <IMPORT> name = <IDENTIFIER> {jjtThis.put("val", name.image);}  (<DOT> name = <IDENTIFIER> {jjtThis.put("val", jjtThis.get("val") + "." + name.image);})* <PVIRG>
 }
 
 void ClassDeclaration() #Class: {
-    Token name, comp;
+    Token name;
 }
 {
-    <CLASS> name = <IDENTIFIER> {jjtThis.val = name.image;} (<EXTENDS> comp = <IDENTIFIER> {jjtThis.val += " " + comp.image;})? <LBRACKET>
+    <CLASS> name = <IDENTIFIER> {jjtThis.put("val", name.image);} (<EXTENDS> name = <IDENTIFIER> {jjtThis.put("val", jjtThis.get("val") + " " + name.image);})? <LBRACKET>
         (VarDeclaration())*
         (MethodDeclaration())*
     <RBRACKET>
@@ -158,7 +158,7 @@ void VarDeclaration1() #VarId:{
     Token id;
 }
 {
-    id = <IDENTIFIER> {jjtThis.val = id.image;} <PVIRG>
+    id = <IDENTIFIER> {jjtThis.put("val", id.image);} <PVIRG>
 }
 
 void MethodDeclaration(): {}
@@ -170,7 +170,7 @@ void RegularMethod(): {
     Token name;
 } 
 {
-    Type() #ReturnType name = <IDENTIFIER> {jjtThis.val = name.image;} <LPAR> (MethodParams())? <RPAR> <LBRACKET>
+    Type() #ReturnType name = <IDENTIFIER> {jjtThis.put("val", name.image);} <LPAR> (MethodParams())? <RPAR> <LBRACKET>
         MethodBody() #MethodBody
         <RETURN> Expression() #ReturnStatement <PVIRG>
     <RBRACKET>
@@ -191,7 +191,7 @@ void MethodParam(): {
     Token name;
 }
 {
-    Type() name = <IDENTIFIER> {jjtThis.val = name.image;} #VarId(0)
+    Type() name = <IDENTIFIER> {jjtThis.put("val", name.image);} #VarId(0)
 }
 
 void MethodBody() #void: {
@@ -199,7 +199,7 @@ void MethodBody() #void: {
 }
 {
     (
-        (type = <IDENTIFIER> {jjtThis.val = type.image;} #Type(0) ((VarDeclaration1() #VarDeclarartion(2) MethodBody())
+        (type = <IDENTIFIER> {jjtThis.put("val", type.image);} #Type(0) ((VarDeclaration1() #VarDeclarartion(2) MethodBody())
         | (Statement2() (Statement())*)))
         | (Type1() VarDeclaration1() #VarDeclarartion(2) MethodBody())
         | (Statement1() (Statement())*)
@@ -210,12 +210,12 @@ void Type() #void: {
     Token type;
 }
 {
-    Type1() | type = <IDENTIFIER> {jjtThis.val = type.image;} #Type(0)
+    Type1() | type = <IDENTIFIER> {jjtThis.put("val", type.image);} #Type(0)
 }
 
 void Type1() #void:{}
 {
-    (<INT> {jjtThis.val = "int";} (<LRPAR> <RRPAR> {jjtThis.val = "[]";})?) #Type(0) | <BOOLEAN> {jjtThis.val = "boolean";} #Type(0)
+    (<INT> {jjtThis.put("val", "int");} (<LRPAR> <RRPAR> {jjtThis.put("val", jjtThis.get("val") + "[]");})?) #Type(0) | <BOOLEAN> {jjtThis.put("val", "boolean");} #Type(0)
 }
 
 void Statement() #void: {
@@ -223,7 +223,7 @@ void Statement() #void: {
 }
 {
     Statement1()
-    | (name = <IDENTIFIER> {jjtThis.val = name.image;} Statement2()) #Var
+    | (name = <IDENTIFIER> {jjtThis.put("val", name.image);} Statement2()) #Var
 }
 
 void Statement1() #void:{}
@@ -279,8 +279,7 @@ void While():{}
     catch(ParseException e) {
         handleWhileExpressionError(e);
     }
-    
-     <EOF> {throw new ParseException();} | WhileBody()
+    WhileBody()
 }
 
 void WhileExpression():{}
@@ -305,26 +304,27 @@ void Expression() #void: {}
 
 void Expression1() #void:{}
 {
-    (Expression4()
-    | ArrayIndex())?
+    Expression4()
+    | ArrayIndex()
+    | {}
 }
 
 void Expression2() #void:{
   Token name;
 }
 {
-    Expression3() | name = <IDENTIFIER> {jjtThis.val = name.image;} #Var(0)
+    Expression3() | name = <IDENTIFIER> {jjtThis.put("val", name.image);} #Var(0)
 }
 
 void Expression3() #void:{
   Token name;
 }
 {
-    name = <INTEGERLITERAL> {jjtThis.val = name.image;} #IntegerLiteral(0)
+    name = <INTEGERLITERAL> {jjtThis.put("val", name.image);} #IntegerLiteral(0)
     | <TRUE> #True(0)
     | <FALSE> #False(0)
     | <THIS> #This(0)
-    | (<NEW> ((name = <IDENTIFIER> {jjtThis.val = name.image;} <LPAR> <RPAR>) #ConstructorClass(0)
+    | (<NEW> ((name = <IDENTIFIER> {jjtThis.put("val", name.image);} <LPAR> <RPAR>) #ConstructorClass(0)
              |(<INT> <LRPAR> Expression() <RRPAR> #ConstructorIntArray)))
     | (<NOT> Expression() #Not(2))
     | (<LPAR> Expression() <RPAR>) #SubExpression
@@ -345,7 +345,7 @@ void MethodInvocation():{
     Token name;
 }
 {
-    name = <IDENTIFIER> {jjtThis.val = name.image;} MethodArgs()
+    name = <IDENTIFIER> {jjtThis.put("val", name.image);} MethodArgs()
 }
 
 void MethodArgs():{}
