@@ -70,13 +70,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/ {/*@
         int line = token.beginLine;
         String message = "Encountered '" + nextToken + "' after '" + token + "'";
 
-        /*int[][] expected = exception.expectedTokenSequences;
-        for(int i = 0; i < expected.length; i++) {
-            for(int j = 0; j < expected[i].length; j++) {
-                message += exception.tokenImage[expected[i][j]] + " or ";
-            }
-        }*/
-
         this.errorMessages.add(new Report(ReportType.ERROR, Stage.SYNTATIC, line, message));
     }
 
@@ -804,9 +797,10 @@ void Statement1()      :{}
 
 void Statement2()      :{}
 {
-    Assignment()
+    (Assignment()
     | (ArrayIndex() (Assignment())?) 
-    | (Expression4() <PVIRG>)
+    | Expression4()
+    | {})  <PVIRG>
 }
 
 void Assignment():{/*@bgen(jjtree) Assignment */
@@ -817,7 +811,7 @@ void Assignment():{/*@bgen(jjtree) Assignment */
 {/*@bgen(jjtree) Assignment */
     try {
 /*@egen*/
-    <EQUAL> Expression() <PVIRG>/*@bgen(jjtree)*/
+    <EQUAL> Expression()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1137,8 +1131,8 @@ void Expression()      : {}
 
 void Expression1()      :{}
 {
-    Expression4()
-    | ArrayIndex()
+    (Expression4() Expression1())
+    | (ArrayIndex() Expression1())
     | {}
 }
 

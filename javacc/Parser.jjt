@@ -256,14 +256,15 @@ void Statement1() #void:{}
 
 void Statement2() #void:{}
 {
-    Assignment()
+    (Assignment()
     | (ArrayIndex() (Assignment())?) 
-    | (Expression4() <PVIRG>)
+    | Expression4()
+    | {})  <PVIRG>
 }
 
 void Assignment():{}
 {
-    <EQUAL> Expression() <PVIRG>
+    <EQUAL> Expression()
 }
 
 void Scope():{}
@@ -324,8 +325,8 @@ void Expression() #void: {}
 
 void Expression1() #void:{}
 {
-    Expression4()
-    | ArrayIndex()
+    (Expression4() Expression1())
+    | (ArrayIndex() Expression1())
     | {}
 }
 

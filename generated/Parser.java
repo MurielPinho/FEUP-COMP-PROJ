@@ -61,13 +61,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         int line = token.beginLine;
         String message = "Encountered '" + nextToken + "' after '" + token + "'";
 
-        /*int[][] expected = exception.expectedTokenSequences;
-        for(int i = 0; i < expected.length; i++) {
-            for(int j = 0; j < expected[i].length; j++) {
-                message += exception.tokenImage[expected[i][j]] + " or ";
-            }
-        }*/
-
         this.errorMessages.add(new Report(ReportType.ERROR, Stage.SYNTATIC, line, message));
     }
 
@@ -663,6 +656,7 @@ if (jjtc002) {
         case LRPAR:
         case DOT:
         case EQUAL:
+        case PVIRG:
         case AND:
         case LESS:
         case PLUS:
@@ -972,14 +966,13 @@ if (jjtc001) {
     case MULT:
     case DIV:{
       Expression4();
-      jj_consume_token(PVIRG);
       break;
       }
     default:
       jj_la1[19] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+
     }
+    jj_consume_token(PVIRG);
   }
 
   final public void Assignment() throws ParseException {/*@bgen(jjtree) Assignment */
@@ -989,7 +982,6 @@ if (jjtc001) {
     try {
       jj_consume_token(EQUAL);
       Expression();
-      jj_consume_token(PVIRG);
     } catch (Throwable jjte000) {
 if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1313,10 +1305,12 @@ if (jjtc000) {
     case MULT:
     case DIV:{
       Expression4();
+      Expression1();
       break;
       }
     case LRPAR:{
       ArrayIndex();
+      Expression1();
       break;
       }
     default:
@@ -1790,7 +1784,7 @@ if (jjtc000) {
       jj_la1_0 = new int[] {0x2000000,0x0,0x8000000,0x4000400,0x100000,0x4200400,0x4000400,0x0,0x50074a00,0x0,0x50074a00,0x54074e00,0x54074e00,0x4000400,0x0,0x4000400,0x50074a00,0x50074a00,0x0,0x0,0x50074a00,0x0,0x40054800,0x400,0x40054800,0x0,0x800000,0x0,0x0,0x40054800,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x8,0x0,0x2000,0x0,0x2000,0x2000,0x20,0x6004,0x3f99,0x6004,0x6004,0x6004,0x2000,0x1,0x0,0x6004,0x4004,0x10,0x1f99,0x6004,0x1f89,0x6004,0x2000,0x4004,0x1f80,0x2000,0x1f88,0x20,0x6004,};
+      jj_la1_1 = new int[] {0x0,0x8,0x0,0x2000,0x0,0x2000,0x2000,0x20,0x6004,0x3fd9,0x6004,0x6004,0x6004,0x2000,0x1,0x0,0x6004,0x4004,0x10,0x1f99,0x6004,0x1f89,0x6004,0x2000,0x4004,0x1f80,0x2000,0x1f88,0x20,0x6004,};
    }
 
   /** Constructor with InputStream. */
