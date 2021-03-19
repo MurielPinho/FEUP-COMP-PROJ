@@ -8,7 +8,7 @@ class Worker extends Person {
         int x;
 
         while(a+;) {
-            valid_code;
+            valid_code=1;
         }
 
         while(2+2 < 8) {

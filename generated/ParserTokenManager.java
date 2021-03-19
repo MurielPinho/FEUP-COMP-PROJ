@@ -3,6 +3,7 @@
 import java.util.*;
 import java.io.*;
 import java.io.StringReader;
+import pt.up.fe.comp.jmm.report.*;
 
 /** Token Manager. */
 @SuppressWarnings("unused")public class ParserTokenManager implements ParserConstants {

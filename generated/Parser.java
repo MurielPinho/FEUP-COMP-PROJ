@@ -5,11 +5,13 @@ import java.io.*;
 
 import java.io.StringReader;
 
+import pt.up.fe.comp.jmm.report.*;
+
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
   protected static JJTParserState jjtree = new JJTParserState();private int countWhileExpressionParetheses = 0;
     private int whileExpressionErrorsCounter = 0;
     private int MAX_WHILE_EXPRESSION_ERRORS = 300;
-    private ArrayList<String> errorMessages = new ArrayList<String>();
+    private ArrayList<Report> errorMessages = new ArrayList<Report>();
 
     /*public Parser(String file) throws ParseException, FileNotFoundException{
         // System.out.println("Parsing...");
@@ -53,12 +55,32 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     }
 
     private void buildErrorMessage(ParseException exception) {
-        this.errorMessages.add("Error Number "+ whileExpressionErrorsCounter + " -> " + exception);
+        Token token = exception.currentToken;
+        Token nextToken = token.next;
+
+        int line = token.beginLine;
+        String message = "Encountered '" + nextToken + "' after '" + token + "'";
+
+        /*int[][] expected = exception.expectedTokenSequences;
+        for(int i = 0; i < expected.length; i++) {
+            for(int j = 0; j < expected[i].length; j++) {
+                message += exception.tokenImage[expected[i][j]] + " or ";
+            }
+        }*/
+
+        this.errorMessages.add(new Report(ReportType.ERROR, Stage.SYNTATIC, line, message));
     }
 
     public void printErrorMessages() {
+        System.out.println("      EXCEPTIONS      ");
+        System.out.println("\n#######################\n");
+
+        if(this.errorMessages.size() == 0) System.out.println("None exception relative to while expression!");
+
         for(int i = 0; i < this.errorMessages.size(); i++)
             System.out.println(this.errorMessages.get(i));
+
+        System.out.println("\n#######################\n");
     }
 
   final public SimpleNode Program() throws ParseException {/*@bgen(jjtree) Program */

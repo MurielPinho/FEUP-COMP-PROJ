@@ -42,10 +42,7 @@ public class Main implements JmmParser {
     }
 
     public String parseInput(String[] args){
-        if(args.length != 0){
-            if (args[0].contains("fail")) throw new RuntimeException("It's supposed to fail");
-            else return args[0];
-        }
+        if(args.length != 0) return args[0];
         else return "docs/teste1.jmm";
     }
 
