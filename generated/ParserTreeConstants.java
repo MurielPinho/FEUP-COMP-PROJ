@@ -6,47 +6,38 @@ public interface ParserTreeConstants
   public int JJTIMPORTDECLARATION = 2;
   public int JJTCLASS = 3;
   public int JJTVARDECLARATION = 4;
-  public int JJTVARID = 5;
-  public int JJTMETHODDECLARATION = 6;
-  public int JJTREGULARMETHOD = 7;
-  public int JJTRETURNTYPE = 8;
-  public int JJTMETHODBODY = 9;
-  public int JJTRETURNSTATEMENT = 10;
-  public int JJTMAIN = 11;
-  public int JJTMETHODPARAMS = 12;
-  public int JJTMETHODPARAM = 13;
+  public int JJTMETHODDECLARATION = 5;
+  public int JJTREGULARMETHOD = 6;
+  public int JJTRETURNTYPE = 7;
+  public int JJTMETHODBODY = 8;
+  public int JJTRETURNSTATEMENT = 9;
+  public int JJTMAIN = 10;
+  public int JJTMETHODPARAMS = 11;
+  public int JJTMETHODPARAM = 12;
+  public int JJTVARID = 13;
   public int JJTVOID = 14;
   public int JJTTYPE = 15;
-  public int JJTVARDECLARARTION = 16;
-  public int JJTVAR = 17;
-  public int JJTASSIGNMENT = 18;
-  public int JJTSCOPE = 19;
-  public int JJTIFANDELSE = 20;
-  public int JJTIFEXPRESSION = 21;
-  public int JJTIFBODY = 22;
-  public int JJTELSEBODY = 23;
-  public int JJTWHILE = 24;
-  public int JJTWHILEEXPRESSION = 25;
-  public int JJTWHILEBODY = 26;
-  public int JJTARRAYINDEX = 27;
-  public int JJTINTEGERLITERAL = 28;
-  public int JJTTRUE = 29;
-  public int JJTFALSE = 30;
-  public int JJTTHIS = 31;
-  public int JJTCONSTRUCTORCLASS = 32;
-  public int JJTCONSTRUCTORINTARRAY = 33;
-  public int JJTNOT = 34;
-  public int JJTSUBEXPRESSION = 35;
-  public int JJTAND = 36;
-  public int JJTLESS = 37;
-  public int JJTPLUS = 38;
-  public int JJTMINUS = 39;
-  public int JJTMULT = 40;
-  public int JJTDIV = 41;
-  public int JJTLENGTH = 42;
-  public int JJTMETHODINVOCATION = 43;
-  public int JJTMETHODARGS = 44;
-  public int JJTMETHODARG = 45;
+  public int JJTSCOPE = 16;
+  public int JJTIFANDELSE = 17;
+  public int JJTIFEXPRESSION = 18;
+  public int JJTIFBODY = 19;
+  public int JJTELSEBODY = 20;
+  public int JJTWHILE = 21;
+  public int JJTWHILEEXPRESSION = 22;
+  public int JJTWHILEBODY = 23;
+  public int JJTASSIGNMENT = 24;
+  public int JJTARRAYINDEX = 25;
+  public int JJTEXPRESSION = 26;
+  public int JJTEXPRESSION1 = 27;
+  public int JJTEXPRESSION2 = 28;
+  public int JJTEXPRESSION3 = 29;
+  public int JJTEXPRESSION4 = 30;
+  public int JJTEXPRESSION5 = 31;
+  public int JJTANDEXPRESSION = 32;
+  public int JJTLESSEXPRESSION = 33;
+  public int JJTPLUSMINUSEXPRESSION = 34;
+  public int JJTMULTDIVEXPRESSION = 35;
+  public int JJTDOTARRAYEXPRESSION = 36;
 
 
   public String[] jjtNodeName = {
@@ -55,7 +46,6 @@ public interface ParserTreeConstants
     "ImportDeclaration",
     "Class",
     "VarDeclaration",
-    "VarId",
     "MethodDeclaration",
     "RegularMethod",
     "ReturnType",
@@ -64,11 +54,9 @@ public interface ParserTreeConstants
     "Main",
     "MethodParams",
     "MethodParam",
+    "VarId",
     "void",
     "Type",
-    "VarDeclarartion",
-    "Var",
-    "Assignment",
     "Scope",
     "IfAndElse",
     "IfExpression",
@@ -77,25 +65,19 @@ public interface ParserTreeConstants
     "While",
     "WhileExpression",
     "WhileBody",
+    "Assignment",
     "ArrayIndex",
-    "IntegerLiteral",
-    "True",
-    "False",
-    "This",
-    "ConstructorClass",
-    "ConstructorIntArray",
-    "Not",
-    "SubExpression",
-    "And",
-    "Less",
-    "Plus",
-    "Minus",
-    "Mult",
-    "Div",
-    "Length",
-    "MethodInvocation",
-    "MethodArgs",
-    "MethodArg",
+    "Expression",
+    "Expression1",
+    "Expression2",
+    "Expression3",
+    "Expression4",
+    "Expression5",
+    "AndExpression",
+    "LessExpression",
+    "PlusMinusExpression",
+    "MultDivExpression",
+    "DotArrayExpression",
   };
 }
-/* JavaCC - OriginalChecksum=d5a2598130f36d0dc248f6e959e50f5a (do not edit this line) */
+/* JavaCC - OriginalChecksum=8481807efad4420b60521cb50620d4d1 (do not edit this line) */
