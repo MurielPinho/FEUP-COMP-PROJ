@@ -280,48 +280,65 @@ void WhileBody():{} {Statement()}
 void Assignment():{}{ <EQUAL> Expression00() }
 void ArrayIndex():{} { <LRPAR> Expression00() <RRPAR> }
 
-void Expression00(): {} {Expression01() AndExpression()}
-void Expression01(): {} {Expression02() LessExpression()}
-void Expression02(): {} {Expression03() PlusMinusExpression()}
-void Expression03(): {} {Expression04() MultDivExpression()}
-void Expression04(): {} {NotExpression() | Expression05()}
-void Expression05(): {} {(Expression06() DotArrayExpression()) | ParentExpression()}
-void Expression06(): {} {<INTEGERLITERAL> | <TRUE> | <FALSE> | <IDENTIFIER> | <THIS> | (<NEW> ((<INT> <LRPAR> Expression00() <RRPAR>) | (<IDENTIFIER> <LPAR> <RPAR>)))}
-
-void Expression10(): {} {Expression11() AndExpression()}
-void Expression11(): {} {Expression12() LessExpression()}
-void Expression12(): {} {Expression13() PlusMinusExpression()}
-void Expression13(): {} {Expression14() MultDivExpression()}
-void Expression14(): {} {DotExpression()}
-
-void Expression20(): {} {Expression21() AndExpression()}
-void Expression21(): {} {Expression22() LessExpression()}
-void Expression22(): {} {Expression23() PlusMinusExpression()}
-void Expression23(): {} {Expression24() MultDivExpression()}
-void Expression24(): {} {NotExpression() | Expression25()}
-void Expression25(): {} {(Expression26() DotArrayExpression()) | ParentExpression()}
-void Expression26(): {} {<INTEGERLITERAL> | <TRUE> | <FALSE> | <THIS> | (<NEW> ((<INT> <LRPAR> Expression00() <RRPAR>) | (<IDENTIFIER> <LPAR> <RPAR>)))}
-
-void AndExpression(): {} {(<AND> Expression00()) | {}}
-void LessExpression(): {} {(<LESS> Expression01()) | {}}
-void PlusMinusExpression(): {} {((<PLUS> | <MINUS>) Expression02()) | {}}
-void MultDivExpression(): {} {((<MULT> | <DIV>) Expression03()) | {}}
-void NotExpression(): {} {(<NOT> Expression04())}
-void DotExpression(): {} {<DOT> (<LENGTH> | MethodInvocation())}
-void DotArrayExpression(): {} { DotExpression() | (ArrayIndex() (Assignment())?) | {}}
-void ParentExpression(): {} {(<LPAR>{countWhileExpressionParetheses++;} Expression00() <RPAR>{countWhileExpressionParetheses--;}) | {}}
-
-void MethodInvocation():{}
-{
-    <IDENTIFIER> MethodArgs()
+void Expression00() #void: {} {Expression01() AndExpression()}
+void Expression01() #void: {} {Expression02() LessExpression()}
+void Expression02() #void: {} {Expression03() PlusMinusExpression()}
+void Expression03() #void: {} {Expression04() MultDivExpression()}
+void Expression04() #void: {} {NotExpression() | Expression05()}
+void Expression05() #void: {} {(Expression06() DotArrayExpression()) | SubExpression()}
+void Expression06() #void: {
+    Token name;
+} {
+    name = <INTEGERLITERAL> {jjtThis.put("val", name.image);} #IntegerLiteral(0)
+    | <TRUE> #True(0)
+    | <FALSE> #False(0)
+    | name = <IDENTIFIER> {jjtThis.put("val", name.image);} #Var(0)
+    | <THIS> #This(0)
+    | (<NEW> (ContructorIntArray() | ConstructorClass()))
 }
 
-void MethodArgs():{}
-{
-    <LPAR> ((MethodArg() (<VIRG> MethodArg())*) | {}) <RPAR>
+void Expression10() #void: {} {Expression11() AndExpression()}
+void Expression11() #void: {} {Expression12() LessExpression()}
+void Expression12() #void: {} {Expression13() PlusMinusExpression()}
+void Expression13() #void: {} {Expression14() MultDivExpression()}
+void Expression14() #void: {} {DotExpression()}
+
+void Expression20() #void: {} {Expression21() AndExpression()}
+void Expression21() #void: {} {Expression22() LessExpression()}
+void Expression22() #void: {} {Expression23() PlusMinusExpression()}
+void Expression23() #void: {} {Expression24() MultDivExpression()}
+void Expression24() #void: {} {NotExpression() | Expression25()}
+void Expression25() #void: {} {(Expression26() DotArrayExpression()) | SubExpression()}
+void Expression26() #void: {
+    Token name;
+} {
+    name = <INTEGERLITERAL> {jjtThis.put("val", name.image);} #IntegerLiteral(0)
+    | <TRUE> #True(0)
+    | <FALSE> #False(0)
+    | <THIS> #This(0)
+    | (<NEW> (ContructorIntArray() | ConstructorClass()))
 }
 
-void MethodArg():{}
-{
-    Expression00()
+void AndExpression() #void: {} {(<AND> Expression00() #And) | {}}
+void LessExpression() #void: {} {(<LESS> Expression01() #Less) | {}}
+void PlusMinusExpression() #void: {} { PlusExpression() | MinusExpression() | {}}
+void PlusExpression(): {} { <PLUS> Expression02()}
+void MinusExpression(): {} { <MINUS> Expression02()}
+void MultDivExpression() #void: {} { MultExpression() | DivExpression() | {}}
+void MultExpression():{} { <MULT> Expression03()}
+void DivExpression():{} { <DIV> Expression03()}
+void NotExpression(): {} {<NOT> Expression04()}
+void DotArrayExpression() #void: {} { DotExpression() | (ArrayIndex() (Assignment())?) | {}}
+void DotExpression() #void: {} {<DOT> (<LENGTH> #Length(0) | MethodInvocation())}
+void SubExpression() #void: {} {(<LPAR>{countWhileExpressionParetheses++;} Expression00() <RPAR>{countWhileExpressionParetheses--;} #SubExpression) | {}}
+
+void MethodInvocation():{}{ <IDENTIFIER> MethodArgs()}
+void MethodArgs():{} { <LPAR> ((MethodArg() (<VIRG> MethodArg())*) | {}) <RPAR>}
+void MethodArg():{} { Expression00()}
+
+void ContructorIntArray():{} {<INT> <LRPAR> Expression00() <RRPAR>}
+void ConstructorClass():{
+    Token name;
+} {
+    name = <IDENTIFIER> {jjtThis.put("val", name.image);} <LPAR> <RPAR>
 }
