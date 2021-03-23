@@ -10,7 +10,7 @@
     {
       "kind": "Class",
       "attributes": {
-        "val": "LengthError"
+        "val": "NestedLoop"
       },
       "children": [
         {
@@ -30,13 +30,277 @@
                       "attributes": {},
                       "children": [
                         {
+                          "kind": "WhileExpression",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "Expression00",
+                              "attributes": {},
+                              "children": [
+                                {
+                                  "kind": "Expression01",
+                                  "attributes": {},
+                                  "children": [
+                                    {
+                                      "kind": "Expression02",
+                                      "attributes": {},
+                                      "children": [
+                                        {
+                                          "kind": "Expression03",
+                                          "attributes": {},
+                                          "children": [
+                                            {
+                                              "kind": "Expression04",
+                                              "attributes": {},
+                                              "children": [
+                                                {
+                                                  "kind": "Expression05",
+                                                  "attributes": {},
+                                                  "children": [
+                                                    {
+                                                      "kind": "Expression06",
+                                                      "attributes": {},
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "kind": "DotArrayExpression",
+                                                      "attributes": {},
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "kind": "MultDivExpression",
+                                              "attributes": {},
+                                              "children": []
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "kind": "PlusMinusExpression",
+                                          "attributes": {},
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "kind": "LessExpression",
+                                      "attributes": {},
+                                      "children": [
+                                        {
+                                          "kind": "Expression01",
+                                          "attributes": {},
+                                          "children": [
+                                            {
+                                              "kind": "Expression02",
+                                              "attributes": {},
+                                              "children": [
+                                                {
+                                                  "kind": "Expression03",
+                                                  "attributes": {},
+                                                  "children": [
+                                                    {
+                                                      "kind": "Expression04",
+                                                      "attributes": {},
+                                                      "children": [
+                                                        {
+                                                          "kind": "Expression05",
+                                                          "attributes": {},
+                                                          "children": [
+                                                            {
+                                                              "kind": "ParentExpression",
+                                                              "attributes": {},
+                                                              "children": []
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "kind": "MultDivExpression",
+                                                      "attributes": {},
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "kind": "PlusMinusExpression",
+                                                  "attributes": {},
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "kind": "LessExpression",
+                                              "attributes": {},
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "kind": "AndExpression",
+                                  "attributes": {},
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
                           "kind": "WhileBody",
                           "attributes": {},
                           "children": [
                             {
                               "kind": "Scope",
                               "attributes": {},
-                              "children": []
+                              "children": [
+                                {
+                                  "kind": "While",
+                                  "attributes": {},
+                                  "children": [
+                                    {
+                                      "kind": "WhileExpression",
+                                      "attributes": {},
+                                      "children": [
+                                        {
+                                          "kind": "Expression00",
+                                          "attributes": {},
+                                          "children": [
+                                            {
+                                              "kind": "Expression01",
+                                              "attributes": {},
+                                              "children": [
+                                                {
+                                                  "kind": "Expression02",
+                                                  "attributes": {},
+                                                  "children": [
+                                                    {
+                                                      "kind": "Expression03",
+                                                      "attributes": {},
+                                                      "children": [
+                                                        {
+                                                          "kind": "Expression04",
+                                                          "attributes": {},
+                                                          "children": [
+                                                            {
+                                                              "kind": "Expression05",
+                                                              "attributes": {},
+                                                              "children": [
+                                                                {
+                                                                  "kind": "Expression06",
+                                                                  "attributes": {},
+                                                                  "children": []
+                                                                },
+                                                                {
+                                                                  "kind": "DotArrayExpression",
+                                                                  "attributes": {},
+                                                                  "children": []
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "kind": "MultDivExpression",
+                                                          "attributes": {},
+                                                          "children": []
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "kind": "PlusMinusExpression",
+                                                      "attributes": {},
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "kind": "LessExpression",
+                                                  "attributes": {},
+                                                  "children": [
+                                                    {
+                                                      "kind": "Expression01",
+                                                      "attributes": {},
+                                                      "children": [
+                                                        {
+                                                          "kind": "Expression02",
+                                                          "attributes": {},
+                                                          "children": [
+                                                            {
+                                                              "kind": "Expression03",
+                                                              "attributes": {},
+                                                              "children": [
+                                                                {
+                                                                  "kind": "Expression04",
+                                                                  "attributes": {},
+                                                                  "children": [
+                                                                    {
+                                                                      "kind": "Expression05",
+                                                                      "attributes": {},
+                                                                      "children": [
+                                                                        {
+                                                                          "kind": "ParentExpression",
+                                                                          "attributes": {},
+                                                                          "children": []
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "kind": "MultDivExpression",
+                                                                  "attributes": {},
+                                                                  "children": []
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "kind": "PlusMinusExpression",
+                                                              "attributes": {},
+                                                              "children": []
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "kind": "LessExpression",
+                                                          "attributes": {},
+                                                          "children": []
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "kind": "AndExpression",
+                                              "attributes": {},
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "kind": "WhileBody",
+                                      "attributes": {},
+                                      "children": [
+                                        {
+                                          "kind": "Scope",
+                                          "attributes": {},
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
                             }
                           ]
                         }

@@ -6,38 +6,59 @@ public interface ParserTreeConstants
   public int JJTIMPORTDECLARATION = 2;
   public int JJTCLASS = 3;
   public int JJTVARDECLARATION = 4;
-  public int JJTMETHODDECLARATION = 5;
-  public int JJTREGULARMETHOD = 6;
-  public int JJTRETURNTYPE = 7;
-  public int JJTMETHODBODY = 8;
-  public int JJTRETURNSTATEMENT = 9;
-  public int JJTMAIN = 10;
-  public int JJTMETHODPARAMS = 11;
-  public int JJTMETHODPARAM = 12;
-  public int JJTVARID = 13;
+  public int JJTVARID = 5;
+  public int JJTMETHODDECLARATION = 6;
+  public int JJTREGULARMETHOD = 7;
+  public int JJTRETURNTYPE = 8;
+  public int JJTMETHODBODY = 9;
+  public int JJTRETURNSTATEMENT = 10;
+  public int JJTMAIN = 11;
+  public int JJTMETHODPARAMS = 12;
+  public int JJTMETHODPARAM = 13;
   public int JJTVOID = 14;
   public int JJTTYPE = 15;
-  public int JJTSCOPE = 16;
-  public int JJTIFANDELSE = 17;
-  public int JJTIFEXPRESSION = 18;
-  public int JJTIFBODY = 19;
-  public int JJTELSEBODY = 20;
-  public int JJTWHILE = 21;
-  public int JJTWHILEEXPRESSION = 22;
-  public int JJTWHILEBODY = 23;
-  public int JJTASSIGNMENT = 24;
-  public int JJTARRAYINDEX = 25;
-  public int JJTEXPRESSION = 26;
-  public int JJTEXPRESSION1 = 27;
-  public int JJTEXPRESSION2 = 28;
-  public int JJTEXPRESSION3 = 29;
-  public int JJTEXPRESSION4 = 30;
-  public int JJTEXPRESSION5 = 31;
-  public int JJTANDEXPRESSION = 32;
-  public int JJTLESSEXPRESSION = 33;
-  public int JJTPLUSMINUSEXPRESSION = 34;
-  public int JJTMULTDIVEXPRESSION = 35;
-  public int JJTDOTARRAYEXPRESSION = 36;
+  public int JJTVARDECLARARTION = 16;
+  public int JJTVAR = 17;
+  public int JJTSCOPE = 18;
+  public int JJTIFANDELSE = 19;
+  public int JJTIFEXPRESSION = 20;
+  public int JJTIFBODY = 21;
+  public int JJTELSEBODY = 22;
+  public int JJTWHILE = 23;
+  public int JJTWHILEEXPRESSION = 24;
+  public int JJTWHILEBODY = 25;
+  public int JJTASSIGNMENT = 26;
+  public int JJTARRAYINDEX = 27;
+  public int JJTEXPRESSION00 = 28;
+  public int JJTEXPRESSION01 = 29;
+  public int JJTEXPRESSION02 = 30;
+  public int JJTEXPRESSION03 = 31;
+  public int JJTEXPRESSION04 = 32;
+  public int JJTEXPRESSION05 = 33;
+  public int JJTEXPRESSION06 = 34;
+  public int JJTEXPRESSION10 = 35;
+  public int JJTEXPRESSION11 = 36;
+  public int JJTEXPRESSION12 = 37;
+  public int JJTEXPRESSION13 = 38;
+  public int JJTEXPRESSION14 = 39;
+  public int JJTEXPRESSION20 = 40;
+  public int JJTEXPRESSION21 = 41;
+  public int JJTEXPRESSION22 = 42;
+  public int JJTEXPRESSION23 = 43;
+  public int JJTEXPRESSION24 = 44;
+  public int JJTEXPRESSION25 = 45;
+  public int JJTEXPRESSION26 = 46;
+  public int JJTANDEXPRESSION = 47;
+  public int JJTLESSEXPRESSION = 48;
+  public int JJTPLUSMINUSEXPRESSION = 49;
+  public int JJTMULTDIVEXPRESSION = 50;
+  public int JJTNOTEXPRESSION = 51;
+  public int JJTDOTEXPRESSION = 52;
+  public int JJTDOTARRAYEXPRESSION = 53;
+  public int JJTPARENTEXPRESSION = 54;
+  public int JJTMETHODINVOCATION = 55;
+  public int JJTMETHODARGS = 56;
+  public int JJTMETHODARG = 57;
 
 
   public String[] jjtNodeName = {
@@ -46,6 +67,7 @@ public interface ParserTreeConstants
     "ImportDeclaration",
     "Class",
     "VarDeclaration",
+    "VarId",
     "MethodDeclaration",
     "RegularMethod",
     "ReturnType",
@@ -54,9 +76,10 @@ public interface ParserTreeConstants
     "Main",
     "MethodParams",
     "MethodParam",
-    "VarId",
     "void",
     "Type",
+    "VarDeclarartion",
+    "Var",
     "Scope",
     "IfAndElse",
     "IfExpression",
@@ -67,17 +90,36 @@ public interface ParserTreeConstants
     "WhileBody",
     "Assignment",
     "ArrayIndex",
-    "Expression",
-    "Expression1",
-    "Expression2",
-    "Expression3",
-    "Expression4",
-    "Expression5",
+    "Expression00",
+    "Expression01",
+    "Expression02",
+    "Expression03",
+    "Expression04",
+    "Expression05",
+    "Expression06",
+    "Expression10",
+    "Expression11",
+    "Expression12",
+    "Expression13",
+    "Expression14",
+    "Expression20",
+    "Expression21",
+    "Expression22",
+    "Expression23",
+    "Expression24",
+    "Expression25",
+    "Expression26",
     "AndExpression",
     "LessExpression",
     "PlusMinusExpression",
     "MultDivExpression",
+    "NotExpression",
+    "DotExpression",
     "DotArrayExpression",
+    "ParentExpression",
+    "MethodInvocation",
+    "MethodArgs",
+    "MethodArg",
   };
 }
-/* JavaCC - OriginalChecksum=8481807efad4420b60521cb50620d4d1 (do not edit this line) */
+/* JavaCC - OriginalChecksum=e69123a9daadd55e7917e0ac7cd58d4f (do not edit this line) */

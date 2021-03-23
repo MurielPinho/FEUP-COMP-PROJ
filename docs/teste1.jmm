@@ -4,7 +4,7 @@ class Fac {
     public int ComputeFac(int num) {
         int num_aux;
         ab a;
-        while(a+b5) {
+        while(a+b true) {
             a=1;
         }
         while(a < 1){
