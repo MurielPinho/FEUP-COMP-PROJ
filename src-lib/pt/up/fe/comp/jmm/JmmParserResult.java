@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import pt.up.fe.comp.jmm.ast.JmmSerializer;
 import pt.up.fe.comp.jmm.report.Report;
 
 public class JmmParserResult {
@@ -13,7 +14,7 @@ public class JmmParserResult {
     private final List<Report> reports;
 
     public JmmParserResult(JmmNode rootNode, List<Report> reports) {
-        this.rootNode = rootNode;
+        this.rootNode = rootNode.sanitize();
         this.reports = reports;
     }
 
