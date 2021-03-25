@@ -16,4 +16,8 @@ public class Imports extends SymbolTable {
     private void initializeImports() {
         this.imports = new ArrayList<String>();
     }
+
+    public void addImport(String importSt) {
+        this.imports.add(importSt);
+    }
 }

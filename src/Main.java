@@ -17,11 +17,15 @@ public class Main implements JmmParser {
             Parser myProg = new Parser(System.in);
             SimpleNode root = myProg.Program(); // returns reference to root node
 
-            // root.dump(""); // prints the tree on the screen
-            String json = root.toJson();
-            this.createJSONfile(json);
+            root.dump(""); // prints the tree on the screen
+            // String json = root.toJson();
+            // this.createJSONfile(json);
 
             myProg.printErrorMessages();
+
+            // BUILD SYMBOL TABLE
+            RootSymbolTable rootSymbolTable = new RootSymbolTable();
+            rootSymbolTable.buildSymbolTable(root);
 
             return new JmmParserResult(root, new ArrayList<Report>());
         } 
