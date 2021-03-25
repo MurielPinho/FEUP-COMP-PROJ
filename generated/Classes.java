@@ -17,4 +17,8 @@ public class Classes extends SymbolTable {
         this.symbol_table = new HashMap<String, SymbolTable>();
         this.symbol_table.put("locals", new Locals()); // it has all the local variables, it may be empty
     }
+
+    public void addClass(String name, SymbolTable symbolTable) {
+        this.symbol_table.put(name, symbolTable);
+    }
 }

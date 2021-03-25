@@ -16,4 +16,8 @@ public class Locals extends SymbolTable {
     private void initializeSymbolTable() {
         this.symbol_table = new HashMap<String, Var>();
     }
+
+    public boolean isEmpty() {
+        return this.symbol_table.isEmpty();
+    }
 }

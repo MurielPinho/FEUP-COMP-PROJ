@@ -18,4 +18,6 @@ public class Class extends SymbolTable {
         this.symbol_table.put("methods", new Methods()); // it has all the methods, it may be empty
         this.symbol_table.put("locals", new Locals()); // it has all the local variables(attributes), it may be empty
     }
+
+    public void processClass(SimpleNode simpleNode) {}
 }

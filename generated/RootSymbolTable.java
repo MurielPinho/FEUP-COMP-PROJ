@@ -28,6 +28,7 @@ public class RootSymbolTable extends SymbolTable {
             SimpleNode node = (SimpleNode) simpleNode.jjtGetChild(ind++);
             
             if(node.toString().equals("Imports")) this.addImports(node);
+            else if(node.toString().equals("Class")) this.addClass(node);
         }
     }
 
@@ -40,7 +41,22 @@ public class RootSymbolTable extends SymbolTable {
             
             if(node.toString().equals("ImportDeclaration")) {
                 System.out.println("ID -> " + node.get("val"));
+                Imports imports = (Imports) this.symbol_table.get("imports");
+                imports.addImport(node.get("val"));
+                this.symbol_table.put("imports", imports);
             }
         }
+    }
+
+    private void addClass(SimpleNode simpleNode) {
+        Classes classes = (Classes) this.symbol_table.get("classes");
+        classes.addClass(simpleNode.get("val"), this.processClass(simpleNode));
+        this.symbol_table.put("classes", classes);
+    }
+
+    private Class processClass(SimpleNode simpleNode) {
+        Class classElem = new Class();
+        classElem.processClass(simpleNode);
+        return classElem;
     }
 }
