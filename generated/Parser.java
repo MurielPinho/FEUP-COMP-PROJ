@@ -65,6 +65,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     }
 
     public void printErrorMessages() {
+        System.out.println("\n#######################\n");
         System.out.println("      EXCEPTIONS      ");
         System.out.println("\n#######################\n");
 

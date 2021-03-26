@@ -24,8 +24,14 @@ public class Main implements JmmParser {
             myProg.printErrorMessages();
 
             // BUILD SYMBOL TABLE
+            System.out.println("\n#######################\n");
+            System.out.println("Building Symbol Table...");
+
             RootSymbolTable rootSymbolTable = new RootSymbolTable();
             rootSymbolTable.buildSymbolTable(root);
+            
+            System.out.println("Symbol Table built");
+            System.out.println("\n#######################\n");
 
             return new JmmParserResult(root, new ArrayList<Report>());
         } 
