@@ -53,5 +53,9 @@ public class Class extends SymbolTable {
         locals.addLocal(varId, var);
     }
 
-    private void addMethod(SimpleNode simpleNode) {}
+    private void addMethod(SimpleNode simpleNode) {
+    	Methods methods = (Methods) this.symbol_table.get("methods");
+        methods.addClass(simpleNode.get("val"), this.processClass(simpleNode));
+        this.symbol_table.put("methods", methods);
+    }
 }
