@@ -1,6 +1,6 @@
 import java.util.HashMap;
 
-public class Methods extends SymbolTable {
+public class While extends SymbolTable {
     private HashMap<String, SymbolTable> symbol_table;
 
     public Methods() {
@@ -15,8 +15,8 @@ public class Methods extends SymbolTable {
 
     private void initializeSymbolTable() {
         this.symbol_table = new HashMap<String, SymbolTable>();
-        this.symbol_table.put("params", new Var());
-        this.symbol_table.put("scope", new Scope()); // it has all the local variables, it may be empty
+        this.symbol_table.put("condition", new Condition());
+        this.symbol_table.put("scope", new Scope()); // while scope; it has all the local variables, it may be empty
     }
 
 }
