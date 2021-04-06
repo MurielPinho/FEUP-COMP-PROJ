@@ -16,7 +16,7 @@ public class MainMethod extends SymbolTable {
 
     private void initializeSymbolTable() {
         this.symbol_table = new HashMap<String, SymbolTable>();
-        this.symbol_table.put("scope", new Scope()); // it has all the classes, it may be empty
+        this.symbol_table.put("scope", new Scope(this)); // it has all the classes, it may be empty
     }
 
     public void processMethod(SimpleNode simpleNode) {
@@ -32,7 +32,7 @@ public class MainMethod extends SymbolTable {
     }
 
     private void processBody(SimpleNode simpleNode) {
-        Scope scope = new Scope();
+        Scope scope = new Scope(this);
         scope.processScope(simpleNode);
         this.symbol_table.put("scope", scope);
     }

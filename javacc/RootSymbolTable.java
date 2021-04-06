@@ -15,9 +15,9 @@ public class RootSymbolTable extends SymbolTable {
     
     private void initializeSymbolTable() {
         this.symbol_table = new HashMap<String, SymbolTable>();
-        this.symbol_table.put("imports", new Imports()); // it has all the imports, it may be empty
-        this.symbol_table.put("classes", new Classes()); // it has all the classes
-        this.symbol_table.put("locals", new Locals()); // in this case it's empty
+        this.symbol_table.put("imports", new Imports(this)); // it has all the imports, it may be empty
+        this.symbol_table.put("classes", new Classes(this)); // it has all the classes
+        this.symbol_table.put("locals", new Locals(this)); // in this case it's empty
     }
 
     public void buildSymbolTable(SimpleNode simpleNode) {
@@ -54,7 +54,7 @@ public class RootSymbolTable extends SymbolTable {
     }
 
     private Class processClass(SimpleNode simpleNode) {
-        Class classElem = new Class();
+        Class classElem = new Class(this);
         classElem.processClass(simpleNode);
         return classElem;
     }

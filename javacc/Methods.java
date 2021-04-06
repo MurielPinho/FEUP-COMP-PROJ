@@ -15,7 +15,6 @@ public class Methods extends SymbolTable {
 
     private void initializeSymbolTable() {
         this.symbol_table = new HashMap<String, SymbolTable>();
-        // this.symbol_table.put("params", new Method());
     }
 
     public void addMethod(String name, SymbolTable symbolTable) {

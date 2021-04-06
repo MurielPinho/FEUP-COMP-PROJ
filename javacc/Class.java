@@ -15,10 +15,10 @@ public class Class extends SymbolTable {
 
     private void initializeSymbolTable() {
         this.symbol_table = new HashMap<String, SymbolTable>();
-        this.symbol_table.put("extends", new Extends()); // methods
-        this.symbol_table.put("methods", new Methods()); // methods
-        this.symbol_table.put("main", new MainMethod()); // methods
-        this.symbol_table.put("locals", new Locals()); // fields
+        this.symbol_table.put("extends", new Extends(this)); // methods
+        this.symbol_table.put("methods", new Methods(this)); // methods
+        this.symbol_table.put("main", new MainMethod(this)); // methods
+        this.symbol_table.put("locals", new Locals(this)); // fields
     }
 
     public void processClass(SimpleNode simpleNode) {
@@ -40,7 +40,6 @@ public class Class extends SymbolTable {
 
         if (names.length > 0) {
             for(int i = 1; i < names.length; i++) {
-                // System.out.println("Extends" + i + ": " + names[i]);
                 Extends aux = (Extends) this.symbol_table.get("extends");
                 aux.addExtend(names[i]);
                 this.symbol_table.put("extends", aux);
@@ -73,13 +72,13 @@ public class Class extends SymbolTable {
     }
 
     private Method processMethod(SimpleNode simpleNode) {
-        Method method = new Method();
+        Method method = new Method(this);
         method.processMethod(simpleNode);
         return method;
     }
 
     private MainMethod processMainMethod(SimpleNode simpleNode) {
-        MainMethod method = new MainMethod();
+        MainMethod method = new MainMethod(this);
         method.processMethod(simpleNode);
         return method;
     }

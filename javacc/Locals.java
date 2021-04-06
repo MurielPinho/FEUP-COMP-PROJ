@@ -8,7 +8,7 @@ public class Locals extends SymbolTable {
         this.initializeSymbolTable();
     }
 
-    public Locals(Scope parent) {
+    public Locals(SymbolTable parent) {
         super(parent);
         this.initializeSymbolTable();
     }

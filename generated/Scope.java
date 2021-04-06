@@ -16,9 +16,9 @@ public class Scope extends SymbolTable {
     private void initializeSymbolTable() {
         this.symbol_table = new HashMap<String, SymbolTable>();
         this.symbol_table.put("locals", new Locals()); // it has all the local variables, it may be empty
-        this.symbol_table.put("scopes", new Scopes()); // it has all the local variables, it may be empty
-        this.symbol_table.put("whiles", new Whiles()); 
-        this.symbol_table.put("ifs", new Ifs());
+        // this.symbol_table.put("scopes", new Scopes()); // it has all the local variables, it may be empty
+        // this.symbol_table.put("whiles", new Whiles()); 
+        // this.symbol_table.put("ifs", new Ifs());
     }
 
     public void processScope(SimpleNode simpleNode) {
@@ -28,10 +28,10 @@ public class Scope extends SymbolTable {
         while(ind != numChild) {
             SimpleNode node = (SimpleNode) simpleNode.jjtGetChild(ind++);
             
-            if(node.toString().equals("Scope")) this.addScope(node);
-            else if(node.toString().equals("IfAndElse")) this.addIf(node);
-            else if(node.toString().equals("While")) this.addWhile(node);
-            else if(node.toString().equals("VarDeclaration")) this.addVar(node);
+            if(node.toString().equals("VarDeclaration")) this.addVar(node);
+            // else if(node.toString().equals("Scope")) this.addScope(node);
+            // else if(node.toString().equals("IfAndElse")) this.addIf(node);
+            // else if(node.toString().equals("While")) this.addWhile(node);
             else this.processScope(node);
         }
     }
@@ -91,14 +91,14 @@ public class Scope extends SymbolTable {
         ret += ini + "LOCALS:\n";
         ret += ((Locals) this.symbol_table.get("locals")).print(ini + "   ");
         
-        ret += "\n" + ini + "SCOPES:\n";
-        ret += ((Scopes) this.symbol_table.get("scopes")).print(ini + "   ");
+        // ret += "\n" + ini + "SCOPES:\n";
+        // ret += ((Scopes) this.symbol_table.get("scopes")).print(ini + "   ");
 
-        ret += "\n" + ini + "IFS:\n";
-        ret += ((Ifs) this.symbol_table.get("ifs")).print(ini + "   ");
+        // ret += "\n" + ini + "IFS:\n";
+        // ret += ((Ifs) this.symbol_table.get("ifs")).print(ini + "   ");
 
-        ret += "\n" + ini + "WHILES:\n";
-        ret += ((Whiles) this.symbol_table.get("whiles")).print(ini + "   ");
+        // ret += "\n" + ini + "WHILES:\n";
+        // ret += ((Whiles) this.symbol_table.get("whiles")).print(ini + "   ");
 
         return ret;
     }

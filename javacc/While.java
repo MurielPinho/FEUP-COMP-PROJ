@@ -15,8 +15,8 @@ public class While extends SymbolTable {
 
     private void initializeSymbolTable() {
         this.symbol_table = new HashMap<String, SymbolTable>();
-        this.symbol_table.put("condition", new Locals());
-        this.symbol_table.put("scope", new Scope()); // while scope; it has all the local variables, it may be empty
+        this.symbol_table.put("condition", new Locals(this));
+        this.symbol_table.put("scope", new Scope(this)); // while scope; it has all the local variables, it may be empty
     }
 
     public void processWhile(SimpleNode simpleNode) {
@@ -35,7 +35,7 @@ public class While extends SymbolTable {
     private void processWhileExpression(SimpleNode simpleNode) {}
 
     private void processWhileBody(SimpleNode simpleNode) {
-        Scope scope = new Scope();
+        Scope scope = new Scope(this);
         scope.processScope(simpleNode);
         this.symbol_table.put("scope", scope);
     }
