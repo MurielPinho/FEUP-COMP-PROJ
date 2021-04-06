@@ -1,10 +1,22 @@
 public class Var {
+    private String name = null;
     private String type = null; // it can be int, int[], boolean ...
-    private String value = null; // it has the value od the variable, if it has been initialized
-    private boolean is_static = false; // it has set to true if is static
+    private String value = null; // it has the value of the variable, if it has been initialized
 
-    public void setType(String type) {
-        this.type = type;
+    public void processVar(SimpleNode simpleNode) {
+        int numChild = simpleNode.jjtGetNumChildren();
+        int ind = 0;
+
+        while(ind != numChild) {
+            SimpleNode node = (SimpleNode) simpleNode.jjtGetChild(ind++);
+            
+            if(node.toString().equals("Type")) this.type = node.get("val");
+            else if(node.toString().equals("VarId")) this.name = node.get("val");
+        }
+
     }
-    // Preencher
+
+    public String getName() {
+        return this.name;
+    }
 }

@@ -20,4 +20,8 @@ public class Locals extends SymbolTable {
     public boolean isEmpty() {
         return this.symbol_table.isEmpty();
     }
+
+    public void addLocal(String varId, Var var) {
+        this.symbol_table.put(varId, var);
+    }
 }

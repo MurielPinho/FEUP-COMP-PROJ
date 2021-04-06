@@ -17,7 +17,7 @@ public class RootSymbolTable extends SymbolTable {
         this.symbol_table = new HashMap<String, SymbolTable>();
         this.symbol_table.put("imports", new Imports()); // it has all the imports, it may be empty
         this.symbol_table.put("classes", new Classes()); // it has all the classes
-        this.symbol_table.put("locals", new Locals()); // it has all the local variables, it may be empty
+        this.symbol_table.put("locals", new Locals()); // in this case it's empty
     }
 
     public void buildSymbolTable(SimpleNode simpleNode) {
@@ -40,7 +40,6 @@ public class RootSymbolTable extends SymbolTable {
             SimpleNode node = (SimpleNode) simpleNode.jjtGetChild(ind++);
             
             if(node.toString().equals("ImportDeclaration")) {
-                // System.out.println("ID -> " + node.get("val"));
                 Imports imports = (Imports) this.symbol_table.get("imports");
                 imports.addImport(node.get("val"));
                 this.symbol_table.put("imports", imports);
@@ -50,7 +49,7 @@ public class RootSymbolTable extends SymbolTable {
 
     private void addClass(SimpleNode simpleNode) {
         Classes classes = (Classes) this.symbol_table.get("classes");
-        classes.addClass(simpleNode.get("val"), this.processClass(simpleNode));
+        classes.addClass(this.processClassName(simpleNode), this.processClass(simpleNode));
         this.symbol_table.put("classes", classes);
     }
 
@@ -58,5 +57,10 @@ public class RootSymbolTable extends SymbolTable {
         Class classElem = new Class();
         classElem.processClass(simpleNode);
         return classElem;
+    }
+
+    private String processClassName(SimpleNode simpleNode) {
+        System.out.println(simpleNode.get("val").split(" ")[0]);
+        return simpleNode.get("val").split(" ")[0];
     }
 }
