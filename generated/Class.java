@@ -40,7 +40,7 @@ public class Class extends SymbolTable {
 
         if (names.length > 0) {
             for(int i = 1; i < names.length; i++) {
-                System.out.println("Extends" + i + ": " + names[i]);
+                // System.out.println("Extends" + i + ": " + names[i]);
                 Extends aux = (Extends) this.symbol_table.get("extends");
                 aux.addExtend(names[i]);
                 this.symbol_table.put("extends", aux);
@@ -93,7 +93,7 @@ public class Class extends SymbolTable {
         ret += "\n" + ini + "FIELDS:\n";
         ret += ((Locals) this.symbol_table.get("locals")).print(ini + "   ");
         
-        ret += "\n" + ini + "MAIN_METHOD:";
+        ret += "\n" + ini + "MAIN_METHOD:\n";
         ret += ((MainMethod) this.symbol_table.get("main")).print(ini + "   ");
 
         ret += "\n" + ini + "METHODS:";

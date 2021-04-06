@@ -25,9 +25,9 @@ public class Var {
         ret += ini + "TYPE: " + this.type + "\n";
         ret += ini + "VALUE: ";
         
-        if (this.value == null) ret += "not initialized\n";
-        else ret += this.value + "\n";
+        if (this.value == null) ret += "not initialized";
+        else ret += this.value;
 
-        return ret;
+        return ret + "\n";
     }
 }

@@ -29,7 +29,7 @@ public class Locals extends SymbolTable {
         String ret = "";
 
         for(String varName: this.symbol_table.keySet()) {
-            ret += ini + "NAME: " + varName + "\n";
+            ret += "\n" + ini + "NAME: " + varName + "\n";
             ret += ((Var) this.symbol_table.get(varName)).print(ini + "   ");
         }
 

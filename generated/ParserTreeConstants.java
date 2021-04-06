@@ -13,11 +13,11 @@ public interface ParserTreeConstants
   public int JJTMETHODBODY = 9;
   public int JJTRETURNSTATEMENT = 10;
   public int JJTMAIN = 11;
-  public int JJTMETHODPARAMS = 12;
-  public int JJTMETHODPARAM = 13;
-  public int JJTVOID = 14;
-  public int JJTTYPE = 15;
-  public int JJTVARDECLARARTION = 16;
+  public int JJTARGNAME = 12;
+  public int JJTMETHODPARAMS = 13;
+  public int JJTMETHODPARAM = 14;
+  public int JJTVOID = 15;
+  public int JJTTYPE = 16;
   public int JJTVAR = 17;
   public int JJTSCOPE = 18;
   public int JJTIFANDELSE = 19;
@@ -62,11 +62,11 @@ public interface ParserTreeConstants
     "MethodBody",
     "ReturnStatement",
     "Main",
+    "ArgName",
     "MethodParams",
     "MethodParam",
     "void",
     "Type",
-    "VarDeclarartion",
     "Var",
     "Scope",
     "IfAndElse",
@@ -98,4 +98,4 @@ public interface ParserTreeConstants
     "ConstructorClass",
   };
 }
-/* JavaCC - OriginalChecksum=fa1dcbefb88789ef80a03510925145cd (do not edit this line) */
+/* JavaCC - OriginalChecksum=8a958661ae51d0cc742309e5ede563ef (do not edit this line) */

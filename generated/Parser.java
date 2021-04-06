@@ -454,9 +454,9 @@ if (jjtc000) {
   }
 
   final public void Main() throws ParseException {/*@bgen(jjtree) Main */
-  SimpleNode jjtn000 = new SimpleNode(JJTMAIN);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
+    SimpleNode jjtn000 = new SimpleNode(JJTMAIN);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);Token name;
     try {
       jj_consume_token(STATIC);
       jj_consume_token(VOID);
@@ -465,31 +465,43 @@ if (jjtc000) {
       jj_consume_token(STRING);
       jj_consume_token(LRPAR);
       jj_consume_token(RRPAR);
-      jj_consume_token(IDENTIFIER);
+      name = jj_consume_token(IDENTIFIER);
+SimpleNode jjtn001 = new SimpleNode(JJTARGNAME);
+                                                                                 boolean jjtc001 = true;
+                                                                                 jjtree.openNodeScope(jjtn001);
+      try {
+jjtree.closeNodeScope(jjtn001,  0);
+                                                                                 jjtc001 = false;
+jjtn001.put("val", name.image);
+      } finally {
+if (jjtc001) {
+                                                                                   jjtree.closeNodeScope(jjtn001,  0);
+                                                                                 }
+      }
       jj_consume_token(RPAR);
       jj_consume_token(LBRACKET);
-SimpleNode jjtn001 = new SimpleNode(JJTMETHODBODY);
-          boolean jjtc001 = true;
-          jjtree.openNodeScope(jjtn001);
+SimpleNode jjtn002 = new SimpleNode(JJTMETHODBODY);
+          boolean jjtc002 = true;
+          jjtree.openNodeScope(jjtn002);
       try {
         MethodBody();
-      } catch (Throwable jjte001) {
-if (jjtc001) {
-            jjtree.clearNodeScope(jjtn001);
-            jjtc001 = false;
+      } catch (Throwable jjte002) {
+if (jjtc002) {
+            jjtree.clearNodeScope(jjtn002);
+            jjtc002 = false;
           } else {
             jjtree.popNode();
           }
-          if (jjte001 instanceof RuntimeException) {
-            {if (true) throw (RuntimeException)jjte001;}
+          if (jjte002 instanceof RuntimeException) {
+            {if (true) throw (RuntimeException)jjte002;}
           }
-          if (jjte001 instanceof ParseException) {
-            {if (true) throw (ParseException)jjte001;}
+          if (jjte002 instanceof ParseException) {
+            {if (true) throw (ParseException)jjte002;}
           }
-          {if (true) throw (Error)jjte001;}
+          {if (true) throw (Error)jjte002;}
       } finally {
-if (jjtc001) {
-            jjtree.closeNodeScope(jjtn001, true);
+if (jjtc002) {
+            jjtree.closeNodeScope(jjtn002, true);
           }
       }
       jj_consume_token(RBRACKET);
@@ -634,7 +646,7 @@ if (jjtc001) {
         }
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case IDENTIFIER:{
-SimpleNode jjtn002 = new SimpleNode(JJTVARDECLARARTION);
+SimpleNode jjtn002 = new SimpleNode(JJTVARDECLARATION);
                                                                             boolean jjtc002 = true;
                                                                             jjtree.openNodeScope(jjtn002);
           try {
@@ -708,7 +720,7 @@ if (jjtc002) {
       case INT:
       case BOOLEAN:{
         Type1();
-SimpleNode jjtn003 = new SimpleNode(JJTVARDECLARARTION);
+SimpleNode jjtn003 = new SimpleNode(JJTVARDECLARATION);
                      boolean jjtc003 = true;
                      jjtree.openNodeScope(jjtn003);
         try {

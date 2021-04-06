@@ -198,8 +198,10 @@ void RegularMethod(): {
     <RBRACKET>
 }
 
-void Main(): {} {
-    <STATIC> <VOID> <MAIN> <LPAR> <STRING> <LRPAR> <RRPAR> <IDENTIFIER> <RPAR> <LBRACKET>
+void Main(): {
+    Token name;
+} {
+    <STATIC> <VOID> <MAIN> <LPAR> <STRING> <LRPAR> <RRPAR> name = <IDENTIFIER> {jjtThis.put("val", name.image);} #ArgName(0) <RPAR> <LBRACKET>
         MethodBody() #MethodBody
     <RBRACKET>
 }
@@ -221,9 +223,9 @@ void MethodBody() #void: {
 }
 {
     (
-        (type = <IDENTIFIER> {jjtThis.put("val", type.image);} #Type(0) ((VarDeclaration1() #VarDeclarartion(2) MethodBody())
+        (type = <IDENTIFIER> {jjtThis.put("val", type.image);} #Type(0) ((VarDeclaration1() #VarDeclaration(2) MethodBody())
         | (Statement2() (Statement())*)))
-        | (Type1() VarDeclaration1() #VarDeclarartion(2) MethodBody())
+        | (Type1() VarDeclaration1() #VarDeclaration(2) MethodBody())
         | (Statement1() (Statement())*)
     )?
 }

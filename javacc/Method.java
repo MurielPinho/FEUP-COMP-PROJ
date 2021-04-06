@@ -18,7 +18,7 @@ public class Method extends SymbolTable {
         this.symbol_table = new HashMap<String, SymbolTable>();
         this.symbol_table.put("params", new Locals()); // it has all the params of the method, it may be empty
         this.symbol_table.put("scope", new Scope()); // it has all the classes, it may be empty
-        this.symbol_table.put("returnScope", new Scope()); // belongs to the same scope as above
+        // this.symbol_table.put("returnScope", new Scope()); // belongs to the same scope as above
     }
 
     public void processMethod(SimpleNode simpleNode) {
@@ -31,7 +31,7 @@ public class Method extends SymbolTable {
             if(node.toString().equals("ReturnType")) this.processReturnType(node);
             else if(node.toString().equals("MethodParams")) this.processParams(node);
             else if(node.toString().equals("MethodBody")) this.processBody(node);
-            else if(node.toString().equals("ReturnStatement")) this.processReturnStatement(node);
+            // else if(node.toString().equals("ReturnStatement")) this.processReturnStatement(node);
         }
     }
 
@@ -72,11 +72,11 @@ public class Method extends SymbolTable {
         this.symbol_table.put("scope", scope);
     }
 
-    private void processReturnStatement(SimpleNode simpleNode) {
-        Scope scope = new Scope();
-        scope.processScope(simpleNode);
-        this.symbol_table.put("returnScope", scope);
-    }
+    // private void processReturnStatement(SimpleNode simpleNode) {
+    //     Scope scope = new Scope();
+    //     scope.processScope(simpleNode);
+    //     this.symbol_table.put("returnScope", scope);
+    // }
 
     public String print(String ini) {
         String ret = "";
@@ -88,7 +88,7 @@ public class Method extends SymbolTable {
         
         ret += "\n" + ini + "SCOPE:\n";
         ret += ((Scope) this.symbol_table.get("scope")).print(ini + "   ");
-        ret += ((Scope) this.symbol_table.get("returnScope")).print(ini + "   ");
+        // ret += "\n" + ((Scope) this.symbol_table.get("returnScope")).print(ini + "   ");
 
         return ret;
     }

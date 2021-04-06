@@ -60,7 +60,6 @@ public class RootSymbolTable extends SymbolTable {
     }
 
     private String processClassName(SimpleNode simpleNode) {
-        System.out.println(simpleNode.get("val").split(" ")[0]);
         return simpleNode.get("val").split(" ")[0];
     }
 
