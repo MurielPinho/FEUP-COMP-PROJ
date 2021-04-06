@@ -3,12 +3,12 @@ import java.util.HashMap;
 public class While extends SymbolTable {
     private HashMap<String, SymbolTable> symbol_table;
 
-    public Methods() {
+    public While() {
         super();
         this.initializeSymbolTable();
     }
 
-    public Methods(SymbolTable parent) {
+    public While(SymbolTable parent) {
         super(parent);
         this.initializeSymbolTable();
     }

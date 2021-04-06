@@ -3,12 +3,12 @@ import java.util.HashMap;
 public class If extends SymbolTable {
     private HashMap<String, SymbolTable> symbol_table;
 
-    public Methods() {
+    public If() {
         super();
         this.initializeSymbolTable();
     }
 
-    public Methods(SymbolTable parent) {
+    public If(SymbolTable parent) {
         super(parent);
         this.initializeSymbolTable();
     }
