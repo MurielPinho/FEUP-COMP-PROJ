@@ -18,8 +18,8 @@ public class Main implements JmmParser {
             SimpleNode root = myProg.Program(); // returns reference to root node
 
             root.dump(""); // prints the tree on the screen
-            // String json = root.toJson();
-            // this.createJSONfile(json);
+            String json = root.toJson();
+            this.createJSONfile(json);
 
             myProg.printErrorMessages();
 
@@ -35,7 +35,7 @@ public class Main implements JmmParser {
             System.out.println( rootSymbolTable.print());
             System.out.println("\n#######################\n");
 
-            return new JmmParserResult(root, new ArrayList<Report>());
+            return new JmmParserResult(root, myProg.getReports());
         } 
         catch(Exception e) {
             throw new RuntimeException("Error while parsing", e);

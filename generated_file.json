@@ -25,7 +25,7 @@
     {
       "kind": "Class",
       "attributes": {
-        "val": "Fac"
+        "val": "Fac B"
       },
       "children": [
         {
@@ -74,6 +74,46 @@
                           "children": []
                         }
                       ]
+                    },
+                    {
+                      "kind": "MethodParam",
+                      "attributes": {},
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "boolean"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "a"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "MethodParam",
+                      "attributes": {},
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int[]"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "c34d"
+                          },
+                          "children": []
+                        }
+                      ]
                     }
                   ]
                 },
@@ -82,7 +122,7 @@
                   "attributes": {},
                   "children": [
                     {
-                      "kind": "VarDeclarartion",
+                      "kind": "VarDeclaration",
                       "attributes": {},
                       "children": [
                         {
@@ -102,7 +142,7 @@
                       ]
                     },
                     {
-                      "kind": "VarDeclarartion",
+                      "kind": "VarDeclaration",
                       "attributes": {},
                       "children": [
                         {
@@ -405,6 +445,13 @@
               "kind": "Main",
               "attributes": {},
               "children": [
+                {
+                  "kind": "ArgName",
+                  "attributes": {
+                    "val": "args"
+                  },
+                  "children": []
+                },
                 {
                   "kind": "MethodBody",
                   "attributes": {},

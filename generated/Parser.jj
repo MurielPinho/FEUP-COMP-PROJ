@@ -32,6 +32,10 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/ {/*@
 		//root.dump(""); // prints the tree on the screen
     }*/
 
+    public ArrayList<Report> getReports() {
+        return this.errorMessages;
+    }
+
     /* Skips the while expression until if finds the token "{" */
     public void skipWhileExpression() {
         Token prev; // will store the previous token
