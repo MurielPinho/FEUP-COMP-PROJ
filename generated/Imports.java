@@ -20,4 +20,12 @@ public class Imports extends SymbolTable {
     public void addImport(String importSt) {
         this.imports.add(importSt);
     }
+
+    public String print(String ini) {
+        String ret = "";
+
+        for(int i = 0; i < this.imports.size(); i++) ret += ini + this.imports.get(i) + "\n";
+
+        return ret;
+    }
 }

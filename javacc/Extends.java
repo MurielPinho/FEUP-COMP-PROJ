@@ -20,4 +20,12 @@ public class Extends extends SymbolTable {
     public void addExtend(String extendsSt) {
         this.extendsSt.add(extendsSt);
     }
+
+    public String print(String ini) {
+        String ret = "";
+
+        for(int i = 0; i < this.extendsSt.size(); i++) ret += ini + this.extendsSt.get(i) + "\n";
+
+        return ret;
+    }
 }

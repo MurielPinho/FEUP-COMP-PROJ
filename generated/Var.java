@@ -13,10 +13,21 @@ public class Var {
             if(node.toString().equals("Type")) this.type = node.get("val");
             else if(node.toString().equals("VarId")) this.name = node.get("val");
         }
-
     }
 
     public String getName() {
         return this.name;
+    }
+
+    public String print(String ini) {
+        String ret = "";
+            
+        ret += ini + "TYPE: " + this.type + "\n";
+        ret += ini + "VALUE: ";
+        
+        if (this.value == null) ret += "not initialized\n";
+        else ret += this.value + "\n";
+
+        return ret;
     }
 }

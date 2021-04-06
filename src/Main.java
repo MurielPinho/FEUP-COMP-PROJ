@@ -32,6 +32,8 @@ public class Main implements JmmParser {
             
             System.out.println("Symbol Table built");
             System.out.println("\n#######################\n");
+            System.out.println( rootSymbolTable.print());
+            System.out.println("\n#######################\n");
 
             return new JmmParserResult(root, new ArrayList<Report>());
         } 

@@ -1,7 +1,7 @@
 import io.jgh.op.i;
 import a;
-class Fac {
-    public int ComputeFac(int num) {
+class Fac extends B {
+    public int ComputeFac(int num, boolean a, int[] c34d) {
         int num_aux;
         ab a;
         while(a+b true) {

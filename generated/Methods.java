@@ -22,4 +22,15 @@ public class Methods extends SymbolTable {
         this.symbol_table.put(name, symbolTable);
     }
 
+    public String print(String ini) {
+        String ret = "";
+
+        for(String methodName: this.symbol_table.keySet()) {
+            ret += "\n" + ini + "METHOD: " + methodName + "\n";
+            ret += ((Method) this.symbol_table.get(methodName)).print(ini + "   ");
+        }
+        
+        return ret;
+    }
+
 }

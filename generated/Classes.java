@@ -15,10 +15,20 @@ public class Classes extends SymbolTable {
 
     private void initializeSymbolTable() {
         this.symbol_table = new HashMap<String, SymbolTable>();
-        // this.symbol_table.put("locals", new Class());
     }
 
     public void addClass(String name, SymbolTable symbolTable) {
         this.symbol_table.put(name, symbolTable);
+    }
+
+    public String print(String ini) {
+        String ret = "";
+
+        for(String className: this.symbol_table.keySet()) {
+            ret += "\n" + ini + "CLASS: " + className + "\n";
+            ret += ((Class) this.symbol_table.get(className)).print(ini + "   ");
+        }
+        
+        return ret;
     }
 }

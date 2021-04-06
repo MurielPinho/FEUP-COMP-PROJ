@@ -63,4 +63,16 @@ public class RootSymbolTable extends SymbolTable {
         System.out.println(simpleNode.get("val").split(" ")[0]);
         return simpleNode.get("val").split(" ")[0];
     }
+
+    public String print() {
+        String ret = "";
+        
+        ret += "IMPORTS:\n";
+        ret += ((Imports) this.symbol_table.get("imports")).print("   ");
+
+        ret += "\nCLASSES:";
+        ret += ((Classes) this.symbol_table.get("classes")).print("   ");
+        
+        return ret;
+    }
 }

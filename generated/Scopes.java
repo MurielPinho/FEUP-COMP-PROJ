@@ -1,7 +1,7 @@
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Scopes extends SymbolTable {
-    private HashMap<String, SymbolTable> symbol_table;
+    private ArrayList<Scope> scopes;
 
     public Scopes() {
         super();
@@ -14,11 +14,21 @@ public class Scopes extends SymbolTable {
     }
 
     private void initializeSymbolTable() {
-        this.symbol_table = new HashMap<String, SymbolTable>();
-        this.symbol_table.put("locals", new Locals()); // it has all the local variables, it may be empty
+        this.scopes = new ArrayList<Scope>();
     }
 
-    public void addScope(String name, SymbolTable symbolTable) {
-        this.symbol_table.put(name, symbolTable);
+    public void addScope(Scope scope) {
+        this.scopes.add(scope);
+    }
+
+    public String print(String ini) {
+        String ret = "";
+
+        for(Scope scope: this.scopes) {
+            ret += "\n" + ini + "SCOPE:\n";
+            ret += scope.print(ini + "   ");
+        }
+        
+        return ret;
     }
 }

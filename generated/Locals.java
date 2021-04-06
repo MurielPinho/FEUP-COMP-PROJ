@@ -24,4 +24,15 @@ public class Locals extends SymbolTable {
     public void addLocal(String varId, Var var) {
         this.symbol_table.put(varId, var);
     }
+
+    public String print(String ini) {
+        String ret = "";
+
+        for(String varName: this.symbol_table.keySet()) {
+            ret += ini + "NAME: " + varName + "\n";
+            ret += ((Var) this.symbol_table.get(varName)).print(ini + "   ");
+        }
+
+        return ret;
+    }
 }

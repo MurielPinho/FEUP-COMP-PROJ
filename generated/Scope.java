@@ -20,4 +20,16 @@ public class Scope extends SymbolTable {
     }
 
     public void processScope(SimpleNode simpleNode) {}
+
+    public String print(String ini) {
+        String ret = "";
+
+        ret += ini + "LOCALS:\n";
+        ret += ((Locals) this.symbol_table.get("locals")).print(ini + "   ");
+        
+        ret += "\n" + ini + "SCOPES:";
+        ret += ((Scopes) this.symbol_table.get("scopes")).print(ini + "   ");
+
+        return ret;
+    }
 }

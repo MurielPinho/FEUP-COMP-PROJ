@@ -17,6 +17,7 @@ public class Class extends SymbolTable {
         this.symbol_table = new HashMap<String, SymbolTable>();
         this.symbol_table.put("extends", new Extends()); // methods
         this.symbol_table.put("methods", new Methods()); // methods
+        this.symbol_table.put("main", new MainMethod()); // methods
         this.symbol_table.put("locals", new Locals()); // fields
     }
 
@@ -30,7 +31,7 @@ public class Class extends SymbolTable {
             SimpleNode node = (SimpleNode) simpleNode.jjtGetChild(ind++);
             
             if(node.toString().equals("VarDeclaration")) this.addVar(node);
-            else if(node.toString().equals("MethodDeclaration")) this.addMethod(node);
+            else if(node.toString().equals("MethodDeclaration")) this.addMethod((SimpleNode) node.jjtGetChild(0));
         }
     }
 
@@ -61,14 +62,43 @@ public class Class extends SymbolTable {
     }
 
     private void addMethod(SimpleNode simpleNode) {
-    	Methods methods = (Methods) this.symbol_table.get("methods");
-        methods.addMethod(simpleNode.get("val"), this.processMethod(simpleNode));
-        this.symbol_table.put("methods", methods);
+        if(simpleNode.toString().equals("RegularMethod")) {
+            Methods methods = (Methods) this.symbol_table.get("methods");
+            methods.addMethod(simpleNode.get("val"), this.processMethod(simpleNode));
+            this.symbol_table.put("methods", methods);
+        }
+        else if (simpleNode.toString().equals("Main")) {
+            this.symbol_table.put("main", this.processMainMethod(simpleNode));
+        }
     }
 
     private Method processMethod(SimpleNode simpleNode) {
         Method method = new Method();
         method.processMethod(simpleNode);
         return method;
+    }
+
+    private MainMethod processMainMethod(SimpleNode simpleNode) {
+        MainMethod method = new MainMethod();
+        method.processMethod(simpleNode);
+        return method;
+    }
+
+    public String print(String ini) {
+        String ret = "";
+
+        ret += ini + "EXTENDS:\n";
+        ret += ((Extends) this.symbol_table.get("extends")).print(ini + "   ");
+
+        ret += "\n" + ini + "FIELDS:\n";
+        ret += ((Locals) this.symbol_table.get("locals")).print(ini + "   ");
+        
+        ret += "\n" + ini + "MAIN_METHOD:";
+        ret += ((MainMethod) this.symbol_table.get("main")).print(ini + "   ");
+
+        ret += "\n" + ini + "METHODS:";
+        ret += ((Methods) this.symbol_table.get("methods")).print(ini + "   ");
+
+        return ret;
     }
 }
