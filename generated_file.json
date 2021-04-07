@@ -9,14 +9,7 @@
         {
           "kind": "ImportDeclaration",
           "attributes": {
-            "val": "io.jgh.op.i"
-          },
-          "children": []
-        },
-        {
-          "kind": "ImportDeclaration",
-          "attributes": {
-            "val": "a"
+            "val": "ioPlus"
           },
           "children": []
         }
@@ -25,9 +18,29 @@
     {
       "kind": "Class",
       "attributes": {
-        "val": "Fac B"
+        "val": "FindMaximum"
       },
       "children": [
+        {
+          "kind": "VarDeclaration",
+          "attributes": {},
+          "children": [
+            {
+              "kind": "Type",
+              "attributes": {
+                "val": "int[]"
+              },
+              "children": []
+            },
+            {
+              "kind": "VarId",
+              "attributes": {
+                "val": "test_arr"
+              },
+              "children": []
+            }
+          ]
+        },
         {
           "kind": "MethodDeclaration",
           "attributes": {},
@@ -35,7 +48,7 @@
             {
               "kind": "RegularMethod",
               "attributes": {
-                "val": "ComputeFac"
+                "val": "find_maximum"
               },
               "children": [
                 {
@@ -62,46 +75,6 @@
                         {
                           "kind": "Type",
                           "attributes": {
-                            "val": "int"
-                          },
-                          "children": []
-                        },
-                        {
-                          "kind": "VarId",
-                          "attributes": {
-                            "val": "num"
-                          },
-                          "children": []
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "MethodParam",
-                      "attributes": {},
-                      "children": [
-                        {
-                          "kind": "Type",
-                          "attributes": {
-                            "val": "boolean"
-                          },
-                          "children": []
-                        },
-                        {
-                          "kind": "VarId",
-                          "attributes": {
-                            "val": "a"
-                          },
-                          "children": []
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "MethodParam",
-                      "attributes": {},
-                      "children": [
-                        {
-                          "kind": "Type",
-                          "attributes": {
                             "val": "int[]"
                           },
                           "children": []
@@ -109,7 +82,7 @@
                         {
                           "kind": "VarId",
                           "attributes": {
-                            "val": "c34d"
+                            "val": "arr"
                           },
                           "children": []
                         }
@@ -135,7 +108,7 @@
                         {
                           "kind": "VarId",
                           "attributes": {
-                            "val": "num_aux"
+                            "val": "i"
                           },
                           "children": []
                         }
@@ -148,51 +121,86 @@
                         {
                           "kind": "Type",
                           "attributes": {
-                            "val": "ab"
+                            "val": "int"
                           },
                           "children": []
                         },
                         {
                           "kind": "VarId",
                           "attributes": {
-                            "val": "a"
+                            "val": "maximum"
                           },
                           "children": []
                         }
                       ]
                     },
                     {
-                      "kind": "While",
+                      "kind": "VarDeclaration",
                       "attributes": {},
                       "children": [
                         {
-                          "kind": "WhileBody",
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "value"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Type",
+                      "attributes": {
+                        "val": "i"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "Assignment",
+                      "attributes": {},
+                      "children": [
+                        {
+                          "kind": "IntegerLiteral",
+                          "attributes": {
+                            "val": "1"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "maximum"
+                      },
+                      "children": [
+                        {
+                          "kind": "Assignment",
                           "attributes": {},
                           "children": [
                             {
-                              "kind": "Scope",
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "arr"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "ArrayIndex",
                               "attributes": {},
                               "children": [
                                 {
-                                  "kind": "Var",
+                                  "kind": "IntegerLiteral",
                                   "attributes": {
-                                    "val": "a"
+                                    "val": "0"
                                   },
-                                  "children": [
-                                    {
-                                      "kind": "Assignment",
-                                      "attributes": {},
-                                      "children": [
-                                        {
-                                          "kind": "IntegerLiteral",
-                                          "attributes": {
-                                            "val": "1"
-                                          },
-                                          "children": []
-                                        }
-                                      ]
-                                    }
-                                  ]
+                                  "children": []
                                 }
                               ]
                             }
@@ -211,7 +219,7 @@
                             {
                               "kind": "Var",
                               "attributes": {
-                                "val": "a"
+                                "val": "i"
                               },
                               "children": []
                             },
@@ -220,10 +228,15 @@
                               "attributes": {},
                               "children": [
                                 {
-                                  "kind": "IntegerLiteral",
+                                  "kind": "Var",
                                   "attributes": {
-                                    "val": "1"
+                                    "val": "arr"
                                   },
+                                  "children": []
+                                },
+                                {
+                                  "kind": "Length",
+                                  "attributes": {},
                                   "children": []
                                 }
                               ]
@@ -241,7 +254,7 @@
                                 {
                                   "kind": "Var",
                                   "attributes": {
-                                    "val": "a"
+                                    "val": "value"
                                   },
                                   "children": [
                                     {
@@ -251,7 +264,117 @@
                                         {
                                           "kind": "Var",
                                           "attributes": {
-                                            "val": "a"
+                                            "val": "arr"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "kind": "ArrayIndex",
+                                          "attributes": {},
+                                          "children": [
+                                            {
+                                              "kind": "Var",
+                                              "attributes": {
+                                                "val": "i"
+                                              },
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "kind": "IfAndElse",
+                                  "attributes": {},
+                                  "children": [
+                                    {
+                                      "kind": "IfExpression",
+                                      "attributes": {},
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "maximum"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "kind": "Less",
+                                          "attributes": {},
+                                          "children": [
+                                            {
+                                              "kind": "Var",
+                                              "attributes": {
+                                                "val": "value"
+                                              },
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "kind": "IfBody",
+                                      "attributes": {},
+                                      "children": [
+                                        {
+                                          "kind": "Scope",
+                                          "attributes": {},
+                                          "children": [
+                                            {
+                                              "kind": "Var",
+                                              "attributes": {
+                                                "val": "maximum"
+                                              },
+                                              "children": [
+                                                {
+                                                  "kind": "Assignment",
+                                                  "attributes": {},
+                                                  "children": [
+                                                    {
+                                                      "kind": "Var",
+                                                      "attributes": {
+                                                        "val": "value"
+                                                      },
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "kind": "ElseBody",
+                                      "attributes": {},
+                                      "children": [
+                                        {
+                                          "kind": "Scope",
+                                          "attributes": {},
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "i"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "Assignment",
+                                      "attributes": {},
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "i"
                                           },
                                           "children": []
                                         },
@@ -277,142 +400,257 @@
                           ]
                         }
                       ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "ReturnStatement",
+                  "attributes": {},
+                  "children": [
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "maximum"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {},
+          "children": [
+            {
+              "kind": "RegularMethod",
+              "attributes": {
+                "val": "build_test_arr"
+              },
+              "children": [
+                {
+                  "kind": "ReturnType",
+                  "attributes": {},
+                  "children": [
+                    {
+                      "kind": "Type",
+                      "attributes": {
+                        "val": "int"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "kind": "MethodBody",
+                  "attributes": {},
+                  "children": [
+                    {
+                      "kind": "Type",
+                      "attributes": {
+                        "val": "test_arr"
+                      },
+                      "children": []
                     },
                     {
-                      "kind": "IfAndElse",
+                      "kind": "Assignment",
                       "attributes": {},
                       "children": [
                         {
-                          "kind": "IfExpression",
+                          "kind": "ContructorIntArray",
                           "attributes": {},
                           "children": [
                             {
-                              "kind": "Var",
+                              "kind": "IntegerLiteral",
                               "attributes": {
-                                "val": "num"
+                                "val": "5"
+                              },
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "test_arr"
+                      },
+                      "children": [
+                        {
+                          "kind": "ArrayIndex",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "IntegerLiteral",
+                              "attributes": {
+                                "val": "0"
+                              },
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "Assignment",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "IntegerLiteral",
+                              "attributes": {
+                                "val": "14"
+                              },
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "test_arr"
+                      },
+                      "children": [
+                        {
+                          "kind": "ArrayIndex",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "IntegerLiteral",
+                              "attributes": {
+                                "val": "1"
+                              },
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "Assignment",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "IntegerLiteral",
+                              "attributes": {
+                                "val": "28"
+                              },
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "test_arr"
+                      },
+                      "children": [
+                        {
+                          "kind": "ArrayIndex",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "IntegerLiteral",
+                              "attributes": {
+                                "val": "2"
+                              },
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "Assignment",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "IntegerLiteral",
+                              "attributes": {
+                                "val": "0"
+                              },
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "test_arr"
+                      },
+                      "children": [
+                        {
+                          "kind": "ArrayIndex",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "IntegerLiteral",
+                              "attributes": {
+                                "val": "3"
+                              },
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "Assignment",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "IntegerLiteral",
+                              "attributes": {
+                                "val": "0"
                               },
                               "children": []
                             },
                             {
-                              "kind": "Less",
+                              "kind": "MinusExpression",
                               "attributes": {},
                               "children": [
                                 {
                                   "kind": "IntegerLiteral",
                                   "attributes": {
-                                    "val": "1"
+                                    "val": "5"
                                   },
                                   "children": []
                                 }
                               ]
                             }
                           ]
-                        },
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "test_arr"
+                      },
+                      "children": [
                         {
-                          "kind": "IfBody",
+                          "kind": "ArrayIndex",
                           "attributes": {},
                           "children": [
                             {
-                              "kind": "Var",
+                              "kind": "IntegerLiteral",
                               "attributes": {
-                                "val": "num_aux"
+                                "val": "4"
                               },
-                              "children": [
-                                {
-                                  "kind": "Assignment",
-                                  "attributes": {},
-                                  "children": [
-                                    {
-                                      "kind": "IntegerLiteral",
-                                      "attributes": {
-                                        "val": "1"
-                                      },
-                                      "children": []
-                                    }
-                                  ]
-                                }
-                              ]
+                              "children": []
                             }
                           ]
                         },
                         {
-                          "kind": "ElseBody",
+                          "kind": "Assignment",
                           "attributes": {},
                           "children": [
                             {
-                              "kind": "Var",
+                              "kind": "IntegerLiteral",
                               "attributes": {
-                                "val": "num_aux"
+                                "val": "12"
                               },
-                              "children": [
-                                {
-                                  "kind": "Assignment",
-                                  "attributes": {},
-                                  "children": [
-                                    {
-                                      "kind": "Var",
-                                      "attributes": {
-                                        "val": "num"
-                                      },
-                                      "children": []
-                                    },
-                                    {
-                                      "kind": "MultExpression",
-                                      "attributes": {},
-                                      "children": [
-                                        {
-                                          "kind": "This",
-                                          "attributes": {},
-                                          "children": []
-                                        },
-                                        {
-                                          "kind": "MethodInvocation",
-                                          "attributes": {},
-                                          "children": [
-                                            {
-                                              "kind": "MethodArgs",
-                                              "attributes": {},
-                                              "children": [
-                                                {
-                                                  "kind": "MethodArg",
-                                                  "attributes": {},
-                                                  "children": [
-                                                    {
-                                                      "kind": "Var",
-                                                      "attributes": {
-                                                        "val": "num"
-                                                      },
-                                                      "children": []
-                                                    },
-                                                    {
-                                                      "kind": "MinusExpression",
-                                                      "attributes": {},
-                                                      "children": [
-                                                        {
-                                                          "kind": "IntegerLiteral",
-                                                          "attributes": {
-                                                            "val": "1"
-                                                          },
-                                                          "children": []
-                                                        }
-                                                      ]
-                                                    }
-                                                  ]
-                                                }
-                                              ]
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "kind": "SubExpression",
-                                          "attributes": {},
-                                          "children": []
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                }
-                              ]
+                              "children": []
                             }
                           ]
                         }
@@ -425,9 +663,54 @@
                   "attributes": {},
                   "children": [
                     {
+                      "kind": "IntegerLiteral",
+                      "attributes": {
+                        "val": "0"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {},
+          "children": [
+            {
+              "kind": "RegularMethod",
+              "attributes": {
+                "val": "get_array"
+              },
+              "children": [
+                {
+                  "kind": "ReturnType",
+                  "attributes": {},
+                  "children": [
+                    {
+                      "kind": "Type",
+                      "attributes": {
+                        "val": "int[]"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "kind": "MethodBody",
+                  "attributes": {},
+                  "children": []
+                },
+                {
+                  "kind": "ReturnStatement",
+                  "attributes": {},
+                  "children": [
+                    {
                       "kind": "Var",
                       "attributes": {
-                        "val": "num_aux"
+                        "val": "test_arr"
                       },
                       "children": []
                     }
@@ -457,53 +740,177 @@
                   "attributes": {},
                   "children": [
                     {
+                      "kind": "VarDeclaration",
+                      "attributes": {},
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "FindMaximum"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "fm"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {},
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "max"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
                       "kind": "Type",
                       "attributes": {
-                        "val": "io"
+                        "val": "fm"
                       },
                       "children": []
                     },
                     {
-                      "kind": "MethodInvocation",
+                      "kind": "Assignment",
                       "attributes": {},
                       "children": [
                         {
-                          "kind": "MethodArgs",
+                          "kind": "ConstructorClass",
+                          "attributes": {
+                            "val": "FindMaximum"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "fm"
+                      },
+                      "children": [
+                        {
+                          "kind": "MethodInvocation",
                           "attributes": {},
                           "children": [
                             {
-                              "kind": "MethodArg",
+                              "kind": "MethodArgs",
                               "attributes": {},
                               "children": [
                                 {
-                                  "kind": "ConstructorClass",
-                                  "attributes": {
-                                    "val": "Fac"
-                                  },
+                                  "kind": "MethodArg",
+                                  "attributes": {},
                                   "children": []
-                                },
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "max"
+                      },
+                      "children": [
+                        {
+                          "kind": "Assignment",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "fm"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "MethodInvocation",
+                              "attributes": {},
+                              "children": [
                                 {
-                                  "kind": "MethodInvocation",
+                                  "kind": "MethodArgs",
                                   "attributes": {},
                                   "children": [
                                     {
-                                      "kind": "MethodArgs",
+                                      "kind": "MethodArg",
                                       "attributes": {},
                                       "children": [
                                         {
-                                          "kind": "MethodArg",
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "fm"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "kind": "MethodInvocation",
                                           "attributes": {},
                                           "children": [
                                             {
-                                              "kind": "IntegerLiteral",
-                                              "attributes": {
-                                                "val": "10"
-                                              },
-                                              "children": []
+                                              "kind": "MethodArgs",
+                                              "attributes": {},
+                                              "children": [
+                                                {
+                                                  "kind": "MethodArg",
+                                                  "attributes": {},
+                                                  "children": []
+                                                }
+                                              ]
                                             }
                                           ]
                                         }
                                       ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "ioPlus"
+                      },
+                      "children": [
+                        {
+                          "kind": "MethodInvocation",
+                          "attributes": {},
+                          "children": [
+                            {
+                              "kind": "MethodArgs",
+                              "attributes": {},
+                              "children": [
+                                {
+                                  "kind": "MethodArg",
+                                  "attributes": {},
+                                  "children": [
+                                    {
+                                      "kind": "Var",
+                                      "attributes": {
+                                        "val": "max"
+                                      },
+                                      "children": []
                                     }
                                   ]
                                 }

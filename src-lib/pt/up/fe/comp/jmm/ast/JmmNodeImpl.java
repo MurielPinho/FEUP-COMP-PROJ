@@ -36,6 +36,11 @@ public class JmmNodeImpl implements JmmNode {
     }
 
     @Override
+    public JmmNode getChildren(int num) {
+        return  (num <= (this.children.size() - 1) && num >= 0) ? this.children.get(num) : null;
+    }
+
+    @Override
     public String getKind() {
         return this.kind;
     }

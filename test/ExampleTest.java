@@ -11,9 +11,11 @@ import pt.up.fe.comp.TestUtils;
 public class ExampleTest {
 
 
-   /* @Test
-    public void testExpression() {		
-		assertEquals("Expression", TestUtils.parse("2+3\n").getRootNode().getKind());		
-	}*/
+  @Test
+  public void testExpression() {		
+    // System.out.println("TESTING");
+    // var parserResult = TestUtils.parse(code);
+		// assertEquals("Expression", TestUtils.parse("2+3\n").getRootNode().getKind());		
+	}
 
 }

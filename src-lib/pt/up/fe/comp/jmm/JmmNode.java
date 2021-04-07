@@ -91,6 +91,13 @@ public interface JmmNode {
 
     /**
      * 
+     * @return the children at num or null
+     * 
+     */
+    JmmNode getChildren(int num);
+
+    /**
+     * 
      * @return the number of children of the node
      */
     int getNumChildren();

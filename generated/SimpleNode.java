@@ -48,6 +48,11 @@ class SimpleNode implements Node, JmmNode {
   public List<JmmNode> getChildren() {
     return JmmNode.convertChildren(children);
   }
+
+  public JmmNode getChildren(int num) {
+    List<JmmNode> aux = JmmNode.convertChildren(children);
+    return (num <= (aux.size() - 1) && num >= 0) ? aux.get(num) : null;
+  }
   
   public int getNumChildren() {
     return jjtGetNumChildren();
