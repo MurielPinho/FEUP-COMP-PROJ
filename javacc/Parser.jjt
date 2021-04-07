@@ -161,14 +161,26 @@ void ImportDeclaration():{
     Token name;
 }
 {
-    <IMPORT> name = <IDENTIFIER> {jjtThis.put("val", name.image);}  (<DOT> name = <IDENTIFIER> {jjtThis.put("val", jjtThis.get("val") + "." + name.image);})* <PVIRG>
+    <IMPORT> name = <IDENTIFIER> {
+        jjtThis.put("val", name.image); 
+        jjtThis.put("line", String.valueOf(name.beginLine));
+    }  
+    (<DOT> name = <IDENTIFIER> {
+        jjtThis.put("val", jjtThis.get("val") + "." + name.image);
+    })* <PVIRG>
 }
 
 void ClassDeclaration() #Class: {
     Token name;
 }
 {
-    <CLASS> name = <IDENTIFIER> {jjtThis.put("val", name.image);} (<EXTENDS> name = <IDENTIFIER> {jjtThis.put("val", jjtThis.get("val") + " " + name.image);})? <LBRACKET>
+    <CLASS> name = <IDENTIFIER> {
+        jjtThis.put("val", name.image);
+        jjtThis.put("line", String.valueOf(name.beginLine));
+    }
+    (<EXTENDS> name = <IDENTIFIER> {
+        jjtThis.put("val", jjtThis.get("val") + " " + name.image);
+    })? <LBRACKET>
         (VarDeclaration())*
         (MethodDeclaration())*
     <RBRACKET>
@@ -183,7 +195,10 @@ void VarDeclaration1() #VarId:{
     Token id;
 }
 {
-    id = <IDENTIFIER> {jjtThis.put("val", id.image);} <PVIRG>
+    id = <IDENTIFIER> {
+        jjtThis.put("val", id.image);
+        jjtThis.put("line", String.valueOf(id.beginLine));
+    } <PVIRG>
 }
 
 
@@ -196,7 +211,11 @@ void RegularMethod(): {
     Token name;
 } 
 {
-    Type() #ReturnType name = <IDENTIFIER> {jjtThis.put("val", name.image);} <LPAR> (MethodParams())? <RPAR> <LBRACKET>
+    Type() #ReturnType name = <IDENTIFIER> {
+        jjtThis.put("val", name.image);
+        jjtThis.put("line", String.valueOf(name.beginLine));
+    } 
+    <LPAR> (MethodParams())? <RPAR> <LBRACKET>
         MethodBody() #MethodBody
         <RETURN> Expression00() #ReturnStatement <PVIRG>
     <RBRACKET>
@@ -205,7 +224,10 @@ void RegularMethod(): {
 void Main(): {
     Token name;
 } {
-    <STATIC> <VOID> <MAIN> <LPAR> <STRING> <LRPAR> <RRPAR> name = <IDENTIFIER> {jjtThis.put("val", name.image);} #ArgName(0) <RPAR> <LBRACKET>
+    <STATIC> <VOID> <MAIN> <LPAR> <STRING> <LRPAR> <RRPAR> name = <IDENTIFIER> {
+        jjtThis.put("val", name.image);
+        jjtThis.put("line", String.valueOf(name.beginLine));
+    } #ArgName(0) <RPAR> <LBRACKET>
         MethodBody() #MethodBody
     <RBRACKET>
 }
@@ -219,7 +241,10 @@ void MethodParam(): {
     Token name;
 }
 {
-    Type() name = <IDENTIFIER> {jjtThis.put("val", name.image);} #VarId(0)
+    Type() name = <IDENTIFIER> {
+        jjtThis.put("val", name.image);
+        jjtThis.put("line", String.valueOf(name.beginLine));
+    } #VarId(0)
 }
 
 void MethodBody() #void: {
@@ -227,7 +252,10 @@ void MethodBody() #void: {
 }
 {
     (
-        (type = <IDENTIFIER> {jjtThis.put("val", type.image);} #Type(0) ((VarDeclaration1() #VarDeclaration(2) MethodBody())
+        (type = <IDENTIFIER> {
+            jjtThis.put("val", type.image);
+            jjtThis.put("line", String.valueOf(type.beginLine));
+        } #Type(0) ((VarDeclaration1() #VarDeclaration(2) MethodBody())
         | (Statement2() (Statement())*)))
         | (Type1() VarDeclaration1() #VarDeclaration(2) MethodBody())
         | (Statement1() (Statement())*)
@@ -238,12 +266,24 @@ void Type() #void: {
     Token type;
 }
 {
-    Type1() | type = <IDENTIFIER> {jjtThis.put("val", type.image);} #Type(0)
+    Type1() | type = <IDENTIFIER> {
+        jjtThis.put("val", type.image);
+        jjtThis.put("line", String.valueOf(type.beginLine));
+    } #Type(0)
 }
 
-void Type1() #void:{}
+void Type1() #void:{
+    Token name;
+}
 {
-    (<INT> {jjtThis.put("val", "int");} (<LRPAR> <RRPAR> {jjtThis.put("val", jjtThis.get("val") + "[]");})?) #Type(0) | <BOOLEAN> {jjtThis.put("val", "boolean");} #Type(0)
+    (name = <INT> {
+        jjtThis.put("val", "int");
+        jjtThis.put("line", String.valueOf(name.beginLine));
+    } (<LRPAR> <RRPAR> {jjtThis.put("val", jjtThis.get("val") + "[]");})?) #Type(0) 
+    | name = <BOOLEAN> {
+        jjtThis.put("val", "boolean");
+        jjtThis.put("line", String.valueOf(name.beginLine));
+        } #Type(0)
 }
 
 void Statement() #void: {
@@ -251,7 +291,10 @@ void Statement() #void: {
 }
 {
     Statement1()
-    | (name = <IDENTIFIER> {jjtThis.put("val", name.image);} Statement2()) #Var
+    | (name = <IDENTIFIER> {
+        jjtThis.put("val", name.image);
+        jjtThis.put("line", String.valueOf(name.beginLine));
+    } Statement2()) #Var
 }
 
 void Statement1() #void:{}
@@ -296,10 +339,16 @@ void Expression05() #void: {} {(Expression06() DotArrayExpression()) | SubExpres
 void Expression06() #void: {
     Token name;
 } {
-    name = <INTEGERLITERAL> {jjtThis.put("val", name.image);} #IntegerLiteral(0)
+    name = <INTEGERLITERAL> {
+        jjtThis.put("val", name.image);
+        jjtThis.put("line", String.valueOf(name.beginLine));
+    } #IntegerLiteral(0)
     | <TRUE> #True(0)
     | <FALSE> #False(0)
-    | name = <IDENTIFIER> {jjtThis.put("val", name.image);} #Var(0)
+    | name = <IDENTIFIER> {
+        jjtThis.put("val", name.image);
+        jjtThis.put("line", String.valueOf(name.beginLine));
+    } #Var(0)
     | <THIS> #This(0)
     | (<NEW> (ContructorIntArray() | ConstructorClass()))
 }
@@ -319,7 +368,10 @@ void Expression25() #void: {} {(Expression26() DotArrayExpression()) | SubExpres
 void Expression26() #void: {
     Token name;
 } {
-    name = <INTEGERLITERAL> {jjtThis.put("val", name.image);} #IntegerLiteral(0)
+    name = <INTEGERLITERAL> {
+        jjtThis.put("val", name.image);
+        jjtThis.put("line", String.valueOf(name.beginLine));
+    } #IntegerLiteral(0)
     | <TRUE> #True(0)
     | <FALSE> #False(0)
     | <THIS> #This(0)
@@ -347,5 +399,8 @@ void ContructorIntArray():{} {<INT> <LRPAR> Expression00() <RRPAR>}
 void ConstructorClass():{
     Token name;
 } {
-    name = <IDENTIFIER> {jjtThis.put("val", name.image);} <LPAR> <RPAR>
+    name = <IDENTIFIER> {
+        jjtThis.put("val", name.image);
+        jjtThis.put("line", String.valueOf(name.beginLine));
+    } <LPAR> <RPAR>
 }
