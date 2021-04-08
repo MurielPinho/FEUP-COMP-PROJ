@@ -1,5 +1,6 @@
 import io.jgh.op.i;
 import a;
+import a.Fac1.b;
 class Fac extends B {
     public int ComputeFac(int num, boolean a, int[] c34d) {
         int num_aux;
@@ -44,10 +45,13 @@ class Fac extends B {
             num_aux = 1;
         else
             num_aux = num * (this.ComputeFac(num - 1)); /* just to test */
+
         return num_aux;
     }
     public static void main(String[] args) {
-        io.println(new Fac().ComputeFac(10)); //assuming the existence
+        A b;
+        io.println(new Fac().ComputeFac(10, b, a[4] + 7)); //assuming the existence
+        new Fac1().ab(b);
         // of the classfile io.class
     }
 }

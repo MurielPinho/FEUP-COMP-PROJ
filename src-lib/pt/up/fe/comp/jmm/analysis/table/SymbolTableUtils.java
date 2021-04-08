@@ -44,4 +44,7 @@ public class SymbolTableUtils {
         return ret;
     }
 
+    public static Type getType(JmmNode node) {
+        return new Type("int", false);
+    }
 }

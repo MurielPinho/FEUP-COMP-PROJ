@@ -259,12 +259,16 @@ void MethodBody() #void: {
 }
 {
     (
-        (type = <IDENTIFIER> {
+        (type = <IDENTIFIER> (({
             jjtThis.put("val", type.image);
             jjtThis.put("line", String.valueOf(type.beginLine));
             jjtThis.put("col", String.valueOf(type.beginColumn));
-        } #Type(0) ((VarDeclaration1() #VarDeclaration(2) MethodBody())
-        | (Statement2() (Statement())*)))
+        } #Type(0) VarDeclaration1() #VarDeclaration(2) MethodBody())
+        | ({
+            jjtThis.put("val", type.image);
+            jjtThis.put("line", String.valueOf(type.beginLine));
+            jjtThis.put("col", String.valueOf(type.beginColumn));
+        } #Var(0) Statement2() (Statement())*)))
         | (Type1() VarDeclaration1() #VarDeclaration(2) MethodBody())
         | (Statement1() (Statement())*)
     )?
@@ -306,7 +310,7 @@ void Statement() #void: {
         jjtThis.put("val", name.image);
         jjtThis.put("line", String.valueOf(name.beginLine));
         jjtThis.put("col", String.valueOf(name.beginColumn));
-    } Statement2()) #Var
+    } #Var(0) Statement2()) #Var(2)
 }
 
 void Statement1() #void:{}
@@ -387,8 +391,16 @@ void Expression26() #void: {
         jjtThis.put("line", String.valueOf(name.beginLine));
         jjtThis.put("col", String.valueOf(name.beginColumn));
     } #IntegerLiteral(0)
-    | <TRUE> #True(0)
-    | <FALSE> #False(0)
+    | name = <TRUE> {
+        jjtThis.put("val", "true");
+        jjtThis.put("line", String.valueOf(name.beginLine));
+        jjtThis.put("col", String.valueOf(name.beginColumn));
+    } #True(0)
+    | name = <FALSE>{
+        jjtThis.put("val", "false");
+        jjtThis.put("line", String.valueOf(name.beginLine));
+        jjtThis.put("col", String.valueOf(name.beginColumn));
+    } #False(0)
     | <THIS> #This(0)
     | (<NEW> (ContructorIntArray() | ConstructorClass()))
 }
@@ -406,7 +418,11 @@ void DotArrayExpression() #void: {} { DotExpression() | (ArrayIndex() (Assignmen
 void DotExpression() #void: {} {<DOT> (<LENGTH> #Length(0) | MethodInvocation())}
 void SubExpression() #void: {} {(<LPAR>{countWhileExpressionParetheses++;} Expression00() <RPAR>{countWhileExpressionParetheses--;} #SubExpression) | {}}
 
-void MethodInvocation():{}{ <IDENTIFIER> MethodArgs()}
+void MethodInvocation():{Token name;}{ name = <IDENTIFIER> {
+    jjtThis.put("val", name.image);
+    jjtThis.put("line", String.valueOf(name.beginLine));
+    jjtThis.put("col", String.valueOf(name.beginColumn));
+} MethodArgs()}
 void MethodArgs():{} { <LPAR> ((MethodArg() (<VIRG> MethodArg())*) | {}) <RPAR>}
 void MethodArg():{} { Expression00()}
 
