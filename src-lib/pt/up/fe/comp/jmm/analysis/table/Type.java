@@ -1,29 +1,12 @@
 package pt.up.fe.comp.jmm.analysis.table;
 
 public class Type {
-    private String name;
-    private boolean isArray;
-
-    public Type(String name) {
-        this.processName(name);
-    }
+    private final String name;
+    private final boolean isArray;
 
     public Type(String name, boolean isArray) {
         this.name = name;
         this.isArray = isArray;
-    }
-
-    private void processName(String name) {
-        int num = name.indexOf("[");
-        
-        if(num == -1) {
-            this.name = name;
-            this.isArray = false;
-        }
-        else {
-            this.name = name.substring(0, num);
-            this.isArray = true;
-        }
     }
 
     public String getName() {
@@ -39,13 +22,38 @@ public class Type {
         return "Type [name=" + name + ", isArray=" + isArray + "]";
     }
 
-    public String print(String ini) {
-        String ret = "";
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (isArray ? 1231 : 1237);
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
 
-        ret += ini + "TYPE: " + this.name;
-        ret += "\n" + ini + "IS_ARRAY: " + String.valueOf(this.isArray) + "\n";
-
-        return ret;
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Type other = (Type) obj;
+        if (isArray != other.isArray)
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return true;
     }
 
 }
