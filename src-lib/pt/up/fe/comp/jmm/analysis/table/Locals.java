@@ -43,41 +43,41 @@ public class Locals implements SymbolTable {
 
     @Override
     public List<String> getImports() {
-        return null;
+        return (this.parent != null) ? this.parent.getImports() : null;
     }
 
     @Override
     public String getClassName() {
-        return null;
+        return (this.parent != null) ? this.parent.getClassName() : null;
     }
 
     @Override
     public String getSuper() {
-        return null;
+        return (this.parent != null) ? this.parent.getSuper() : null;
     }
 
     @Override
     public List<Symbol> getFields() {
-        return null;
+        return (this.parent != null) ? this.parent.getFields() : null;
     }
 
     @Override
     public List<String> getMethods() {
-        return null;
+        return (this.parent != null) ? this.parent.getMethods() : null;
     }
 
     @Override
     public Type getReturnType(String methodName) {
-        return null;
+        return (this.parent != null) ? this.parent.getReturnType(methodName) : null;
     }
 
     @Override
     public List<Symbol> getParameters(String methodName) {
-        return null;
+        return (this.parent != null) ? this.parent.getParameters(methodName) : null;
     }
 
     @Override
     public List<Symbol> getLocalVariables(String methodName) {
-        return null;
+        return (this.parent != null) ? this.parent.getLocalVariables(methodName) : null;
     }
 }

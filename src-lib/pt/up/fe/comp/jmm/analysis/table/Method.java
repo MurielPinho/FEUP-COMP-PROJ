@@ -39,7 +39,7 @@ public class Method implements SymbolTable {
     }
 
     private void processReturnType(JmmNode node) {
-        JmmNode child = node.getChildren(0);
+        JmmNode child = node.getChildren().get(0);
         
         if(child.toString().equals("Type")) this.returnType = new Type(child.get("val"));
     }
@@ -87,27 +87,27 @@ public class Method implements SymbolTable {
 
     @Override
     public List<String> getImports() {
-        return null;
+        return (this.parent != null) ? this.parent.getImports() : null;
     }
 
     @Override
     public String getClassName() {
-        return null;
+        return (this.parent != null) ? this.parent.getClassName() : null;
     }
 
     @Override
     public String getSuper() {
-        return null;
+        return (this.parent != null) ? this.parent.getSuper() : null;
     }
 
     @Override
     public List<Symbol> getFields() {
-        return null;
+        return (this.parent != null) ? this.parent.getFields() : null;
     }
 
     @Override
     public List<String> getMethods() {
-        return null;
+        return (this.parent != null) ? this.parent.getMethods() : null;
     }
 
     @Override

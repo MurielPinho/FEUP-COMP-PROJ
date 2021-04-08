@@ -48,11 +48,6 @@ class SimpleNode implements Node, JmmNode {
   public List<JmmNode> getChildren() {
     return JmmNode.convertChildren(children);
   }
-
-  public JmmNode getChildren(int num) {
-    List<JmmNode> aux = JmmNode.convertChildren(children);
-    return (num <= (aux.size() - 1) && num >= 0) ? aux.get(num) : null;
-  }
   
   public int getNumChildren() {
     return jjtGetNumChildren();
@@ -114,7 +109,7 @@ class SimpleNode implements Node, JmmNode {
      out its children. */
 
   public void dump(String prefix) {
-    System.out.println(toString(prefix) + " -> " + this.attributes.get("line"));
+    System.out.println(toString(prefix));
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
         SimpleNode n = (SimpleNode)children[i];

@@ -89,6 +89,7 @@ public interface JmmNode {
      */
     List<JmmNode> getChildren();
 
+
     /**
      * 
      * @return the number of children of the node

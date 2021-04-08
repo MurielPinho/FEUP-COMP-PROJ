@@ -8,19 +8,21 @@ public class MainMethod implements SymbolTable {
     private SymbolTable parent;
 
     private HashMap<String, SymbolTable> symbol_table;
-    private String paramName = null;
+    private String paramName;
 
     private boolean exists;
 
     public MainMethod() {
         this.parent = null;
         this.exists = false;
+        this.paramName = null;
         this.initializeSymbolTable();
     }
 
     public MainMethod(SymbolTable parent) {
         this.parent = parent;
         this.exists = false;
+        this.paramName = null;
         this.initializeSymbolTable();
     }
 
@@ -63,27 +65,27 @@ public class MainMethod implements SymbolTable {
 
     @Override
     public List<String> getImports() {
-        return null;
+        return (this.parent != null) ? this.parent.getImports() : null;
     }
 
     @Override
     public String getClassName() {
-        return null;
+        return (this.parent != null) ? this.parent.getClassName() : null;
     }
 
     @Override
     public String getSuper() {
-        return null;
+        return (this.parent != null) ? this.parent.getSuper() : null;
     }
 
     @Override
     public List<Symbol> getFields() {
-        return null;
+        return (this.parent != null) ? this.parent.getFields() : null;
     }
 
     @Override
     public List<String> getMethods() {
-        return null;
+        return (this.parent != null) ? this.parent.getMethods() : null;
     }
 
     @Override
@@ -93,11 +95,14 @@ public class MainMethod implements SymbolTable {
 
     @Override
     public List<Symbol> getParameters(String methodName) {
-        List<Symbol> ret = new ArrayList<>();
+        if(this.paramName == null) return null;
+        else {
+            List<Symbol> ret = new ArrayList<>();
 
-        ret.add(new Symbol(new Type("String", true), this.paramName));
-        
-        return ret;
+            ret.add(new Symbol(new Type("String", true), this.paramName));
+            
+            return ret;
+        }
     }
 
     @Override

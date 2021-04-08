@@ -37,7 +37,7 @@ public class Class implements SymbolTable {
 
         for(JmmNode child: childrens) {
             if(child.toString().equals("VarDeclaration")) this.addSymbol(child);
-            else if(child.toString().equals("MethodDeclaration")) this.addMethod(child.getChildren(0));
+            else if(child.toString().equals("MethodDeclaration")) this.addMethod(child.getChildren().get(0));
         }
     }
 
@@ -113,7 +113,7 @@ public class Class implements SymbolTable {
 
     @Override
     public List<String> getImports() {
-        return null;
+        return (this.parent != null) ? this.parent.getImports() : null;
     }
 
     @Override
