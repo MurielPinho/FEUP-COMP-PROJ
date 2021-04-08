@@ -59,9 +59,10 @@ public class AnalysisStage implements JmmAnalysis {
         // ExampleVisitor visitor = new ExampleVisitor("VarDeclaration", "val");
         // System.out.println(visitor.visit(node, ""));
 
-        // System.out.println("Dump tree with Visitor that automatically performs preorder tree traversal");
-        // var preOrderVisitor = new ExamplePreorderVisitor("Identifier", "id");
+        System.out.println("Dump tree with Visitor that automatically performs preorder tree traversal");
+        var preOrderVisitor = new ExamplePreorderVisitor("ArrayIndex", "val");
         // System.out.println(preOrderVisitor.visit(node, ""));
+        preOrderVisitor.visit(node, "");
 
         // System.out.println(
         //         "Create histogram of node kinds with Visitor that automatically performs postorder tree traversal");

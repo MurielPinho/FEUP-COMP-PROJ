@@ -26,7 +26,7 @@ public class ExampleVisitor extends AJmmVisitor<String, String> {
         String content = space + node.getKind();
         String attrs = node.getAttributes()
                 .stream()
-                .filter(a -> !a.equals("line"))
+                // .filter(a -> !a.equals("line"))
                 .map(a -> a + "=" + node.get(a))
                 .collect(Collectors.joining(", ", "[", "]"));
 

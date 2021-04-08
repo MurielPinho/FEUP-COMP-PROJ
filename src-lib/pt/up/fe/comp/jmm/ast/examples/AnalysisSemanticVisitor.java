@@ -13,20 +13,13 @@ import pt.up.fe.specs.util.utilities.StringLines;
  * @author JBispo
  *
  */
-public class ExamplePreorderVisitor extends PreorderJmmVisitor<String, String> {
+public class AnalysisSemanticVisitor extends PreorderJmmVisitor<String, String> {
 
-    private final String identifierAttribute;
-
-    public ExamplePreorderVisitor(String identifierType, String identifierAttribute) {
-        // super(ExamplePreorderVisitor::reduce);
-
-        this.identifierAttribute = identifierAttribute;
-
-        addVisit(identifierType, this::dealWithIdentifier);
-        // setDefaultVisit(this::defaultVisit);
+    public AnalysisSemanticVisitor(String identifierAttribute) {
+        addVisit("ArrayIndex", this::analyseArrayIndex);
     }
 
-    public String dealWithIdentifier(JmmNode node, String space) {
+    public String analyseArrayIndex(JmmNode node, String space) {
         // if (node.get(identifierAttribute).equals("this")) {
         //     return space + "THIS_ACCESS";
         // }

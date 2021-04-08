@@ -21,6 +21,7 @@ class SimpleNode implements Node, JmmNode {
 
   public SimpleNode(int i) {
     id = i;
+    this.attributes.put("val", "null");
   }
 
   public SimpleNode(Parser p, int i) {

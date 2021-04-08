@@ -1,17 +1,30 @@
 {
   "kind": "Program",
-  "attributes": {},
+  "attributes": {
+    "val": "null"
+  },
   "children": [
     {
       "kind": "Imports",
-      "attributes": {},
+      "attributes": {
+        "val": "null"
+      },
       "children": [
         {
           "kind": "ImportDeclaration",
           "attributes": {
-            "val": "ioPlus",
+            "val": "MathUtils",
             "col": "8",
             "line": "1"
+          },
+          "children": []
+        },
+        {
+          "kind": "ImportDeclaration",
+          "attributes": {
+            "val": "Quicksort",
+            "col": "8",
+            "line": "2"
           },
           "children": []
         }
@@ -20,106 +33,76 @@
     {
       "kind": "Class",
       "attributes": {
-        "val": "FindMaximum",
+        "val": "Lazysort Quicksort",
         "col": "7",
-        "line": "2"
+        "line": "4"
       },
       "children": [
         {
-          "kind": "VarDeclaration",
-          "attributes": {},
-          "children": [
-            {
-              "kind": "Type",
-              "attributes": {
-                "val": "int[]",
-                "col": "2",
-                "line": "3"
-              },
-              "children": []
-            },
-            {
-              "kind": "VarId",
-              "attributes": {
-                "val": "test_arr",
-                "col": "8",
-                "line": "3"
-              },
-              "children": []
-            }
-          ]
-        },
-        {
           "kind": "MethodDeclaration",
-          "attributes": {},
+          "attributes": {
+            "val": "null"
+          },
           "children": [
             {
-              "kind": "RegularMethod",
+              "kind": "Main",
               "attributes": {
-                "val": "find_maximum",
-                "col": "13",
-                "line": "5"
+                "val": "null"
               },
               "children": [
                 {
-                  "kind": "ReturnType",
-                  "attributes": {},
-                  "children": [
-                    {
-                      "kind": "Type",
-                      "attributes": {
-                        "val": "int",
-                        "col": "9",
-                        "line": "5"
-                      },
-                      "children": []
-                    }
-                  ]
+                  "kind": "ArgName",
+                  "attributes": {
+                    "val": "a",
+                    "col": "38",
+                    "line": "5"
+                  },
+                  "children": []
                 },
                 {
-                  "kind": "MethodParams",
-                  "attributes": {},
+                  "kind": "MethodBody",
+                  "attributes": {
+                    "val": "null"
+                  },
                   "children": [
                     {
-                      "kind": "MethodParam",
-                      "attributes": {},
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
                       "children": [
                         {
                           "kind": "Type",
                           "attributes": {
                             "val": "int[]",
-                            "col": "26",
-                            "line": "5"
+                            "col": "9",
+                            "line": "6"
                           },
                           "children": []
                         },
                         {
                           "kind": "VarId",
                           "attributes": {
-                            "val": "arr",
-                            "col": "32",
-                            "line": "5"
+                            "val": "L",
+                            "col": "15",
+                            "line": "6"
                           },
                           "children": []
                         }
                       ]
-                    }
-                  ]
-                },
-                {
-                  "kind": "MethodBody",
-                  "attributes": {},
-                  "children": [
+                    },
                     {
                       "kind": "VarDeclaration",
-                      "attributes": {},
+                      "attributes": {
+                        "val": "null"
+                      },
                       "children": [
                         {
                           "kind": "Type",
                           "attributes": {
                             "val": "int",
-                            "col": "3",
-                            "line": "6"
+                            "col": "9",
+                            "line": "7"
                           },
                           "children": []
                         },
@@ -127,31 +110,7 @@
                           "kind": "VarId",
                           "attributes": {
                             "val": "i",
-                            "col": "7",
-                            "line": "6"
-                          },
-                          "children": []
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "VarDeclaration",
-                      "attributes": {},
-                      "children": [
-                        {
-                          "kind": "Type",
-                          "attributes": {
-                            "val": "int",
-                            "col": "3",
-                            "line": "7"
-                          },
-                          "children": []
-                        },
-                        {
-                          "kind": "VarId",
-                          "attributes": {
-                            "val": "maximum",
-                            "col": "7",
+                            "col": "13",
                             "line": "7"
                           },
                           "children": []
@@ -160,12 +119,14 @@
                     },
                     {
                       "kind": "VarDeclaration",
-                      "attributes": {},
+                      "attributes": {
+                        "val": "null"
+                      },
                       "children": [
                         {
                           "kind": "Type",
                           "attributes": {
-                            "val": "int",
+                            "val": "boolean",
                             "col": "3",
                             "line": "8"
                           },
@@ -174,9 +135,35 @@
                         {
                           "kind": "VarId",
                           "attributes": {
-                            "val": "value",
-                            "col": "7",
+                            "val": "d",
+                            "col": "11",
                             "line": "8"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "Lazysort",
+                            "col": "9",
+                            "line": "9"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "q",
+                            "col": "18",
+                            "line": "9"
                           },
                           "children": []
                         }
@@ -185,62 +172,59 @@
                     {
                       "kind": "Type",
                       "attributes": {
-                        "val": "i",
-                        "col": "3",
-                        "line": "10"
+                        "val": "L",
+                        "col": "9",
+                        "line": "11"
                       },
                       "children": []
                     },
                     {
                       "kind": "Assignment",
-                      "attributes": {},
+                      "attributes": {
+                        "val": "null"
+                      },
                       "children": [
                         {
-                          "kind": "IntegerLiteral",
+                          "kind": "ContructorIntArray",
                           "attributes": {
-                            "val": "1",
-                            "col": "7",
-                            "line": "10"
+                            "val": "null"
                           },
-                          "children": []
+                          "children": [
+                            {
+                              "kind": "IntegerLiteral",
+                              "attributes": {
+                                "val": "10",
+                                "col": "21",
+                                "line": "11"
+                              },
+                              "children": []
+                            }
+                          ]
                         }
                       ]
                     },
                     {
                       "kind": "Var",
                       "attributes": {
-                        "val": "maximum",
-                        "col": "3",
-                        "line": "11"
+                        "val": "i",
+                        "col": "9",
+                        "line": "13"
                       },
                       "children": [
                         {
                           "kind": "Assignment",
-                          "attributes": {},
+                          "attributes": {
+                            "val": "null"
+                          },
                           "children": [
                             {
-                              "kind": "Var",
+                              "kind": "IntegerLiteral",
                               "attributes": {
-                                "val": "arr",
+                                "val": "0",
                                 "col": "13",
-                                "line": "11"
+                                "line": "13"
                               },
                               "children": []
-                            },
-                            {
-                              "kind": "ArrayIndex",
-                              "attributes": {},
-                              "children": [
-                                {
-                                  "kind": "IntegerLiteral",
-                                  "attributes": {
-                                    "val": "0",
-                                    "col": "17",
-                                    "line": "11"
-                                  },
-                                  "children": []
-                                }
-                              ]
                             }
                           ]
                         }
@@ -248,37 +232,45 @@
                     },
                     {
                       "kind": "While",
-                      "attributes": {},
+                      "attributes": {
+                        "val": "null"
+                      },
                       "children": [
                         {
                           "kind": "WhileExpression",
-                          "attributes": {},
+                          "attributes": {
+                            "val": "null"
+                          },
                           "children": [
                             {
                               "kind": "Var",
                               "attributes": {
                                 "val": "i",
-                                "col": "10",
-                                "line": "12"
+                                "col": "16",
+                                "line": "14"
                               },
                               "children": []
                             },
                             {
                               "kind": "Less",
-                              "attributes": {},
+                              "attributes": {
+                                "val": "null"
+                              },
                               "children": [
                                 {
                                   "kind": "Var",
                                   "attributes": {
-                                    "val": "arr",
-                                    "col": "14",
-                                    "line": "12"
+                                    "val": "L",
+                                    "col": "20",
+                                    "line": "14"
                                   },
                                   "children": []
                                 },
                                 {
                                   "kind": "Length",
-                                  "attributes": {},
+                                  "attributes": {
+                                    "val": "null"
+                                  },
                                   "children": []
                                 }
                               ]
@@ -287,131 +279,79 @@
                         },
                         {
                           "kind": "WhileBody",
-                          "attributes": {},
+                          "attributes": {
+                            "val": "null"
+                          },
                           "children": [
                             {
                               "kind": "Scope",
-                              "attributes": {},
+                              "attributes": {
+                                "val": "null"
+                              },
                               "children": [
                                 {
                                   "kind": "Var",
                                   "attributes": {
-                                    "val": "value",
-                                    "col": "4",
-                                    "line": "13"
+                                    "val": "L",
+                                    "col": "13",
+                                    "line": "15"
                                   },
                                   "children": [
                                     {
-                                      "kind": "Assignment",
-                                      "attributes": {},
+                                      "kind": "ArrayIndex",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
                                       "children": [
                                         {
                                           "kind": "Var",
                                           "attributes": {
-                                            "val": "arr",
-                                            "col": "12",
-                                            "line": "13"
+                                            "val": "i",
+                                            "col": "15",
+                                            "line": "15"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "kind": "Assignment",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "L",
+                                            "col": "20",
+                                            "line": "15"
                                           },
                                           "children": []
                                         },
                                         {
-                                          "kind": "ArrayIndex",
-                                          "attributes": {},
+                                          "kind": "Length",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "kind": "MinusExpression",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
                                           "children": [
                                             {
                                               "kind": "Var",
                                               "attributes": {
                                                 "val": "i",
-                                                "col": "16",
-                                                "line": "13"
-                                              },
-                                              "children": []
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                },
-                                {
-                                  "kind": "IfAndElse",
-                                  "attributes": {},
-                                  "children": [
-                                    {
-                                      "kind": "IfExpression",
-                                      "attributes": {},
-                                      "children": [
-                                        {
-                                          "kind": "Var",
-                                          "attributes": {
-                                            "val": "maximum",
-                                            "col": "8",
-                                            "line": "14"
-                                          },
-                                          "children": []
-                                        },
-                                        {
-                                          "kind": "Less",
-                                          "attributes": {},
-                                          "children": [
-                                            {
-                                              "kind": "Var",
-                                              "attributes": {
-                                                "val": "value",
-                                                "col": "18",
-                                                "line": "14"
-                                              },
-                                              "children": []
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "kind": "IfBody",
-                                      "attributes": {},
-                                      "children": [
-                                        {
-                                          "kind": "Scope",
-                                          "attributes": {},
-                                          "children": [
-                                            {
-                                              "kind": "Var",
-                                              "attributes": {
-                                                "val": "maximum",
-                                                "col": "5",
+                                                "col": "31",
                                                 "line": "15"
                                               },
-                                              "children": [
-                                                {
-                                                  "kind": "Assignment",
-                                                  "attributes": {},
-                                                  "children": [
-                                                    {
-                                                      "kind": "Var",
-                                                      "attributes": {
-                                                        "val": "value",
-                                                        "col": "15",
-                                                        "line": "15"
-                                                      },
-                                                      "children": []
-                                                    }
-                                                  ]
-                                                }
-                                              ]
+                                              "children": []
                                             }
                                           ]
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "kind": "ElseBody",
-                                      "attributes": {},
-                                      "children": [
-                                        {
-                                          "kind": "Scope",
-                                          "attributes": {},
-                                          "children": []
                                         }
                                       ]
                                     }
@@ -421,33 +361,37 @@
                                   "kind": "Var",
                                   "attributes": {
                                     "val": "i",
-                                    "col": "4",
-                                    "line": "18"
+                                    "col": "13",
+                                    "line": "16"
                                   },
                                   "children": [
                                     {
                                       "kind": "Assignment",
-                                      "attributes": {},
+                                      "attributes": {
+                                        "val": "null"
+                                      },
                                       "children": [
                                         {
                                           "kind": "Var",
                                           "attributes": {
                                             "val": "i",
-                                            "col": "8",
-                                            "line": "18"
+                                            "col": "17",
+                                            "line": "16"
                                           },
                                           "children": []
                                         },
                                         {
                                           "kind": "PlusExpression",
-                                          "attributes": {},
+                                          "attributes": {
+                                            "val": "null"
+                                          },
                                           "children": [
                                             {
                                               "kind": "IntegerLiteral",
                                               "attributes": {
                                                 "val": "1",
-                                                "col": "12",
-                                                "line": "18"
+                                                "col": "21",
+                                                "line": "16"
                                               },
                                               "children": []
                                             }
@@ -462,591 +406,66 @@
                           ]
                         }
                       ]
-                    }
-                  ]
-                },
-                {
-                  "kind": "ReturnStatement",
-                  "attributes": {},
-                  "children": [
+                    },
                     {
                       "kind": "Var",
                       "attributes": {
-                        "val": "maximum",
-                        "col": "10",
+                        "val": "q",
+                        "col": "9",
+                        "line": "19"
+                      },
+                      "children": [
+                        {
+                          "kind": "Assignment",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "ConstructorClass",
+                              "attributes": {
+                                "val": "Lazysort",
+                                "col": "17",
+                                "line": "19"
+                              },
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "q",
+                        "col": "9",
                         "line": "21"
                       },
-                      "children": []
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "kind": "MethodDeclaration",
-          "attributes": {},
-          "children": [
-            {
-              "kind": "RegularMethod",
-              "attributes": {
-                "val": "build_test_arr",
-                "col": "13",
-                "line": "24"
-              },
-              "children": [
-                {
-                  "kind": "ReturnType",
-                  "attributes": {},
-                  "children": [
-                    {
-                      "kind": "Type",
-                      "attributes": {
-                        "val": "int",
-                        "col": "9",
-                        "line": "24"
-                      },
-                      "children": []
-                    }
-                  ]
-                },
-                {
-                  "kind": "MethodBody",
-                  "attributes": {},
-                  "children": [
-                    {
-                      "kind": "Type",
-                      "attributes": {
-                        "val": "test_arr",
-                        "col": "3",
-                        "line": "25"
-                      },
-                      "children": []
-                    },
-                    {
-                      "kind": "Assignment",
-                      "attributes": {},
                       "children": [
                         {
-                          "kind": "ContructorIntArray",
-                          "attributes": {},
+                          "kind": "MethodInvocation",
+                          "attributes": {
+                            "val": "null"
+                          },
                           "children": [
                             {
-                              "kind": "IntegerLiteral",
+                              "kind": "MethodArgs",
                               "attributes": {
-                                "val": "5",
-                                "col": "22",
-                                "line": "25"
+                                "val": "null"
                               },
-                              "children": []
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "Var",
-                      "attributes": {
-                        "val": "test_arr",
-                        "col": "3",
-                        "line": "26"
-                      },
-                      "children": [
-                        {
-                          "kind": "ArrayIndex",
-                          "attributes": {},
-                          "children": [
-                            {
-                              "kind": "IntegerLiteral",
-                              "attributes": {
-                                "val": "0",
-                                "col": "12",
-                                "line": "26"
-                              },
-                              "children": []
-                            }
-                          ]
-                        },
-                        {
-                          "kind": "Assignment",
-                          "attributes": {},
-                          "children": [
-                            {
-                              "kind": "IntegerLiteral",
-                              "attributes": {
-                                "val": "14",
-                                "col": "17",
-                                "line": "26"
-                              },
-                              "children": []
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "Var",
-                      "attributes": {
-                        "val": "test_arr",
-                        "col": "3",
-                        "line": "27"
-                      },
-                      "children": [
-                        {
-                          "kind": "ArrayIndex",
-                          "attributes": {},
-                          "children": [
-                            {
-                              "kind": "IntegerLiteral",
-                              "attributes": {
-                                "val": "1",
-                                "col": "12",
-                                "line": "27"
-                              },
-                              "children": []
-                            }
-                          ]
-                        },
-                        {
-                          "kind": "Assignment",
-                          "attributes": {},
-                          "children": [
-                            {
-                              "kind": "IntegerLiteral",
-                              "attributes": {
-                                "val": "28",
-                                "col": "17",
-                                "line": "27"
-                              },
-                              "children": []
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "Var",
-                      "attributes": {
-                        "val": "test_arr",
-                        "col": "3",
-                        "line": "28"
-                      },
-                      "children": [
-                        {
-                          "kind": "ArrayIndex",
-                          "attributes": {},
-                          "children": [
-                            {
-                              "kind": "IntegerLiteral",
-                              "attributes": {
-                                "val": "2",
-                                "col": "12",
-                                "line": "28"
-                              },
-                              "children": []
-                            }
-                          ]
-                        },
-                        {
-                          "kind": "Assignment",
-                          "attributes": {},
-                          "children": [
-                            {
-                              "kind": "IntegerLiteral",
-                              "attributes": {
-                                "val": "0",
-                                "col": "17",
-                                "line": "28"
-                              },
-                              "children": []
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "Var",
-                      "attributes": {
-                        "val": "test_arr",
-                        "col": "3",
-                        "line": "29"
-                      },
-                      "children": [
-                        {
-                          "kind": "ArrayIndex",
-                          "attributes": {},
-                          "children": [
-                            {
-                              "kind": "IntegerLiteral",
-                              "attributes": {
-                                "val": "3",
-                                "col": "12",
-                                "line": "29"
-                              },
-                              "children": []
-                            }
-                          ]
-                        },
-                        {
-                          "kind": "Assignment",
-                          "attributes": {},
-                          "children": [
-                            {
-                              "kind": "IntegerLiteral",
-                              "attributes": {
-                                "val": "0",
-                                "col": "17",
-                                "line": "29"
-                              },
-                              "children": []
-                            },
-                            {
-                              "kind": "MinusExpression",
-                              "attributes": {},
                               "children": [
                                 {
-                                  "kind": "IntegerLiteral",
+                                  "kind": "MethodArg",
                                   "attributes": {
-                                    "val": "5",
-                                    "col": "19",
-                                    "line": "29"
+                                    "val": "null"
                                   },
-                                  "children": []
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "Var",
-                      "attributes": {
-                        "val": "test_arr",
-                        "col": "3",
-                        "line": "30"
-                      },
-                      "children": [
-                        {
-                          "kind": "ArrayIndex",
-                          "attributes": {},
-                          "children": [
-                            {
-                              "kind": "IntegerLiteral",
-                              "attributes": {
-                                "val": "4",
-                                "col": "12",
-                                "line": "30"
-                              },
-                              "children": []
-                            }
-                          ]
-                        },
-                        {
-                          "kind": "Assignment",
-                          "attributes": {},
-                          "children": [
-                            {
-                              "kind": "IntegerLiteral",
-                              "attributes": {
-                                "val": "12",
-                                "col": "17",
-                                "line": "30"
-                              },
-                              "children": []
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "kind": "ReturnStatement",
-                  "attributes": {},
-                  "children": [
-                    {
-                      "kind": "IntegerLiteral",
-                      "attributes": {
-                        "val": "0",
-                        "col": "10",
-                        "line": "32"
-                      },
-                      "children": []
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "kind": "MethodDeclaration",
-          "attributes": {},
-          "children": [
-            {
-              "kind": "RegularMethod",
-              "attributes": {
-                "val": "get_array",
-                "col": "15",
-                "line": "35"
-              },
-              "children": [
-                {
-                  "kind": "ReturnType",
-                  "attributes": {},
-                  "children": [
-                    {
-                      "kind": "Type",
-                      "attributes": {
-                        "val": "int[]",
-                        "col": "9",
-                        "line": "35"
-                      },
-                      "children": []
-                    }
-                  ]
-                },
-                {
-                  "kind": "MethodBody",
-                  "attributes": {},
-                  "children": []
-                },
-                {
-                  "kind": "ReturnStatement",
-                  "attributes": {},
-                  "children": [
-                    {
-                      "kind": "Var",
-                      "attributes": {
-                        "val": "test_arr",
-                        "col": "10",
-                        "line": "36"
-                      },
-                      "children": []
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "kind": "MethodDeclaration",
-          "attributes": {},
-          "children": [
-            {
-              "kind": "Main",
-              "attributes": {},
-              "children": [
-                {
-                  "kind": "ArgName",
-                  "attributes": {
-                    "val": "args",
-                    "col": "35",
-                    "line": "39"
-                  },
-                  "children": []
-                },
-                {
-                  "kind": "MethodBody",
-                  "attributes": {},
-                  "children": [
-                    {
-                      "kind": "VarDeclaration",
-                      "attributes": {},
-                      "children": [
-                        {
-                          "kind": "Type",
-                          "attributes": {
-                            "val": "FindMaximum",
-                            "col": "3",
-                            "line": "40"
-                          },
-                          "children": []
-                        },
-                        {
-                          "kind": "VarId",
-                          "attributes": {
-                            "val": "fm",
-                            "col": "15",
-                            "line": "40"
-                          },
-                          "children": []
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "VarDeclaration",
-                      "attributes": {},
-                      "children": [
-                        {
-                          "kind": "Type",
-                          "attributes": {
-                            "val": "int",
-                            "col": "3",
-                            "line": "41"
-                          },
-                          "children": []
-                        },
-                        {
-                          "kind": "VarId",
-                          "attributes": {
-                            "val": "max",
-                            "col": "7",
-                            "line": "41"
-                          },
-                          "children": []
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "Type",
-                      "attributes": {
-                        "val": "fm",
-                        "col": "3",
-                        "line": "42"
-                      },
-                      "children": []
-                    },
-                    {
-                      "kind": "Assignment",
-                      "attributes": {},
-                      "children": [
-                        {
-                          "kind": "ConstructorClass",
-                          "attributes": {
-                            "val": "FindMaximum",
-                            "col": "12",
-                            "line": "42"
-                          },
-                          "children": []
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "Var",
-                      "attributes": {
-                        "val": "fm",
-                        "col": "3",
-                        "line": "43"
-                      },
-                      "children": [
-                        {
-                          "kind": "MethodInvocation",
-                          "attributes": {},
-                          "children": [
-                            {
-                              "kind": "MethodArgs",
-                              "attributes": {},
-                              "children": [
-                                {
-                                  "kind": "MethodArg",
-                                  "attributes": {},
-                                  "children": []
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "Var",
-                      "attributes": {
-                        "val": "max",
-                        "col": "3",
-                        "line": "45"
-                      },
-                      "children": [
-                        {
-                          "kind": "Assignment",
-                          "attributes": {},
-                          "children": [
-                            {
-                              "kind": "Var",
-                              "attributes": {
-                                "val": "fm",
-                                "col": "9",
-                                "line": "45"
-                              },
-                              "children": []
-                            },
-                            {
-                              "kind": "MethodInvocation",
-                              "attributes": {},
-                              "children": [
-                                {
-                                  "kind": "MethodArgs",
-                                  "attributes": {},
-                                  "children": [
-                                    {
-                                      "kind": "MethodArg",
-                                      "attributes": {},
-                                      "children": [
-                                        {
-                                          "kind": "Var",
-                                          "attributes": {
-                                            "val": "fm",
-                                            "col": "25",
-                                            "line": "45"
-                                          },
-                                          "children": []
-                                        },
-                                        {
-                                          "kind": "MethodInvocation",
-                                          "attributes": {},
-                                          "children": [
-                                            {
-                                              "kind": "MethodArgs",
-                                              "attributes": {},
-                                              "children": [
-                                                {
-                                                  "kind": "MethodArg",
-                                                  "attributes": {},
-                                                  "children": []
-                                                }
-                                              ]
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "Var",
-                      "attributes": {
-                        "val": "ioPlus",
-                        "col": "3",
-                        "line": "46"
-                      },
-                      "children": [
-                        {
-                          "kind": "MethodInvocation",
-                          "attributes": {},
-                          "children": [
-                            {
-                              "kind": "MethodArgs",
-                              "attributes": {},
-                              "children": [
-                                {
-                                  "kind": "MethodArg",
-                                  "attributes": {},
                                   "children": [
                                     {
                                       "kind": "Var",
                                       "attributes": {
-                                        "val": "max",
-                                        "col": "22",
-                                        "line": "46"
+                                        "val": "L",
+                                        "col": "21",
+                                        "line": "21"
                                       },
                                       "children": []
                                     }
@@ -1057,6 +476,1343 @@
                           ]
                         }
                       ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "d",
+                        "col": "9",
+                        "line": "22"
+                      },
+                      "children": [
+                        {
+                          "kind": "Assignment",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "q",
+                                "col": "13",
+                                "line": "22"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "MethodInvocation",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "MethodArgs",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "MethodArg",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "L",
+                                            "col": "22",
+                                            "line": "22"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {
+            "val": "null"
+          },
+          "children": [
+            {
+              "kind": "RegularMethod",
+              "attributes": {
+                "val": "quicksort",
+                "col": "20",
+                "line": "25"
+              },
+              "children": [
+                {
+                  "kind": "ReturnType",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "Type",
+                      "attributes": {
+                        "val": "boolean",
+                        "col": "12",
+                        "line": "25"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "kind": "MethodParams",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "MethodParam",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int[]",
+                            "col": "30",
+                            "line": "25"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "L",
+                            "col": "36",
+                            "line": "25"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "MethodBody",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "boolean",
+                            "col": "9",
+                            "line": "26"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "lazy",
+                            "col": "17",
+                            "line": "26"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "27"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "rand",
+                            "col": "13",
+                            "line": "27"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Type",
+                      "attributes": {
+                        "val": "rand",
+                        "col": "9",
+                        "line": "28"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "Assignment",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Var",
+                          "attributes": {
+                            "val": "MathUtils",
+                            "col": "16",
+                            "line": "28"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "MethodInvocation",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "MethodArgs",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "MethodArg",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "IntegerLiteral",
+                                      "attributes": {
+                                        "val": "0",
+                                        "col": "33",
+                                        "line": "28"
+                                      },
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "kind": "MethodArg",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "IntegerLiteral",
+                                      "attributes": {
+                                        "val": "5",
+                                        "col": "36",
+                                        "line": "28"
+                                      },
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "IfAndElse",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "IfExpression",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "rand",
+                                "col": "13",
+                                "line": "29"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "Less",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "IntegerLiteral",
+                                  "attributes": {
+                                    "val": "4",
+                                    "col": "21",
+                                    "line": "29"
+                                  },
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "IfBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Scope",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "This",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": []
+                                },
+                                {
+                                  "kind": "MethodInvocation",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "MethodArgs",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "MethodArg",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "Var",
+                                              "attributes": {
+                                                "val": "L",
+                                                "col": "25",
+                                                "line": "30"
+                                              },
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "lazy",
+                                    "col": "13",
+                                    "line": "31"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "Assignment",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "True",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "ElseBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Scope",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "lazy",
+                                    "col": "13",
+                                    "line": "34"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "Assignment",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "False",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "IfAndElse",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "IfExpression",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "lazy",
+                                "col": "14",
+                                "line": "37"
+                              },
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "IfBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Scope",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "lazy",
+                                    "col": "13",
+                                    "line": "38"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "Assignment",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "NotExpression",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "Var",
+                                              "attributes": {
+                                                "val": "lazy",
+                                                "col": "21",
+                                                "line": "38"
+                                              },
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "ElseBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Scope",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "lazy",
+                                    "col": "13",
+                                    "line": "41"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "Assignment",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "This",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "kind": "MethodInvocation",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "MethodArgs",
+                                              "attributes": {
+                                                "val": "null"
+                                              },
+                                              "children": [
+                                                {
+                                                  "kind": "MethodArg",
+                                                  "attributes": {
+                                                    "val": "null"
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "kind": "Var",
+                                                      "attributes": {
+                                                        "val": "L",
+                                                        "col": "35",
+                                                        "line": "41"
+                                                      },
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "kind": "MethodArg",
+                                                  "attributes": {
+                                                    "val": "null"
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "kind": "IntegerLiteral",
+                                                      "attributes": {
+                                                        "val": "0",
+                                                        "col": "38",
+                                                        "line": "41"
+                                                      },
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "kind": "MethodArg",
+                                                  "attributes": {
+                                                    "val": "null"
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "kind": "Var",
+                                                      "attributes": {
+                                                        "val": "L",
+                                                        "col": "41",
+                                                        "line": "41"
+                                                      },
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "kind": "Length",
+                                                      "attributes": {
+                                                        "val": "null"
+                                                      },
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "kind": "MinusExpression",
+                                                      "attributes": {
+                                                        "val": "null"
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "kind": "IntegerLiteral",
+                                                          "attributes": {
+                                                            "val": "1",
+                                                            "col": "52",
+                                                            "line": "41"
+                                                          },
+                                                          "children": []
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "ReturnStatement",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "lazy",
+                        "col": "16",
+                        "line": "44"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {
+            "val": "null"
+          },
+          "children": [
+            {
+              "kind": "RegularMethod",
+              "attributes": {
+                "val": "beLazy",
+                "col": "20",
+                "line": "47"
+              },
+              "children": [
+                {
+                  "kind": "ReturnType",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "Type",
+                      "attributes": {
+                        "val": "boolean",
+                        "col": "12",
+                        "line": "47"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "kind": "MethodParams",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "MethodParam",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int[]",
+                            "col": "27",
+                            "line": "47"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "L",
+                            "col": "33",
+                            "line": "47"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "MethodBody",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "48"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "_allowedNameL",
+                            "col": "13",
+                            "line": "48"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "49"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "$allowedNameI",
+                            "col": "13",
+                            "line": "49"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "3",
+                            "line": "50"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "rand",
+                            "col": "7",
+                            "line": "50"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Type",
+                      "attributes": {
+                        "val": "_allowedNameL",
+                        "col": "9",
+                        "line": "51"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "Assignment",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Var",
+                          "attributes": {
+                            "val": "L",
+                            "col": "25",
+                            "line": "51"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "Length",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "$allowedNameI",
+                        "col": "9",
+                        "line": "53"
+                      },
+                      "children": [
+                        {
+                          "kind": "Assignment",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "IntegerLiteral",
+                              "attributes": {
+                                "val": "0",
+                                "col": "25",
+                                "line": "53"
+                              },
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "While",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "WhileExpression",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "$allowedNameI",
+                                "col": "16",
+                                "line": "54"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "Less",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "_allowedNameL",
+                                    "col": "32",
+                                    "line": "54"
+                                  },
+                                  "children": []
+                                },
+                                {
+                                  "kind": "DivExpression",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "IntegerLiteral",
+                                      "attributes": {
+                                        "val": "2",
+                                        "col": "46",
+                                        "line": "54"
+                                      },
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "WhileBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Scope",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "L",
+                                    "col": "13",
+                                    "line": "55"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "ArrayIndex",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "$allowedNameI",
+                                            "col": "15",
+                                            "line": "55"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "kind": "Assignment",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "MathUtils",
+                                            "col": "32",
+                                            "line": "55"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "kind": "MethodInvocation",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "MethodArgs",
+                                              "attributes": {
+                                                "val": "null"
+                                              },
+                                              "children": [
+                                                {
+                                                  "kind": "MethodArg",
+                                                  "attributes": {
+                                                    "val": "null"
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "kind": "IntegerLiteral",
+                                                      "attributes": {
+                                                        "val": "0",
+                                                        "col": "49",
+                                                        "line": "55"
+                                                      },
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "kind": "MethodArg",
+                                                  "attributes": {
+                                                    "val": "null"
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "kind": "IntegerLiteral",
+                                                      "attributes": {
+                                                        "val": "10",
+                                                        "col": "52",
+                                                        "line": "55"
+                                                      },
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "$allowedNameI",
+                                    "col": "13",
+                                    "line": "57"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "Assignment",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "$allowedNameI",
+                                            "col": "29",
+                                            "line": "57"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "kind": "PlusExpression",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "IntegerLiteral",
+                                              "attributes": {
+                                                "val": "1",
+                                                "col": "45",
+                                                "line": "57"
+                                              },
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "While",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "WhileExpression",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "$allowedNameI",
+                                "col": "16",
+                                "line": "60"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "Less",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "_allowedNameL",
+                                    "col": "32",
+                                    "line": "60"
+                                  },
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "WhileBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Scope",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "rand",
+                                    "col": "10",
+                                    "line": "61"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "Assignment",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "MathUtils",
+                                            "col": "17",
+                                            "line": "61"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "kind": "MethodInvocation",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "MethodArgs",
+                                              "attributes": {
+                                                "val": "null"
+                                              },
+                                              "children": [
+                                                {
+                                                  "kind": "MethodArg",
+                                                  "attributes": {
+                                                    "val": "null"
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "kind": "IntegerLiteral",
+                                                      "attributes": {
+                                                        "val": "0",
+                                                        "col": "34",
+                                                        "line": "61"
+                                                      },
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "kind": "MethodArg",
+                                                  "attributes": {
+                                                    "val": "null"
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "kind": "IntegerLiteral",
+                                                      "attributes": {
+                                                        "val": "10",
+                                                        "col": "37",
+                                                        "line": "61"
+                                                      },
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "L",
+                                    "col": "13",
+                                    "line": "62"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "ArrayIndex",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "$allowedNameI",
+                                            "col": "15",
+                                            "line": "62"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "kind": "Assignment",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "rand",
+                                            "col": "32",
+                                            "line": "62"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "kind": "PlusExpression",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "IntegerLiteral",
+                                              "attributes": {
+                                                "val": "1",
+                                                "col": "39",
+                                                "line": "62"
+                                              },
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "$allowedNameI",
+                                    "col": "13",
+                                    "line": "64"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "Assignment",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "$allowedNameI",
+                                            "col": "29",
+                                            "line": "64"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "kind": "PlusExpression",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "IntegerLiteral",
+                                              "attributes": {
+                                                "val": "1",
+                                                "col": "45",
+                                                "line": "64"
+                                              },
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "ReturnStatement",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "True",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": []
                     }
                   ]
                 }
