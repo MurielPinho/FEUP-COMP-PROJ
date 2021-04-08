@@ -111,6 +111,8 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
             return false;
         }
 
+        if (params.size() == 0) return true;
+
         // all the arguments passes are the same type as the parameters of teh method
         if(validArgs(method, params, analysisSemanticInfo)) return true;
         // not all of the parameters have the same type as the arguments
@@ -156,7 +158,7 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
      * @return
      */
     private int getNumArgs(JmmNode node) {
-        return node.getChildren().get(0).getNumChildren();
+        return (node.getChildren().get(0).getChildren().get(0).getNumChildren() == 0) ? 0 : node.getChildren().get(0).getNumChildren();
     }
 
     /**
@@ -263,7 +265,7 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
     //     $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
     public Boolean typeVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
-        System.out.println(node);
+        System.out.println("TO DO! TYPE VERIFICATION");
         
         return true;
     }

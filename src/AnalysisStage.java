@@ -48,7 +48,7 @@ public class AnalysisStage implements JmmAnalysis {
         
         System.out.println("Symbol Table built");
         System.out.println("\n#######################\n");
-        System.out.println( rootSymbolTable.print());
+        // System.out.println( rootSymbolTable.print());
         System.out.println("\n#######################\n");
 
         // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
