@@ -27,7 +27,7 @@ public class Imports implements SymbolTable {
 
     public String print(String ini) {
         String ret = "";
-
+        
         for(int i = 0; i < this.imports.size(); i++) ret += ini + this.imports.get(i) + "\n";
 
         return ret;

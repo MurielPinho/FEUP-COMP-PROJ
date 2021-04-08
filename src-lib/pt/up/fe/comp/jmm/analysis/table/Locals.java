@@ -36,7 +36,7 @@ public class Locals implements SymbolTable {
     public String print(String ini) {
         String ret = "";
 
-        for(Symbol symbol: this.symbols) ret += symbol.print(ini);
+        for(Symbol symbol: this.symbols) ret += SymbolTableUtils.printSymbol(symbol, ini);
 
         return ret;
     }

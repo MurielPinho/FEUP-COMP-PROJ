@@ -28,22 +28,15 @@ public class Scope implements SymbolTable {
         List<JmmNode> childrens = node.getChildren();
 
         for(JmmNode child: childrens) {
-            if(child.toString().equals("VarDeclaration")) this.addSymbol(child);
+            if(child.getKind().equals("VarDeclaration")) this.addSymbol(child);
             else this.processScope(child);
         }
     }
 
     private void addSymbol(JmmNode node) {
         Locals locals = (Locals) this.symbol_table.get("locals");
-        Symbol symbol = this.processSymbol(node);
-        locals.addLocal(symbol);
+        locals.addLocal(SymbolTableUtils.processSymbol(node));
         this.symbol_table.put("locals", locals);
-    }
-
-    private Symbol processSymbol(JmmNode node) {
-        Symbol symbol = new Symbol();
-        symbol.processSymbol(node);
-        return symbol;
     }
 
     public String print(String ini) {

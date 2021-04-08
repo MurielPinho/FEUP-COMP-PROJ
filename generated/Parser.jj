@@ -72,9 +72,10 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/ {/*@
         Token nextToken = token.next;
 
         int line = token.beginLine;
+        int col = token.beginColumn;
         String message = "Encountered '" + nextToken + "' after '" + token + "'";
 
-        this.errorMessages.add(new Report(ReportType.ERROR, Stage.SYNTATIC, line, message));
+        this.errorMessages.add(new Report(ReportType.ERROR, Stage.SYNTATIC, line, col, message));
     }
 
     public void printErrorMessages() {
@@ -231,6 +232,7 @@ void ImportDeclaration():{/*@bgen(jjtree) ImportDeclaration */
     <IMPORT> name = <IDENTIFIER> {
         jjtn000.put("val", name.image); 
         jjtn000.put("line", String.valueOf(name.beginLine));
+        jjtn000.put("col", String.valueOf(name.beginColumn));
     }  
     (<DOT> name = <IDENTIFIER> {
         jjtn000.put("val", jjtn000.get("val") + "." + name.image);
@@ -256,6 +258,7 @@ void ClassDeclaration()       : {/*@bgen(jjtree) Class */
     <CLASS> name = <IDENTIFIER> {
         jjtn000.put("val", name.image);
         jjtn000.put("line", String.valueOf(name.beginLine));
+        jjtn000.put("col", String.valueOf(name.beginColumn));
     }
     (<EXTENDS> name = <IDENTIFIER> {
         jjtn000.put("val", jjtn000.get("val") + " " + name.image);
@@ -329,6 +332,7 @@ void VarDeclaration1()       :{/*@bgen(jjtree) VarId */
     id = <IDENTIFIER> {
         jjtn000.put("val", id.image);
         jjtn000.put("line", String.valueOf(id.beginLine));
+        jjtn000.put("col", String.valueOf(id.beginColumn));
     } <PVIRG>/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
@@ -410,6 +414,7 @@ void RegularMethod(): {/*@bgen(jjtree) RegularMethod */
 /*@egen*/             name = <IDENTIFIER> {
         jjtn000.put("val", name.image);
         jjtn000.put("line", String.valueOf(name.beginLine));
+        jjtn000.put("col", String.valueOf(name.beginColumn));
     } 
     <LPAR> (MethodParams())? <RPAR> <LBRACKET>/*@bgen(jjtree) MethodBody */
         {
@@ -515,6 +520,7 @@ void Main(): {/*@bgen(jjtree) Main */
 /*@egen*/ {
         jjtn001.put("val", name.image);
         jjtn001.put("line", String.valueOf(name.beginLine));
+        jjtn001.put("col", String.valueOf(name.beginColumn));
     }/*@bgen(jjtree)*/
                                                                                } finally {
                                                                                  if (jjtc001) {
@@ -629,6 +635,7 @@ void MethodParam(): {/*@bgen(jjtree) MethodParam */
 /*@egen*/ {
         jjtn001.put("val", name.image);
         jjtn001.put("line", String.valueOf(name.beginLine));
+        jjtn001.put("col", String.valueOf(name.beginColumn));
     }/*@bgen(jjtree)*/
                                } finally {
                                  if (jjtc001) {
@@ -678,6 +685,7 @@ void MethodBody()      : {
 /*@egen*/ {
             jjtn001.put("val", type.image);
             jjtn001.put("line", String.valueOf(type.beginLine));
+            jjtn001.put("col", String.valueOf(type.beginColumn));
         }/*@bgen(jjtree)*/
                              } finally {
                                if (jjtc001) {
@@ -764,6 +772,7 @@ void Type()      : {
 /*@egen*/ {
         jjtn001.put("val", type.image);
         jjtn001.put("line", String.valueOf(type.beginLine));
+        jjtn001.put("col", String.valueOf(type.beginColumn));
     }/*@bgen(jjtree)*/
                                   } finally {
                                     if (jjtc001) {
@@ -787,6 +796,7 @@ void Type1()      :{
     (name = <INT> {
         jjtn001.put("val", "int");
         jjtn001.put("line", String.valueOf(name.beginLine));
+        jjtn001.put("col", String.valueOf(name.beginColumn));
     } (<LRPAR> <RRPAR> {jjtn001.put("val", jjtn001.get("val") + "[]");})?)/*@bgen(jjtree)*/
     } finally {
       if (jjtc001) {
@@ -809,6 +819,7 @@ void Type1()      :{
 /*@egen*/ {
         jjtn002.put("val", "boolean");
         jjtn002.put("line", String.valueOf(name.beginLine));
+        jjtn002.put("col", String.valueOf(name.beginColumn));
         }/*@bgen(jjtree)*/
                        } finally {
                          if (jjtc002) {
@@ -833,6 +844,7 @@ void Statement()      : {
 /*@egen*/ (name = <IDENTIFIER> {
         jjtn001.put("val", name.image);
         jjtn001.put("line", String.valueOf(name.beginLine));
+        jjtn001.put("col", String.valueOf(name.beginColumn));
     } Statement2())/*@bgen(jjtree)*/
       } catch (Throwable jjte001) {
         if (jjtc001) {
@@ -1178,6 +1190,7 @@ void Expression06()      : {
 /*@egen*/ {
         jjtn001.put("val", name.image);
         jjtn001.put("line", String.valueOf(name.beginLine));
+        jjtn001.put("col", String.valueOf(name.beginColumn));
     }/*@bgen(jjtree)*/
                             } finally {
                               if (jjtc001) {
@@ -1228,6 +1241,7 @@ void Expression06()      : {
 /*@egen*/ {
         jjtn004.put("val", name.image);
         jjtn004.put("line", String.valueOf(name.beginLine));
+        jjtn004.put("col", String.valueOf(name.beginColumn));
     }/*@bgen(jjtree)*/
                           } finally {
                             if (jjtc004) {
@@ -1282,6 +1296,7 @@ void Expression26()      : {
 /*@egen*/ {
         jjtn001.put("val", name.image);
         jjtn001.put("line", String.valueOf(name.beginLine));
+        jjtn001.put("col", String.valueOf(name.beginColumn));
     }/*@bgen(jjtree)*/
                             } finally {
                               if (jjtc001) {
@@ -1683,6 +1698,7 @@ void ConstructorClass():{/*@bgen(jjtree) ConstructorClass */
     name = <IDENTIFIER> {
         jjtn000.put("val", name.image);
         jjtn000.put("line", String.valueOf(name.beginLine));
+        jjtn000.put("col", String.valueOf(name.beginColumn));
     } <LPAR> <RPAR>/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {

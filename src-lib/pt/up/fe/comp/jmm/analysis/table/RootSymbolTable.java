@@ -29,16 +29,15 @@ public class RootSymbolTable implements SymbolTable {
         List<JmmNode> childrens = node.getChildren();
 
         for(JmmNode child: childrens) {
-            if(child.toString().equals("Imports")) this.addImports(child);
-            else if(child.toString().equals("Class")) this.addClass(child);
+            if(child.getKind().equals("Imports")) this.addImports(child);
+            else if(child.getKind().equals("Class")) this.addClass(child);
         }
     }
 
     private void addImports(JmmNode node) {
         List<JmmNode> childrens = node.getChildren();
-
         for(JmmNode child: childrens) {
-            if(child.toString().equals("ImportDeclaration")) {
+            if(child.getKind().equals("ImportDeclaration")) {
                 Imports imports = (Imports) this.symbol_table.get("imports");
                 imports.addImport(child.get("val"));
                 this.symbol_table.put("imports", imports);

@@ -68,9 +68,10 @@ public class Parser {
         Token nextToken = token.next;
 
         int line = token.beginLine;
+        int col = token.beginColumn;
         String message = "Encountered '" + nextToken + "' after '" + token + "'";
 
-        this.errorMessages.add(new Report(ReportType.ERROR, Stage.SYNTATIC, line, message));
+        this.errorMessages.add(new Report(ReportType.ERROR, Stage.SYNTATIC, line, col, message));
     }
 
     public void printErrorMessages() {
@@ -164,6 +165,7 @@ void ImportDeclaration():{
     <IMPORT> name = <IDENTIFIER> {
         jjtThis.put("val", name.image); 
         jjtThis.put("line", String.valueOf(name.beginLine));
+        jjtThis.put("col", String.valueOf(name.beginColumn));
     }  
     (<DOT> name = <IDENTIFIER> {
         jjtThis.put("val", jjtThis.get("val") + "." + name.image);
@@ -177,6 +179,7 @@ void ClassDeclaration() #Class: {
     <CLASS> name = <IDENTIFIER> {
         jjtThis.put("val", name.image);
         jjtThis.put("line", String.valueOf(name.beginLine));
+        jjtThis.put("col", String.valueOf(name.beginColumn));
     }
     (<EXTENDS> name = <IDENTIFIER> {
         jjtThis.put("val", jjtThis.get("val") + " " + name.image);
@@ -198,6 +201,7 @@ void VarDeclaration1() #VarId:{
     id = <IDENTIFIER> {
         jjtThis.put("val", id.image);
         jjtThis.put("line", String.valueOf(id.beginLine));
+        jjtThis.put("col", String.valueOf(id.beginColumn));
     } <PVIRG>
 }
 
@@ -214,6 +218,7 @@ void RegularMethod(): {
     Type() #ReturnType name = <IDENTIFIER> {
         jjtThis.put("val", name.image);
         jjtThis.put("line", String.valueOf(name.beginLine));
+        jjtThis.put("col", String.valueOf(name.beginColumn));
     } 
     <LPAR> (MethodParams())? <RPAR> <LBRACKET>
         MethodBody() #MethodBody
@@ -227,6 +232,7 @@ void Main(): {
     <STATIC> <VOID> <MAIN> <LPAR> <STRING> <LRPAR> <RRPAR> name = <IDENTIFIER> {
         jjtThis.put("val", name.image);
         jjtThis.put("line", String.valueOf(name.beginLine));
+        jjtThis.put("col", String.valueOf(name.beginColumn));
     } #ArgName(0) <RPAR> <LBRACKET>
         MethodBody() #MethodBody
     <RBRACKET>
@@ -244,6 +250,7 @@ void MethodParam(): {
     Type() name = <IDENTIFIER> {
         jjtThis.put("val", name.image);
         jjtThis.put("line", String.valueOf(name.beginLine));
+        jjtThis.put("col", String.valueOf(name.beginColumn));
     } #VarId(0)
 }
 
@@ -255,6 +262,7 @@ void MethodBody() #void: {
         (type = <IDENTIFIER> {
             jjtThis.put("val", type.image);
             jjtThis.put("line", String.valueOf(type.beginLine));
+            jjtThis.put("col", String.valueOf(type.beginColumn));
         } #Type(0) ((VarDeclaration1() #VarDeclaration(2) MethodBody())
         | (Statement2() (Statement())*)))
         | (Type1() VarDeclaration1() #VarDeclaration(2) MethodBody())
@@ -269,6 +277,7 @@ void Type() #void: {
     Type1() | type = <IDENTIFIER> {
         jjtThis.put("val", type.image);
         jjtThis.put("line", String.valueOf(type.beginLine));
+        jjtThis.put("col", String.valueOf(type.beginColumn));
     } #Type(0)
 }
 
@@ -279,10 +288,12 @@ void Type1() #void:{
     (name = <INT> {
         jjtThis.put("val", "int");
         jjtThis.put("line", String.valueOf(name.beginLine));
+        jjtThis.put("col", String.valueOf(name.beginColumn));
     } (<LRPAR> <RRPAR> {jjtThis.put("val", jjtThis.get("val") + "[]");})?) #Type(0) 
     | name = <BOOLEAN> {
         jjtThis.put("val", "boolean");
         jjtThis.put("line", String.valueOf(name.beginLine));
+        jjtThis.put("col", String.valueOf(name.beginColumn));
         } #Type(0)
 }
 
@@ -294,6 +305,7 @@ void Statement() #void: {
     | (name = <IDENTIFIER> {
         jjtThis.put("val", name.image);
         jjtThis.put("line", String.valueOf(name.beginLine));
+        jjtThis.put("col", String.valueOf(name.beginColumn));
     } Statement2()) #Var
 }
 
@@ -342,12 +354,14 @@ void Expression06() #void: {
     name = <INTEGERLITERAL> {
         jjtThis.put("val", name.image);
         jjtThis.put("line", String.valueOf(name.beginLine));
+        jjtThis.put("col", String.valueOf(name.beginColumn));
     } #IntegerLiteral(0)
     | <TRUE> #True(0)
     | <FALSE> #False(0)
     | name = <IDENTIFIER> {
         jjtThis.put("val", name.image);
         jjtThis.put("line", String.valueOf(name.beginLine));
+        jjtThis.put("col", String.valueOf(name.beginColumn));
     } #Var(0)
     | <THIS> #This(0)
     | (<NEW> (ContructorIntArray() | ConstructorClass()))
@@ -371,6 +385,7 @@ void Expression26() #void: {
     name = <INTEGERLITERAL> {
         jjtThis.put("val", name.image);
         jjtThis.put("line", String.valueOf(name.beginLine));
+        jjtThis.put("col", String.valueOf(name.beginColumn));
     } #IntegerLiteral(0)
     | <TRUE> #True(0)
     | <FALSE> #False(0)
@@ -402,5 +417,6 @@ void ConstructorClass():{
     name = <IDENTIFIER> {
         jjtThis.put("val", name.image);
         jjtThis.put("line", String.valueOf(name.beginLine));
+        jjtThis.put("col", String.valueOf(name.beginColumn));
     } <LPAR> <RPAR>
 }

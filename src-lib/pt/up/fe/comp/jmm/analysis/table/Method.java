@@ -32,36 +32,29 @@ public class Method implements SymbolTable {
         List<JmmNode> childrens = node.getChildren();
 
         for(JmmNode child: childrens) {
-            if(child.toString().equals("ReturnType")) this.processReturnType(child);
-            else if(child.toString().equals("MethodParams")) this.processParams(child);
-            else if(child.toString().equals("MethodBody")) this.processBody(child);
+            if(child.getKind().equals("ReturnType")) this.processReturnType(child);
+            else if(child.getKind().equals("MethodParams")) this.processParams(child);
+            else if(child.getKind().equals("MethodBody")) this.processBody(child);
         }
     }
 
     private void processReturnType(JmmNode node) {
         JmmNode child = node.getChildren().get(0);
         
-        if(child.toString().equals("Type")) this.returnType = new Type(child.get("val"));
+        if(child.getKind().equals("Type")) this.returnType = SymbolTableUtils.processType(child.get("val"));
     }
 
     private void processParams(JmmNode node) {
         List<JmmNode> childrens = node.getChildren();
 
         for(JmmNode child: childrens)
-            if(child.toString().equals("MethodParam")) this.addSymbol(child);
+            if(child.getKind().equals("MethodParam")) this.addSymbol(child);
     }
 
     private void addSymbol(JmmNode node) {
         Locals locals = (Locals) this.symbol_table.get("params");
-        Symbol symbol = this.processSymbol(node);
-        locals.addLocal(symbol);
+        locals.addLocal(SymbolTableUtils.processSymbol(node));
         this.symbol_table.put("params", locals);
-    }
-
-    private Symbol processSymbol(JmmNode node) {
-        Symbol symbol = new Symbol();
-        symbol.processSymbol(node);
-        return symbol;
     }
 
     private void processBody(JmmNode node) {
@@ -74,7 +67,7 @@ public class Method implements SymbolTable {
         String ret = "";
 
         ret += ini + "RETURN:\n";
-        ret += this.returnType.print(ini + "   ");
+        ret += SymbolTableUtils.printType(this.returnType, ini + "   ");
 
         ret += "\n" + ini + "PARAMS:\n";
         ret += ((Locals) this.symbol_table.get("params")).print(ini + "   ");

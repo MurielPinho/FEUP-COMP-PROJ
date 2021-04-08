@@ -37,8 +37,8 @@ public class MainMethod implements SymbolTable {
         List<JmmNode> childrens = node.getChildren();
 
         for(JmmNode child: childrens) {
-            if(child.toString().equals("ArgName")) this.paramName = child.get("val");
-            else if(child.toString().equals("MethodBody")) this.processBody(child);
+            if(child.getKind().equals("ArgName")) this.paramName = child.get("val");
+            else if(child.getKind().equals("MethodBody")) this.processBody(child);
         }
     }
 

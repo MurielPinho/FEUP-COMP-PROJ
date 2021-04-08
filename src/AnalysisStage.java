@@ -20,24 +20,25 @@ public class AnalysisStage implements JmmAnalysis {
 
     @Override
     public JmmSemanticsResult semanticAnalysis(JmmParserResult parserResult) {
+        // if (TestUtils.getNumReports(parserResult.getReports(), ReportType.ERROR) > 0) {
+        //     System.out.println("OI");
+        //     var errorReport = new Report(ReportType.ERROR, Stage.SEMANTIC, -1,
+        //             "Started semantic analysis but there are errors from previous stage");
+        //     return new JmmSemanticsResult(parserResult, null, Arrays.asList(errorReport));
+        // }
 
-        if (TestUtils.getNumReports(parserResult.getReports(), ReportType.ERROR) > 0) {
-            var errorReport = new Report(ReportType.ERROR, Stage.SEMANTIC, -1,
-                    "Started semantic analysis but there are errors from previous stage");
-            return new JmmSemanticsResult(parserResult, null, Arrays.asList(errorReport));
-        }
-
-        if (parserResult.getRootNode() == null) {
-            var errorReport = new Report(ReportType.ERROR, Stage.SEMANTIC, -1,
-                    "Started semantic analysis but AST root node is null");
-            return new JmmSemanticsResult(parserResult, null, Arrays.asList(errorReport));
-        }
+        // if (parserResult.getRootNode() == null) {
+        //     var errorReport = new Report(ReportType.ERROR, Stage.SEMANTIC, -1,
+        //             "Started semantic analysis but AST root node is null");
+        //     return new JmmSemanticsResult(parserResult, null, Arrays.asList(errorReport));
+        // }
 
         // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
         //            BUILD SYMBOL TABLE
         // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
         JmmNode node = parserResult.getRootNode();
+        // System.out.println(node);
 
         System.out.println("\n#######################\n");
         System.out.println("Building Symbol Table...");
@@ -47,15 +48,15 @@ public class AnalysisStage implements JmmAnalysis {
         
         System.out.println("Symbol Table built");
         System.out.println("\n#######################\n");
-        // System.out.println( rootSymbolTable.print());
-        // System.out.println("\n#######################\n");
+        System.out.println( rootSymbolTable.print());
+        System.out.println("\n#######################\n");
 
         // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
         //            SEMANTIC ANALYSIS
         // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
         // System.out.println("Dump tree with Visitor where you control tree traversal");
-        // ExampleVisitor visitor = new ExampleVisitor("Identifier", "id");
+        // ExampleVisitor visitor = new ExampleVisitor("VarDeclaration", "val");
         // System.out.println(visitor.visit(node, ""));
 
         // System.out.println("Dump tree with Visitor that automatically performs preorder tree traversal");

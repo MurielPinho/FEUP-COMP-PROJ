@@ -36,8 +36,8 @@ public class Class implements SymbolTable {
         List<JmmNode> childrens = node.getChildren();
 
         for(JmmNode child: childrens) {
-            if(child.toString().equals("VarDeclaration")) this.addSymbol(child);
-            else if(child.toString().equals("MethodDeclaration")) this.addMethod(child.getChildren().get(0));
+            if(child.getKind().equals("VarDeclaration")) this.addSymbol(child);
+            else if(child.getKind().equals("MethodDeclaration")) this.addMethod(child.getChildren().get(0));
         }
     }
 
@@ -57,24 +57,17 @@ public class Class implements SymbolTable {
 
     private void addSymbol(JmmNode node) {
         Locals locals = (Locals) this.symbol_table.get("locals");
-        Symbol symbol = this.processSymbol(node);
-        locals.addLocal(symbol);
+        locals.addLocal(SymbolTableUtils.processSymbol(node));
         this.symbol_table.put("locals", locals);
     }
 
-    private Symbol processSymbol(JmmNode node) {
-        Symbol symbol = new Symbol();
-        symbol.processSymbol(node);
-        return symbol;
-    }
-
     private void addMethod(JmmNode node) {
-        if(node.toString().equals("RegularMethod")) {
+        if(node.getKind().equals("RegularMethod")) {
             Methods methods = (Methods) this.symbol_table.get("methods");
             methods.addMethod(node.get("val"), this.processMethod(node));
             this.symbol_table.put("methods", methods);
         }
-        else if (node.toString().equals("Main")) {
+        else if (node.getKind().equals("Main")) {
             this.symbol_table.put("main", this.processMainMethod(node));
         }
     }
