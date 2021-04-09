@@ -126,11 +126,11 @@ public class Class implements SymbolTable {
 
     @Override
     public List<String> getMethods() {
-        List<String> methods = this.symbol_table.get("methods").getMethods();
+        List<String> methods = ((Methods) this.symbol_table.get("methods")).getMethodNames();
 
         if(((MainMethod) this.symbol_table.get("main")).getExists()) methods.add("main");
 
-        return this.symbol_table.get("class").getMethods();
+        return methods;
     }
 
     @Override

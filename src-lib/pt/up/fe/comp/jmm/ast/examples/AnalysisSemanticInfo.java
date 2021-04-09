@@ -33,6 +33,10 @@ public class AnalysisSemanticInfo {
         return this.symbolTable.getSuper();
     }
 
+    public List<String> getMethods() {
+        return this.symbolTable.getMethods();
+    }
+
     public List<Symbol> getMethodParameters(String methodName) {
         return this.symbolTable.getParameters(methodName);
     }

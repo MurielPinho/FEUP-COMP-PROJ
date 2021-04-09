@@ -22,15 +22,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/ {/*@
     private int MAX_WHILE_EXPRESSION_ERRORS = 300;
     private ArrayList<Report> errorMessages = new ArrayList<Report>();
 
-    /*public Parser(String file) throws ParseException, FileNotFoundException{
-        // System.out.println("Parsing...");
-
-        System.setIn(new FileInputStream(file));
-		Parser parser = new Parser(System.in);
-		//SimpleNode root = parser.Program();  // returns reference to root node
-
-		//root.dump(""); // prints the tree on the screen
-    }*/
+    private HashMap<String, Integer> functionName = new HashMap<String, Integer>();
 
     public ArrayList<Report> getReports() {
         return this.errorMessages;
@@ -80,15 +72,27 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/ {/*@
 
     public void printErrorMessages() {
         System.out.println("\n#######################\n");
-        System.out.println("      EXCEPTIONS      ");
+        System.out.println("      SYNTATIC ERRORS      ");
         System.out.println("\n#######################\n");
 
-        if(this.errorMessages.size() == 0) System.out.println("None exception relative to while expression!");
+        if(this.errorMessages.size() == 0) System.out.println("No syntatic error was found!");
 
         for(int i = 0; i < this.errorMessages.size(); i++)
             System.out.println(this.errorMessages.get(i));
         
         System.out.println("\n#######################\n");
+    }
+
+    public int getFunctionNumber(String name) {
+        if(this.functionName.containsKey(name)) {
+            int num = this.functionName.get(name);
+            this.functionName.put(name, num + 1);
+            return num + 1;
+        }
+        else {
+            this.functionName.put(name, 1);
+            return 1;
+        }
     }
 }
 
@@ -412,7 +416,7 @@ void RegularMethod(): {/*@bgen(jjtree) RegularMethod */
       }
     }
 /*@egen*/             name = <IDENTIFIER> {
-        jjtn000.put("val", name.image);
+        jjtn000.put("val", name.image + String.valueOf(getFunctionNumber(name.image)));
         jjtn000.put("line", String.valueOf(name.beginLine));
         jjtn000.put("col", String.valueOf(name.beginColumn));
     } 
@@ -1211,7 +1215,7 @@ void Expression01()      : {} {Expression02() LessExpression()}
 void Expression02()      : {} {Expression03() PlusMinusExpression()}
 void Expression03()      : {} {Expression04() MultDivExpression()}
 void Expression04()      : {} {NotExpression() | Expression05()}
-void Expression05()      : {} {(Expression06() DotArrayExpression()) | SubExpression()}
+void Expression05()      : {} {(Expression06() (DotArrayExpression() | {})) | SubExpression()}
 void Expression06()      : {
     Token name;
 } {
@@ -1317,7 +1321,7 @@ void Expression21()      : {} {Expression22() LessExpression()}
 void Expression22()      : {} {Expression23() PlusMinusExpression()}
 void Expression23()      : {} {Expression24() MultDivExpression()}
 void Expression24()      : {} {NotExpression() | Expression25()}
-void Expression25()      : {} {(Expression26() DotArrayExpression()) | SubExpression()}
+void Expression25()      : {} {(Expression26() (DotArrayExpression() | {})) | SubExpression()}
 void Expression26()      : {
     Token name;
 } {
@@ -1600,7 +1604,7 @@ void NotExpression(): {/*@bgen(jjtree) NotExpression */
                             }
                           }
 /*@egen*/}
-void DotArrayExpression()      : {} { DotExpression() | (ArrayIndex() (Assignment())?) | {}}
+void DotArrayExpression()      : {} { DotExpression() | (ArrayIndex())}
 void DotExpression()      : {} {<DOT> (/*@bgen(jjtree) #Length( 0) */
                                        {
                                          SimpleNode jjtn001 = new SimpleNode(JJTLENGTH);
@@ -1633,7 +1637,7 @@ void SubExpression()      : {} {(<LPAR>{countWhileExpressionParetheses++;} Expre
                                                                                                     jjtree.closeNodeScope(jjtn001, true);
                                                                                                   }
                                                                                                 }
-/*@egen*/               ) | {}}
+/*@egen*/               )}
 
 void MethodInvocation():{/*@bgen(jjtree) MethodInvocation */
                          SimpleNode jjtn000 = new SimpleNode(JJTMETHODINVOCATION);

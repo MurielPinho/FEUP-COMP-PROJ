@@ -30,11 +30,11 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
     public Boolean methodVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
         String methodName = node.get("val");
         this.line = Integer.parseInt(node.get("line"));
-
+        
         JmmNode invoker = this.getMethodOwner(node);
         // we can only invoke a method if the owner of it is: a variable, this or a class constructor
         if(!(invoker.getKind().equals("This") || invoker.getKind().equals("Var") || invoker.getKind().equals("ConstructorClass"))) {
-            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid invoker: " + (invoker.get("val") != null ? invoker.get("val") : invoker.getKind()) + " of method: " + node.get("val")));
+            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid invoker: " + (invoker.get("val") != null ? invoker.get("val") : invoker.getKind()) + " of method: " + node.get("val") +"!"));
             return false;
         }
 
@@ -95,28 +95,37 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
      */
     private boolean verifyIfMethodExistsInClass(JmmNode method, AnalysisSemanticInfo analysisSemanticInfo) {
         String methodName = method.get("val");
-        List<Symbol> params = analysisSemanticInfo.getMethodParameters(methodName);
+        List<String> methods = analysisSemanticInfo.getMethods();
+        Report report = null;
+
+        // it goes through all methods that have the same name
+        for(String aux: methods) {  
+            if(aux.substring(0, aux.length() - 1).equals(methodName)) {
+                List<Symbol> params = analysisSemanticInfo.getMethodParameters(aux);
+
+                // the method declaration and the method invocation have diferent number of args
+                if(params.size() != this.getNumArgs(method)) {
+                    report = new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Method: " + methodName + "! Invalid number of arguments! Given: " + this.getNumArgs(method) + "; Required: " + params.size() +"!");
+                    continue;
+                }
+
+                if (params.size() == 0) return true;
+
+                // verifies if all the elements are of the correct type, if so it returns null
+                Report rep1 = validArgs(method, params, analysisSemanticInfo);
+                if(rep1 == null) return true;
+                else if(report == null) report = rep1;
+            }
+        }
 
         // the method does not exist in the current class, and the class has no super
-        if(params == null && analysisSemanticInfo.getSuper().equals("")){
-            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Method: " + methodName + "! Class: " + analysisSemanticInfo.getClassName() + " does not contain method: " + methodName + "!"));
-            return false;
-        }
-        // the method does not exist in the current class but we assume that exists in the super
-        else if(params == null) return true;
+        if(!analysisSemanticInfo.getSuper().equals("")) return true;
 
-        // the method declaration and the method invocation have diferent number of args
-        if(params.size() != this.getNumArgs(method)) {
-            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Method: " + methodName + "! Invalid number of arguments! Given: " + this.getNumArgs(method) + "; Required: " + params.size()));
-            return false;
-        }
+        if(report == null) analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0,
+        "Method: " + methodName + "! This method was not defined in this class!"));
+        else analysisSemanticInfo.addReport(report);
 
-        if (params.size() == 0) return true;
-
-        // all the arguments passes are the same type as the parameters of teh method
-        if(validArgs(method, params, analysisSemanticInfo)) return true;
-        // not all of the parameters have the same type as the arguments
-        else return false;
+        return false;
     }
 
     /**
@@ -158,7 +167,7 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
      * @return
      */
     private int getNumArgs(JmmNode node) {
-        return (node.getChildren().get(0).getChildren().get(0).getNumChildren() == 0) ? 0 : node.getChildren().get(0).getNumChildren();
+        return (node.getChildren().get(0).getNumChildren() == 0 || node.getChildren().get(0).getChildren().get(0).getNumChildren() == 0) ? 0 : node.getChildren().get(0).getNumChildren();
     }
 
     /**
@@ -168,22 +177,24 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
      * @param analysisSemanticInfo
      * @return
      */
-    private boolean validArgs(JmmNode node, List<Symbol> params, AnalysisSemanticInfo analysisSemanticInfo) {
+    private Report validArgs(JmmNode node, List<Symbol> params, AnalysisSemanticInfo analysisSemanticInfo) {
         List<JmmNode> args = node.getChildren().get(0).getChildren();
 
         for(int i = 0; i < args.size(); i++) {
             JmmNode lastNode = args.get(i).getChildren().get(args.get(i).getChildren().size() - 1);
             Type type = this.getTypeFromKind(lastNode, params.get(i), analysisSemanticInfo);
-            System.out.println(args.get(i));
+
+            if (type == null) return new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0,
+                                            "Method: " + node.get("val") + "! Imcompatible Operation in argument " + (i + 1));
+            
             if (!type.equals(params.get(i).getType())) {
-                analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0,
+                return new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0,
                                             "Method: " + node.get("val") + "! Imcompatible types " + params.get(i).getType().getName() + (params.get(i).getType().isArray() ? "[]" : "")
-                                            + " and " + type.getName() + (type.isArray() ? "[]" : "") + ", in argument " + (i+1)));
-                return false;
+                                            + " and " + type.getName() + (type.isArray() ? "[]" : "") + ", in argument " + (i+1) +"!");
             }
         }
 
-        return true;
+        return null;
     }
 
     /**
@@ -212,6 +223,7 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
         else if(node.getKind().equals("DivExpression")) return new Type("int", false);
         else if(node.getKind().equals("NotExpression")) return new Type("boolean", false);
         else if(node.getKind().equals("Length")) return new Type("int", false);
+        else if(node.getKind().equals("ArrayIndex")) return new Type("int", false);
         else if(node.getKind().equals("MethodInvocation")) {
             Type type = analysisSemanticInfo.getReturnType(node.get("val"));
             return (type == null) ? expected.getType() : type;
@@ -265,7 +277,7 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
     //     $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
     public Boolean typeVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
-        System.out.println("TO DO! TYPE VERIFICATION");
+        // System.out.println("TO DO! TYPE VERIFICATION");
         
         return true;
     }

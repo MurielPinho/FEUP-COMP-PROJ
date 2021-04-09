@@ -59,6 +59,8 @@ public class AnalysisStage implements JmmAnalysis {
         AnalysisSemanticVisitor visitor = new AnalysisSemanticVisitor();
         visitor.visit(node, analysisSemanticInfo);
 
+        System.out.println("TO DO! TYPE VERIFICATION");
+
         for(Report report: analysisSemanticInfo.getReports()) System.out.println(report);
 
         // No Symbol Table being calculated yet

@@ -36,6 +36,14 @@ public class Methods implements SymbolTable {
         return ret;
     }
 
+    public List<String> getMethodNames() {
+        List<String> ret = new ArrayList<>();
+
+        for(String method: this.symbol_table.keySet()) ret.add(method);
+
+        return ret;
+    }
+
     @Override
     public List<String> getImports() {
         return (this.parent != null) ? this.parent.getImports() : null;
