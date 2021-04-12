@@ -14,9 +14,9 @@
     {
       "kind": "Class",
       "attributes": {
-        "val": "NestedLoop",
+        "val": "T",
         "col": "7",
-        "line": "1"
+        "line": "5"
       },
       "children": [
         {
@@ -34,9 +34,9 @@
                 {
                   "kind": "ArgName",
                   "attributes": {
-                    "val": "args",
-                    "col": "35",
-                    "line": "2"
+                    "val": "a",
+                    "col": "38",
+                    "line": "6"
                   },
                   "children": []
                 },
@@ -47,51 +47,166 @@
                   },
                   "children": [
                     {
-                      "kind": "While",
+                      "kind": "Var",
                       "attributes": {
-                        "val": "null"
+                        "val": "io",
+                        "col": "9",
+                        "line": "7"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "MethodInvocation",
+                      "attributes": {
+                        "val": "println",
+                        "col": "12",
+                        "line": "7"
                       },
                       "children": [
                         {
-                          "kind": "WhileBody",
+                          "kind": "MethodArgs",
                           "attributes": {
                             "val": "null"
                           },
                           "children": [
                             {
-                              "kind": "Scope",
+                              "kind": "MethodArg",
                               "attributes": {
                                 "val": "null"
                               },
                               "children": [
                                 {
-                                  "kind": "While",
+                                  "kind": "IntegerLiteral",
                                   "attributes": {
-                                    "val": "null"
+                                    "val": "10",
+                                    "col": "20",
+                                    "line": "7"
                                   },
-                                  "children": [
-                                    {
-                                      "kind": "WhileBody",
-                                      "attributes": {
-                                        "val": "null"
-                                      },
-                                      "children": [
-                                        {
-                                          "kind": "Scope",
-                                          "attributes": {
-                                            "val": "null"
-                                          },
-                                          "children": []
-                                        }
-                                      ]
-                                    }
-                                  ]
+                                  "children": []
                                 }
                               ]
                             }
                           ]
                         }
                       ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {
+            "val": "null"
+          },
+          "children": [
+            {
+              "kind": "RegularMethod",
+              "attributes": {
+                "val": "foo1",
+                "col": "16",
+                "line": "10"
+              },
+              "children": [
+                {
+                  "kind": "ReturnType",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "Type",
+                      "attributes": {
+                        "val": "int",
+                        "col": "12",
+                        "line": "10"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "kind": "MethodParams",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "MethodParam",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "boolean",
+                            "col": "20",
+                            "line": "10"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "a",
+                            "col": "28",
+                            "line": "10"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "MethodBody",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "This",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "MethodInvocation",
+                      "attributes": {
+                        "val": "bar",
+                        "col": "14",
+                        "line": "11"
+                      },
+                      "children": [
+                        {
+                          "kind": "MethodArgs",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "ReturnStatement",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "IntegerLiteral",
+                      "attributes": {
+                        "val": "1",
+                        "col": "16",
+                        "line": "12"
+                      },
+                      "children": []
                     }
                   ]
                 }

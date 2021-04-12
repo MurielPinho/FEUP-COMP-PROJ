@@ -314,7 +314,7 @@ void Statement() #void: {
         jjtThis.put("val", name.image);
         jjtThis.put("line", String.valueOf(name.beginLine));
         jjtThis.put("col", String.valueOf(name.beginColumn));
-    } #Var(0) Statement2()) #Var(2)
+    } #Var(0) Statement2()) 
 }
 
 void Statement1() #void:{}

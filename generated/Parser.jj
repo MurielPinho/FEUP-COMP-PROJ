@@ -860,14 +860,7 @@ void Statement()      : {
 }
 {
     Statement1()
-    |/*@bgen(jjtree) #Var( 2) */
-      {
-        SimpleNode jjtn002 = new SimpleNode(JJTVAR);
-        boolean jjtc002 = true;
-        jjtree.openNodeScope(jjtn002);
-      }
-      try {
-/*@egen*/ (name = <IDENTIFIER>/*@bgen(jjtree) #Var( 0) */
+    | (name = <IDENTIFIER>/*@bgen(jjtree) #Var( 0) */
                            {
                              SimpleNode jjtn001 = new SimpleNode(JJTVAR);
                              boolean jjtc001 = true;
@@ -889,27 +882,7 @@ void Statement()      : {
                                jjtree.closeNodeScope(jjtn001,  0);
                              }
                            }
-/*@egen*/         Statement2())/*@bgen(jjtree)*/
-      } catch (Throwable jjte002) {
-        if (jjtc002) {
-          jjtree.clearNodeScope(jjtn002);
-          jjtc002 = false;
-        } else {
-          jjtree.popNode();
-        }
-        if (jjte002 instanceof RuntimeException) {
-          throw (RuntimeException)jjte002;
-        }
-        if (jjte002 instanceof ParseException) {
-          throw (ParseException)jjte002;
-        }
-        throw (Error)jjte002;
-      } finally {
-        if (jjtc002) {
-          jjtree.closeNodeScope(jjtn002,  2);
-        }
-      }
-/*@egen*/        
+/*@egen*/         Statement2()) 
 }
 
 void Statement1()      :{}

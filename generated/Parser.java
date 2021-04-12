@@ -921,45 +921,22 @@ if (jjtc002) {
       break;
       }
     case IDENTIFIER:{
-SimpleNode jjtn002 = new SimpleNode(JJTVAR);
-        boolean jjtc002 = true;
-        jjtree.openNodeScope(jjtn002);
-      try {
-        name = jj_consume_token(IDENTIFIER);
+      name = jj_consume_token(IDENTIFIER);
 SimpleNode jjtn001 = new SimpleNode(JJTVAR);
                              boolean jjtc001 = true;
                              jjtree.openNodeScope(jjtn001);
-        try {
+      try {
 jjtree.closeNodeScope(jjtn001,  0);
                              jjtc001 = false;
 jjtn001.put("val", name.image);
         jjtn001.put("line", String.valueOf(name.beginLine));
         jjtn001.put("col", String.valueOf(name.beginColumn));
-        } finally {
+      } finally {
 if (jjtc001) {
                                jjtree.closeNodeScope(jjtn001,  0);
                              }
-        }
-        Statement2();
-      } catch (Throwable jjte002) {
-if (jjtc002) {
-          jjtree.clearNodeScope(jjtn002);
-          jjtc002 = false;
-        } else {
-          jjtree.popNode();
-        }
-        if (jjte002 instanceof RuntimeException) {
-          {if (true) throw (RuntimeException)jjte002;}
-        }
-        if (jjte002 instanceof ParseException) {
-          {if (true) throw (ParseException)jjte002;}
-        }
-        {if (true) throw (Error)jjte002;}
-      } finally {
-if (jjtc002) {
-          jjtree.closeNodeScope(jjtn002,  2);
-        }
       }
+      Statement2();
       break;
       }
     default:
