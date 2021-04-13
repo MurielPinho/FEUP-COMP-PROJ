@@ -420,7 +420,7 @@ void DivExpression():{} { <DIV> Expression03()}
 void NotExpression(): {} {<NOT> Expression04()}
 void DotArrayExpression() #void: {} { DotExpression() | (ArrayIndex())}
 void DotExpression() #void: {} {<DOT> (<LENGTH> #Length(0) | MethodInvocation())}
-void SubExpression() #void: {} {(<LPAR>{countWhileExpressionParetheses++;} Expression00() <RPAR>{countWhileExpressionParetheses--;} #SubExpression)}
+void SubExpression(): {} {(<LPAR>{countWhileExpressionParetheses++;} Expression00() <RPAR>{countWhileExpressionParetheses--;})}
 
 void MethodInvocation():{Token name;}{ name = <IDENTIFIER> {
     jjtThis.put("val", name.image);

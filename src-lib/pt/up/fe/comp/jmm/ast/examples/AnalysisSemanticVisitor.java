@@ -24,6 +24,7 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
     public AnalysisSemanticVisitor() {
         addVisit("MethodInvocation", this::methodVerification);
         addVisit("ArrayIndex", this::typeVerification);
+        addVisit("Assignment", this::assignmentVerification);
     }
 
     // antes tem de ser: this, contrutor class ou identifier
@@ -118,7 +119,7 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
             }
         }
 
-        // the method does not exist in the current class, and the class has no super
+        // the method does not exist in the current class but exists on super
         if(!analysisSemanticInfo.getSuper().equals("")) return true;
 
         if(report == null) analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0,
@@ -275,6 +276,36 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
     //     $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
     //                  +++++++++++++++++++++++++             
     //     $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+    public Boolean assignmentVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
+        Type assigneeType = this.getExpressionType(node, analysisSemanticInfo); 
+        
+        // the expression contains some error
+        if (assigneeType == null) return false;
+        else { // the expression does not contain any error
+
+        }
+
+        return true;
+    }
+
+    private Type getExpressionType(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
+        List<JmmNode> children = node.getChildren();
+
+        // subExpr ->
+
+        Type prevType = null;
+        for(JmmNode child: children) {
+            Type nextType = this.getExpressionType(child, analysisSemanticInfo);
+            if (nextType == null) return null;
+            if(type == null) {
+
+            }
+            else {
+
+            }
+        }
+    }
 
     public Boolean typeVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
         // System.out.println("TO DO! TYPE VERIFICATION");

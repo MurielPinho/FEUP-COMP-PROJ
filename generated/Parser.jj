@@ -1592,25 +1592,38 @@ void DotExpression()      : {} {<DOT> (/*@bgen(jjtree) #Length( 0) */
                                          }
                                        }
 /*@egen*/            | MethodInvocation())}
-void SubExpression()      : {} {(<LPAR>{countWhileExpressionParetheses++;} Expression00() <RPAR>/*@bgen(jjtree) SubExpression */
-                                                                                                {
-                                                                                                  SimpleNode jjtn001 = new SimpleNode(JJTSUBEXPRESSION);
-                                                                                                  boolean jjtc001 = true;
-                                                                                                  jjtree.openNodeScope(jjtn001);
-                                                                                                }
-                                                                                                try {
-/*@egen*//*@bgen(jjtree)*/
-                                                                                                {
-                                                                                                  jjtree.closeNodeScope(jjtn001, true);
-                                                                                                  jjtc001 = false;
-                                                                                                }
-/*@egen*/{countWhileExpressionParetheses--;}/*@bgen(jjtree)*/
-                                                                                                } finally {
-                                                                                                  if (jjtc001) {
-                                                                                                    jjtree.closeNodeScope(jjtn001, true);
-                                                                                                  }
-                                                                                                }
-/*@egen*/               )}
+void SubExpression(): {/*@bgen(jjtree) SubExpression */
+  SimpleNode jjtn000 = new SimpleNode(JJTSUBEXPRESSION);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/} {/*@bgen(jjtree) SubExpression */
+                          try {
+/*@egen*/(<LPAR>{countWhileExpressionParetheses++;} Expression00() <RPAR>/*@bgen(jjtree)*/
+                                                                                          {
+                                                                                            jjtree.closeNodeScope(jjtn000, true);
+                                                                                            jjtc000 = false;
+                                                                                          }
+/*@egen*/{countWhileExpressionParetheses--;})/*@bgen(jjtree)*/
+                          } catch (Throwable jjte000) {
+                            if (jjtc000) {
+                              jjtree.clearNodeScope(jjtn000);
+                              jjtc000 = false;
+                            } else {
+                              jjtree.popNode();
+                            }
+                            if (jjte000 instanceof RuntimeException) {
+                              throw (RuntimeException)jjte000;
+                            }
+                            if (jjte000 instanceof ParseException) {
+                              throw (ParseException)jjte000;
+                            }
+                            throw (Error)jjte000;
+                          } finally {
+                            if (jjtc000) {
+                              jjtree.closeNodeScope(jjtn000, true);
+                            }
+                          }
+/*@egen*/}
 
 void MethodInvocation():{/*@bgen(jjtree) MethodInvocation */
                          SimpleNode jjtn000 = new SimpleNode(JJTMETHODINVOCATION);

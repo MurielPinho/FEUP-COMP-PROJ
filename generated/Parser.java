@@ -1979,22 +1979,36 @@ if (jjtc001) {
     }
   }
 
-  final public void SubExpression() throws ParseException {
-    jj_consume_token(LPAR);
-countWhileExpressionParetheses++;
-    Expression00();
-    jj_consume_token(RPAR);
-SimpleNode jjtn001 = new SimpleNode(JJTSUBEXPRESSION);
-                                                                                                  boolean jjtc001 = true;
-                                                                                                  jjtree.openNodeScope(jjtn001);
+  final public void SubExpression() throws ParseException {/*@bgen(jjtree) SubExpression */
+  SimpleNode jjtn000 = new SimpleNode(JJTSUBEXPRESSION);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
     try {
-jjtree.closeNodeScope(jjtn001, true);
-                                                                                                  jjtc001 = false;
+      jj_consume_token(LPAR);
+countWhileExpressionParetheses++;
+      Expression00();
+      jj_consume_token(RPAR);
+jjtree.closeNodeScope(jjtn000, true);
+                                                                                            jjtc000 = false;
 countWhileExpressionParetheses--;
+    } catch (Throwable jjte000) {
+if (jjtc000) {
+                              jjtree.clearNodeScope(jjtn000);
+                              jjtc000 = false;
+                            } else {
+                              jjtree.popNode();
+                            }
+                            if (jjte000 instanceof RuntimeException) {
+                              {if (true) throw (RuntimeException)jjte000;}
+                            }
+                            if (jjte000 instanceof ParseException) {
+                              {if (true) throw (ParseException)jjte000;}
+                            }
+                            {if (true) throw (Error)jjte000;}
     } finally {
-if (jjtc001) {
-                                                                                                    jjtree.closeNodeScope(jjtn001, true);
-                                                                                                  }
+if (jjtc000) {
+                              jjtree.closeNodeScope(jjtn000, true);
+                            }
     }
   }
 
