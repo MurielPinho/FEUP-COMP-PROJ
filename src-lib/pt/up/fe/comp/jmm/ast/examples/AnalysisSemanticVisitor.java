@@ -278,34 +278,36 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
     //     $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
     public Boolean assignmentVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
-        Type assigneeType = this.getExpressionType(node, analysisSemanticInfo); 
+        // Type assigneeType = this.getExpressionType(node, analysisSemanticInfo); 
         
         // the expression contains some error
-        if (assigneeType == null) return false;
-        else { // the expression does not contain any error
+        // if (assigneeType == null) return false;
+        // else { // the expression does not contain any error
 
-        }
+        // }
 
         return true;
     }
 
-    private Type getExpressionType(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
-        List<JmmNode> children = node.getChildren();
+    // private Type getExpressionType(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
+    //     List<JmmNode> children = node.getChildren();
 
-        // subExpr ->
+    //     // subExpr -> recursividade
+    //     // method invoc -> retorno
+    //     // arrayindex -> passar a frente
 
-        Type prevType = null;
-        for(JmmNode child: children) {
-            Type nextType = this.getExpressionType(child, analysisSemanticInfo);
-            if (nextType == null) return null;
-            if(type == null) {
+    //     Type prevType = null;
+    //     // for(JmmNode child: children) {
+    //     //     // Type nextType = this.getExpressionType(child, analysisSemanticInfo);
+    //     //     // if (nextType == null) return null;
+    //     //     // if(type == null) {
 
-            }
-            else {
+    //     //     // }
+    //     //     // else {
 
-            }
-        }
-    }
+    //     //     // }
+    //     // }
+    // }
 
     public Boolean typeVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
         // System.out.println("TO DO! TYPE VERIFICATION");

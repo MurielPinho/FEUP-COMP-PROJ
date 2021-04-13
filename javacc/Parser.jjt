@@ -355,7 +355,7 @@ void Expression01() #void: {} {Expression02() LessExpression()}
 void Expression02() #void: {} {Expression03() PlusMinusExpression()}
 void Expression03() #void: {} {Expression04() MultDivExpression()}
 void Expression04() #void: {} {NotExpression() | Expression05()}
-void Expression05() #void: {} {(Expression06() (DotArrayExpression() | {})) | SubExpression()}
+void Expression05() #void: {} {(Expression06() DotArrayExpression()) | (SubExpression() DotArrayExpression())}
 void Expression06() #void: {
     Token name;
 } {
@@ -386,7 +386,7 @@ void Expression21() #void: {} {Expression22() LessExpression()}
 void Expression22() #void: {} {Expression23() PlusMinusExpression()}
 void Expression23() #void: {} {Expression24() MultDivExpression()}
 void Expression24() #void: {} {NotExpression() | Expression25()}
-void Expression25() #void: {} {(Expression26() (DotArrayExpression() | {})) | SubExpression()}
+void Expression25() #void: {} {(Expression26() DotArrayExpression()) | (SubExpression() DotArrayExpression())}
 void Expression26() #void: {
     Token name;
 } {
@@ -409,16 +409,16 @@ void Expression26() #void: {
     | (<NEW> (ContructorIntArray() | ConstructorClass()))
 }
 
-void AndExpression() #void: {} {(<AND> Expression00() #And) | {}}
-void LessExpression() #void: {} {(<LESS> Expression01() #Less) | {}}
-void PlusMinusExpression() #void: {} { PlusExpression() | MinusExpression() | {}}
+void AndExpression() #void: {} {(<AND> Expression00() #And AndExpression()) | {}}
+void LessExpression() #void: {} {(<LESS> Expression01() #Less LessExpression()) | {}}
+void PlusMinusExpression() #void: {} { ((PlusExpression() | MinusExpression()) PlusMinusExpression()) | {}}
 void PlusExpression(): {} { <PLUS> Expression02()}
 void MinusExpression(): {} { <MINUS> Expression02()}
-void MultDivExpression() #void: {} { MultExpression() | DivExpression() | {}}
+void MultDivExpression() #void: {} { ((MultExpression() | DivExpression()) MultDivExpression()) | {}}
 void MultExpression():{} { <MULT> Expression03()}
 void DivExpression():{} { <DIV> Expression03()}
 void NotExpression(): {} {<NOT> Expression04()}
-void DotArrayExpression() #void: {} { DotExpression() | (ArrayIndex())}
+void DotArrayExpression() #void: {} { ((DotExpression() | ArrayIndex()) DotArrayExpression()) | {}}
 void DotExpression() #void: {} {<DOT> (<LENGTH> #Length(0) | MethodInvocation())}
 void SubExpression(): {} {(<LPAR>{countWhileExpressionParetheses++;} Expression00() <RPAR>{countWhileExpressionParetheses--;})}
 

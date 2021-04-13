@@ -558,6 +558,72 @@
                                                           ]
                                                         }
                                                       ]
+                                                    },
+                                                    {
+                                                      "kind": "MethodArg",
+                                                      "attributes": {
+                                                        "val": "null"
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "kind": "False",
+                                                          "attributes": {
+                                                            "val": "null"
+                                                          },
+                                                          "children": []
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "kind": "MethodArg",
+                                                      "attributes": {
+                                                        "val": "null"
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "kind": "ConstructorClass",
+                                                          "attributes": {
+                                                            "val": "Fac",
+                                                            "col": "70",
+                                                            "line": "47"
+                                                          },
+                                                          "children": []
+                                                        },
+                                                        {
+                                                          "kind": "MethodInvocation",
+                                                          "attributes": {
+                                                            "val": "b",
+                                                            "col": "76",
+                                                            "line": "47"
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "kind": "MethodArgs",
+                                                              "attributes": {
+                                                                "val": "null"
+                                                              },
+                                                              "children": []
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "kind": "MethodInvocation",
+                                                          "attributes": {
+                                                            "val": "f",
+                                                            "col": "80",
+                                                            "line": "47"
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "kind": "MethodArgs",
+                                                              "attributes": {
+                                                                "val": "null"
+                                                              },
+                                                              "children": []
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
                                                     }
                                                   ]
                                                 }
@@ -577,7 +643,7 @@
                                           "kind": "IntegerLiteral",
                                           "attributes": {
                                             "val": "5",
-                                            "col": "62",
+                                            "col": "88",
                                             "line": "47"
                                           },
                                           "children": []
@@ -596,7 +662,7 @@
                                       "kind": "Var",
                                       "attributes": {
                                         "val": "a",
-                                        "col": "66",
+                                        "col": "92",
                                         "line": "47"
                                       },
                                       "children": []
@@ -611,10 +677,27 @@
                                           "kind": "Var",
                                           "attributes": {
                                             "val": "a",
-                                            "col": "70",
+                                            "col": "96",
                                             "line": "47"
                                           },
                                           "children": []
+                                        },
+                                        {
+                                          "kind": "ArrayIndex",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "Var",
+                                              "attributes": {
+                                                "val": "k",
+                                                "col": "98",
+                                                "line": "47"
+                                              },
+                                              "children": []
+                                            }
+                                          ]
                                         },
                                         {
                                           "kind": "Length",

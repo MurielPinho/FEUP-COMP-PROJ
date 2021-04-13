@@ -1188,7 +1188,7 @@ void Expression01()      : {} {Expression02() LessExpression()}
 void Expression02()      : {} {Expression03() PlusMinusExpression()}
 void Expression03()      : {} {Expression04() MultDivExpression()}
 void Expression04()      : {} {NotExpression() | Expression05()}
-void Expression05()      : {} {(Expression06() (DotArrayExpression() | {})) | SubExpression()}
+void Expression05()      : {} {(Expression06() DotArrayExpression()) | (SubExpression() DotArrayExpression())}
 void Expression06()      : {
     Token name;
 } {
@@ -1294,7 +1294,7 @@ void Expression21()      : {} {Expression22() LessExpression()}
 void Expression22()      : {} {Expression23() PlusMinusExpression()}
 void Expression23()      : {} {Expression24() MultDivExpression()}
 void Expression24()      : {} {NotExpression() | Expression25()}
-void Expression25()      : {} {(Expression26() (DotArrayExpression() | {})) | SubExpression()}
+void Expression25()      : {} {(Expression26() DotArrayExpression()) | (SubExpression() DotArrayExpression())}
 void Expression26()      : {
     Token name;
 } {
@@ -1411,7 +1411,7 @@ void AndExpression()      : {} {(<AND>/*@bgen(jjtree) And */
                                            jjtree.closeNodeScope(jjtn001, true);
                                          }
                                        }
-/*@egen*/     ) | {}}
+/*@egen*/      AndExpression()) | {}}
 void LessExpression()      : {} {(<LESS>/*@bgen(jjtree) Less */
                                          {
                                            SimpleNode jjtn001 = new SimpleNode(JJTLESS);
@@ -1439,8 +1439,8 @@ void LessExpression()      : {} {(<LESS>/*@bgen(jjtree) Less */
                                              jjtree.closeNodeScope(jjtn001, true);
                                            }
                                          }
-/*@egen*/      ) | {}}
-void PlusMinusExpression()      : {} { PlusExpression() | MinusExpression() | {}}
+/*@egen*/       LessExpression()) | {}}
+void PlusMinusExpression()      : {} { ((PlusExpression() | MinusExpression()) PlusMinusExpression()) | {}}
 void PlusExpression(): {/*@bgen(jjtree) PlusExpression */
   SimpleNode jjtn000 = new SimpleNode(JJTPLUSEXPRESSION);
   boolean jjtc000 = true;
@@ -1495,7 +1495,7 @@ void MinusExpression(): {/*@bgen(jjtree) MinusExpression */
                                }
                              }
 /*@egen*/}
-void MultDivExpression()      : {} { MultExpression() | DivExpression() | {}}
+void MultDivExpression()      : {} { ((MultExpression() | DivExpression()) MultDivExpression()) | {}}
 void MultExpression():{/*@bgen(jjtree) MultExpression */
   SimpleNode jjtn000 = new SimpleNode(JJTMULTEXPRESSION);
   boolean jjtc000 = true;
@@ -1577,7 +1577,7 @@ void NotExpression(): {/*@bgen(jjtree) NotExpression */
                             }
                           }
 /*@egen*/}
-void DotArrayExpression()      : {} { DotExpression() | (ArrayIndex())}
+void DotArrayExpression()      : {} { ((DotExpression() | ArrayIndex()) DotArrayExpression()) | {}}
 void DotExpression()      : {} {<DOT> (/*@bgen(jjtree) #Length( 0) */
                                        {
                                          SimpleNode jjtn001 = new SimpleNode(JJTLENGTH);
