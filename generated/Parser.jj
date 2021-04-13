@@ -892,7 +892,7 @@ void Statement1()      :{}
 
 void Statement2()      :{}
 {
-    ((Assignment()) | (ArrayIndex() (Assignment())?) | (Expression10()) | {}) <PVIRG>
+    ((Assignment()) | (ArrayIndex() (Assignment())?) | (Expression10())) <PVIRG>
 }
 
 void Scope():{/*@bgen(jjtree) Scope */
@@ -1287,7 +1287,8 @@ void Expression10()      : {} {Expression11() AndExpression()}
 void Expression11()      : {} {Expression12() LessExpression()}
 void Expression12()      : {} {Expression13() PlusMinusExpression()}
 void Expression13()      : {} {Expression14() MultDivExpression()}
-void Expression14()      : {} {DotExpression()}
+void Expression14()      : {} {NotExpression() | Expression15()}
+void Expression15()      : {} {(DotExpression() DotArrayExpression()) | {}}
 
 void Expression20()      : {} {Expression21() AndExpression()}
 void Expression21()      : {} {Expression22() LessExpression()}

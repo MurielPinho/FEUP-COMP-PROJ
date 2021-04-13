@@ -324,7 +324,7 @@ void Statement1() #void:{}
 
 void Statement2() #void:{}
 {
-    ((Assignment()) | (ArrayIndex() (Assignment())?) | (Expression10()) | {}) <PVIRG>
+    ((Assignment()) | (ArrayIndex() (Assignment())?) | (Expression10())) <PVIRG>
 }
 
 void Scope():{} {<LBRACKET> (Statement())* <RBRACKET>}
@@ -379,7 +379,8 @@ void Expression10() #void: {} {Expression11() AndExpression()}
 void Expression11() #void: {} {Expression12() LessExpression()}
 void Expression12() #void: {} {Expression13() PlusMinusExpression()}
 void Expression13() #void: {} {Expression14() MultDivExpression()}
-void Expression14() #void: {} {DotExpression()}
+void Expression14() #void: {} {NotExpression() | Expression15()}
+void Expression15() #void: {} {(DotExpression() DotArrayExpression()) | {}}
 
 void Expression20() #void: {} {Expression21() AndExpression()}
 void Expression21() #void: {} {Expression22() LessExpression()}
