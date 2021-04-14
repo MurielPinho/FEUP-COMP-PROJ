@@ -1280,7 +1280,7 @@ void Expression06()      : {
         }
       }
 /*@egen*/         
-    | (<NEW> (ContructorIntArray() | ConstructorClass()))
+    | (<NEW> (ConstructorIntArray() | ConstructorClass()))
 }
 
 void Expression10()      : {} {Expression11() AndExpression()}
@@ -1382,7 +1382,7 @@ void Expression26()      : {
         }
       }
 /*@egen*/         
-    | (<NEW> (ContructorIntArray() | ConstructorClass()))
+    | (<NEW> (ConstructorIntArray() | ConstructorClass()))
 }
 
 void AndExpression()      : {} {(<AND>/*@bgen(jjtree) And */
@@ -1712,32 +1712,32 @@ void MethodArg():{/*@bgen(jjtree) MethodArg */
                       }
 /*@egen*/}
 
-void ContructorIntArray():{/*@bgen(jjtree) ContructorIntArray */
-  SimpleNode jjtn000 = new SimpleNode(JJTCONTRUCTORINTARRAY);
+void ConstructorIntArray():{/*@bgen(jjtree) ConstructorIntArray */
+  SimpleNode jjtn000 = new SimpleNode(JJTCONSTRUCTORINTARRAY);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/} {/*@bgen(jjtree) ContructorIntArray */
-                              try {
+/*@egen*/} {/*@bgen(jjtree) ConstructorIntArray */
+                               try {
 /*@egen*/<INT> <LRPAR> Expression00() <RRPAR>/*@bgen(jjtree)*/
-                              } catch (Throwable jjte000) {
-                                if (jjtc000) {
-                                  jjtree.clearNodeScope(jjtn000);
-                                  jjtc000 = false;
-                                } else {
-                                  jjtree.popNode();
-                                }
-                                if (jjte000 instanceof RuntimeException) {
-                                  throw (RuntimeException)jjte000;
-                                }
-                                if (jjte000 instanceof ParseException) {
-                                  throw (ParseException)jjte000;
-                                }
-                                throw (Error)jjte000;
-                              } finally {
-                                if (jjtc000) {
-                                  jjtree.closeNodeScope(jjtn000, true);
-                                }
-                              }
+                               } catch (Throwable jjte000) {
+                                 if (jjtc000) {
+                                   jjtree.clearNodeScope(jjtn000);
+                                   jjtc000 = false;
+                                 } else {
+                                   jjtree.popNode();
+                                 }
+                                 if (jjte000 instanceof RuntimeException) {
+                                   throw (RuntimeException)jjte000;
+                                 }
+                                 if (jjte000 instanceof ParseException) {
+                                   throw (ParseException)jjte000;
+                                 }
+                                 throw (Error)jjte000;
+                               } finally {
+                                 if (jjtc000) {
+                                   jjtree.closeNodeScope(jjtn000, true);
+                                 }
+                               }
 /*@egen*/}
 void ConstructorClass():{/*@bgen(jjtree) ConstructorClass */
     SimpleNode jjtn000 = new SimpleNode(JJTCONSTRUCTORCLASS);

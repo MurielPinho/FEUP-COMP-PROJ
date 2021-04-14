@@ -44,10 +44,18 @@ class Fac extends B {
         if (num < 1)
             num_aux = 1;
         else
-            num_aux = 1 + num * (this.ComputeFac(num - 1, false, new Fac().b().f())) + 5 < a * a[k].length; /* just to test */
+            num_aux = 1 * (this.ComputeFac(num - 1, false, new Fac().b().f())) + 5 < 1; /* just to test */
 
+        /*this.b().j() + 8;
+        true && 2 < 1 + 5 + !a[20];
+        !a+c;*/
         return num_aux;
     }
+
+    public int b() {
+        return 1;
+    }
+
     public static void main(String[] args) {
         A b;
         io.println(new Fac().ComputeFac(10, b, a[4] + 7)); //assuming the existence

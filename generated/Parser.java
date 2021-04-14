@@ -1474,7 +1474,7 @@ if (jjtc005) {
       jj_consume_token(NEW);
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case INT:{
-        ContructorIntArray();
+        ConstructorIntArray();
         break;
         }
       case IDENTIFIER:{
@@ -1678,7 +1678,7 @@ if (jjtc004) {
       jj_consume_token(NEW);
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case INT:{
-        ContructorIntArray();
+        ConstructorIntArray();
         break;
         }
       case IDENTIFIER:{
@@ -2170,8 +2170,8 @@ if (jjtc000) {
     }
   }
 
-  final public void ContructorIntArray() throws ParseException {/*@bgen(jjtree) ContructorIntArray */
-  SimpleNode jjtn000 = new SimpleNode(JJTCONTRUCTORINTARRAY);
+  final public void ConstructorIntArray() throws ParseException {/*@bgen(jjtree) ConstructorIntArray */
+  SimpleNode jjtn000 = new SimpleNode(JJTCONSTRUCTORINTARRAY);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
     try {
@@ -2181,22 +2181,22 @@ if (jjtc000) {
       jj_consume_token(RRPAR);
     } catch (Throwable jjte000) {
 if (jjtc000) {
-                                  jjtree.clearNodeScope(jjtn000);
-                                  jjtc000 = false;
-                                } else {
-                                  jjtree.popNode();
-                                }
-                                if (jjte000 instanceof RuntimeException) {
-                                  {if (true) throw (RuntimeException)jjte000;}
-                                }
-                                if (jjte000 instanceof ParseException) {
-                                  {if (true) throw (ParseException)jjte000;}
-                                }
-                                {if (true) throw (Error)jjte000;}
+                                   jjtree.clearNodeScope(jjtn000);
+                                   jjtc000 = false;
+                                 } else {
+                                   jjtree.popNode();
+                                 }
+                                 if (jjte000 instanceof RuntimeException) {
+                                   {if (true) throw (RuntimeException)jjte000;}
+                                 }
+                                 if (jjte000 instanceof ParseException) {
+                                   {if (true) throw (ParseException)jjte000;}
+                                 }
+                                 {if (true) throw (Error)jjte000;}
     } finally {
 if (jjtc000) {
-                                  jjtree.closeNodeScope(jjtn000, true);
-                                }
+                                   jjtree.closeNodeScope(jjtn000, true);
+                                 }
     }
   }
 

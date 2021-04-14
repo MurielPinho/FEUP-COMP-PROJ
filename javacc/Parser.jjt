@@ -372,7 +372,7 @@ void Expression06() #void: {
         jjtThis.put("col", String.valueOf(name.beginColumn));
     } #Var(0)
     | <THIS> #This(0)
-    | (<NEW> (ContructorIntArray() | ConstructorClass()))
+    | (<NEW> (ConstructorIntArray() | ConstructorClass()))
 }
 
 void Expression10() #void: {} {Expression11() AndExpression()}
@@ -407,7 +407,7 @@ void Expression26() #void: {
         jjtThis.put("col", String.valueOf(name.beginColumn));
     } #False(0)
     | <THIS> #This(0)
-    | (<NEW> (ContructorIntArray() | ConstructorClass()))
+    | (<NEW> (ConstructorIntArray() | ConstructorClass()))
 }
 
 void AndExpression() #void: {} {(<AND> Expression00() #And AndExpression()) | {}}
@@ -431,7 +431,7 @@ void MethodInvocation():{Token name;}{ name = <IDENTIFIER> {
 void MethodArgs():{} { <LPAR> ((MethodArg() (<VIRG> MethodArg())*) | {}) <RPAR>}
 void MethodArg():{} { Expression00()}
 
-void ContructorIntArray():{} {<INT> <LRPAR> Expression00() <RRPAR>}
+void ConstructorIntArray():{} {<INT> <LRPAR> Expression00() <RRPAR>}
 void ConstructorClass():{
     Token name;
 } {

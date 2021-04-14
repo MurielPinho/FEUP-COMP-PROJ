@@ -1,5 +1,6 @@
 package pt.up.fe.comp.jmm.ast.examples;
 
+import java.lang.Thread.State;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,11 +21,19 @@ import pt.up.fe.comp.jmm.analysis.table.SymbolTableUtils;
 public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemanticInfo, Boolean> {
 
     private int line = -1;
+    // private Type argType = null;
+    // private Type opRetType = null;
+    // private JmmNode operator = null;
+    private JmmNode operator = null;
+    private Type value = null;
 
     public AnalysisSemanticVisitor() {
         addVisit("MethodInvocation", this::methodVerification);
-        addVisit("ArrayIndex", this::typeVerification);
         addVisit("Assignment", this::assignmentVerification);
+        addVisit("ArrayIndex", this::arrayVerification);
+        addVisit("ConstructorIntArray", this::arrayConstructorVerification);
+        addVisit("IfExpression", this::ifExpressionVerification);
+        addVisit("Length", this::lengthVerification);
     }
 
     // antes tem de ser: this, contrutor class ou identifier
@@ -34,8 +43,8 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
         
         JmmNode invoker = this.getMethodOwner(node);
         // we can only invoke a method if the owner of it is: a variable, this or a class constructor
-        if(!(invoker.getKind().equals("This") || invoker.getKind().equals("Var") || invoker.getKind().equals("ConstructorClass"))) {
-            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid invoker: " + (invoker.get("val") != null ? invoker.get("val") : invoker.getKind()) + " of method: " + node.get("val") +"!"));
+        if(!(invoker.getKind().equals("This") || invoker.getKind().equals("Var") || invoker.getKind().equals("ConstructorClass") || invoker.getKind().equals("MethodInvocation"))) {
+            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid invoker: " + (!invoker.get("val").equals("null") ? invoker.get("val") : invoker.getKind()) + " of method: " + node.get("val") +"!"));
             return false;
         }
 
@@ -50,21 +59,37 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
         }
         // case of the owner of the method that is being invoked is "this", Ex: this.b()
         else if(invoker.getKind().equals("This")) this.verifyIfMethodExistsInClass(node, analysisSemanticInfo);
+        // case of the owner of the method that is being invoker is a method(b), Ex: a.b().c()
+        else if(invoker.getKind().equals("MethodInvocation")) {
+            // if type is null it means that the invoker method was not declared in this class, so it can return anything
+            Type type = this.getReturnTypeOfMethod(invoker, analysisSemanticInfo);
+
+            // it's a deifned type
+            if (type != null) this.verifyIfTypeHasMethod(type, node, analysisSemanticInfo);
+        }
         else { // case of the owner of the method that is being invoked is a variable
             // tries to get the variable type
             Type type = this.getVariableTypeFromNodeInClass(invoker, analysisSemanticInfo);
 
             // variable does not belong to the class neither to its methods, Ex: io.println(), io nao e atributo nem variavel local do metodo
             if (type == null) this.verifyIfClassIsImported(analysisSemanticInfo, invoker.get("val"), methodName);
-            else { // variable belong to the class or to some method
-                // the type of the variable is the same as the class, Ex: a.b(), em que a é uma instancia de A
-                if(type.getName().equals(className)) this.verifyIfMethodExistsInClass(node, analysisSemanticInfo);
-                // the types of the variable and the class are diferents, Ex: d.b(), em que d nao é uma instancia de A
-                else this.verifyIfClassIsImported(analysisSemanticInfo, type.getName(), methodName);
-            }
+            // it's a defined type
+            else this.verifyIfTypeHasMethod(type, node, analysisSemanticInfo);
         }
 
         return true;
+    }
+
+    private boolean verifyIfTypeHasMethod(Type type, JmmNode method, AnalysisSemanticInfo analysisSemanticInfo) {
+        // variable is type boolean or int
+        if (type.getName().equals("int") || type.getName().equals("boolean")) {
+            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Method: " + method.get("val") + "! Type: " + type.getName() + (type.isArray() ? "[]" : "") + " has not methods!"));
+            return false;   
+        }
+        // the type of the variable is the same as the class, Ex: a.b(), em que a é uma instancia de A
+        else if(type.getName().equals(analysisSemanticInfo.getClassName())) return this.verifyIfMethodExistsInClass(method, analysisSemanticInfo);
+        // the types of the variable and the class are diferents, Ex: d.b(), em que d nao é uma instancia de A
+        else return this.verifyIfClassIsImported(analysisSemanticInfo, type.getName(), method.get("val"));
     }
 
     /**
@@ -226,7 +251,7 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
         else if(node.getKind().equals("Length")) return new Type("int", false);
         else if(node.getKind().equals("ArrayIndex")) return new Type("int", false);
         else if(node.getKind().equals("MethodInvocation")) {
-            Type type = analysisSemanticInfo.getReturnType(node.get("val"));
+            Type type = this.getReturnTypeOfMethod(node, analysisSemanticInfo);
             return (type == null) ? expected.getType() : type;
         }
         else if(node.getKind().equals("SubExpression")) return this.getTypeFromKind(node.getChildren().get(0), expected, analysisSemanticInfo);
@@ -239,12 +264,15 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
      * @param analysisSemanticInfo
      * @return
      */
-    private Type getVariableTypeFromNodeInClass(JmmNode variable, AnalysisSemanticInfo analysisSemanticInfo) {
+    public Type getVariableTypeFromNodeInClass(JmmNode variable, AnalysisSemanticInfo analysisSemanticInfo) {
         JmmNode methodOwner = this.findMethodOwnerFromVariable(variable);
         String methodName = (methodOwner.getKind().equals("Main")) ? "main" : methodOwner.get("val");
-        
+
         // tries to get the variable type from the local variables
         Type type = this.getVariableTypeFromSymbols(variable, analysisSemanticInfo.getLocalVariables(methodName));
+
+        // tries to get the variable from the parameters
+        if (type == null) type = this.getVariableTypeFromSymbols(variable, analysisSemanticInfo.getMethodParameters(methodName));
 
         // tries to get the variable type from the fields of the class
         if (type == null) type = this.getVariableTypeFromSymbols(variable, analysisSemanticInfo.getFields());
@@ -273,44 +301,183 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
         return type;
     }
     
+    /**
+     * Looks for the method and returns the type that it's returning
+     * @param method
+     * @param analysisSemanticInfo
+     * @return type of returning or null if it does not exist
+     */
+    public Type getReturnTypeOfMethod(JmmNode method, AnalysisSemanticInfo analysisSemanticInfo) {
+        String methodName = method.get("val");
+        List<String> methods = analysisSemanticInfo.getMethods();
+
+        // it goes through all methods that have the same name
+        for(String aux: methods) {  
+            if(aux.substring(0, aux.length() - 1).equals(methodName)) {
+                List<Symbol> params = analysisSemanticInfo.getMethodParameters(aux);
+
+                // the method declaration and the method invocation have diferent number of args
+                if(params.size() != this.getNumArgs(method)) continue;
+
+                if (params.size() == 0) return analysisSemanticInfo.getReturnType(aux);
+
+                // verifies if all the elements are of the correct type, if so it returns null
+                if(validArgs(method, params, analysisSemanticInfo) == null) return analysisSemanticInfo.getReturnType(aux);
+            }
+        }
+
+        return null;
+    }
+
     //     $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
     //                  +++++++++++++++++++++++++             
     //     $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
     public Boolean assignmentVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
-        // Type assigneeType = this.getExpressionType(node, analysisSemanticInfo); 
+        Type assignedType = null;
+        Type assigneeType = null;
         
-        // the expression contains some error
-        // if (assigneeType == null) return false;
-        // else { // the expression does not contain any error
+        List<JmmNode> children = node.getParent().getChildren();
+        for(int i = children.size() - 1; i > -1; i--) {
+            if (children.get(i) == node) {
+                if (children.get(i-1).getKind().equals("ArrayIndex")) {
+                    assignedType = this.getVariableTypeFromNodeInClass(children.get(i-2), analysisSemanticInfo);
+                    assignedType = new Type(assignedType.getName(), false);
+                }
+                else assignedType = this.getVariableTypeFromNodeInClass(children.get(i-1), analysisSemanticInfo);
 
-        // }
+                if (assignedType == null) {
+                    analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Variable: " + (children.get(i-1).getKind().equals("ArrayIndex") ? children.get(i-2).get("val") : children.get(i-1).get("val")) + " was not declared!"));
+                    return false;
+                }
+
+                break;
+            }
+        } 
+
+        assigneeType = new ExpressionAnalysis(this, analysisSemanticInfo).analyse(node);
+
+        if (assigneeType != null) {
+            if (!assigneeType.equals(assignedType)) {
+                analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid assignment! Required: " + assignedType.getName() + (assignedType.isArray() ? "[]" : "") +  ", given: " + assigneeType.getName() + (assigneeType.isArray() ? "[]" : "")));
+                return false;
+            }
+        }
 
         return true;
     }
 
-    // private Type getExpressionType(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
-    //     List<JmmNode> children = node.getChildren();
+    public Boolean arrayVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
+        Type type = new ExpressionAnalysis(this, analysisSemanticInfo).analyse(node);
+        // this.line = Integer.parseInt(node.get("line"));
 
-    //     // subExpr -> recursividade
-    //     // method invoc -> retorno
-    //     // arrayindex -> passar a frente
+        if (type != null) {
+            if (!type.equals(new Type("int", false))) {
+                analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid Array Access! Required: int, Given: " + type.getName() + (type.isArray() ? "[]" : "") + "!"));
+                return false;
+            }
 
-    //     Type prevType = null;
-    //     // for(JmmNode child: children) {
-    //     //     // Type nextType = this.getExpressionType(child, analysisSemanticInfo);
-    //     //     // if (nextType == null) return null;
-    //     //     // if(type == null) {
+            List<JmmNode> children = node.getParent().getChildren();
+            Boolean find = false;
+            for(int i = children.size() - 1; i > -1; i--) {
+                if (children.get(i) == node) find = true;
+                if (find) {
+                    if (children.get(i).getKind().equals("ArrayIndex")) continue;
+                    else if (children.get(i).getKind().equals("Var") || children.get(i).getKind().equals("MethodInvocation")) {
+                        if (children.get(i).getKind().equals("Var")) {
+                            Type type1 = this.getVariableTypeFromNodeInClass(children.get(i), analysisSemanticInfo);
 
-    //     //     // }
-    //     //     // else {
+                            if (type1 != null) {
+                                if (!type1.isArray() || !type1.getName().equals("int")) {
+                                    analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Must be array type! Found variable: " + children.get(i).get("val") + " of type: " + type1.getName()));
+                                    return false;
+                                }
+                                // it's array Type
+                                else return true;
+                            }
+                            else {
+                                analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Must be array type! Found undeclared variable: " + children.get(i).get("val")));
+                                return false;
+                            }
+                        }
+                        else {
+                            Type type1 = this.getReturnTypeOfMethod(children.get(i), analysisSemanticInfo);
 
-    //     //     // }
-    //     // }
-    // }
+                            if (type1 != null) {
+                                if (!type1.isArray()) {
+                                    analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Must be array type! Found: " + type.getName()));
+                                    return false;
+                                }
+                                // it's array Type
+                                else return true;
+                            }
+                            // undefined method
+                            else return true;
+                        }
+                    }
+                    else {
+                        analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Must be array type! Found: " + (children.get(i).get("val") != null ? children.get(i).get("val") : children.get(i).getKind())));
+                        return false;
+                    }
+                }
+            }
+        }
 
-    public Boolean typeVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
-        // System.out.println("TO DO! TYPE VERIFICATION");
+        return true;
+    }
+
+    public Boolean arrayConstructorVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
+        Type initializer = new ExpressionAnalysis(this, analysisSemanticInfo).analyse(node);
+        
+        if (initializer != null && !initializer.equals(new Type("int", false))) {
+            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Array size must be of type int but " + initializer.getName() + (initializer.isArray() ? "[]" : "") + " was given!"));
+            return false;
+        }
+        
+        return true;
+    }
+
+    public Boolean ifExpressionVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
+        Type initializer = new ExpressionAnalysis(this, analysisSemanticInfo).analyse(node);
+
+        if (initializer != null && !initializer.equals(new Type("boolean", false))) {
+            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "If expression must be of type boolean but " + initializer.getName() + (initializer.isArray() ? "[]" : "") + "  was given!"));
+            return false;
+        }
+        
+        return true;
+    }
+
+    public Boolean lengthVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
+        List<JmmNode> children = node.getParent().getChildren();
+
+        for(int i = children.size() - 1; i > -1; i--) {
+            if (children.get(i) == node) {
+                if (!children.get(i-1).getKind().equals("Var") && !children.get(i-1).getKind().equals("MethodInvocation")) {
+                    analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invoker of length must be a variable of type array!" + children.get(i-1)));
+                    return false;
+                }
+                else {
+                    Type type = null;
+
+                    if (children.get(i-1).getKind().equals("Var")) type = this.getVariableTypeFromNodeInClass(children.get(i-1), analysisSemanticInfo);
+                    else type = this.getReturnTypeOfMethod(children.get(i-1), analysisSemanticInfo);
+
+                    if (type != null) {
+                        if (!type.isArray()) analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invoker of length must be a variable of type array"));
+                        return false;
+                    }
+                    else {
+                        if (children.get(i-1).getKind().equals("Var")) {
+                            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Variable: " + children.get(i-1).get("val") + " was not declared!"));
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+        }
         
         return true;
     }

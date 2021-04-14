@@ -45,7 +45,7 @@ public interface ParserTreeConstants
   public int JJTMETHODINVOCATION = 41;
   public int JJTMETHODARGS = 42;
   public int JJTMETHODARG = 43;
-  public int JJTCONTRUCTORINTARRAY = 44;
+  public int JJTCONSTRUCTORINTARRAY = 44;
   public int JJTCONSTRUCTORCLASS = 45;
 
 
@@ -94,8 +94,8 @@ public interface ParserTreeConstants
     "MethodInvocation",
     "MethodArgs",
     "MethodArg",
-    "ContructorIntArray",
+    "ConstructorIntArray",
     "ConstructorClass",
   };
 }
-/* JavaCC - OriginalChecksum=8a958661ae51d0cc742309e5ede563ef (do not edit this line) */
+/* JavaCC - OriginalChecksum=1eb07bf5edb43aa420037358f49723b9 (do not edit this line) */
