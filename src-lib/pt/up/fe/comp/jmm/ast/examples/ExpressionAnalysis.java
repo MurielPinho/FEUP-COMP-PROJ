@@ -1,5 +1,6 @@
 package pt.up.fe.comp.jmm.ast.examples;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pt.up.fe.comp.jmm.JmmNode;
@@ -12,17 +13,11 @@ public class ExpressionAnalysis {
     private AnalysisSemanticVisitor analysisSemanticVisitor;
     private AnalysisSemanticInfo analysisSemanticInfo;
 
-    private Type value;
-    private JmmNode operator;
-
     private int line;
 
     public ExpressionAnalysis(AnalysisSemanticVisitor analysisSemanticVisitor, AnalysisSemanticInfo analysisSemanticInfo) {
         this.analysisSemanticVisitor = analysisSemanticVisitor;
         this.analysisSemanticInfo = analysisSemanticInfo;
-
-        this.value = null;
-        this.operator = null;
 
         this.line = -1;
     }
@@ -38,12 +33,12 @@ public class ExpressionAnalysis {
         return node.getKind().equals("MethodInvocation") || node.getKind().equals("ArrayIndex") || node.getKind().equals("Length");
     }
 
-    private Type getTypeOfSimpleOperand(JmmNode node) {
-        if (node.getKind().equals("True") || node.getKind().equals("False")) return new Type("boolean", false);
-        else if(node.getKind().equals("IntegerLiteral")) return new Type("int", false);
-        else if(node.getKind().equals("This")) return new Type(analysisSemanticInfo.getClassName(), false);
-        else if(node.getKind().equals("ConstructorIntArray")) return new Type("int", true);
-        else if(node.getKind().equals("ConstructorClass")) return new Type(node.get("val"), false);
+    private String getTypeStringOfSimpleOperand(JmmNode node) {
+        if (node.getKind().equals("True") || node.getKind().equals("False")) return "boolean";
+        else if(node.getKind().equals("IntegerLiteral")) return "int";
+        else if(node.getKind().equals("This")) return analysisSemanticInfo.getClassName();
+        else if(node.getKind().equals("ConstructorIntArray")) return "int[]";
+        else if(node.getKind().equals("ConstructorClass")) return node.get("val");
         else if(node.getKind().equals("Var")) {
             Type type = this.analysisSemanticVisitor.getVariableTypeFromNodeInClass(node, analysisSemanticInfo);
 
@@ -52,15 +47,18 @@ public class ExpressionAnalysis {
                 return null;
             }
 
-            return type;
+            return this.fromTypeToString(type);
         }
 
         return null;
     }
 
-    private Type getTypeOfCompoundOperand(JmmNode node) {
-        if (node.getKind().equals("Length") || node.getKind().equals("ArrayIndex")) return new Type("int", false);
-        else return this.analysisSemanticVisitor.getReturnTypeOfMethod(node, analysisSemanticInfo);
+    private String getTypeStringOfCompoundOperand(JmmNode node) {
+        if (node.getKind().equals("Length") || node.getKind().equals("ArrayIndex")) return "int";
+        else {
+            Type retType = this.analysisSemanticVisitor.getReturnTypeOfMethod(node, analysisSemanticInfo);
+            return (retType == null ? "null" : this.fromTypeToString(retType));
+        }
     }
 
     private int getNumNodesToSkip(List<JmmNode> children, int start) {
@@ -73,114 +71,367 @@ public class ExpressionAnalysis {
         return i;
     }
 
-    private Type getArgTypeForOperator(JmmNode operator) {
-        if (operator.getKind().equals("And")) return new Type("boolean", false);
-        else return new Type("int", false);
-    }
-
-    private Type getRetTypeOfOperator(JmmNode operator) {
-        if (operator.getKind().equals("And") || operator.getKind().equals("Less")) return new Type("boolean", false);
-        else return new Type("int", false);
-    }
-
     private String getOperatorSymbol(JmmNode node) {
         if (node.getKind().equals("And")) return "&&";
         else if (node.getKind().equals("Less")) return "<";
         else if (node.getKind().equals("PlusExpression")) return "+";
         else if (node.getKind().equals("MinusExpression")) return "-";
         else if (node.getKind().equals("MultExpression")) return "*";
-        else return "/";
+        else if (node.getKind().equals("DivExpression")) return "/";
+        else return "!";
     }
 
-    private Boolean validOperandType(Type type, JmmNode node) {
-        if (type != null && this.operator != null) {
-            Type argType = this.getArgTypeForOperator(this.operator);
-            if (!type.equals(argType)) {
-                this.analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Operator " + this.getOperatorSymbol(this.operator) + " requires value of type " + argType.getName() + (argType.isArray() ? "[]" : "") + " but received: " + type.getName() + (type.isArray() ? "[]" : "") + " -> " + node));
-                return false;
+    private String buildStringExpressionFromList(List<String> parts, int ini, int fin) {
+        String ret = "";
+        
+        for (int i = ini; i <= fin; i++)
+            ret += parts.get(i) + " ";
+
+        return ret;
+    }
+
+    private int[] findSubExpressionIndex(String expression) {
+        int ini = -1, fin = -1, cont = 0;
+        int[] ret = {ini, fin};
+
+        for (int i = 0; i < expression.length(); i++) {
+            if (expression.charAt(i) == '(') {
+                if (ini == -1) ini = i; 
+                cont++;
+            }
+            else if (expression.charAt(i) == ')') {
+                cont--;
+                if (cont == 0) {
+                    fin = i;
+                    ret[0] = ini; ret[1] = fin;
+                    return ret;
+                }
             }
         }
 
-        if (this.operator == null) {
-            this.value = type;
-            this.operator = null;
-        }
-        else {
-            this.value = this.getRetTypeOfOperator(this.operator);
-            this.operator = null;
-        }
-
-        return true;
+        return ret;
     }
 
-    public Type analyse(JmmNode expression) {
-        // this.line = 
+    private List<String> mySplit(String expression) {
+        List<String> ret = new ArrayList<>();
+        String word = "";
+
+        for(int i = 0; i < expression.length(); i++) {
+            if (expression.charAt(i) != ' ') word += String.valueOf(expression.charAt(i));
+            else {
+                if (!word.equals("")) ret.add(word);
+                word = "";
+            }
+        }
+
+        if (!word.equals("")) ret.add(word);
+
+        return ret;
+    }
+
+    private String fromTypeToString(Type type) {
+        return type.getName() + (type.isArray() ? "[]" : "");
+    }
+
+    // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+    // $$$$$$$$$$$$$$$$$$ - MAIN PROCEDURES - $$$$$$$$$$$$$$$$$$$$$$
+    // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+    /**
+     * Goes through an expression and tries to find a subexpression "(...)" and if finds one it will process it
+     * @param expression
+     * @return result of processing the expression
+     */
+    private String processSubExpression(String expression) {
+        String curr = expression, aux = "";
+        int[] ind  = {};
+
+        ind = this.findSubExpressionIndex(curr);
+        while(ind[0] != -1 && ind[1] != -1) {
+            aux = this.processStringExpression(curr.substring(ind[0] + 1, ind[1]));
+            curr = curr.substring(0, ind[0]) + aux + curr.substring(ind[1] + 1, curr.length());
+            ind = this.findSubExpressionIndex(curr);
+        }
+
+        return curr;
+    }
+
+    /**
+     * Goes through an expression and tries to find a notexpression "!..." and if finds one it will process it
+     * @param expression
+     * @return result of processing the expression
+     */
+    private String processNotExpression(String expression) {
+        String curr = expression;
+        List<String> parts = this.mySplit(curr);
+        int ind  = -1;
+
+        parts.indexOf("!");
+
+        ind = parts.indexOf("!");
+        while(ind != -1) {
+            if (!parts.get(ind+1).equals("boolean") && !parts.get(ind+1).equals("null")) {
+                this.analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid operand: '" + parts.get(ind+1) + "' for operator '!'"));
+                return null;
+            }
+
+            curr = this.buildStringExpressionFromList(parts, 0, ind - 1) + " boolean " + this.buildStringExpressionFromList(parts, ind + 2, parts.size() - 1);
+            parts = this.mySplit(curr);
+            ind = parts.indexOf("!");
+        }
+
+        return curr;
+    }
+
+    /**
+     * Goes through an expression and tries to find a mult or a divexpression "...*..." ou ".../..." and if finds one it will process it
+     * @param expression
+     * @return result of processing the expression
+     */
+    private String processMultDivExpression(String expression) {
+        String curr = expression;
+        String op = "";
+        List<String> parts = this.mySplit(curr);
+        int ind  = -1;
+
+        int multInd = curr.indexOf("*");
+        int divInd = curr.indexOf("/");
+
+        if (multInd != -1 && divInd != -1) {
+            if (multInd < divInd) op = "*";
+            else op = "/";
+        }
+        else if(multInd != -1) op = "*";
+        else if(divInd != -1) op = "/";
+
+        while(!op.equals("")) {
+            ind = parts.indexOf(op);
+
+            if (!parts.get(ind+1).equals("int") && !parts.get(ind+1).equals("null")) {
+                this.analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid operand: '" + parts.get(ind+1) + "' for operator '" + op + "'"));
+                return null;
+            }
+
+            if (!parts.get(ind-1).equals("int") && !parts.get(ind-1).equals("null")) {
+                this.analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid operand: '" + parts.get(ind-1) + "' for operator '" + op + "'"));
+                return null;
+            }
+
+            curr = this.buildStringExpressionFromList(parts, 0, ind - 2) + " int " + this.buildStringExpressionFromList(parts, ind + 2, parts.size() - 1);
+            parts = this.mySplit(curr);
+
+            op = "";
+
+            multInd = curr.indexOf("*");
+            divInd = curr.indexOf("/");
+
+            if (multInd != -1 && divInd != -1) {
+                if (multInd < divInd) op = "*";
+                else op = "/";
+            }
+            else if(multInd != -1) op = "*";
+            else if(divInd != -1) op = "/";
+        }
+
+        return curr;
+    }
+
+    /**
+     * Goes through an expression and tries to find a plus or a minusexpression "...+..." ou "...-..." and if finds one it will process it
+     * @param expression
+     * @return result of processing the expression
+     */
+    private String processPlusMinusExpression(String expression) {
+        String curr = expression;
+        String op = "";
+        List<String> parts = this.mySplit(curr);
+        int ind  = -1;
+
+        int plusInd = curr.indexOf("+");
+        int minusInd = curr.indexOf("-");
+
+        if (plusInd != -1 && minusInd != -1) {
+            if (plusInd < minusInd) op = "+";
+            else op = "-";
+        }
+        else if(plusInd != -1) op = "+";
+        else if(minusInd != -1) op = "-";
+
+        while(!op.equals("")) {
+            ind = parts.indexOf(op);
+
+            if (!parts.get(ind+1).equals("int") && !parts.get(ind+1).equals("null")) {
+                this.analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid operand: '" + parts.get(ind+1) + "' for operator '" + op + "'"));
+                return null;
+            }
+
+            if (!parts.get(ind-1).equals("int") && !parts.get(ind-1).equals("null")) {
+                this.analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid operand: '" + parts.get(ind-1) + "' for operator '" + op + "'"));
+                return null;
+            }
+
+            curr = this.buildStringExpressionFromList(parts, 0, ind - 2) + " int " + this.buildStringExpressionFromList(parts, ind + 2, parts.size() - 1);
+            parts = this.mySplit(curr);
+
+            op = "";
+
+            plusInd = curr.indexOf("+");
+            minusInd = curr.indexOf("-");
+
+            if (plusInd != -1 && minusInd != -1) {
+                if (plusInd < minusInd) op = "+";
+                else op = "-";
+            }
+            else if(plusInd != -1) op = "+";
+            else if(minusInd != -1) op = "-";
+        }
+
+        return curr;
+    }
+
+    /**
+     * Goes through an expression and tries to find a lessexpression "...<..." and if finds one it will process it
+     * @param expression
+     * @return result of processing the expression
+     */
+    private String processLessExpression(String expression) {
+        String curr = expression;
+        List<String> parts = this.mySplit(curr);
+
+        int ind = parts.indexOf("<");
+
+        while(ind != -1) {
+            if (!parts.get(ind+1).equals("int") && !parts.get(ind+1).equals("null")) {
+                this.analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid operand: '" + parts.get(ind+1) + "' for operator '<'"));
+                return null;
+            }
+
+            if (!parts.get(ind-1).equals("int") && !parts.get(ind-1).equals("null")) {
+                this.analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid operand: '" + parts.get(ind-1) + "' for operator '<'"));
+                return null;
+            }
+
+            curr = this.buildStringExpressionFromList(parts, 0, ind - 2) + " boolean " + this.buildStringExpressionFromList(parts, ind + 2, parts.size() - 1);
+            parts = this.mySplit(curr);
+            ind = parts.indexOf("<");
+        }
+
+        return curr;
+    }
+
+    /**
+     * Goes through an expression and tries to find a andexpression "...&&..." and if finds one it will process it
+     * @param expression
+     * @return result of processing the expression
+     */
+    private String processAndExpression(String expression) {
+        String curr = expression;
+        List<String> parts = this.mySplit(curr);
+
+        int ind = parts.indexOf("&&");
+
+        while(ind != -1) {
+            if (!parts.get(ind+1).equals("boolean") && !parts.get(ind+1).equals("null")) {
+                this.analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid operand: '" + parts.get(ind+1) + "' for operator '&&'"));
+                return null;
+            }
+
+            if (!parts.get(ind-1).equals("boolean") && !parts.get(ind-1).equals("null")) {
+                this.analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid operand: '" + parts.get(ind-1) + "' for operator '&&'"));
+                return null;
+            }
+
+            curr = this.buildStringExpressionFromList(parts, 0, ind - 2) + " boolean " + this.buildStringExpressionFromList(parts, ind + 2, parts.size() - 1);
+            parts = this.mySplit(curr);
+            ind = parts.indexOf("&&");
+        }
+
+        return curr;
+    }
+
+    /**
+     * Goes through an expression and processes it respecting the operator precedence
+     * @param expression
+     * @return result of processing the expression
+     */
+    private String processStringExpression(String expression) {
+        if (expression == null) return null;
+        expression = this.processSubExpression(expression);
+        if (expression == null) return null;
+        expression = this.processNotExpression(expression);
+        if (expression == null) return null;
+        expression = this.processMultDivExpression(expression);
+        if (expression == null) return null;
+        expression = this.processPlusMinusExpression(expression);
+        if (expression == null) return null;
+        expression = this.processLessExpression(expression);
+        if (expression == null) return null;
+        expression = this.processAndExpression(expression);
+
+        return expression;
+    }
+
+    /**
+     * Builds a string that represents the expression
+     * Ex: int + int < int && boolean && !boolean 
+     * @param expression
+     * @return the string expression
+     */
+    private String buildExpressionString(JmmNode expression) {
+        String ret = "";
 
         List<JmmNode> children = expression.getChildren();
         int ind = children.size() - 1;
 
         while(ind >= 0) {
             JmmNode child = children.get(ind--);
-
-            // it's an operand
+        
             if (this.isOperand(child)) {
-                Type type = null;
+                String type = null;
 
                 // it's an compund operand
                 if (this.isCompundOperand(child)) {
                     ind = ind - this.getNumNodesToSkip(children, ind + 1);
-                    type = this.getTypeOfCompoundOperand(child);
+                    type = this.getTypeStringOfCompoundOperand(child);
                 }
                 // it's a simple operand
                 else {
-                    type = this.getTypeOfSimpleOperand(child);
-
-                    // an error has occured
+                    type = this.getTypeStringOfSimpleOperand(child);
                     if (type == null) return null;
                 }
 
-                if (!this.validOperandType(type, child)) return null;
-            }
+                ret = type + " " + ret;
+            }   
             // it's a subexpression so it's treated as an expression
             else if (child.getKind().equals("SubExpression")) {
-                Type type = new ExpressionAnalysis(this.analysisSemanticVisitor, this.analysisSemanticInfo).analyse(child);
+                String type = this.buildExpressionString(child);
+                if (type == null) return null;
 
-                if (!this.validOperandType(type, child)) return null;
-            }
-            // it's an operator
+                ret = " ( " + type + " ) " + ret;
+            } 
             else {
-                if (this.analyse(child) == null) return null;
+                String type = this.buildExpressionString(child);
+                if (type == null) return null;
 
-                if (child.getKind().equals("NotExpression")) {
-                    // it can be the value that we want
-                    if (this.value == null) {
-                        this.value = new Type("boolean", false);
-                        this.operator = null;
-                    }
-                    // the  value must be of type boolean
-                    else if (!this.value.equals(new Type("boolean", false))) {
-                        analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Operator ! requires value of type boolean but received: " + this.value.getName() + (this.value.isArray() ? "[]" : "")));
-                        return null;
-                    }
-                }
-                else {
-                    Type argType = this.getArgTypeForOperator(child);
-
-                    if (this.value != null && !this.value.equals(argType)) {
-                        analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Operator " + this.getOperatorSymbol(child) + " requires value of type " + argType.getName() + (argType.isArray() ? "[]" : "") + " but received: " + this.value.getName() + (this.value.isArray() ? "[]" : "") + " -> " + child.getKind() + " -> " + argType));
-                        return null;
-                    }
-                    else {
-                        this.value = null;
-                        this.operator = child;
-                    }
-                }
+                ret = this.getOperatorSymbol(child) + " " + type + " " + ret;
             }
+            
         }
 
-        return this.value;
+        return ret;
+    }
+    
+    /**
+     * Goes through the nodes of expression and builds a string containing the type and operator and then processes it
+     * Ex: int + int < int && boolean && !boolean 
+     * @param expression
+     * @return result of the expression processed
+     */
+    public String analyse(JmmNode expression) {
+        this.line = Integer.parseInt(expression.get("line"));
+        String exp = this.buildExpressionString(expression);
+        String ret = this.processStringExpression(exp);
+        return (ret != null ? ret.trim() : null);
     }
 
-
-    
 }

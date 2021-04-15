@@ -330,7 +330,10 @@ void Statement2() #void:{}
 void Scope():{} {<LBRACKET> (Statement())* <RBRACKET>}
 
 void IfAndElse():{} { <IF> IfExpression() IfBody() <ELSE> ElseBody() }
-void IfExpression():{} { <LPAR> Expression00() <RPAR> }
+void IfExpression():{Token name;} { name = <LPAR> {
+    jjtThis.put("line", String.valueOf(name.beginLine));
+    jjtThis.put("col", String.valueOf(name.beginColumn));
+} Expression00() <RPAR> }
 void IfBody():{} { Statement() }
 void ElseBody():{} { Statement() }
 
@@ -344,11 +347,20 @@ void While():{}
     }
     WhileBody()
 }
-void WhileExpression():{} { <LPAR> {countWhileExpressionParetheses = 1;} Expression00() <RPAR> {countWhileExpressionParetheses--;} }
+void WhileExpression():{Token name;} { name = <LPAR> {countWhileExpressionParetheses = 1;
+    jjtThis.put("line", String.valueOf(name.beginLine));
+    jjtThis.put("col", String.valueOf(name.beginColumn));}
+ Expression00() <RPAR> {countWhileExpressionParetheses--;} }
 void WhileBody():{} {Statement()}
 
-void Assignment():{}{ <EQUAL> Expression00() }
-void ArrayIndex():{} { <LRPAR> Expression00() <RRPAR> }
+void Assignment():{Token name;}{ name = <EQUAL> {
+    jjtThis.put("line", String.valueOf(name.beginLine));
+    jjtThis.put("col", String.valueOf(name.beginColumn));
+} Expression00() }
+void ArrayIndex():{Token name;} { name = <LRPAR> {
+    jjtThis.put("line", String.valueOf(name.beginLine));
+    jjtThis.put("col", String.valueOf(name.beginColumn));
+} Expression00() <RRPAR> }
 
 void Expression00() #void: {} {Expression01() AndExpression()}
 void Expression01() #void: {} {Expression02() LessExpression()}
@@ -420,7 +432,10 @@ void MultExpression():{} { <MULT> Expression03()}
 void DivExpression():{} { <DIV> Expression03()}
 void NotExpression(): {} {<NOT> Expression04()}
 void DotArrayExpression() #void: {} { ((DotExpression() | ArrayIndex()) DotArrayExpression()) | {}}
-void DotExpression() #void: {} {<DOT> (<LENGTH> #Length(0) | MethodInvocation())}
+void DotExpression() #void: {Token name;} {<DOT> (name = <LENGTH> {
+    jjtThis.put("line", String.valueOf(name.beginLine));
+    jjtThis.put("col", String.valueOf(name.beginColumn));
+}  #Length(0) | MethodInvocation())}
 void SubExpression(): {} {(<LPAR>{countWhileExpressionParetheses++;} Expression00() <RPAR>{countWhileExpressionParetheses--;})}
 
 void MethodInvocation():{Token name;}{ name = <IDENTIFIER> {
@@ -431,7 +446,10 @@ void MethodInvocation():{Token name;}{ name = <IDENTIFIER> {
 void MethodArgs():{} { <LPAR> ((MethodArg() (<VIRG> MethodArg())*) | {}) <RPAR>}
 void MethodArg():{} { Expression00()}
 
-void ConstructorIntArray():{} {<INT> <LRPAR> Expression00() <RRPAR>}
+void ConstructorIntArray():{Token name;} {<INT> name = <LRPAR>{
+    jjtThis.put("line", String.valueOf(name.beginLine));
+    jjtThis.put("col", String.valueOf(name.beginColumn));
+} Expression00() <RRPAR>}
 void ConstructorClass():{
     Token name;
 } {

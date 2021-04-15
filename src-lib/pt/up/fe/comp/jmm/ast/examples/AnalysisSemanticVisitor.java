@@ -33,6 +33,7 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
         addVisit("ArrayIndex", this::arrayVerification);
         addVisit("ConstructorIntArray", this::arrayConstructorVerification);
         addVisit("IfExpression", this::ifExpressionVerification);
+        addVisit("WhileExpression", this::whileExpressionVerification);
         addVisit("Length", this::lengthVerification);
     }
 
@@ -333,7 +334,14 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
     //                  +++++++++++++++++++++++++             
     //     $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
+    private Type getTypeFromString(String type) {
+        int num = type.indexOf("[");
+        if (num != -1) return new Type(type.substring(0, num), true);
+        else return new Type(type, false);
+    }
+
     public Boolean assignmentVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
+        this.line = Integer.parseInt(node.get("line"));
         Type assignedType = null;
         Type assigneeType = null;
         
@@ -355,9 +363,10 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
             }
         } 
 
-        assigneeType = new ExpressionAnalysis(this, analysisSemanticInfo).analyse(node);
+        String type = new ExpressionAnalysis(this, analysisSemanticInfo).analyse(node);
 
-        if (assigneeType != null) {
+        if (type != null && !type.equals("null")) {
+            assigneeType = this.getTypeFromString(type);
             if (!assigneeType.equals(assignedType)) {
                 analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid assignment! Required: " + assignedType.getName() + (assignedType.isArray() ? "[]" : "") +  ", given: " + assigneeType.getName() + (assigneeType.isArray() ? "[]" : "")));
                 return false;
@@ -368,57 +377,55 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
     }
 
     public Boolean arrayVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
-        Type type = new ExpressionAnalysis(this, analysisSemanticInfo).analyse(node);
-        // this.line = Integer.parseInt(node.get("line"));
+        this.line = Integer.parseInt(node.get("line"));
+        String type = new ExpressionAnalysis(this, analysisSemanticInfo).analyse(node);
 
-        if (type != null) {
-            if (!type.equals(new Type("int", false))) {
-                analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid Array Access! Required: int, Given: " + type.getName() + (type.isArray() ? "[]" : "") + "!"));
-                return false;
-            }
+        if (type != null && !type.equals("null") && !type.equals("int")) {
+            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invalid Array Access! Required: int, Given: " + type));
+            return false;
+        }
 
-            List<JmmNode> children = node.getParent().getChildren();
-            Boolean find = false;
-            for(int i = children.size() - 1; i > -1; i--) {
-                if (children.get(i) == node) find = true;
-                if (find) {
-                    if (children.get(i).getKind().equals("ArrayIndex")) continue;
-                    else if (children.get(i).getKind().equals("Var") || children.get(i).getKind().equals("MethodInvocation")) {
-                        if (children.get(i).getKind().equals("Var")) {
-                            Type type1 = this.getVariableTypeFromNodeInClass(children.get(i), analysisSemanticInfo);
+        List<JmmNode> children = node.getParent().getChildren();
+        Boolean find = false;
+        for(int i = children.size() - 1; i > -1; i--) {
+            if (children.get(i) == node) find = true;
+            if (find) {
+                if (children.get(i).getKind().equals("ArrayIndex")) continue;
+                else if (children.get(i).getKind().equals("Var") || children.get(i).getKind().equals("MethodInvocation")) {
+                    if (children.get(i).getKind().equals("Var")) {
+                        Type type1 = this.getVariableTypeFromNodeInClass(children.get(i), analysisSemanticInfo);
 
-                            if (type1 != null) {
-                                if (!type1.isArray() || !type1.getName().equals("int")) {
-                                    analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Must be array type! Found variable: " + children.get(i).get("val") + " of type: " + type1.getName()));
-                                    return false;
-                                }
-                                // it's array Type
-                                else return true;
-                            }
-                            else {
-                                analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Must be array type! Found undeclared variable: " + children.get(i).get("val")));
+                        if (type1 != null) {
+                            if (!type1.isArray() || !type1.getName().equals("int")) {
+                                analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Must be array type! Found variable: " + children.get(i).get("val") + " of type: " + type1.getName()));
                                 return false;
                             }
+                            // it's array Type
+                            else return true;
                         }
                         else {
-                            Type type1 = this.getReturnTypeOfMethod(children.get(i), analysisSemanticInfo);
-
-                            if (type1 != null) {
-                                if (!type1.isArray()) {
-                                    analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Must be array type! Found: " + type.getName()));
-                                    return false;
-                                }
-                                // it's array Type
-                                else return true;
-                            }
-                            // undefined method
-                            else return true;
+                            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Must be array type! Found undeclared variable: " + children.get(i).get("val")));
+                            return false;
                         }
                     }
                     else {
-                        analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Must be array type! Found: " + (children.get(i).get("val") != null ? children.get(i).get("val") : children.get(i).getKind())));
-                        return false;
+                        Type type1 = this.getReturnTypeOfMethod(children.get(i), analysisSemanticInfo);
+
+                        if (type1 != null) {
+                            if (!type1.isArray()) {
+                                analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Must be array type! Found: " + type1.getName()));
+                                return false;
+                            }
+                            // it's array Type
+                            else return true;
+                        }
+                        // undefined method
+                        else return true;
                     }
+                }
+                else {
+                    analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Must be array type! Found: " + (children.get(i).get("val") != null ? children.get(i).get("val") : children.get(i).getKind())));
+                    return false;
                 }
             }
         }
@@ -427,10 +434,11 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
     }
 
     public Boolean arrayConstructorVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
-        Type initializer = new ExpressionAnalysis(this, analysisSemanticInfo).analyse(node);
+        this.line = Integer.parseInt(node.get("line"));
+        String initializer = new ExpressionAnalysis(this, analysisSemanticInfo).analyse(node);
         
-        if (initializer != null && !initializer.equals(new Type("int", false))) {
-            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Array size must be of type int but " + initializer.getName() + (initializer.isArray() ? "[]" : "") + " was given!"));
+        if (initializer != null && !initializer.equals("null") && !initializer.equals("int")) {
+            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Array size must be of type int but " + initializer + " was given!"));
             return false;
         }
         
@@ -438,10 +446,23 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
     }
 
     public Boolean ifExpressionVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
-        Type initializer = new ExpressionAnalysis(this, analysisSemanticInfo).analyse(node);
+        this.line = Integer.parseInt(node.get("line"));
+        String initializer = new ExpressionAnalysis(this, analysisSemanticInfo).analyse(node);
+        
+        if (initializer != null && !initializer.equals("null") && !initializer.equals("boolean")) {
+            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Array size must be of type int but " + initializer + " was given!"));
+            return false;
+        }
+        
+        return true;
+    }
 
-        if (initializer != null && !initializer.equals(new Type("boolean", false))) {
-            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "If expression must be of type boolean but " + initializer.getName() + (initializer.isArray() ? "[]" : "") + "  was given!"));
+    public Boolean whileExpressionVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
+        this.line = Integer.parseInt(node.get("line"));
+        String initializer = new ExpressionAnalysis(this, analysisSemanticInfo).analyse(node);
+        
+        if (initializer != null && !initializer.equals("null") && !initializer.equals("boolean")) {
+            analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Array size must be of type int but " + initializer + " was given!"));
             return false;
         }
         
@@ -449,12 +470,13 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
     }
 
     public Boolean lengthVerification(JmmNode node, AnalysisSemanticInfo analysisSemanticInfo) {
+        this.line = Integer.parseInt(node.get("line"));
         List<JmmNode> children = node.getParent().getChildren();
 
         for(int i = children.size() - 1; i > -1; i--) {
             if (children.get(i) == node) {
                 if (!children.get(i-1).getKind().equals("Var") && !children.get(i-1).getKind().equals("MethodInvocation")) {
-                    analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invoker of length must be a variable of type array!" + children.get(i-1)));
+                    analysisSemanticInfo.addReport(new Report(ReportType.ERROR, Stage.SEMANTIC, this.line, 0, "Invoker of length must be a variable of type array!"));
                     return false;
                 }
                 else {
