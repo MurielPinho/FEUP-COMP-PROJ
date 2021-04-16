@@ -170,7 +170,7 @@ myClass {
                             body = generateOllirBodyCode(child, args);
                             break;
 
-                        case "RetrunStatement":
+                        case "ReturnStatement":
 
                             body = generateOllirBodyCode(child);
                             break;
