@@ -43,6 +43,11 @@ sourceSets {
           srcDir 'src-lib'
           srcDir 'generated'
       }
+
+       resources {
+           srcDir 'src'
+           srcDir 'test'
+       }
    }
 	
    test {
