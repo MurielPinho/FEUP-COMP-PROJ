@@ -7,7 +7,9 @@ import pt.up.fe.comp.jmm.ollir.JmmOptimization;
 import pt.up.fe.comp.jmm.ollir.OllirResult;
 import pt.up.fe.comp.jmm.report.Report;
 import pt.up.fe.specs.util.SpecsIo;
-
+import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
 /**
  * Copyright 2021 SPeCS.
  * 
@@ -117,52 +119,64 @@ myClass {
 
                 String returnType="";
                 String args = "";
+                String body="";
 
                 for(JmmNode child : methodChildren)
                 {
-                    if(child.getKind().equals("ReturnType")){
-                        String typeAux = child.getChildren().get(0).get("val");
+                    switch(child.getKind())
+                    {
+                        case "ReturnType":
+                            String typeAux = child.getChildren().get(0).get("val");
 
-                        if(typeAux.equals("int")){
-                            returnType = ").i32 {";
-                        }else if(typeAux.equals("boolean")){
-                            returnType = ").bool {";
-                        }
-                    }
-
-                    else if(child.getKind().equals("MethodParams")){
-                        List<JmmNode> methodParams = child.getChildren();
-
-
-                        int counter = methodParams.size();
-
-                        for(JmmNode param : methodParams)
-                        {
-                            String arg = "";
-
-                            String paramTypeAux = param.getChildren().get(0).get("val");
-                            String paramVarAux = param.getChildren().get(1).get("val");
-
-                            if(paramTypeAux.equals("int")){
-                                arg = paramVarAux + ".i32";
-                            }else if(paramTypeAux.equals("boolean")){
-                                arg = paramVarAux + ".bool";
-                            }else if(paramTypeAux.equals("int[]")){
-                                arg = paramVarAux + ".array.i32";
+                            if(typeAux.equals("int")){
+                                returnType = ").i32 {";
+                            }else if(typeAux.equals("boolean")){
+                                returnType = ").bool {";
                             }
+                            break;
 
-                            counter--;
+                        case "MethodParams":
+                            List<JmmNode> methodParams = child.getChildren();
 
-                            if(counter != 1){
-                                arg += ",";
+
+                            int counter = methodParams.size();
+
+                            for(JmmNode param : methodParams)
+                            {
+                                String arg = "";
+
+                                String paramTypeAux = param.getChildren().get(0).get("val");
+                                String paramVarAux = param.getChildren().get(1).get("val");
+
+                                if(paramTypeAux.equals("int")){
+                                    arg = paramVarAux + ".i32";
+                                }else if(paramTypeAux.equals("boolean")){
+                                    arg = paramVarAux + ".bool";
+                                }else if(paramTypeAux.equals("int[]")){
+                                    arg = paramVarAux + ".array.i32";
+                                }
+
+                                counter--;
+
+                                if(counter != 1){
+                                    arg += ",";
+                                }
+
+                                args += arg;
                             }
+                            break;
 
-                            args += arg;
-                        }
-                    }
+                        case "MethodBody":
+                            body = generateOllirBodyCode(child, args);
+                            break;
 
-                    else if(child.getKind().equals("MethodBody")){
-                        String body = generateOllirBodyCode(child); //todo
+                        case "RetrunStatement":
+
+                            body = generateOllirBodyCode(child);
+                            break;
+
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + child.getKind());
                     }
                 }
 
@@ -174,13 +188,251 @@ myClass {
         return result + "\n\t}";
     }
 
-    String generateOllirBodyCode (JmmNode body){
 
-        //todo
+
+    String generateOllirBodyCode (JmmNode body, String args){
+
+        ArrayList<String> vars = new ArrayList(Arrays.asList(args.split(",")));
+
+        List<JmmNode> methodBodyContents = body.getChildren();
+        String method_body = "";
+
+        for(JmmNode bodyContent : methodBodyContents){
+
+            switch (bodyContent.getKind())
+            {
+                case "VarDeclaration": // num_aux.i32 :=.i32 1.i32;
+                    String new_vars = generateOllirVarDeclaration(bodyContent, vars);
+                    vars.add(new_vars);
+                    method_body += vars;
+                    break;
+
+                case "While":
+                    method_body += generateOllirWhileCode(bodyContent, vars);
+                    break;
+
+                case "IfAndElse":
+                    method_body += generateOllirIfAndElseCode(bodyContent, vars);
+                    break;
+
+                default:
+                    throw new IllegalStateException("Unexpected value: " + bodyContent.getKind());
+            }
+        }
+        // TODO while
+        // TODO ifelse
+        // TODO var declaration
+        return method_body;
+    }
+
+    String generateOllirIfAndElseCode(JmmNode ifElse, ArrayList<String> args)
+    {
+        /*
+        IfAndElse (val: null)
+          IfExpression (val: null, col: 12, line: 44)
+           Var (val: num, col: 13, line: 44)
+           Less (val: null)
+            IntegerLiteral (val: 1, col: 19, line: 44)
+          IfBody (val: null)
+           Var (val: num_aux, col: 13, line: 45)
+           Assignment (val: null, col: 21, line: 45)
+            IntegerLiteral (val: 1, col: 23, line: 45)
+          ElseBody (val: null)
+         */
+        String result = "";
+        List<JmmNode> ifElseContents = ifElse.getChildren();
+
+        for(JmmNode content : ifElseContents)
+        {
+            switch(content.getKind())
+            {
+                case "IfExpression":
+                    result += generateOllirConditionCode(content, args);
+                    break;
+
+                case "IfBody":
+
+                    break;
+
+                case "ElseBody":
+
+                    break;
+
+                default:
+                    throw new IllegalStateException("Unexpected value: " + content.getKind());
+            }
+        }
+
         return "";
     }
 
+    String generateOllirConditionCode(JmmNode condition, ArrayList<String> args)
+    {
+        String result = "";
+        List<JmmNode> contents = condition.getChildren();
+
+        for(JmmNode content : contents)
+        {
+            switch(content.getKind())
+            {
+                case "Var":
+                    result += content.get("val");
+                    break;
+
+                case "IntegerLiteral":
+                    result += content.get("val");
+                    break;
+
+                case "This":
+                    result += " this.";
+                    break;
+
+                case "And":
+                    result += " &&.bool" + generateOllirConditionCode(content, args);
+                    break;
+
+                case "Less":
+                    result += " <.i32" + generateOllirConditionCode(content, args);
+                    break;
+
+                case "PlusExpression":
+                    result += " +.i32" + generateOllirConditionCode(content, args);
+
+                    break;
+
+                case "MinusExpression":
+                    result += " -.i32" + generateOllirConditionCode(content, args);
+
+                    break;
+
+                case "MultExpression":
+                    result += " *.i32" + generateOllirConditionCode(content, args);
+
+                    break;
+
+                case "DivExpression":
+                    result += " /.i32" + generateOllirConditionCode(content, args);
+
+                    break;
+
+                case "NotExpression":
+
+                    break;
+
+                case "DotExpression":
+
+                    break;
+
+                case "SubExpression":
+
+                    break;
+
+                default:
+                    throw new IllegalStateException("Unexpected value: " + content.getKind());
+            }
+        }
+        return "";
+    }
+
+
+    String generateOllirVarDeclaration(JmmNode vars, ArrayList<String> args){
+
+        String varDeclaration="";
+
+        String varTypeAux = vars.getChildren().get(0).get("val");
+        String varAux = vars.getChildren().get(1).get("val");
+
+        if(varTypeAux == "int"){
+            varDeclaration += varAux + ".i32;";
+        }else if(varTypeAux == "boolean"){
+            varDeclaration += varAux + ".bool;";
+        }else if(varTypeAux == "int[]"){
+            varDeclaration += varAux + ".array.i32;";
+        }
+
+        args.add(varDeclaration);
+
+        return varDeclaration;
+    }
+
+
+    /*
+    While (val: null)
+      WhileExpression (val: null, col: 14, line: 11)
+       Var (val: a, col: 15, line: 11)
+       Less (val: null)
+        IntegerLiteral (val: 1, col: 19, line: 11)
+      WhileBody (val: null)
+       Scope (val: null)
+        Var (val: a, col: 13, line: 12)
+        Assignment (val: null, col: 15, line: 12)
+         Var (val: a, col: 17, line: 12)
+         PlusExpression (val: null)
+          IntegerLiteral (val: 1, col: 21, line: 12)
+    * */
+
+
+    String generateOllirWhileCode(JmmNode vars, ArrayList<String> args){
+
+        List<JmmNode> whileContent = vars.getChildren();
+        String ollirWhile="";
+
+        for(JmmNode content : whileContent){
+            if(content.equals("WhileExpression")){
+
+                String condition = generateOllirConditionCode(content, args);
+                ollirWhile += "Loop:\n\t if (" + condition + ") goto Body;\ngoto EndLoop;\nBody:\n\t";
+
+            }else if(content.equals("WhileBody")){
+                List<JmmNode> bodyContent = content.getChildren();
+
+                for(JmmNode insideContent : bodyContent) {
+
+                    if (insideContent.equals("Scope")) {
+                        List<JmmNode> scopeContent = insideContent.getChildren();
+
+                        for(JmmNode insideScope : scopeContent) {
+
+                            if (insideScope.equals("Var")) {
+                                //todo get var type from args
+
+                            }else if(insideScope.equals("Assignment")){
+
+                                ollirWhile += " := ";
+                                List<JmmNode> insideAssignment = insideScope.getChildren();
+
+                                for(JmmNode assignmentContent : insideAssignment) {
+                                    if (assignmentContent.equals("Var")) {
+                                        //todo get var type from args
+
+                                    }else if(assignmentContent.equals("PlusExpression")){
+                                        if(assignmentContent.getChildren().get(0).get("val").equals("IntegerExpression")){
+                                            //todo how to represent a number
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return ollirWhile;
+    }
+
+
+
+    private String generateOllirBodyCode(JmmNode child) {
+
+
+
+        return "";
+    }
 }
+
+
+
 
 /*
 Program (val: null)
@@ -311,5 +563,22 @@ Program (val: null)
         Var (val: b, col: 23, line: 62)
 
  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
