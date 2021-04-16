@@ -1,5 +1,7 @@
+import pt.up.fe.comp.jmm.JmmNode;
 import pt.up.fe.comp.jmm.JmmParserResult;
 import pt.up.fe.comp.jmm.analysis.JmmSemanticsResult;
+import pt.up.fe.comp.jmm.ollir.OllirResult;
 
 import java.util.Arrays;
 
@@ -15,10 +17,15 @@ public class Main {
 
         JmmParserResult jmmParserResult = new ParseStage().parse(file);
         JmmSemanticsResult jmmSemanticsResult = new AnalysisStage().semanticAnalysis(jmmParserResult);
+        //OllirResult ollirResult = new OptimizationStage().toOllir(jmmSemanticsResult);
+
+        JmmNode node = jmmSemanticsResult.getRootNode();
+
+        System.out.println(node.toTree());
     }
 
     public String parseInput(String[] args){
         if(args.length != 0) return args[0];
-        else return "docs/teste1.jmm";
+        else return "docs/teste2.jmm";
     }
 }
