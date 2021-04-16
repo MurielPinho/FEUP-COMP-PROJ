@@ -5,12 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12342425-4e64-4c2f-9f53-ad8b2569e888" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/comp2021-6c.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/teste1.jmm" beforeDir="false" afterPath="$PROJECT_DIR$/src/teste1.jmm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generated/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generated/Parser.jj" beforeDir="false" afterPath="$PROJECT_DIR$/generated/Parser.jj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generated/SimpleNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/generated/SimpleNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated_file.json" beforeDir="false" afterPath="$PROJECT_DIR$/generated_file.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/javacc/Parser.jjt" beforeDir="false" afterPath="$PROJECT_DIR$/javacc/Parser.jjt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/javacc/SimpleNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/javacc/SimpleNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser.properties" beforeDir="false" afterPath="$PROJECT_DIR$/parser.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AnalysisStage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AnalysisStage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ParseStage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ParseStage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/ExampleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/ExampleTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +58,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/generated" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
@@ -59,12 +67,61 @@
       <recent name="C:\Users\Mariana Soares\Desktop\cadeiras\2ºsemestre\COMP\projeto\comp2021-6c\generated" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\utilizador\OneDrive - Universidade do Porto\Ambiente de Trabalho\COMP\comp2021-6c" />
+      <recent name="C:\Users\utilizador\OneDrive - Universidade do Porto\Ambiente de Trabalho\COMP\comp2021-6c\src" />
       <recent name="C:\Users\Mariana Soares\Desktop\cadeiras\2ºsemestre\COMP\projeto\comp2021-6c\generated" />
       <recent name="C:\Users\Mariana Soares\Desktop\cadeiras\2ºsemestre\COMP\projeto\comp2021-6c" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
     </key>
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="comp2021-6c.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExampleTest.testExpression" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;ExampleTest.testExpression&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.ExampleTest.testExpression" />
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -84,6 +141,7 @@
       <workItem from="1615385215709" duration="1042000" />
       <workItem from="1615724486510" duration="2000" />
       <workItem from="1616092641442" duration="1230000" />
+      <workItem from="1618577502685" duration="6491000" />
     </task>
     <servers />
   </component>

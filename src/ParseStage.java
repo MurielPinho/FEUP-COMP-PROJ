@@ -7,8 +7,7 @@ public class ParseStage implements JmmParser {
     @Override
 	public JmmParserResult parse(String jmmCode) {
         try {
-            System.setIn(new FileInputStream(jmmCode));
-            Parser myProg = new Parser(System.in);
+            Parser myProg = new Parser(new StringReader(jmmCode));
             SimpleNode root = myProg.Program(); // returns reference to root node
 
             root.dump(""); // prints the tree on the screen
@@ -26,8 +25,8 @@ public class ParseStage implements JmmParser {
 
     private void createJSONfile(String json) {
         try {
-            System.out.println("\n#######################\n");
-            System.out.println("Craeting JSON file...");
+            System.out.println("\n#######################");
+            System.out.println("Creating JSON file...");
             
             File file = new File("./generated_file.json");
             file.createNewFile();
@@ -37,11 +36,11 @@ public class ParseStage implements JmmParser {
             myWriter.close();
 
             System.out.println("JSON file created at: ./generated_file.json");
-            System.out.println("\n#######################\n");
+            System.out.println("#######################\n");
         }
         catch(Exception e){
             System.out.println("Error creating JSON file!");
-            System.out.println("\n#######################\n");
+            System.out.println("#######################\n");
         }
     }
 }

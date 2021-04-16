@@ -67,16 +67,16 @@ public class Parser {
     }
 
     public void printErrorMessages() {
-        System.out.println("\n#######################\n");
+        System.out.println("\n#######################");
         System.out.println("      SYNTATIC ERRORS      ");
-        System.out.println("\n#######################\n");
+        System.out.println("#######################\n");
 
-        if(this.errorMessages.size() == 0) System.out.println("No syntatic error was found!");
+        if(this.errorMessages.size() == 0) System.out.println("No syntatic errors were found!");
 
         for(int i = 0; i < this.errorMessages.size(); i++)
             System.out.println(this.errorMessages.get(i));
         
-        System.out.println("\n#######################\n");
+        System.out.println("#######################\n");
     }
 
     public int getFunctionNumber(String name) {

@@ -31,16 +31,14 @@ public class AnalysisStage implements JmmAnalysis {
 
         JmmNode node = parserResult.getRootNode();
 
-        System.out.println("\n#######################\n");
+        System.out.println("\n#######################");
         System.out.println("Building Symbol Table...");
 
         RootSymbolTable rootSymbolTable = new RootSymbolTable();
         rootSymbolTable.buildSymbolTable(node);
         
         System.out.println("Symbol Table built");
-        System.out.println("\n#######################\n");
-        // System.out.println( rootSymbolTable.print());
-        System.out.println("\n#######################\n");
+        System.out.println("#######################\n");
 
         // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
         //            SEMANTIC ANALYSIS
@@ -50,10 +48,17 @@ public class AnalysisStage implements JmmAnalysis {
         AnalysisSemanticVisitor visitor = new AnalysisSemanticVisitor();
         visitor.visit(node, analysisSemanticInfo);
 
+        System.out.println("\n#######################");
+        System.out.println("      SEMANTIC ERRORS      ");
+        System.out.println("#######################\n");
+
+        if (analysisSemanticInfo.getReports().size() == 0) System.out.println("No semantic errors were found!");
+
         for(Report report: analysisSemanticInfo.getReports()) System.out.println(report);
 
-        // No Symbol Table being calculated yet
-        return new JmmSemanticsResult(parserResult, rootSymbolTable, new ArrayList<>());
+        System.out.println("#######################\n");
+
+        return new JmmSemanticsResult(parserResult, rootSymbolTable, analysisSemanticInfo.getReports());
 
     }
 
