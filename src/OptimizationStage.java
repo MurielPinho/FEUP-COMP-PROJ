@@ -201,7 +201,7 @@ myClass {
 
             switch (bodyContent.getKind())
             {
-                case "VarDeclaration": // num_aux.i32 :=.i32 1.i32;
+                case "VarDeclaration":
                     String new_vars = generateOllirVarDeclaration(bodyContent, vars);
                     vars.add(new_vars);
                     method_body += vars;
@@ -219,9 +219,6 @@ myClass {
                     throw new IllegalStateException("Unexpected value: " + bodyContent.getKind());
             }
         }
-        // TODO while
-        // TODO ifelse
-        // TODO var declaration
         return method_body;
     }
 
@@ -247,7 +244,8 @@ myClass {
             switch(content.getKind())
             {
                 case "IfExpression":
-                    result += generateOllirConditionCode(content, args);
+                    result += "if (";
+                    result += generateOllirConditionCode(content, args) + ") goto else;\n\t";
                     break;
 
                 case "IfBody":
@@ -266,6 +264,23 @@ myClass {
         return "";
     }
 
+
+    String searchArgs(String var, ArrayList<String> args){
+        String res ="";
+        int length = var.length();
+
+        for(String arg : args){
+            String aux = arg.substring(0, length - 1);
+
+            if(aux.equals(var)){
+                res = arg;
+            }
+        }
+
+        return res;
+    }
+
+
     String generateOllirConditionCode(JmmNode condition, ArrayList<String> args)
     {
         String result = "";
@@ -276,15 +291,16 @@ myClass {
             switch(content.getKind())
             {
                 case "Var":
-                    result += content.get("val");
+
+                    result += searchArgs(content.get("val"), args);
                     break;
 
                 case "IntegerLiteral":
-                    result += content.get("val");
+                    result += searchArgs(content.get("val"), args);
                     break;
 
                 case "This":
-                    result += " this.";
+                    result += " this."; // invokevirtual ??
                     break;
 
                 case "And":
@@ -292,7 +308,7 @@ myClass {
                     break;
 
                 case "Less":
-                    result += " <.i32" + generateOllirConditionCode(content, args);
+                    result += " >=.i32" + generateOllirConditionCode(content, args);
                     break;
 
                 case "PlusExpression":
@@ -331,7 +347,7 @@ myClass {
                     throw new IllegalStateException("Unexpected value: " + content.getKind());
             }
         }
-        return "";
+        return result;
     }
 
 
@@ -395,6 +411,7 @@ myClass {
 
                             if (insideScope.equals("Var")) {
                                 //todo get var type from args
+
 
                             }else if(insideScope.equals("Assignment")){
 
