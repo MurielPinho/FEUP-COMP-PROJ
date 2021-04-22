@@ -362,6 +362,8 @@ void ArrayIndex():{Token name;} { name = <LRPAR> {
     jjtThis.put("col", String.valueOf(name.beginColumn));
 } Expression00() <RRPAR> }
 
+// ACEITA SubExpression SEGUIDO DE DotArrayExpression
+// ACEITA IDENTIFIER NA EXPRESSAO6
 void Expression00() #void: {} {Expression01() AndExpression()}
 void Expression01() #void: {} {Expression02() LessExpression()}
 void Expression02() #void: {} {Expression03() PlusMinusExpression()}
@@ -387,6 +389,8 @@ void Expression06() #void: {
     | (<NEW> (ConstructorIntArray() | ConstructorClass()))
 }
 
+// ACEITA NADA
+// NAO ACEITA EXPRESSAO6
 void Expression10() #void: {} {Expression11() AndExpression()}
 void Expression11() #void: {} {Expression12() LessExpression()}
 void Expression12() #void: {} {Expression13() PlusMinusExpression()}
@@ -394,6 +398,8 @@ void Expression13() #void: {} {Expression14() MultDivExpression()}
 void Expression14() #void: {} {NotExpression() | Expression15()}
 void Expression15() #void: {} {(DotExpression() DotArrayExpression()) | {}}
 
+// ACEITA SubExpression SEGUIDO DE DotArrayExpression
+// NAO ACEITA IDENTIFIER NA EXPRESSAO6
 void Expression20() #void: {} {Expression21() AndExpression()}
 void Expression21() #void: {} {Expression22() LessExpression()}
 void Expression22() #void: {} {Expression23() PlusMinusExpression()}

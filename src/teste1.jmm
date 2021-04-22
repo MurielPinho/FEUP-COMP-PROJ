@@ -44,7 +44,7 @@ class Fac extends B {
         if (num < 1)
             num_aux = 1;
         else
-            num_aux = 1 * (this.ComputeFac(num - 1, false, new Fac().b().f()) + (((7)))) + 5 < 1; /* just to test */
+            num_aux = 1 * (this.ComputeFac(num - 1, false, new Fac().b().f()) + (((7))) + 5 < 1; /* just to test */
 
         /*this.b().j() + 8;
         true && 2 < 1 + 5 + !a[20];

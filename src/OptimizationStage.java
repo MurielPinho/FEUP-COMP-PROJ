@@ -3,6 +3,8 @@ import java.util.List;
 
 import pt.up.fe.comp.jmm.JmmNode;
 import pt.up.fe.comp.jmm.analysis.JmmSemanticsResult;
+import pt.up.fe.comp.jmm.analysis.table.SymbolTable;
+import pt.up.fe.comp.jmm.ast.examples.BranchCounter;
 import pt.up.fe.comp.jmm.ollir.JmmOptimization;
 import pt.up.fe.comp.jmm.ollir.OllirResult;
 import pt.up.fe.comp.jmm.report.Report;
@@ -10,6 +12,7 @@ import pt.up.fe.specs.util.SpecsIo;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+
 /**
  * Copyright 2021 SPeCS.
  * 
@@ -23,12 +26,15 @@ import java.util.ArrayList;
  * specific language governing permissions and limitations under the License. under the License.
  */
 
+
 public class OptimizationStage implements JmmOptimization {
 
     @Override
     public OllirResult toOllir(JmmSemanticsResult semanticsResult) {
 
         JmmNode node = semanticsResult.getRootNode();
+
+        SymbolTable st = semanticsResult.getSymbolTable();
 
         // Convert the AST to a String containing the equivalent OLLIR code
         String ollirCode = generateOllirCode(node); // Convert node ...
@@ -111,15 +117,28 @@ myClass {
 
         for(JmmNode method : methodType)
         {
-            if(method.getKind().equals("RegularMethod"))
+            if(method.getKind().equals("RegularMethod") || method.getKind().equals("Main"))
             {
-                result += ".method public " + method.get("val") + "( ";
+                if(method.getKind().equals("RegularMethod"))
+                {
+                    result += ".method public " + method.get("val") + "( ";
+                }
+                else if(method.getKind().equals("Main")){
+                    result += ".method public static main( ";
+                }
+
+                /*
+                .method public static main(args.array.String).V {
+
+                 */
 
                 List<JmmNode> methodChildren = method.getChildren();
 
                 String returnType="";
                 String args = "";
                 String body="";
+
+                ArrayList<String> vars = null;
 
                 for(JmmNode child : methodChildren)
                 {
@@ -166,13 +185,19 @@ myClass {
                             }
                             break;
 
+
                         case "MethodBody":
-                            body = generateOllirBodyCode(child, args);
+                            BranchCounter branch_counter = new BranchCounter();
+                            vars = new ArrayList(Arrays.asList(args.split(",")));
+                            body = generateOllirBodyCode(child, vars, branch_counter);
                             break;
 
                         case "ReturnStatement":
 
-                            body = generateOllirBodyCode(child);
+                            String statement = child.getChildren().get(0).get("val");
+                            String statementType = searchArgs(statement,vars);
+                            String type = statementType.split("\\.")[1];
+                            result += "End:\n\tret." + type + " " + statementType + ";";
                             break;
 
                         default:
@@ -181,7 +206,6 @@ myClass {
                 }
 
                 result += args + returnType;
-
             }
         }
 
@@ -190,39 +214,58 @@ myClass {
 
 
 
-    String generateOllirBodyCode (JmmNode body, String args){
-
-        ArrayList<String> vars = new ArrayList(Arrays.asList(args.split(",")));
+    String generateOllirBodyCode (JmmNode body, ArrayList<String> args, BranchCounter branch_counter){
 
         List<JmmNode> methodBodyContents = body.getChildren();
         String method_body = "";
+
+        String assignment_type = "";
+        String var ="";
 
         for(JmmNode bodyContent : methodBodyContents){
 
             switch (bodyContent.getKind())
             {
+
+                case "Var":
+                    var = searchArgs(bodyContent.get("val"), args);
+                    method_body += var;
+                    assignment_type = var.split("\\.")[1];
+
+                    break;
+
+                case "Assignment":
+                    method_body += " :=." + assignment_type + " " + generateOllirExpressionCode(bodyContent, args) + ";";
+                    break;
+
                 case "VarDeclaration":
-                    String new_vars = generateOllirVarDeclaration(bodyContent, vars);
-                    vars.add(new_vars);
-                    method_body += vars;
+                    String new_vars = generateOllirVarDeclaration(bodyContent, args);
+                    args.add(new_vars);
+                    method_body += args;
                     break;
 
                 case "While":
-                    method_body += generateOllirWhileCode(bodyContent, vars);
+                    branch_counter.incrementWhile();
+                    method_body += generateOllirWhileCode(bodyContent, args, branch_counter);
                     break;
 
                 case "IfAndElse":
-                    method_body += generateOllirIfAndElseCode(bodyContent, vars);
+
+                    branch_counter.incrementIfElse();
+                    method_body += generateOllirIfAndElseCode(bodyContent, args, branch_counter);
                     break;
 
                 default:
                     throw new IllegalStateException("Unexpected value: " + bodyContent.getKind());
             }
+
+
+
         }
         return method_body;
     }
 
-    String generateOllirIfAndElseCode(JmmNode ifElse, ArrayList<String> args)
+    String generateOllirIfAndElseCode(JmmNode ifElse, ArrayList<String> args, BranchCounter branch_counter)
     {
         /*
         IfAndElse (val: null)
@@ -239,21 +282,35 @@ myClass {
         String result = "";
         List<JmmNode> ifElseContents = ifElse.getChildren();
 
+        boolean else_exists = false;
+
+        for(JmmNode content : ifElseContents)
+        {
+            else_exists = content.getKind().equals("ElseBody");
+        }
+
         for(JmmNode content : ifElseContents)
         {
             switch(content.getKind())
             {
                 case "IfExpression":
                     result += "if (";
-                    result += generateOllirConditionCode(content, args) + ") goto else;\n\t";
+                    result += generateOllirExpressionCode(content, args) + ")";
+                    if(else_exists)
+                        result += " goto else";
+                    else
+                        result += " goto endif";
+
+                    result += branch_counter + ";\n\t";
+                    branch_counter.incrementIfElse();
                     break;
 
                 case "IfBody":
-
+                    result += generateOllirBodyCode(content, args, branch_counter) ;
                     break;
 
                 case "ElseBody":
-
+                    result += "goto endif"+branch_counter+";\nelse"+branch_counter + ":" + generateOllirBodyCode(content, args, branch_counter);
                     break;
 
                 default:
@@ -261,7 +318,7 @@ myClass {
             }
         }
 
-        return "";
+        return result + "\nendif" + branch_counter +":";
     }
 
 
@@ -281,18 +338,29 @@ myClass {
     }
 
 
-    String generateOllirConditionCode(JmmNode condition, ArrayList<String> args)
+    String generateOllirExpressionCode(JmmNode condition, ArrayList<String> args)
     {
         String result = "";
         List<JmmNode> contents = condition.getChildren();
+
+        String var = "";
 
         for(JmmNode content : contents)
         {
             switch(content.getKind())
             {
-                case "Var":
 
+                case "MethodInvocation":
+                    result += "invokevirtual(" + var + ", " + content.get("val");
+                    break;
+
+                case "Identifier":
                     result += searchArgs(content.get("val"), args);
+                    break;
+
+                case "Var":
+                    var = searchArgs(content.get("val"), args);
+                    result += var;
                     break;
 
                 case "IntegerLiteral":
@@ -300,34 +368,34 @@ myClass {
                     break;
 
                 case "This":
-                    result += " this."; // invokevirtual ??
+                    result += " invokevirtual(this,"; // invokevirtual ??
                     break;
 
                 case "And":
-                    result += " &&.bool" + generateOllirConditionCode(content, args);
+                    result += " &&.bool" + generateOllirExpressionCode(content, args);
                     break;
 
                 case "Less":
-                    result += " >=.i32" + generateOllirConditionCode(content, args);
+                    result += " >=.i32" + generateOllirExpressionCode(content, args);
                     break;
 
                 case "PlusExpression":
-                    result += " +.i32" + generateOllirConditionCode(content, args);
+                    result += " +.i32" + generateOllirExpressionCode(content, args);
 
                     break;
 
                 case "MinusExpression":
-                    result += " -.i32" + generateOllirConditionCode(content, args);
+                    result += " -.i32" + generateOllirExpressionCode(content, args);
 
                     break;
 
                 case "MultExpression":
-                    result += " *.i32" + generateOllirConditionCode(content, args);
+                    result += " *.i32" + generateOllirExpressionCode(content, args);
 
                     break;
 
                 case "DivExpression":
-                    result += " /.i32" + generateOllirConditionCode(content, args);
+                    result += " /.i32" + generateOllirExpressionCode(content, args);
 
                     break;
 
@@ -335,13 +403,18 @@ myClass {
 
                     break;
 
-                case "DotExpression":
-
-                    break;
-
                 case "SubExpression":
 
                     break;
+
+                case "Length":
+                    result += ".length()";
+                    break;
+
+                case "ArrayIndex":
+
+                    break;
+
 
                 default:
                     throw new IllegalStateException("Unexpected value: " + content.getKind());
@@ -371,24 +444,7 @@ myClass {
         return varDeclaration;
     }
 
-
-    /*
-    While (val: null)
-      WhileExpression (val: null, col: 14, line: 11)
-       Var (val: a, col: 15, line: 11)
-       Less (val: null)
-        IntegerLiteral (val: 1, col: 19, line: 11)
-      WhileBody (val: null)
-       Scope (val: null)
-        Var (val: a, col: 13, line: 12)
-        Assignment (val: null, col: 15, line: 12)
-         Var (val: a, col: 17, line: 12)
-         PlusExpression (val: null)
-          IntegerLiteral (val: 1, col: 21, line: 12)
-    * */
-
-
-    String generateOllirWhileCode(JmmNode vars, ArrayList<String> args){
+    String generateOllirWhileCode(JmmNode vars, ArrayList<String> args, BranchCounter branch_counter){
 
         List<JmmNode> whileContent = vars.getChildren();
         String ollirWhile="";
@@ -396,8 +452,8 @@ myClass {
         for(JmmNode content : whileContent){
             if(content.equals("WhileExpression")){
 
-                String condition = generateOllirConditionCode(content, args);
-                ollirWhile += "Loop:\n\t if (" + condition + ") goto Body;\ngoto EndLoop;\nBody:\n\t";
+                String condition = generateOllirExpressionCode(content, args);
+                ollirWhile += "Loop " + branch_counter + ":\n\t if (" + condition + ") goto Body" + branch_counter + ";\ngoto EndLoop " + branch_counter + "; \nBody"+branch_counter+":\n\t";
 
             }else if(content.equals("WhileBody")){
                 List<JmmNode> bodyContent = content.getChildren();
@@ -405,47 +461,16 @@ myClass {
                 for(JmmNode insideContent : bodyContent) {
 
                     if (insideContent.equals("Scope")) {
-                        List<JmmNode> scopeContent = insideContent.getChildren();
-
-                        for(JmmNode insideScope : scopeContent) {
-
-                            if (insideScope.equals("Var")) {
-                                //todo get var type from args
-
-
-                            }else if(insideScope.equals("Assignment")){
-
-                                ollirWhile += " := ";
-                                List<JmmNode> insideAssignment = insideScope.getChildren();
-
-                                for(JmmNode assignmentContent : insideAssignment) {
-                                    if (assignmentContent.equals("Var")) {
-                                        //todo get var type from args
-
-                                    }else if(assignmentContent.equals("PlusExpression")){
-                                        if(assignmentContent.getChildren().get(0).get("val").equals("IntegerExpression")){
-                                            //todo how to represent a number
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        ollirWhile += generateOllirBodyCode(insideContent,args, branch_counter);
                     }
                 }
             }
         }
 
-        return ollirWhile;
+        return ollirWhile + "EndLoop" + branch_counter+ ":\n\t";
     }
 
 
-
-    private String generateOllirBodyCode(JmmNode child) {
-
-
-
-        return "";
-    }
 }
 
 
