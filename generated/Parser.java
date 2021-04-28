@@ -1334,6 +1334,8 @@ if (jjtc000) {
     }
   }
 
+// ACEITA SubExpression SEGUIDO DE DotArrayExpression
+// ACEITA IDENTIFIER NA EXPRESSAO6
   final public void Expression00() throws ParseException {
     Expression01();
     AndExpression();
@@ -1503,6 +1505,8 @@ if (jjtc005) {
     }
   }
 
+// ACEITA NADA
+// NAO ACEITA EXPRESSAO6
   final public void Expression10() throws ParseException {
     Expression11();
     AndExpression();
@@ -1548,6 +1552,8 @@ if (jjtc005) {
     }
   }
 
+// ACEITA SubExpression SEGUIDO DE DotArrayExpression
+// NAO ACEITA IDENTIFIER NA EXPRESSAO6
   final public void Expression20() throws ParseException {
     Expression21();
     AndExpression();

@@ -1195,6 +1195,8 @@ void ArrayIndex():{/*@bgen(jjtree) ArrayIndex */
                                   }
 /*@egen*/ }
 
+// ACEITA SubExpression SEGUIDO DE DotArrayExpression
+// ACEITA IDENTIFIER NA EXPRESSAO6
 void Expression00()      : {} {Expression01() AndExpression()}
 void Expression01()      : {} {Expression02() LessExpression()}
 void Expression02()      : {} {Expression03() PlusMinusExpression()}
@@ -1295,6 +1297,8 @@ void Expression06()      : {
     | (<NEW> (ConstructorIntArray() | ConstructorClass()))
 }
 
+// ACEITA NADA
+// NAO ACEITA EXPRESSAO6
 void Expression10()      : {} {Expression11() AndExpression()}
 void Expression11()      : {} {Expression12() LessExpression()}
 void Expression12()      : {} {Expression13() PlusMinusExpression()}
@@ -1302,6 +1306,8 @@ void Expression13()      : {} {Expression14() MultDivExpression()}
 void Expression14()      : {} {NotExpression() | Expression15()}
 void Expression15()      : {} {(DotExpression() DotArrayExpression()) | {}}
 
+// ACEITA SubExpression SEGUIDO DE DotArrayExpression
+// NAO ACEITA IDENTIFIER NA EXPRESSAO6
 void Expression20()      : {} {Expression21() AndExpression()}
 void Expression21()      : {} {Expression22() LessExpression()}
 void Expression22()      : {} {Expression23() PlusMinusExpression()}

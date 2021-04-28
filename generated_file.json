@@ -481,215 +481,7 @@
                               },
                               "children": [
                                 {
-                                  "kind": "IntegerLiteral",
-                                  "attributes": {
-                                    "val": "1",
-                                    "col": "23",
-                                    "line": "47"
-                                  },
-                                  "children": []
-                                },
-                                {
-                                  "kind": "MultExpression",
-                                  "attributes": {
-                                    "val": "null"
-                                  },
-                                  "children": [
-                                    {
-                                      "kind": "SubExpression",
-                                      "attributes": {
-                                        "val": "null"
-                                      },
-                                      "children": [
-                                        {
-                                          "kind": "This",
-                                          "attributes": {
-                                            "val": "null"
-                                          },
-                                          "children": []
-                                        },
-                                        {
-                                          "kind": "MethodInvocation",
-                                          "attributes": {
-                                            "val": "ComputeFac",
-                                            "col": "33",
-                                            "line": "47"
-                                          },
-                                          "children": [
-                                            {
-                                              "kind": "MethodArgs",
-                                              "attributes": {
-                                                "val": "null"
-                                              },
-                                              "children": [
-                                                {
-                                                  "kind": "MethodArg",
-                                                  "attributes": {
-                                                    "val": "null"
-                                                  },
-                                                  "children": [
-                                                    {
-                                                      "kind": "Var",
-                                                      "attributes": {
-                                                        "val": "num",
-                                                        "col": "44",
-                                                        "line": "47"
-                                                      },
-                                                      "children": []
-                                                    },
-                                                    {
-                                                      "kind": "MinusExpression",
-                                                      "attributes": {
-                                                        "val": "null"
-                                                      },
-                                                      "children": [
-                                                        {
-                                                          "kind": "IntegerLiteral",
-                                                          "attributes": {
-                                                            "val": "1",
-                                                            "col": "50",
-                                                            "line": "47"
-                                                          },
-                                                          "children": []
-                                                        }
-                                                      ]
-                                                    }
-                                                  ]
-                                                },
-                                                {
-                                                  "kind": "MethodArg",
-                                                  "attributes": {
-                                                    "val": "null"
-                                                  },
-                                                  "children": [
-                                                    {
-                                                      "kind": "False",
-                                                      "attributes": {
-                                                        "val": "null"
-                                                      },
-                                                      "children": []
-                                                    }
-                                                  ]
-                                                },
-                                                {
-                                                  "kind": "MethodArg",
-                                                  "attributes": {
-                                                    "val": "null"
-                                                  },
-                                                  "children": [
-                                                    {
-                                                      "kind": "ConstructorClass",
-                                                      "attributes": {
-                                                        "val": "Fac",
-                                                        "col": "64",
-                                                        "line": "47"
-                                                      },
-                                                      "children": []
-                                                    },
-                                                    {
-                                                      "kind": "MethodInvocation",
-                                                      "attributes": {
-                                                        "val": "b",
-                                                        "col": "70",
-                                                        "line": "47"
-                                                      },
-                                                      "children": [
-                                                        {
-                                                          "kind": "MethodArgs",
-                                                          "attributes": {
-                                                            "val": "null"
-                                                          },
-                                                          "children": []
-                                                        }
-                                                      ]
-                                                    },
-                                                    {
-                                                      "kind": "MethodInvocation",
-                                                      "attributes": {
-                                                        "val": "f",
-                                                        "col": "74",
-                                                        "line": "47"
-                                                      },
-                                                      "children": [
-                                                        {
-                                                          "kind": "MethodArgs",
-                                                          "attributes": {
-                                                            "val": "null"
-                                                          },
-                                                          "children": []
-                                                        }
-                                                      ]
-                                                    }
-                                                  ]
-                                                }
-                                              ]
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "kind": "PlusExpression",
-                                          "attributes": {
-                                            "val": "null"
-                                          },
-                                          "children": [
-                                            {
-                                              "kind": "SubExpression",
-                                              "attributes": {
-                                                "val": "null"
-                                              },
-                                              "children": [
-                                                {
-                                                  "kind": "SubExpression",
-                                                  "attributes": {
-                                                    "val": "null"
-                                                  },
-                                                  "children": [
-                                                    {
-                                                      "kind": "SubExpression",
-                                                      "attributes": {
-                                                        "val": "null"
-                                                      },
-                                                      "children": [
-                                                        {
-                                                          "kind": "IntegerLiteral",
-                                                          "attributes": {
-                                                            "val": "7",
-                                                            "col": "84",
-                                                            "line": "47"
-                                                          },
-                                                          "children": []
-                                                        }
-                                                      ]
-                                                    }
-                                                  ]
-                                                }
-                                              ]
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                },
-                                {
-                                  "kind": "PlusExpression",
-                                  "attributes": {
-                                    "val": "null"
-                                  },
-                                  "children": [
-                                    {
-                                      "kind": "IntegerLiteral",
-                                      "attributes": {
-                                        "val": "5",
-                                        "col": "92",
-                                        "line": "47"
-                                      },
-                                      "children": []
-                                    }
-                                  ]
-                                },
-                                {
-                                  "kind": "Less",
+                                  "kind": "SubExpression",
                                   "attributes": {
                                     "val": "null"
                                   },
@@ -698,7 +490,58 @@
                                       "kind": "IntegerLiteral",
                                       "attributes": {
                                         "val": "1",
-                                        "col": "96",
+                                        "col": "24",
+                                        "line": "47"
+                                      },
+                                      "children": []
+                                    },
+                                    {
+                                      "kind": "PlusExpression",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "IntegerLiteral",
+                                          "attributes": {
+                                            "val": "2",
+                                            "col": "28",
+                                            "line": "47"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "kind": "MultExpression",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "IntegerLiteral",
+                                              "attributes": {
+                                                "val": "2",
+                                                "col": "32",
+                                                "line": "47"
+                                              },
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "kind": "MultExpression",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "IntegerLiteral",
+                                      "attributes": {
+                                        "val": "5",
+                                        "col": "37",
                                         "line": "47"
                                       },
                                       "children": []

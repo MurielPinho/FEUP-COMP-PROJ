@@ -9,6 +9,8 @@ import pt.up.fe.comp.jmm.ollir.JmmOptimization;
 import pt.up.fe.comp.jmm.ollir.OllirResult;
 import pt.up.fe.comp.jmm.report.Report;
 import pt.up.fe.specs.util.SpecsIo;
+
+import javax.xml.transform.Result;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 
 public class OptimizationStage implements JmmOptimization {
 
+    String temps = "";
     @Override
     public OllirResult toOllir(JmmSemanticsResult semanticsResult) {
 
@@ -235,7 +238,13 @@ myClass {
                     break;
 
                 case "Assignment":
-                    method_body += " :=." + assignment_type + " " + generateOllirExpressionCode(bodyContent, args) + ";";
+
+                    String aux= generateOllirExpressionCode(bodyContent, args,branch_counter);
+
+                    method_body += temps;
+                    method_body += " :=." + assignment_type + " " + aux + ";";
+
+                    temps = "";
                     break;
 
                 case "VarDeclaration":
@@ -294,8 +303,14 @@ myClass {
             switch(content.getKind())
             {
                 case "IfExpression":
+
+                    String aux = generateOllirExpressionCode(content, args,branch_counter);
+
+                    result+= temps;
+                    result = "";
                     result += "if (";
-                    result += generateOllirExpressionCode(content, args) + ")";
+
+                    result += aux + ")";
                     if(else_exists)
                         result += " goto else";
                     else
@@ -338,7 +353,7 @@ myClass {
     }
 
 
-    String generateOllirExpressionCode(JmmNode condition, ArrayList<String> args)
+    String generateOllirExpressionCode(JmmNode condition, ArrayList<String> args, BranchCounter branch_counter)
     {
         String result = "";
         List<JmmNode> contents = condition.getChildren();
@@ -351,7 +366,7 @@ myClass {
             {
 
                 case "MethodInvocation":
-                    result += "invokevirtual(" + var + ", " + content.get("val");
+                    result += "invokevirtual(" + var + ", " + content.get("val") + ")";
                     break;
 
                 case "Identifier":
@@ -368,42 +383,128 @@ myClass {
                     break;
 
                 case "This":
-                    result += " invokevirtual(this,"; // invokevirtual ??
+                    result += " invokevirtual(this, " + content.get("val") + ")"; // invokevirtual ??
                     break;
 
                 case "And":
-                    result += " &&.bool" + generateOllirExpressionCode(content, args);
+                    result += " &&.bool" + generateOllirExpressionCode(content, args, branch_counter);
                     break;
 
                 case "Less":
-                    result += " >=.i32" + generateOllirExpressionCode(content, args);
+                    if(content.getNumChildren() == 1){
+                    result += " >=.i32" + generateOllirExpressionCode(content, args, branch_counter);
+                    }else{
+                        result += " >=.i32";
+
+                        branch_counter.incrementTemp();
+                        String temp = "temp" + branch_counter;
+
+                        result += temp;
+
+                        temp += " = ";
+                        temp += generateOllirExpressionCode(content, args,branch_counter);
+                        temp += ";\n";
+
+                        temps += temp;
+                    }
                     break;
 
                 case "PlusExpression":
-                    result += " +.i32" + generateOllirExpressionCode(content, args);
+
+                    if(content.getNumChildren() == 1){
+                        result += " +.i32" + generateOllirExpressionCode(content, args,branch_counter);
+                    }else{
+                        result += " +.i32";
+
+                        branch_counter.incrementTemp();
+                        String temp = "temp" + branch_counter;
+
+                        result += temp;
+
+                        temp += " = ";
+                        temp += generateOllirExpressionCode(content, args,branch_counter);
+                        temp += ";\n";
+
+                        temps += temp;
+                    }
 
                     break;
 
                 case "MinusExpression":
-                    result += " -.i32" + generateOllirExpressionCode(content, args);
+                    if(content.getNumChildren() == 1){
+                    result += " -.i32" + generateOllirExpressionCode(content, args,branch_counter);
+                    }else{
+                        result += " -.i32";
+
+                        branch_counter.incrementTemp();
+                        String temp = "temp" + branch_counter;
+
+                        result += temp;
+
+                        temp += " = ";
+                        temp += generateOllirExpressionCode(content, args,branch_counter);
+                        temp += ";\n";
+
+                        temps += temp;
+                    }
 
                     break;
 
                 case "MultExpression":
-                    result += " *.i32" + generateOllirExpressionCode(content, args);
+                    if(content.getNumChildren() == 1){
+                    result += " *.i32" + generateOllirExpressionCode(content, args,branch_counter);
+                    }else{
+                        result += " *.i32";
+
+                        branch_counter.incrementTemp();
+                        String temp = "temp" + branch_counter;
+
+                        result += temp;
+
+                        temp += " = ";
+                        temp += generateOllirExpressionCode(content, args,branch_counter);
+                        temp += ";\n";
+
+                        temps += temp;
+                    }
 
                     break;
 
                 case "DivExpression":
-                    result += " /.i32" + generateOllirExpressionCode(content, args);
+                    if(content.getNumChildren() == 1){
+                    result += " /.i32" + generateOllirExpressionCode(content, args,branch_counter);
+                    }else{
+                        result += " /.i32";
+
+                        branch_counter.incrementTemp();
+                        String temp = "temp" + branch_counter;
+
+                        result += temp;
+
+                        temp += generateOllirExpressionCode(content, args,branch_counter);
+                        temp += ";\n";
+
+                        temps += temp;
+                    }
 
                     break;
 
                 case "NotExpression":
-
+                    result += " !.bool" + generateOllirExpressionCode(content, args,branch_counter);
                     break;
 
                 case "SubExpression":
+
+                    branch_counter.incrementTemp();
+                    String temp = "temp" + branch_counter;
+
+                    result += temp;
+
+                    temp += " = ";
+                    temp += generateOllirExpressionCode(content, args,branch_counter);
+                    temp += ";\n";
+
+                    temps += temp;
 
                     break;
 
@@ -411,9 +512,9 @@ myClass {
                     result += ".length()";
                     break;
 
-                case "ArrayIndex":
+                /*case "ArrayIndex":
 
-                    break;
+                    break;*/
 
 
                 default:
@@ -452,7 +553,9 @@ myClass {
         for(JmmNode content : whileContent){
             if(content.equals("WhileExpression")){
 
-                String condition = generateOllirExpressionCode(content, args);
+                String condition = generateOllirExpressionCode(content, args,branch_counter);
+                ollirWhile += temps;
+                temps = "";
                 ollirWhile += "Loop " + branch_counter + ":\n\t if (" + condition + ") goto Body" + branch_counter + ";\ngoto EndLoop " + branch_counter + "; \nBody"+branch_counter+":\n\t";
 
             }else if(content.equals("WhileBody")){
