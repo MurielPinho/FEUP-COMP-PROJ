@@ -37,10 +37,10 @@ public class OptimizationStage implements JmmOptimization {
 
         JmmNode node = semanticsResult.getRootNode();
 
-        SymbolTable st = semanticsResult.getSymbolTable();
+        SymbolTable symbolTable = semanticsResult.getSymbolTable();
 
         // Convert the AST to a String containing the equivalent OLLIR code
-        String ollirCode = generateOllirCode(node); // Convert node ...
+        String ollirCode = generateOllirCode(node, symbolTable); // Convert node ...
 
         // More reports from this stage
         List<Report> reports = new ArrayList<>();
@@ -88,7 +88,7 @@ myClass {
  */
 
 
-    String generateOllirCode(JmmNode root)
+    String generateOllirCode(JmmNode root, SymbolTable symbolTable)
     {
         String result = "";
 
@@ -102,7 +102,7 @@ myClass {
                 List<JmmNode> methods = node.getChildren();
                 for(JmmNode method : methods)
                 {
-                    result += generateOllirMethodCode(method);
+                    result += generateOllirMethodCode(method, symbolTable);
                 }
                 result += "}";
             }
@@ -111,7 +111,7 @@ myClass {
         return result;
     }
 
-    String generateOllirMethodCode(JmmNode node)
+    String generateOllirMethodCode(JmmNode node, SymbolTable symbolTable)
     {
 
         String result = "";
@@ -160,8 +160,7 @@ myClass {
                         case "MethodParams":
                             List<JmmNode> methodParams = child.getChildren();
 
-
-                            int counter = methodParams.size();
+                            int counter = 1;
 
                             for(JmmNode param : methodParams)
                             {
@@ -171,16 +170,16 @@ myClass {
                                 String paramVarAux = param.getChildren().get(1).get("val");
 
                                 if(paramTypeAux.equals("int")){
-                                    arg = paramVarAux + ".i32";
+                                    arg = "$" + counter + "." + paramVarAux + ".i32";
                                 }else if(paramTypeAux.equals("boolean")){
-                                    arg = paramVarAux + ".bool";
+                                    arg = "$" + counter + "." + paramVarAux + ".bool";
                                 }else if(paramTypeAux.equals("int[]")){
-                                    arg = paramVarAux + ".array.i32";
+                                    arg = "$" + counter + "." + paramVarAux + ".array.i32";
                                 }
 
-                                counter--;
+                                counter++;
 
-                                if(counter != 1){
+                                if(counter <= methodParams.size()){
                                     arg += ",";
                                 }
 
@@ -192,14 +191,15 @@ myClass {
                         case "MethodBody":
                             BranchCounter branch_counter = new BranchCounter();
                             vars = new ArrayList(Arrays.asList(args.split(",")));
-                            body = generateOllirBodyCode(child, vars, branch_counter);
+                            body = generateOllirBodyCode(child, vars, branch_counter, symbolTable);
                             break;
 
                         case "ReturnStatement":
 
                             String statement = child.getChildren().get(0).get("val");
                             String statementType = searchArgs(statement,vars);
-                            String type = statementType.split("\\.")[1];
+                            String[] aux_split = statementType.split("\\.");
+                            String type = aux_split[aux_split.length-1];
                             result += "End:\n\tret." + type + " " + statementType + ";";
                             break;
 
@@ -217,7 +217,7 @@ myClass {
 
 
 
-    String generateOllirBodyCode (JmmNode body, ArrayList<String> args, BranchCounter branch_counter){
+    String generateOllirBodyCode (JmmNode body, ArrayList<String> args, BranchCounter branch_counter, SymbolTable symbolTable){
 
         List<JmmNode> methodBodyContents = body.getChildren();
         String method_body = "";
@@ -233,13 +233,14 @@ myClass {
                 case "Var":
                     var = searchArgs(bodyContent.get("val"), args);
                     method_body += var;
-                    assignment_type = var.split("\\.")[1];
+                    String[] aux_split = var.split("\\.");
+                    assignment_type = aux_split[aux_split.length-1];
 
                     break;
 
                 case "Assignment":
 
-                    String aux= generateOllirExpressionCode(bodyContent, args,branch_counter);
+                    String aux= generateOllirExpressionCode(bodyContent, args,branch_counter, symbolTable);
 
                     method_body += temps;
                     method_body += " :=." + assignment_type + " " + aux + ";";
@@ -255,13 +256,13 @@ myClass {
 
                 case "While":
                     branch_counter.incrementWhile();
-                    method_body += generateOllirWhileCode(bodyContent, args, branch_counter);
+                    method_body += generateOllirWhileCode(bodyContent, args, branch_counter, symbolTable);
                     break;
 
                 case "IfAndElse":
 
                     branch_counter.incrementIfElse();
-                    method_body += generateOllirIfAndElseCode(bodyContent, args, branch_counter);
+                    method_body += generateOllirIfAndElseCode(bodyContent, args, branch_counter, symbolTable);
                     break;
 
                 default:
@@ -274,7 +275,7 @@ myClass {
         return method_body;
     }
 
-    String generateOllirIfAndElseCode(JmmNode ifElse, ArrayList<String> args, BranchCounter branch_counter)
+    String generateOllirIfAndElseCode(JmmNode ifElse, ArrayList<String> args, BranchCounter branch_counter, SymbolTable symbolTable)
     {
         /*
         IfAndElse (val: null)
@@ -304,7 +305,7 @@ myClass {
             {
                 case "IfExpression":
 
-                    String aux = generateOllirExpressionCode(content, args,branch_counter);
+                    String aux = generateOllirExpressionCode(content, args,branch_counter, symbolTable);
 
                     result+= temps;
                     result = "";
@@ -321,11 +322,11 @@ myClass {
                     break;
 
                 case "IfBody":
-                    result += generateOllirBodyCode(content, args, branch_counter) ;
+                    result += generateOllirBodyCode(content, args, branch_counter, symbolTable) ;
                     break;
 
                 case "ElseBody":
-                    result += "goto endif"+branch_counter+";\nelse"+branch_counter + ":" + generateOllirBodyCode(content, args, branch_counter);
+                    result += "goto endif"+branch_counter+";\nelse"+branch_counter + ":" + generateOllirBodyCode(content, args, branch_counter, symbolTable);
                     break;
 
                 default:
@@ -352,11 +353,26 @@ myClass {
         return res;
     }
 
+    String genetrateOllirMethodArgs(JmmNode methodInvocation, ArrayList<String> args, BranchCounter branch_counter, SymbolTable symbolTable)
+    {
+        List<JmmNode> methodArgs = methodInvocation.getChildren();
+        String result = "";
+        Boolean aux = false;
+        for(JmmNode methodArg : methodArgs)
+        {
+            if(aux)
+                result += ", ";
+            aux = true;
+            result += generateOllirExpressionCode(methodArg, args, branch_counter, symbolTable);
+        }
+        return result;
+    }
 
-    String generateOllirExpressionCode(JmmNode condition, ArrayList<String> args, BranchCounter branch_counter)
+
+    String generateOllirExpressionCode(JmmNode node, ArrayList<String> args, BranchCounter branch_counter, SymbolTable symbolTable)
     {
         String result = "";
-        List<JmmNode> contents = condition.getChildren();
+        List<JmmNode> contents = node.getChildren();
 
         String var = "";
 
@@ -366,7 +382,19 @@ myClass {
             {
 
                 case "MethodInvocation":
-                    result += "invokevirtual(" + var + ", " + content.get("val") + ")";
+                    result += "invokevirtual(" + var + ", " + content.get("val");
+                    result += genetrateOllirMethodArgs(content, args, branch_counter, symbolTable) + ")";
+                    String returnType = symbolTable.getReturnType(content.get("val")).getName();
+                    if(returnType.equals("int")){
+                        result += ".i32";
+                    }else if(returnType.equals("boolean")){
+                        result += ".bool";
+                    }else if(returnType.equals("int[]")){
+                        result += ".array.i32";
+                    }
+                    else if(returnType.equals("void")) {
+                        result += ".V";
+                    }
                     break;
 
                 case "Identifier":
@@ -387,12 +415,12 @@ myClass {
                     break;
 
                 case "And":
-                    result += " &&.bool" + generateOllirExpressionCode(content, args, branch_counter);
+                    result += " &&.bool" + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
                     break;
 
                 case "Less":
                     if(content.getNumChildren() == 1){
-                    result += " >=.i32" + generateOllirExpressionCode(content, args, branch_counter);
+                    result += " >=.i32" + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
                     }else{
                         result += " >=.i32";
 
@@ -402,7 +430,7 @@ myClass {
                         result += temp;
 
                         temp += " = ";
-                        temp += generateOllirExpressionCode(content, args,branch_counter);
+                        temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                         temp += ";\n";
 
                         temps += temp;
@@ -412,7 +440,7 @@ myClass {
                 case "PlusExpression":
 
                     if(content.getNumChildren() == 1){
-                        result += " +.i32" + generateOllirExpressionCode(content, args,branch_counter);
+                        result += " +.i32" + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                     }else{
                         result += " +.i32";
 
@@ -422,7 +450,7 @@ myClass {
                         result += temp;
 
                         temp += " = ";
-                        temp += generateOllirExpressionCode(content, args,branch_counter);
+                        temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                         temp += ";\n";
 
                         temps += temp;
@@ -432,7 +460,7 @@ myClass {
 
                 case "MinusExpression":
                     if(content.getNumChildren() == 1){
-                    result += " -.i32" + generateOllirExpressionCode(content, args,branch_counter);
+                    result += " -.i32" + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                     }else{
                         result += " -.i32";
 
@@ -442,7 +470,7 @@ myClass {
                         result += temp;
 
                         temp += " = ";
-                        temp += generateOllirExpressionCode(content, args,branch_counter);
+                        temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                         temp += ";\n";
 
                         temps += temp;
@@ -452,7 +480,7 @@ myClass {
 
                 case "MultExpression":
                     if(content.getNumChildren() == 1){
-                    result += " *.i32" + generateOllirExpressionCode(content, args,branch_counter);
+                    result += " *.i32" + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                     }else{
                         result += " *.i32";
 
@@ -462,7 +490,7 @@ myClass {
                         result += temp;
 
                         temp += " = ";
-                        temp += generateOllirExpressionCode(content, args,branch_counter);
+                        temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                         temp += ";\n";
 
                         temps += temp;
@@ -472,7 +500,7 @@ myClass {
 
                 case "DivExpression":
                     if(content.getNumChildren() == 1){
-                    result += " /.i32" + generateOllirExpressionCode(content, args,branch_counter);
+                    result += " /.i32" + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                     }else{
                         result += " /.i32";
 
@@ -481,7 +509,7 @@ myClass {
 
                         result += temp;
 
-                        temp += generateOllirExpressionCode(content, args,branch_counter);
+                        temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                         temp += ";\n";
 
                         temps += temp;
@@ -490,7 +518,7 @@ myClass {
                     break;
 
                 case "NotExpression":
-                    result += " !.bool" + generateOllirExpressionCode(content, args,branch_counter);
+                    result += " !.bool" + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                     break;
 
                 case "SubExpression":
@@ -501,7 +529,7 @@ myClass {
                     result += temp;
 
                     temp += " = ";
-                    temp += generateOllirExpressionCode(content, args,branch_counter);
+                    temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                     temp += ";\n";
 
                     temps += temp;
@@ -545,7 +573,7 @@ myClass {
         return varDeclaration;
     }
 
-    String generateOllirWhileCode(JmmNode vars, ArrayList<String> args, BranchCounter branch_counter){
+    String generateOllirWhileCode(JmmNode vars, ArrayList<String> args, BranchCounter branch_counter, SymbolTable symbolTable){
 
         List<JmmNode> whileContent = vars.getChildren();
         String ollirWhile="";
@@ -553,7 +581,7 @@ myClass {
         for(JmmNode content : whileContent){
             if(content.equals("WhileExpression")){
 
-                String condition = generateOllirExpressionCode(content, args,branch_counter);
+                String condition = generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                 ollirWhile += temps;
                 temps = "";
                 ollirWhile += "Loop " + branch_counter + ":\n\t if (" + condition + ") goto Body" + branch_counter + ";\ngoto EndLoop " + branch_counter + "; \nBody"+branch_counter+":\n\t";
@@ -564,7 +592,7 @@ myClass {
                 for(JmmNode insideContent : bodyContent) {
 
                     if (insideContent.equals("Scope")) {
-                        ollirWhile += generateOllirBodyCode(insideContent,args, branch_counter);
+                        ollirWhile += generateOllirBodyCode(insideContent,args, branch_counter, symbolTable);
                     }
                 }
             }
