@@ -128,10 +128,10 @@ myClass {
             {
                 if(method.getKind().equals("RegularMethod"))
                 {
-                    result += ".method public " + method.get("val") + "( ";
+                    result += ".method public " + method.get("val") + "(";
                 }
                 else if(method.getKind().equals("Main")){
-                    result += ".method public static main( ";
+                    result += ".method public static main(";
                 }
 
                 /*
@@ -205,6 +205,10 @@ myClass {
                             String[] aux_split = statementType.split("\\.");
                             String type = aux_split[aux_split.length-1];
                             result += "End:\n\tret." + type + " " + statementType + ";";
+                            break;
+
+                        case "ArgName" :
+                            result += child.get("val") + ".array.String).V";
                             break;
 
                         default:
