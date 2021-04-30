@@ -258,8 +258,12 @@ myClass {
                     break;
 
                 case "VarDeclaration":
+                    System.out.println("\nVARDEC ->");
+                    System.out.println(args);
                     String new_vars = generateOllirVarDeclaration(bodyContent, args);
                     args.add(new_vars);
+                    System.out.println(args);
+                    System.out.println("VARDEC <-\n");
                     method_body += args;
                     break;
 
@@ -352,13 +356,16 @@ myClass {
         int length = var.length();
 
         for(String arg : args){
+            //System.out.println("arg:");
+            //System.out.println(arg);
             String aux = arg.substring(0, length - 1);
 
             if(aux.equals(var)){
                 res = arg;
             }
         }
-
+        //System.out.println("res:");
+        //System.out.println(res);
         return res;
     }
 
@@ -582,20 +589,25 @@ myClass {
 
     String generateOllirVarDeclaration(JmmNode vars, ArrayList<String> args){
 
+        System.out.println("VAR DEC NODE:");
+        System.out.println(vars);
+        System.out.println(vars.getChildren());
         String varDeclaration="";
 
         String varTypeAux = vars.getChildren().get(0).get("val");
         String varAux = vars.getChildren().get(1).get("val");
 
-        if(varTypeAux == "int"){
-            varDeclaration += varAux + ".i32;";
-        }else if(varTypeAux == "boolean"){
-            varDeclaration += varAux + ".bool;";
-        }else if(varTypeAux == "int[]"){
-            varDeclaration += varAux + ".array.i32;";
+        if(varTypeAux.equals("int")){
+            varDeclaration += varAux + ".i32";
+        }else if(varTypeAux.equals("boolean")){
+            varDeclaration += varAux + ".bool";
+        }else if(varTypeAux.equals("int[]")){
+            varDeclaration += varAux + ".array.i32";
+        } else {
+            varDeclaration += varAux + "." + varTypeAux;
         }
 
-        args.add(varDeclaration);
+        //args.add(varDeclaration);
 
         return varDeclaration;
     }
