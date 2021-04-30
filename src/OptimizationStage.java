@@ -179,6 +179,8 @@ myClass {
                                     arg = "$" + counter + "." + paramVarAux + ".bool";
                                 }else if(paramTypeAux.equals("int[]")){
                                     arg = "$" + counter + "." + paramVarAux + ".array.i32";
+                                } else {
+                                    arg = "$" + counter + "." + paramVarAux + "." + paramTypeAux;
                                 }
 
                                 counter++;
