@@ -35,7 +35,11 @@ public class OptimizationStage implements JmmOptimization {
     @Override
     public OllirResult toOllir(JmmSemanticsResult semanticsResult) {
 
+
         JmmNode node = semanticsResult.getRootNode();
+
+
+
 
         SymbolTable symbolTable = semanticsResult.getSymbolTable();
 
@@ -219,6 +223,7 @@ myClass {
 
     String generateOllirBodyCode (JmmNode body, ArrayList<String> args, BranchCounter branch_counter, SymbolTable symbolTable){
 
+        System.out.println(body.toTree());
         List<JmmNode> methodBodyContents = body.getChildren();
         String method_body = "";
 
@@ -384,7 +389,25 @@ myClass {
                 case "MethodInvocation":
                     result += "invokevirtual(" + var + ", " + content.get("val");
                     result += genetrateOllirMethodArgs(content, args, branch_counter, symbolTable) + ")";
-                    String returnType = symbolTable.getReturnType(content.get("val")).getName();
+
+                    //System.out.println(content.get("val"));
+
+                    List<String> methods = symbolTable.getMethods();
+
+                    String finalMethod = "";
+
+                    for (String method : methods){
+
+                        String[] aux=method.split("\\d+",2);
+
+                        String substringMethod = aux[0].trim();
+                        if(content.get("val").equals(substringMethod)){
+                            finalMethod = method;
+                        }
+                    }
+
+                    String returnType = symbolTable.getReturnType(finalMethod).getName() + (symbolTable.getReturnType(finalMethod).isArray()?"[]":"");
+
                     if(returnType.equals("int")){
                         result += ".i32";
                     }else if(returnType.equals("boolean")){

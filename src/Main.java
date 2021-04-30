@@ -24,7 +24,7 @@ public class Main {
 
         JmmParserResult jmmParserResult = new ParseStage().parse(SpecsIo.getResource(file));
         JmmSemanticsResult jmmSemanticsResult = new AnalysisStage().semanticAnalysis(jmmParserResult);
-        //OllirResult ollirResult = new OptimizationStage().toOllir(jmmSemanticsResult);
+        OllirResult ollirResult = new OptimizationStage().toOllir(jmmSemanticsResult);
 
         JmmNode node = jmmSemanticsResult.getRootNode();
 
@@ -33,6 +33,6 @@ public class Main {
 
     public String parseInput(String[] args){
         if(args.length != 0) return args[0];
-        else return "teste1.jmm";
+        else return "fixtures/public/Simple.jmm";
     }
 }
