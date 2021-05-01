@@ -230,7 +230,7 @@ myClass {
 
     String generateOllirBodyCode (JmmNode body, ArrayList<String> args, BranchCounter branch_counter, SymbolTable symbolTable){
 
-        System.out.println(body.toTree());
+//        System.out.println(body.toTree());
         List<JmmNode> methodBodyContents = body.getChildren();
         String method_body = "";
 
@@ -261,15 +261,15 @@ myClass {
                     break;
 
                 case "VarDeclaration":
-                    System.out.println("\nVARDEC ->");
-                    System.out.println(args);
+                   /* System.out.println("\nVARDEC ->");
+                    System.out.println(args);*/
                     String new_vars = generateOllirVarDeclaration(bodyContent, args);
 
                     if(!new_vars.equals("")) {
                         args.add(new_vars);
                     }
-                    System.out.println(args);
-                    System.out.println("VARDEC <-\n");
+                    /*System.out.println(args);
+                    System.out.println("VARDEC <-\n");*/
                     method_body += args;
                     break;
 
@@ -284,6 +284,10 @@ myClass {
                     method_body += generateOllirIfAndElseCode(bodyContent, args, branch_counter, symbolTable);
                     break;
 
+                case "MethodInvocation":
+
+                   //todo
+                    break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + bodyContent.getKind());
             }
@@ -359,19 +363,21 @@ myClass {
 
     String searchArgs(String var, ArrayList<String> args){
         String res ="";
-        int length = var.length();
+        //int length = var.length();
 
         for(String arg : args){
-            System.out.println("arg:");
-            System.out.println(arg);
-            String aux = arg.substring(0, length - 1);
+           /* System.out.println("arg:");
+            System.out.println(arg);*/
+            //String aux = arg.substring(0, length - 1);
 
-            if(aux.equals(var)){
+            System.out.println(args+"\n");
+            String[] aux = arg.split(".");
+            if(aux[0].equals(var)){
                 res = arg;
             }
         }
-        System.out.println("res:");
-        System.out.println(res);
+       /* System.out.println("res:");
+        System.out.println(res);*/
         return res;
     }
 
@@ -580,6 +586,13 @@ myClass {
                     result += ".length()";
                     break;
 
+                case "ConstructorClass":
+                    //todo
+                    break;
+
+                case "MethodArg":
+                    //todo
+                    break;
                 /*case "ArrayIndex":
 
                     break;*/
@@ -595,9 +608,9 @@ myClass {
 
     String generateOllirVarDeclaration(JmmNode vars, ArrayList<String> args){
 
-        System.out.println("VAR DEC NODE:");
+        /*System.out.println("VAR DEC NODE:");
         System.out.println(vars);
-        System.out.println(vars.getChildren());
+        System.out.println(vars.getChildren());*/
         String varDeclaration="";
 
         String varTypeAux = vars.getChildren().get(0).get("val");
