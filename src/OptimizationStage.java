@@ -38,13 +38,12 @@ public class OptimizationStage implements JmmOptimization {
 
         JmmNode node = semanticsResult.getRootNode();
 
-
-
-
         SymbolTable symbolTable = semanticsResult.getSymbolTable();
 
         // Convert the AST to a String containing the equivalent OLLIR code
         String ollirCode = generateOllirCode(node, symbolTable); // Convert node ...
+
+        System.out.println(ollirCode);
 
         // More reports from this stage
         List<Report> reports = new ArrayList<>();
@@ -108,7 +107,7 @@ myClass {
                 {
                     result += generateOllirMethodCode(method, symbolTable);
                 }
-                result += "}";
+                result += "\n}";
             }
         }
 
@@ -117,7 +116,7 @@ myClass {
 
     String generateOllirMethodCode(JmmNode node, SymbolTable symbolTable)
     {
-
+        String returnStatement="";
         String result = "";
 
         List<JmmNode> methodType = node.getChildren();
@@ -128,10 +127,10 @@ myClass {
             {
                 if(method.getKind().equals("RegularMethod"))
                 {
-                    result += ".method public " + method.get("val") + "(";
+                    result += "\n\t.method public " + method.get("val") + "(";
                 }
                 else if(method.getKind().equals("Main")){
-                    result += ".method public static main(";
+                    result += "\n\t.method public static main(";
                 }
 
                 /*
@@ -207,11 +206,11 @@ myClass {
                             String statementType = searchArgs(statement,vars);
                             String[] aux_split = statementType.split("\\.");
                             String type = aux_split[aux_split.length-1];
-                            result += "End:\n\tret." + type + " " + statementType + ";";
+                            returnStatement += "\n\t\tret." + type + " " + statementType + ";";
                             break;
 
                         case "ArgName" :
-                            result += child.get("val") + ".array.String).V";
+                            result += child.get("val") + ".array.String).V {";
                             break;
 
                         default:
@@ -223,7 +222,7 @@ myClass {
             }
         }
 
-        return result + "\n\t}";
+        return result + returnStatement + "\n\t}";
     }
 
 
