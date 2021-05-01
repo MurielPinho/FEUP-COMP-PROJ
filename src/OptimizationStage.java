@@ -118,6 +118,7 @@ myClass {
     {
         String returnStatement="";
         String result = "";
+        String body="";
 
         List<JmmNode> methodType = node.getChildren();
 
@@ -142,7 +143,7 @@ myClass {
 
                 String returnType="";
                 String args = "";
-                String body="";
+                //String body="";
 
                 ArrayList<String> vars = null;
 
@@ -222,7 +223,7 @@ myClass {
             }
         }
 
-        return result + returnStatement + "\n\t}";
+        return result + body + returnStatement + "\n\t}";
     }
 
 
