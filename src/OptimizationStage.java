@@ -197,6 +197,7 @@ myClass {
                         case "MethodBody":
                             BranchCounter branch_counter = new BranchCounter();
                             vars = new ArrayList(Arrays.asList(args.split(",")));
+                            vars.remove("");
                             body = generateOllirBodyCode(child, vars, branch_counter, symbolTable);
                             break;
 
@@ -263,7 +264,10 @@ myClass {
                     System.out.println("\nVARDEC ->");
                     System.out.println(args);
                     String new_vars = generateOllirVarDeclaration(bodyContent, args);
-                    args.add(new_vars);
+
+                    if(!new_vars.equals("")) {
+                        args.add(new_vars);
+                    }
                     System.out.println(args);
                     System.out.println("VARDEC <-\n");
                     method_body += args;
@@ -358,16 +362,16 @@ myClass {
         int length = var.length();
 
         for(String arg : args){
-            //System.out.println("arg:");
-            //System.out.println(arg);
+            System.out.println("arg:");
+            System.out.println(arg);
             String aux = arg.substring(0, length - 1);
 
             if(aux.equals(var)){
                 res = arg;
             }
         }
-        //System.out.println("res:");
-        //System.out.println(res);
+        System.out.println("res:");
+        System.out.println(res);
         return res;
     }
 
