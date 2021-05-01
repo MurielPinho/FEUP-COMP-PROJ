@@ -370,13 +370,29 @@ myClass {
             System.out.println(arg);*/
             //String aux = arg.substring(0, length - 1);
 
-            System.out.println(args+"\n");
-            String[] aux = arg.split(".");
-            if(aux[0].equals(var)){
-                res = arg;
+//            System.out.println(args + "\n");
+
+            String[] allArgs = arg.split("\\.");
+
+//            System.out.println("aux: "+allArgs[0] + "\n");
+//
+//            System.out.println("VARRRRRRRRRRRRRR: "+ var + "\n");
+
+            String caracter = String.valueOf(allArgs[0].charAt(0));
+
+            if(caracter.equals("$")){
+                String[] newAllArgs = arg.split("\\.");
+
+                if(newAllArgs[1].equals(var)){
+                    res = arg;
+                }
+            }else{
+                if(allArgs[0].equals(var)){
+                    res = arg;
+                }
             }
         }
-       /* System.out.println("res:");
+       /*System.out.println("resssssssssssssssssssssssss:");
         System.out.println(res);*/
         return res;
     }
