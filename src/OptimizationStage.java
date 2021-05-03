@@ -211,7 +211,7 @@ myClass {
                             break;
 
                         case "ArgName" :
-                            result += child.get("val") + ".array.String).V {";
+                            result += child.get("val") + ".array.String).V {\n";
                             break;
 
                         default:
@@ -219,7 +219,7 @@ myClass {
                     }
                 }
 
-                result += args + returnType;
+                result += args + returnType + "\n";
             }
         }
 
@@ -237,8 +237,8 @@ myClass {
         String assignment_type = "";
         String var ="";
 
-        for(JmmNode bodyContent : methodBodyContents){
-
+        for(int i = 0; i < methodBodyContents.size(); i++){
+            JmmNode bodyContent = methodBodyContents.get(i);
             switch (bodyContent.getKind())
             {
 
@@ -254,8 +254,8 @@ myClass {
 
                     String aux= generateOllirExpressionCode(bodyContent, args,branch_counter, symbolTable);
 
-                    method_body += temps;
-                    method_body += " :=." + assignment_type + " " + aux + ";";
+                    //method_body += temps;
+                    method_body += " :=." + assignment_type + " " + aux + ";\n";
 
                     temps = "";
                     break;
@@ -270,7 +270,7 @@ myClass {
                     }
                     /*System.out.println(args);
                     System.out.println("VARDEC <-\n");*/
-                    method_body += args;
+                    //method_body += args + "\n";
                     break;
 
                 case "While":
@@ -399,7 +399,7 @@ myClass {
 
     String genetrateOllirMethodArgs(JmmNode methodInvocation, ArrayList<String> args, BranchCounter branch_counter, SymbolTable symbolTable)
     {
-        List<JmmNode> methodArgs = methodInvocation.getChildren();
+        List<JmmNode> methodArgs = methodInvocation.getChildren().get(0).getChildren();
         String result = "";
         Boolean aux = false;
         for(JmmNode methodArg : methodArgs)
@@ -407,7 +407,7 @@ myClass {
             if(aux)
                 result += ", ";
             aux = true;
-            result += generateOllirExpressionCode(methodArg, args, branch_counter, symbolTable);
+            result += generateOllirExpressionCode(methodArg.getChildren().get(0), args, branch_counter, symbolTable);
         }
         return result;
     }
@@ -420,8 +420,9 @@ myClass {
 
         String var = "";
 
-        for(JmmNode content : contents)
+        for(int i = 0; i < contents.size(); i++)
         {
+            JmmNode content = contents.get(i);
             switch(content.getKind())
             {
 
@@ -465,11 +466,12 @@ myClass {
 
                 case "Var":
                     var = searchArgs(content.get("val"), args);
-                    result += var;
+                    if (!contents.get(i+1).getKind().equals("MethodInvocation"))
+                        result += var;
                     break;
 
                 case "IntegerLiteral":
-                    result += searchArgs(content.get("val"), args);
+                    result += content.get("val") + ".i32";
                     break;
 
                 case "This":
@@ -487,7 +489,7 @@ myClass {
                         result += " >=.i32";
 
                         branch_counter.incrementTemp();
-                        String temp = "temp" + branch_counter;
+                        String temp = "temp" + branch_counter.getTemp_counter();
 
                         result += temp;
 
@@ -507,7 +509,7 @@ myClass {
                         result += " +.i32";
 
                         branch_counter.incrementTemp();
-                        String temp = "temp" + branch_counter;
+                        String temp = "temp" + branch_counter.getTemp_counter();
 
                         result += temp;
 
@@ -527,7 +529,7 @@ myClass {
                         result += " -.i32";
 
                         branch_counter.incrementTemp();
-                        String temp = "temp" + branch_counter;
+                        String temp = "temp" + branch_counter.getTemp_counter();
 
                         result += temp;
 
@@ -547,7 +549,7 @@ myClass {
                         result += " *.i32";
 
                         branch_counter.incrementTemp();
-                        String temp = "temp" + branch_counter;
+                        String temp = "temp" + branch_counter.getTemp_counter();
 
                         result += temp;
 
@@ -567,7 +569,7 @@ myClass {
                         result += " /.i32";
 
                         branch_counter.incrementTemp();
-                        String temp = "temp" + branch_counter;
+                        String temp = "temp" + branch_counter.getTemp_counter();
 
                         result += temp;
 
@@ -586,7 +588,7 @@ myClass {
                 case "SubExpression":
 
                     branch_counter.incrementTemp();
-                    String temp = "temp" + branch_counter;
+                    String temp = "temp" + branch_counter.getTemp_counter();
 
                     result += temp;
 
@@ -603,10 +605,11 @@ myClass {
                     break;
 
                 case "ConstructorClass":
-                    //todo
+                    result += "new(" + content.get("val") + ")"; // TODO: args
                     break;
 
                 case "MethodArg":
+                    result += genetrateOllirMethodArgs(content, args, branch_counter, symbolTable);
                     //todo
                     break;
                 /*case "ArrayIndex":
