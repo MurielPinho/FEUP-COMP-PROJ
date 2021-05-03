@@ -174,13 +174,13 @@ myClass {
                                 String paramVarAux = param.getChildren().get(1).get("val");
 
                                 if(paramTypeAux.equals("int")){
-                                    arg = "$" + counter + "." + paramVarAux + ".i32";
+                                    arg = paramVarAux + ".i32";
                                 }else if(paramTypeAux.equals("boolean")){
-                                    arg = "$" + counter + "." + paramVarAux + ".bool";
+                                    arg = paramVarAux + ".bool";
                                 }else if(paramTypeAux.equals("int[]")){
-                                    arg = "$" + counter + "." + paramVarAux + ".array.i32";
+                                    arg = paramVarAux + ".array.i32";
                                 } else {
-                                    arg = "$" + counter + "." + paramVarAux + "." + paramTypeAux;
+                                    arg = paramVarAux + "." + paramTypeAux;
                                 }
 
                                 counter++;
@@ -198,6 +198,15 @@ myClass {
                             BranchCounter branch_counter = new BranchCounter();
                             vars = new ArrayList(Arrays.asList(args.split(",")));
                             vars.remove("");
+
+                            int count = 1;
+
+                            for(String var : vars){
+
+                                vars.set(count - 1, "$" + count + "." + var);
+                                count++;
+                            }
+
                             body = generateOllirBodyCode(child, vars, branch_counter, symbolTable);
                             break;
 
@@ -489,7 +498,7 @@ myClass {
                         result += " >=.i32";
 
                         branch_counter.incrementTemp();
-                        String temp = "temp" + branch_counter.getTemp_counter();
+                        String temp = " temp" + branch_counter.getTemp_counter();
 
                         result += temp;
 
@@ -509,7 +518,7 @@ myClass {
                         result += " +.i32";
 
                         branch_counter.incrementTemp();
-                        String temp = "temp" + branch_counter.getTemp_counter();
+                        String temp = " temp" + branch_counter.getTemp_counter();
 
                         result += temp;
 
@@ -529,7 +538,7 @@ myClass {
                         result += " -.i32";
 
                         branch_counter.incrementTemp();
-                        String temp = "temp" + branch_counter.getTemp_counter();
+                        String temp = " temp" + branch_counter.getTemp_counter();
 
                         result += temp;
 
@@ -549,7 +558,7 @@ myClass {
                         result += " *.i32";
 
                         branch_counter.incrementTemp();
-                        String temp = "temp" + branch_counter.getTemp_counter();
+                        String temp = " temp" + branch_counter.getTemp_counter();
 
                         result += temp;
 
@@ -569,7 +578,7 @@ myClass {
                         result += " /.i32";
 
                         branch_counter.incrementTemp();
-                        String temp = "temp" + branch_counter.getTemp_counter();
+                        String temp = " temp" + branch_counter.getTemp_counter();
 
                         result += temp;
 
@@ -588,7 +597,7 @@ myClass {
                 case "SubExpression":
 
                     branch_counter.incrementTemp();
-                    String temp = "temp" + branch_counter.getTemp_counter();
+                    String temp = " temp" + branch_counter.getTemp_counter();
 
                     result += temp;
 
