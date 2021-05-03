@@ -89,7 +89,6 @@ public interface JmmNode {
      */
     List<JmmNode> getChildren();
 
-
     /**
      * 
      * @return the number of children of the node
@@ -115,6 +114,7 @@ public interface JmmNode {
 
     default String toJson() {
         Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
                 .setPrettyPrinting()
                 .registerTypeAdapter(JmmNode.class, new JmmSerializer())
                 .create();
