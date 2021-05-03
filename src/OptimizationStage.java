@@ -312,7 +312,7 @@ myClass {
                 break;
             case "void":
                 aux_type = ".V";
-                result += ".V";
+                result += ".V" ;
                 break;
         }
 
@@ -329,7 +329,7 @@ myClass {
             return aux_temp;
         }
 
-        result += ";";
+        result += ";" + "\n";
 
         return "\t\t" + result;
     }
@@ -350,10 +350,38 @@ myClass {
 
                 case "Var":
                     var = searchArgs(bodyContent.get("val"), args, symbolTable);
-                    if (bodyContent.equals(methodBodyContents.get(methodBodyContents.size()-1)) || (!methodBodyContents.get(i+1).getKind().equals("MethodInvocation") && !methodBodyContents.get(i+1).getKind().equals("Assignment")))
-                        method_body += var;
-                    String[] aux_split = var.split("\\.");
-                    assignment_type = aux_split[aux_split.length-1];
+                    if(var.equals(""))
+                    {
+                        var = searchFields(bodyContent.get("val"));
+                        if(!var.equals(""))
+                        {
+                            // getfield
+                            if (bodyContent.equals(methodBodyContents.get(methodBodyContents.size()-1)) || (!methodBodyContents.get(i+1).getKind().equals("MethodInvocation") && !methodBodyContents.get(i+1).getKind().equals("Assignment")))
+                            {
+                                branch_counter.incrementTemp();
+                                String aux_temp = "temp"+ branch_counter.getTemp_counter() + ".i32";
+
+                                String temp  = aux_temp + "getfield(this, " + var + ").i32;\n";
+
+                                temps += "\t\t" + temp;
+                                method_body += var;
+                            }
+                            // putfield
+                        }
+                        else
+                        {
+                            method_body += "ERROR";
+                        }
+                    }
+                    else
+                    {
+                        if (bodyContent.equals(methodBodyContents.get(methodBodyContents.size()-1)) || (!methodBodyContents.get(i+1).getKind().equals("MethodInvocation") && !methodBodyContents.get(i+1).getKind().equals("Assignment")))
+                            method_body += var;
+                        String[] aux_split = var.split("\\.");
+                        assignment_type = aux_split[aux_split.length-1];
+                    }
+
+
 
                     break;
 
@@ -362,9 +390,14 @@ myClass {
                     String aux= generateOllirExpressionCode(bodyContent, args,branch_counter, symbolTable);
 
                     method_body += temps;
-                    method_body += "\t\t" + var + " :=." + assignment_type + " " + aux + ";\n";
-
+                    if(searchFields(var).equals(""))
+                    {
+                        method_body += "\t\t" + var + " :=." + assignment_type + " " + aux + ";\n";
+                    } else {
+                        method_body += "\t\t" + "putfield(this," + var + ", " + aux + ";\n";
+                    }
                     temps = "";
+
                     break;
 
                 case "VarDeclaration":
@@ -465,7 +498,6 @@ myClass {
 
     String searchArgs(String var, ArrayList<String> args, SymbolTable symbolTable){
         String res ="";
-
         for(String arg : args){
             String[] allArgs = arg.split("\\.");
 
@@ -488,6 +520,19 @@ myClass {
             List<String> imports = symbolTable.getImports();
             if (imports.contains(var)) {
                 res = var;
+            }
+
+        }
+        return res;
+    }
+
+    String searchFields(String var)
+    {
+        String res= "";
+        for(String field : fields) {
+            String[] allArgs = field.split("\\.");
+            if(allArgs[0].equals(var)){
+                res = field;
             }
         }
         return res;
@@ -528,9 +573,36 @@ myClass {
 
                 case "Var":
 
-                    var = searchArgs(content.get("val"), args,symbolTable);
-                    if (content.equals(contents.get(contents.size()-1)) || !contents.get(i+1).getKind().equals("MethodInvocation"))
-                        result += var;
+                    var = searchArgs(content.get("val"), args, symbolTable);
+                    if(var.equals(""))
+                    {
+                        var = searchFields(content.get("val"));
+                        if(!var.equals(""))
+                        {
+                            // getfield
+                            if (content.equals(contents.get(contents.size()-1)) || (!contents.get(i+1).getKind().equals("MethodInvocation") && !contents.get(i+1).getKind().equals("Assignment")))
+                            {
+                                branch_counter.incrementTemp();
+                                String aux_temp = "temp"+ branch_counter.getTemp_counter() + ".i32";
+
+                                String temp  = aux_temp + " :=.i32 getfield(this, " + var + ").i32;\n";
+
+                                temps += "\t\t" + temp;
+                                result += var;
+                            }
+                            // putfield
+                        }
+                        else
+                        {
+                            result += "ERROR";
+                        }
+                    }
+                    else
+                    {
+                        if (content.equals(contents.get(contents.size()-1)) || (!contents.get(i+1).getKind().equals("MethodInvocation") && !contents.get(i+1).getKind().equals("Assignment")))
+                            result += var;
+                    }
+
                     break;
 
                 case "IntegerLiteral":

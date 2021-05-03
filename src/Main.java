@@ -33,6 +33,6 @@ public class Main {
 
     public String parseInput(String[] args){
         if(args.length != 0) return args[0];
-        else return "fixtures/public/Simple.jmm";
+        else return "fixtures/public/Test.jmm";
     }
 }
