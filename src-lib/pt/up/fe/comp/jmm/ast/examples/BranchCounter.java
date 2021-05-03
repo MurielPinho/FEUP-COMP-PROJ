@@ -23,4 +23,6 @@ public class BranchCounter {
         this.temp_counter++;
     }
 
+    public int getTemp_counter() { return this.temp_counter; }
+
 }
