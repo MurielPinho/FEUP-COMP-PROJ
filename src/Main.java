@@ -1,6 +1,7 @@
 import pt.up.fe.comp.jmm.JmmNode;
 import pt.up.fe.comp.jmm.JmmParserResult;
 import pt.up.fe.comp.jmm.analysis.JmmSemanticsResult;
+import pt.up.fe.comp.jmm.jasmin.JasminResult;
 import pt.up.fe.comp.jmm.ollir.OllirResult;
 import pt.up.fe.specs.util.SpecsIo;
 
@@ -25,6 +26,7 @@ public class Main {
         JmmParserResult jmmParserResult = new ParseStage().parse(SpecsIo.getResource(file));
         JmmSemanticsResult jmmSemanticsResult = new AnalysisStage().semanticAnalysis(jmmParserResult);
         OllirResult ollirResult = new OptimizationStage().toOllir(jmmSemanticsResult);
+        JasminResult jasminResult = new BackendStage().toJasmin(ollirResult);
 
         JmmNode node = jmmSemanticsResult.getRootNode();
 
