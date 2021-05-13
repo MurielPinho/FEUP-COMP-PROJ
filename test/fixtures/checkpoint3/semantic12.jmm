@@ -1,0 +1,23 @@
+import C;
+
+class Semantic12 extends A {
+    public static void main(String[] a) {
+        Semantic12 b;
+
+        new Semantic12().a();        // invoking through a constructor of same class
+        new Semantic12().k();        // invoking through a constructor of child class
+        new C().a();        // invoking through a constructor of a different class
+        b.a();              // invoking through a variable
+        this.a();           // invoking through this
+        b.g().t().b();      // invoking through other methods
+        this.getA().a();    // invoking through a method thar returns a class that contain that method
+    }
+
+    public int a() {
+        return 0;
+    }
+
+    public Semantic12 getA() {
+        return 0;
+    }
+}

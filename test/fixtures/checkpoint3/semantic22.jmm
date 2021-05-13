@@ -1,0 +1,21 @@
+class Semantic22 {
+    public static void main(String[] a) {
+        Semantic22 t;
+        int u;
+
+        u = 7;
+
+        t.f();
+        t.k(1);
+        t.k(u);
+        t.k(t.f());
+    }
+
+    public int f() {
+        return 0;
+    }
+
+    public int k(int a) {
+        return 0;
+    }
+}

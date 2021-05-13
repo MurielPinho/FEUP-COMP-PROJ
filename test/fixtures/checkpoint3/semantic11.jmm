@@ -1,0 +1,18 @@
+class Semantic11 {
+    public static void main(String[] a) {
+        Semantic11 t;
+        F r;
+
+        1.a();                  // int does not contain any method
+        new Semantic11().j();   // invalid invocation because this class does not extend none
+        this.k();               // invalid invocation because this class does not extend none
+        this.f().k();           // method f returns int so there is no method
+        t.h();                  // this class does not contain h
+        F.h();                  // F was not imported
+        r.h();                  // F was not imported
+    }
+
+    public int f() {
+        return 0;
+    }
+}

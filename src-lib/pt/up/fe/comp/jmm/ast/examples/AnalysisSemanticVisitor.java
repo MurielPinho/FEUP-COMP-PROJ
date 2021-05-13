@@ -65,7 +65,7 @@ public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemantic
             // if type is null it means that the invoker method was not declared in this class, so it can return anything
             Type type = this.getReturnTypeOfMethod(invoker, analysisSemanticInfo);
 
-            // it's a deifned type
+            // it's a defined type
             if (type != null) this.verifyIfTypeHasMethod(type, node, analysisSemanticInfo);
         }
         else { // case of the owner of the method that is being invoked is a variable
