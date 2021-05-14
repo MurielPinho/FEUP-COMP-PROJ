@@ -8,12 +8,8 @@ import pt.up.fe.comp.jmm.ast.examples.BranchCounter;
 import pt.up.fe.comp.jmm.ollir.JmmOptimization;
 import pt.up.fe.comp.jmm.ollir.OllirResult;
 import pt.up.fe.comp.jmm.report.Report;
-import pt.up.fe.specs.util.SpecsIo;
 
-import javax.xml.transform.Result;
 import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Copyright 2021 SPeCS.
@@ -154,6 +150,8 @@ myClass {
         String methodDec="";
         List<JmmNode> methodType = node.getChildren();
 
+        String ident = "\t\t";
+
 
         for(JmmNode method : methodType)
         {
@@ -235,6 +233,7 @@ myClass {
                             vars = new ArrayList(Arrays.asList(args.split(",")));
                             vars.remove("");
                             body = generateOllirBodyCode(child, vars, branch_counter, symbolTable);
+                            ident = branch_counter.getident();
                             break;
 
                         case "ReturnStatement":
@@ -243,7 +242,7 @@ myClass {
                             String statementType = searchArgs(statement,vars,symbolTable);
                             String[] aux_split = statementType.split("\\.");
                             String type = aux_split[aux_split.length-1];
-                            returnStatement += "\t\tret." + type + " " + statementType + ";";
+                            returnStatement += ident + "ret." + type + " " + statementType + ";";
                             break;
 
                         case "ArgName" :
@@ -325,17 +324,17 @@ myClass {
             temp += result;
             temp += ";\n";
 
-            temps += "\t\t" + temp;
+            temps += branch_counter.getident() + temp;
             return aux_temp;
         }
 
         result += ";" + "\n";
 
-        return "\t\t" + result;
+        return branch_counter.getident() + result;
     }
 
 
-    String generateOllirBodyCode (JmmNode body, ArrayList<String> args, BranchCounter branch_counter, SymbolTable symbolTable){
+    String generateOllirBodyCode(JmmNode body, ArrayList<String> args, BranchCounter branch_counter, SymbolTable symbolTable){
 
         List<JmmNode> methodBodyContents = body.getChildren();
         String method_body = "";
@@ -363,7 +362,7 @@ myClass {
 
                                 String temp  = aux_temp + "getfield(this, " + var + ").i32;\n";
 
-                                temps += "\t\t" + temp;
+                                temps += branch_counter.getident() + temp;
                                 method_body += var;
                             }
                             // putfield
@@ -392,9 +391,9 @@ myClass {
                     method_body += temps;
                     if(searchFields(var).equals(""))
                     {
-                        method_body += "\t\t" + var + " :=." + assignment_type + " " + aux + ";\n";
+                        method_body += branch_counter.getident() + var + " :=." + assignment_type + " " + aux + ";\n";
                     } else {
-                        method_body += "\t\t" + "putfield(this," + var + ", " + aux + ";\n";
+                        method_body += branch_counter.getident() + "putfield(this," + var + ", " + aux + ";\n";
                     }
                     temps = "";
 
@@ -411,18 +410,24 @@ myClass {
                 case "While":
                     branch_counter.incrementWhile();
                     method_body += generateOllirWhileCode(bodyContent, args, branch_counter, symbolTable);
+                    branch_counter.incrementIdent();
                     break;
 
                 case "IfAndElse":
 
                     branch_counter.incrementIfElse();
                     method_body += generateOllirIfAndElseCode(bodyContent, args, branch_counter, symbolTable);
+                    branch_counter.incrementIdent();
                     break;
 
                 case "MethodInvocation":
 
                     method_body += generateOllirMethodInvocation(bodyContent, args, branch_counter, symbolTable, var);
                     break;
+
+                case "Scope":
+                    break;
+
                 default:
                     throw new IllegalStateException("Unexpected value: " + bodyContent.getKind());
             }
@@ -432,69 +437,6 @@ myClass {
         }
         return method_body;
     }
-
-    String generateOllirIfAndElseCode(JmmNode ifElse, ArrayList<String> args, BranchCounter branch_counter, SymbolTable symbolTable)
-    {
-        /*
-        IfAndElse (val: null)
-          IfExpression (val: null, col: 12, line: 44)
-           Var (val: num, col: 13, line: 44)
-           Less (val: null)
-            IntegerLiteral (val: 1, col: 19, line: 44)
-          IfBody (val: null)
-           Var (val: num_aux, col: 13, line: 45)
-           Assignment (val: null, col: 21, line: 45)
-            IntegerLiteral (val: 1, col: 23, line: 45)
-          ElseBody (val: null)
-         */
-        String result = "";
-        List<JmmNode> ifElseContents = ifElse.getChildren();
-
-        boolean else_exists = false;
-
-        for(JmmNode content : ifElseContents)
-        {
-            else_exists = content.getKind().equals("ElseBody");
-        }
-
-        for(JmmNode content : ifElseContents)
-        {
-            switch(content.getKind())
-            {
-                case "IfExpression":
-
-                    String aux = generateOllirExpressionCode(content, args,branch_counter, symbolTable);
-
-                    result+= temps;
-                    result = "";
-                    result += "if (";
-
-                    result += aux + ")";
-                    if(else_exists)
-                        result += " goto else";
-                    else
-                        result += " goto endif";
-
-                    result += branch_counter + ";\n\t";
-                    branch_counter.incrementIfElse();
-                    break;
-
-                case "IfBody":
-                    result += generateOllirBodyCode(content, args, branch_counter, symbolTable) ;
-                    break;
-
-                case "ElseBody":
-                    result += "goto endif"+branch_counter+";\nelse"+branch_counter + ":" + generateOllirBodyCode(content, args, branch_counter, symbolTable);
-                    break;
-
-                default:
-                    throw new IllegalStateException("Unexpected value: " + content.getKind());
-            }
-        }
-
-        return result + "\nendif" + branch_counter +":";
-    }
-
 
     String searchArgs(String var, ArrayList<String> args, SymbolTable symbolTable){
         String res ="";
@@ -587,7 +529,7 @@ myClass {
 
                                 String temp  = aux_temp + " :=.i32 getfield(this, " + var + ").i32;\n";
 
-                                temps += "\t\t" + temp;
+                                temps += branch_counter.getident() + temp;
                                 result += var;
                             }
                             // putfield
@@ -634,7 +576,7 @@ myClass {
 
                         temp += ";\n";
 
-                        temps += "\t\t" + temp;
+                        temps += branch_counter.getident() + temp;
 
                     }
                     break;
@@ -655,7 +597,7 @@ myClass {
                         temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                         temp += ";\n";
 
-                        temps += "\t\t" + temp;
+                        temps += branch_counter.getident() + temp;
                     }
 
                     break;
@@ -675,7 +617,7 @@ myClass {
                         temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                         temp += ";\n";
 
-                        temps += "\t\t" + temp;
+                        temps += branch_counter.getident() + temp;
                     }
 
                     break;
@@ -695,7 +637,7 @@ myClass {
                         temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                         temp += ";\n";
 
-                        temps += "\t\t" + temp;
+                        temps += branch_counter.getident() + temp;
                     }
 
                     break;
@@ -715,7 +657,7 @@ myClass {
                         temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                         temp += ";\n";
 
-                        temps += "\t\t" + temp;
+                        temps += branch_counter.getident() + temp;
                     }
 
                     break;
@@ -735,7 +677,7 @@ myClass {
                     temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                     temp += ";\n";
 
-                    temps += "\t\t" + temp;
+                    temps += branch_counter.getident() + temp;
 
                     break;
 
@@ -782,167 +724,192 @@ myClass {
         return varDeclaration;
     }
 
+
+    // CHECKPOINT 3
+
     String generateOllirWhileCode(JmmNode vars, ArrayList<String> args, BranchCounter branch_counter, SymbolTable symbolTable){
 
         List<JmmNode> whileContent = vars.getChildren();
         String ollirWhile="";
 
         for(JmmNode content : whileContent){
-            if(content.equals("WhileExpression")){
 
-                String condition = generateOllirExpressionCode(content, args,branch_counter, symbolTable);
-                ollirWhile += temps;
-                temps = "";
-                ollirWhile += "Loop " + branch_counter + ":\n\t if (" + condition + ") goto Body" + branch_counter + ";\ngoto EndLoop " + branch_counter + "; \nBody"+branch_counter+":\n\t";
+            switch(content.getKind())
+            {
+                case "WhileExpression":
+                    branch_counter.incrementIdent();
+                    String condition = generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+                    branch_counter.decrementIdent();
+                    ollirWhile += branch_counter.getident() + "Loop" + branch_counter.getWhile_counter() + ":\n" + temps;
+                    temps = "";
+                    ollirWhile += branch_counter.getident() + "\t" + "if (" + condition + ") goto Body" + branch_counter.getWhile_counter() + ";\n" + branch_counter.getident() + "\t" + "goto EndLoop" + branch_counter.getWhile_counter() + "; \n" + branch_counter.getident() + "Body"+branch_counter.getWhile_counter() +":\n";
+                    break;
 
-            }else if(content.equals("WhileBody")){
-                List<JmmNode> bodyContent = content.getChildren();
+                case "WhileBody":
+                    List<JmmNode> bodyContent = content.getChildren();
 
-                for(JmmNode insideContent : bodyContent) {
+                    for(JmmNode insideContent : bodyContent) {
 
-                    if (insideContent.equals("Scope")) {
-                        ollirWhile += generateOllirBodyCode(insideContent,args, branch_counter, symbolTable);
+                        if (insideContent.getKind().equals("Scope")) {
+                            branch_counter.incrementIdent();
+                            ollirWhile += generateOllirBodyCode(insideContent,args, branch_counter, symbolTable);
+                            branch_counter.decrementIdent();
+                        }
                     }
-                }
+                    break;
+
+                default:
+                    throw new IllegalStateException("Unexpected value: " + content.getKind());
             }
         }
 
-        return ollirWhile + "EndLoop" + branch_counter+ ":\n\t";
+        return ollirWhile + branch_counter.getident() + "EndLoop" + branch_counter.getWhile_counter() + ":\n";
     }
 
 
+    String generateOllirIfAndElseCode(JmmNode ifElse, ArrayList<String> args, BranchCounter branch_counter, SymbolTable symbolTable)
+    {
+        /*
+        IfAndElse (val: null)
+          IfExpression (val: null, col: 12, line: 44)
+           Var (val: num, col: 13, line: 44)
+           Less (val: null)
+            IntegerLiteral (val: 1, col: 19, line: 44)
+          IfBody (val: null)
+           Var (val: num_aux, col: 13, line: 45)
+           Assignment (val: null, col: 21, line: 45)
+            IntegerLiteral (val: 1, col: 23, line: 45)
+          ElseBody (val: null)
+         */
+        String result = "";
+        List<JmmNode> ifElseContents = ifElse.getChildren();
+
+        boolean else_exists = false;
+
+        for(JmmNode content : ifElseContents)
+        {
+            else_exists = content.getKind().equals("ElseBody");
+        }
+
+        for(JmmNode content : ifElseContents)
+        {
+            switch(content.getKind())
+            {
+                case "IfExpression":
+
+                    String aux = generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+
+                    result+= temps;
+                    result = "";
+                    result += branch_counter.getident() + "if (";
+
+                    result += aux + ")";
+                    if(else_exists)
+                        result += " goto else";
+                    else
+                        result += " goto endif";
+
+                    result += branch_counter.getIfelse_counter() + ";\n";
+
+                    break;
+
+                case "IfBody":
+                    branch_counter.incrementIdent();
+                    result += generateOllirBodyCode(content, args, branch_counter, symbolTable) ;
+                    if(else_exists)
+                        result += branch_counter.getident() + "goto endif"+branch_counter.getIfelse_counter()+";\n";
+                    branch_counter.decrementIdent();
+                    break;
+
+                case "ElseBody":
+                    result += branch_counter.getident() + "else" + branch_counter.getIfelse_counter() + ":\n";
+                    branch_counter.incrementIdent();
+                    result += generateOllirBodyCode(content, args, branch_counter, symbolTable);
+                    branch_counter.decrementIdent();
+                    break;
+
+                default:
+                    throw new IllegalStateException("Unexpected value: " + content.getKind());
+            }
+        }
+
+        return result + branch_counter.getident() + "endif" + branch_counter.getIfelse_counter() +":\n";
+    }
 }
 
 
 
 
 /*
-Program (val: null)
- Imports (val: null)
-  ImportDeclaration (val: io.jgh.op.i, col: 8, line: 1)
-  ImportDeclaration (val: a, col: 8, line: 2)
-  ImportDeclaration (val: a.Fac1.b, col: 8, line: 3)
-
- Class (val: Fac B, col: 7, line: 4)
-
-  MethodDeclaration (val: null)
-   RegularMethod (val: ComputeFac1, col: 16, line: 5)
-    ReturnType (val: null)
-     Type (val: int, col: 12, line: 5)
-    MethodParams (val: null)
-     MethodParam (val: null)
-      Type (val: int, col: 27, line: 5)
-      VarId (val: num, col: 31, line: 5)
-     MethodParam (val: null)
-      Type (val: boolean, col: 36, line: 5)
-      VarId (val: a, col: 44, line: 5)
-     MethodParam (val: null)
-      Type (val: int[], col: 47, line: 5)
-      VarId (val: c34d, col: 53, line: 5)
-    MethodBody (val: null)
-     VarDeclaration (val: null)
-      Type (val: int, col: 9, line: 6)
-      VarId (val: num_aux, col: 13, line: 6)
-     VarDeclaration (val: null)
-      Type (val: ab, col: 9, line: 7)
-      VarId (val: a, col: 12, line: 7)
-     While (val: null)
-      WhileBody (val: null)
-       Scope (val: null)
-        Var (val: a, col: 13, line: 9)
-        Assignment (val: null, col: 14, line: 9)
-         IntegerLiteral (val: 1, col: 15, line: 9)
-     While (val: null)
-      WhileExpression (val: null, col: 14, line: 11)
-       Var (val: a, col: 15, line: 11)
-       Less (val: null)
-        IntegerLiteral (val: 1, col: 19, line: 11)
-      WhileBody (val: null)
-       Scope (val: null)
-        Var (val: a, col: 13, line: 12)
-        Assignment (val: null, col: 15, line: 12)
-         Var (val: a, col: 17, line: 12)
-         PlusExpression (val: null)
-          IntegerLiteral (val: 1, col: 21, line: 12)
-     IfAndElse (val: null)
-      IfExpression (val: null, col: 12, line: 44)
-       Var (val: num, col: 13, line: 44)
-       Less (val: null)
-        IntegerLiteral (val: 1, col: 19, line: 44)
-      IfBody (val: null)
-       Var (val: num_aux, col: 13, line: 45)
-       Assignment (val: null, col: 21, line: 45)
-        IntegerLiteral (val: 1, col: 23, line: 45)
-      ElseBody (val: null)
-       Var (val: num_aux, col: 13, line: 47)
-       Assignment (val: null, col: 21, line: 47)
-        IntegerLiteral (val: 1, col: 23, line: 47)
-        MultExpression (val: null)
-         SubExpression (val: null)
-          This (val: null)
-          MethodInvocation (val: ComputeFac, col: 33, line: 47)
-           MethodArgs (val: null)
-            MethodArg (val: null)
-             Var (val: num, col: 44, line: 47)
-             MinusExpression (val: null)
-              IntegerLiteral (val: 1, col: 50, line: 47)
-            MethodArg (val: null)
-             False (val: null)
-            MethodArg (val: null)
-             ConstructorClass (val: Fac, col: 64, line: 47)
-             MethodInvocation (val: b, col: 70, line: 47)
-              MethodArgs (val: null)
-             MethodInvocation (val: f, col: 74, line: 47)
-              MethodArgs (val: null)
-          PlusExpression (val: null)
-           SubExpression (val: null)
-            SubExpression (val: null)
-             SubExpression (val: null)
-              IntegerLiteral (val: 7, col: 84, line: 47)
-        PlusExpression (val: null)
-         IntegerLiteral (val: 5, col: 92, line: 47)
-        Less (val: null)
-         IntegerLiteral (val: 1, col: 96, line: 47)
-    ReturnStatement (val: null)
-     Var (val: num_aux, col: 16, line: 52)
-
-  MethodDeclaration (val: null)
-   RegularMethod (val: b1, col: 16, line: 55)
-    ReturnType (val: null)
-     Type (val: int, col: 12, line: 55)
-    MethodBody (val: null)
-    ReturnStatement (val: null)
-     IntegerLiteral (val: 1, col: 16, line: 56)
-
-  MethodDeclaration (val: null)
-   Main (val: null)
-    ArgName (val: args, col: 38, line: 59)
-    MethodBody (val: null)
-     VarDeclaration (val: null)
-      Type (val: A, col: 9, line: 60)
-      VarId (val: b, col: 11, line: 60)
-     Var (val: io, col: 9, line: 61)
-     MethodInvocation (val: println, col: 12, line: 61)
-      MethodArgs (val: null)
-       MethodArg (val: null)
-        ConstructorClass (val: Fac, col: 24, line: 61)
-        MethodInvocation (val: ComputeFac, col: 30, line: 61)
-         MethodArgs (val: null)
-          MethodArg (val: null)
-           IntegerLiteral (val: 10, col: 41, line: 61)
-          MethodArg (val: null)
-           Var (val: b, col: 45, line: 61)
-          MethodArg (val: null)
-           Var (val: a, col: 48, line: 61)
-           ArrayIndex (val: null, col: 49, line: 61)
-            IntegerLiteral (val: 4, col: 50, line: 61)
-           PlusExpression (val: null)
-            IntegerLiteral (val: 7, col: 55, line: 61)
-     ConstructorClass (val: Fac1, col: 13, line: 62)
-     MethodInvocation (val: ab, col: 20, line: 62)
-      MethodArgs (val: null)
-       MethodArg (val: null)
-        Var (val: b, col: 23, line: 62)
+Program -> null
+ Imports -> null
+  ImportDeclaration -> io
+ Class -> Test
+  MethodDeclaration -> null
+   RegularMethod -> func1
+    ReturnType -> null
+     Type -> int
+    MethodParams -> null
+     MethodParam -> null
+      Type -> int
+      VarId -> num
+    MethodBody -> null
+     VarDeclaration -> null
+      Type -> int
+      VarId -> num_aux
+     VarDeclaration -> null
+      Type -> int
+      VarId -> a
+     Var -> a
+     Assignment -> null
+      IntegerLiteral -> 0
+     While -> null
+      WhileExpression -> null
+       Var -> a
+       Less -> null
+        IntegerLiteral -> 3
+      WhileBody -> null
+       Scope -> null
+        Var -> a
+        Assignment -> null
+         Var -> a
+         PlusExpression -> null
+          IntegerLiteral -> 1
+     IfAndElse -> null
+      IfExpression -> null
+       Var -> num
+       Less -> null
+        IntegerLiteral -> 1
+      IfBody -> null
+       Var -> num_aux
+       Assignment -> null
+        Var -> a
+      ElseBody -> null
+       Var -> num_aux
+       Assignment -> null
+        SubExpression -> null
+         IntegerLiteral -> 1
+         PlusExpression -> null
+          IntegerLiteral -> 2
+          MultExpression -> null
+           IntegerLiteral -> 2
+        MultExpression -> null
+         IntegerLiteral -> 5
+    ReturnStatement -> null
+     Var -> num_aux
+  MethodDeclaration -> null
+   Main -> null
+    ArgName -> args
+    MethodBody -> null
+     Var -> io
+     MethodInvocation -> println
+      MethodArgs -> null
+       MethodArg -> null
+        ConstructorClass -> Test
+        MethodInvocation -> func
+         MethodArgs -> null
+          MethodArg -> null
+           IntegerLiteral -> 10
 
  */
 
