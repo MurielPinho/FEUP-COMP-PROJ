@@ -187,6 +187,41 @@ public class Checkpoint3Tests {
     }
 
     /**
+     * This test tests the expressions types.
+     */
+    @Test
+    public void testSemantic3() {
+        System.out.println("-------------------");
+        System.out.println("Test 3 - Semantic: Tests the expressions types");
+
+        System.out.println("\n--- START OF PROG OUTPUT ---\n");
+        // Bad invocation of methods
+        var result = TestUtils.analyse(SpecsIo.getResource("fixtures/checkpoint3/semantic31.jmm"));
+        System.out.println("---- END OF PROG OUTPUT ----\n");
+
+        // Verifies if occured some syntatic report
+        boolean reportSemantic = hasReport(result.getReports(), Stage.SEMANTIC);
+        assertEquals(reportSemantic, true);
+
+        // Verifies how many syntatic reports there is
+        int contReportSemantic = countReport(result.getReports(), Stage.SEMANTIC);
+        assertEquals(contReportSemantic, 21);
+
+        System.out.println("\n--- START OF PROG OUTPUT ---\n");
+        // Good invocation of methods
+        result = TestUtils.analyse(SpecsIo.getResource("fixtures/checkpoint3/semantic32.jmm"));
+        System.out.println("---- END OF PROG OUTPUT ----\n");
+
+        // Verifies if occured some syntatic report
+        reportSemantic = hasReport(result.getReports(), Stage.SEMANTIC);
+        assertEquals(reportSemantic, false);
+
+        // Verifies how many syntatic reports there is
+        contReportSemantic = countReport(result.getReports(), Stage.SEMANTIC);
+        assertEquals(contReportSemantic, 0);
+    }
+
+    /**
      * ---------- OLLIR ----------
      */
 

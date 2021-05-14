@@ -1,0 +1,43 @@
+class Semantic31 {
+    public static void main(String[] args) {
+        boolean b;
+        int c;
+        boolean d;
+        boolean e;
+        int f;
+        int f1;
+        boolean f2;
+        int g;
+        boolean h;
+        int[] h1;
+        int i;
+        int m;
+        boolean k;
+        int n;
+        int[] o;
+        int[] u;
+        int a;
+        int w;
+
+        b = false && (this.y() < 3) && this.z();
+        c = 1 + 2 - 5 * (((((h1[20]))))) * (10 + (((((5)))-a)) / 6) - ((this.y()) + o[7]) - u[4];
+        d = !true;
+        e = false && this.z() && 1 < this.y() && !true && ((this.y() < 40 && ((!this.z()) && !false))) ;
+
+        if (1 + this.y() < 9 && true && ((((!this.z()))) && 1 < ((((this.y())))))) {}
+        else {}
+        if (a * w + this.y() / 5 - 5 *9 + ((((50)))) < 20 && this.z()) {}
+        else {}
+
+        while (h1.length + 70 < 8 && 607 + 74949 *73 -57 / 67 < this.y() +o.length) {}
+        while (true) {}
+    }
+
+    public int y() {
+        return 0;
+    }
+
+    public boolean z() {
+        return false;
+    }
+}

@@ -1,0 +1,61 @@
+class Semantic31 {
+    public static void main(String[] args) {
+        boolean b;
+        int c;
+        boolean d;
+        boolean e;
+        int f;
+        int f1;
+        boolean f2;
+        int g;
+        boolean h;
+        int[] h1;
+        int i;
+        int m;
+        boolean k;
+        int n;
+        int[] o;
+        int[] u;
+        int a;
+        int w;
+
+        b = 1 + (2 < 3);    // error because it first computes less: 1 + true
+        c = 1 + true;           // error because it's not possible sum an int and a boolean
+        d = !1;             // ! only works with booleans
+        e = false && this.y();     // && only works with booleans
+        f = 1 * false;          // * only works with ints
+        f2 = false;
+        f1 = 1 + f2;             // + only works with ints
+
+        g = true;               // incompatible types int and boolean
+        h = 1 + 2;          // incompatible type int and boolean
+        h1 = new int[4];
+        i = h1[7] < 3;          // incompatible types int and boolean
+
+        m = h1[true];                   // invalid array access should be an int
+        k = true;
+        n = h1[k];                      // invalid array access should be an int
+
+        o = new int[true];            // should be int not boolean
+        u = new int[k];               // should be int not boolean
+
+        if (1 + this.y()) {}                // ifexpression should return a boolean
+        else {}
+        a = 4;
+        w = 2;
+        if (a * w) {}                       // ifexpression should return a boolean
+        else {}
+
+        while (a + 3 * 9) {}                // should be boolean not int
+        while (!true < false) {}            // invalid expression
+
+        1.length;                           // should be an array not int
+        this.length;                        // should be an array not this
+        a.length;                           // should be an array not int
+        this.y().length;                    // should be an array not int
+    }
+
+    public int y() {
+        return 0;
+    }
+}

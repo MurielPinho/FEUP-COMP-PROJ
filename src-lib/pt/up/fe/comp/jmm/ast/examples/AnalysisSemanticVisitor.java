@@ -21,9 +21,6 @@ import pt.up.fe.comp.jmm.analysis.table.SymbolTableUtils;
 public class AnalysisSemanticVisitor extends PreorderJmmVisitor<AnalysisSemanticInfo, Boolean> {
 
     private int line = -1;
-    // private Type argType = null;
-    // private Type opRetType = null;
-    // private JmmNode operator = null;
     private JmmNode operator = null;
     private Type value = null;
 
