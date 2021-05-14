@@ -5,6 +5,8 @@ public class BranchCounter {
     private int while_counter;
     private int temp_counter;
     private String ident;
+    private int ifelse_max;
+    private int while_max;
 
     public BranchCounter() {
         this.ifelse_counter=0;

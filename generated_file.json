@@ -564,6 +564,122 @@
                           ]
                         }
                       ]
+                    },
+                    {
+                      "kind": "IfAndElse",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "IfExpression",
+                          "attributes": {
+                            "val": "null",
+                            "col": "11",
+                            "line": "21"
+                          },
+                          "children": [
+                            {
+                              "kind": "IntegerLiteral",
+                              "attributes": {
+                                "val": "2",
+                                "col": "12",
+                                "line": "21"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "Less",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "IntegerLiteral",
+                                  "attributes": {
+                                    "val": "1",
+                                    "col": "14",
+                                    "line": "21"
+                                  },
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "IfBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "num_aux",
+                                "col": "13",
+                                "line": "22"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "Assignment",
+                              "attributes": {
+                                "val": "null",
+                                "col": "21",
+                                "line": "22"
+                              },
+                              "children": [
+                                {
+                                  "kind": "IntegerLiteral",
+                                  "attributes": {
+                                    "val": "3",
+                                    "col": "23",
+                                    "line": "22"
+                                  },
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "ElseBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "num_aux",
+                                "col": "13",
+                                "line": "24"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "Assignment",
+                              "attributes": {
+                                "val": "null",
+                                "col": "21",
+                                "line": "24"
+                              },
+                              "children": [
+                                {
+                                  "kind": "IntegerLiteral",
+                                  "attributes": {
+                                    "val": "4",
+                                    "col": "23",
+                                    "line": "24"
+                                  },
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 },
@@ -578,7 +694,7 @@
                       "attributes": {
                         "val": "num_aux",
                         "col": "16",
-                        "line": "20"
+                        "line": "26"
                       },
                       "children": []
                     }
@@ -605,7 +721,7 @@
                   "attributes": {
                     "val": "args",
                     "col": "38",
-                    "line": "24"
+                    "line": "30"
                   },
                   "children": []
                 },
@@ -620,7 +736,7 @@
                       "attributes": {
                         "val": "io",
                         "col": "9",
-                        "line": "25"
+                        "line": "31"
                       },
                       "children": []
                     },
@@ -629,7 +745,7 @@
                       "attributes": {
                         "val": "println",
                         "col": "12",
-                        "line": "25"
+                        "line": "31"
                       },
                       "children": [
                         {
@@ -649,7 +765,7 @@
                                   "attributes": {
                                     "val": "Test",
                                     "col": "24",
-                                    "line": "25"
+                                    "line": "31"
                                   },
                                   "children": []
                                 },
@@ -658,7 +774,7 @@
                                   "attributes": {
                                     "val": "func",
                                     "col": "31",
-                                    "line": "25"
+                                    "line": "31"
                                   },
                                   "children": [
                                     {
@@ -678,7 +794,7 @@
                                               "attributes": {
                                                 "val": "10",
                                                 "col": "36",
-                                                "line": "25"
+                                                "line": "31"
                                               },
                                               "children": []
                                             }
