@@ -240,10 +240,10 @@ myClass {
 
                             BranchCounter branch_counter_2 = new BranchCounter();
                             String statement = generateOllirExpressionCode(child, vars, branch_counter_2, symbolTable);
-                            //String statementType = searchArgs(statement,vars,symbolTable);
-                            //String[] aux_split = statementType.split("\\.");
-                            //String type = aux_split[aux_split.length-1];
-                            returnStatement += temps + ident + "ret." + "type" + " " + statement + ";";
+                            String[] elements = statement.split(" ");
+                            String[] aux_split = elements[0].split("\\.");
+                            String type = aux_split[aux_split.length-1];
+                            returnStatement += temps + ident + "ret." + type + " " + statement + ";";
                             temps = "";
                             break;
 
