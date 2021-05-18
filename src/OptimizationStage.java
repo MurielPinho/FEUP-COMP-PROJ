@@ -547,7 +547,13 @@ myClass {
                     else
                     {
                         if (content.equals(contents.get(contents.size()-1)) || (!contents.get(i+1).getKind().equals("MethodInvocation") && !contents.get(i+1).getKind().equals("Assignment")))
-                            result += var;
+                            if(i != contents.size() - 1 && contents.get(i+1).getKind().equals("ArrayIndex"))
+                                if(var.split("\\.")[0].charAt(0) == '$')
+                                    result += var.split("\\.")[1];
+                                else
+                                    result += var.split("\\.")[0];
+                            else
+                                result += var;
                     }
 
                     break;
