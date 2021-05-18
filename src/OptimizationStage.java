@@ -408,6 +408,7 @@ myClass {
                     break;
 
                 case "While":
+
                     branch_counter.incrementWhile();
                     method_body += generateOllirWhileCode(bodyContent, args, branch_counter, symbolTable);
                     branch_counter.incrementIdent();
@@ -732,6 +733,8 @@ myClass {
         List<JmmNode> whileContent = vars.getChildren();
         String ollirWhile="";
 
+        int current_branch_counter = branch_counter.getWhile_counter();
+
         for(JmmNode content : whileContent){
 
             switch(content.getKind())
@@ -740,9 +743,9 @@ myClass {
                     branch_counter.incrementIdent();
                     String condition = generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                     branch_counter.decrementIdent();
-                    ollirWhile += branch_counter.getident() + "Loop" + branch_counter.getWhile_counter() + ":\n" + temps;
+                    ollirWhile += branch_counter.getident() + "Loop" + current_branch_counter + ":\n" + temps;
                     temps = "";
-                    ollirWhile += branch_counter.getident() + "\t" + "if (" + condition + ") goto Body" + branch_counter.getWhile_counter() + ";\n" + branch_counter.getident() + "\t" + "goto EndLoop" + branch_counter.getWhile_counter() + "; \n" + branch_counter.getident() + "Body"+branch_counter.getWhile_counter() +":\n";
+                    ollirWhile += branch_counter.getident() + "\t" + "if (" + condition + ") goto Body" + current_branch_counter + ";\n" + branch_counter.getident() + "\t" + "goto EndLoop" + current_branch_counter + "; \n" + branch_counter.getident() + "Body"+ current_branch_counter +":\n";
                     break;
 
                 case "WhileBody":
@@ -763,7 +766,7 @@ myClass {
             }
         }
 
-        return ollirWhile + branch_counter.getident() + "EndLoop" + branch_counter.getWhile_counter() + ":\n";
+        return ollirWhile + branch_counter.getident() + "EndLoop" + current_branch_counter + ":\n";
     }
 
 
@@ -781,6 +784,8 @@ myClass {
             IntegerLiteral (val: 1, col: 23, line: 45)
           ElseBody (val: null)
          */
+        int current_branch_counter = branch_counter.getIfelse_counter();
+
         String result = "";
         List<JmmNode> ifElseContents = ifElse.getChildren();
 
@@ -809,7 +814,7 @@ myClass {
                     else
                         result += " goto endif";
 
-                    result += branch_counter.getIfelse_counter() + ";\n";
+                    result += current_branch_counter + ";\n";
 
                     break;
 
@@ -817,12 +822,12 @@ myClass {
                     branch_counter.incrementIdent();
                     result += generateOllirBodyCode(content, args, branch_counter, symbolTable) ;
                     if(else_exists)
-                        result += branch_counter.getident() + "goto endif"+branch_counter.getIfelse_counter()+";\n";
+                        result += branch_counter.getident() + "goto endif"+current_branch_counter+";\n";
                     branch_counter.decrementIdent();
                     break;
 
                 case "ElseBody":
-                    result += branch_counter.getident() + "else" + branch_counter.getIfelse_counter() + ":\n";
+                    result += branch_counter.getident() + "else" + current_branch_counter + ":\n";
                     branch_counter.incrementIdent();
                     result += generateOllirBodyCode(content, args, branch_counter, symbolTable);
                     branch_counter.decrementIdent();
@@ -833,7 +838,7 @@ myClass {
             }
         }
 
-        return result + branch_counter.getident() + "endif" + branch_counter.getIfelse_counter() +":\n";
+        return result + branch_counter.getident() + "endif" + current_branch_counter +":\n";
     }
 }
 

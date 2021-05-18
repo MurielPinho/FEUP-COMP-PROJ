@@ -17,6 +17,12 @@ class Test {
                 num_aux = a;
         else
             num_aux = (1 + 2 * 2) * 5; /* just to test */
+
+        if(2<1)
+            num_aux = 3;
+        else
+            num_aux = 4;
+
         return num_aux;
     }
 
