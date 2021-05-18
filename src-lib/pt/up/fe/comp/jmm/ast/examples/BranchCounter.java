@@ -5,8 +5,6 @@ public class BranchCounter {
     private int while_counter;
     private int temp_counter;
     private String ident;
-    private int ifelse_max;
-    private int while_max;
 
     public BranchCounter() {
         this.ifelse_counter=0;
@@ -38,5 +36,15 @@ public class BranchCounter {
     public int getWhile_counter() { return this.while_counter; }
 
     public String getident() { return this.ident; }
+
+    public void setTemp_counter(int x) { this.temp_counter = x; }
+
+    public void setIfelse_counter(int x) { this.ifelse_counter = x; }
+
+    public void setWhile_counter(int x) { this.while_counter = x; }
+
+    public void setIndet(String x) { this.ident = x; }
+
+
 
 }
