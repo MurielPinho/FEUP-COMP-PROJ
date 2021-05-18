@@ -694,9 +694,9 @@ myClass {
                     result += "new(" + content.get("val") + ")." + content.get("val");
                     break;
 
-                /*case "ArrayIndex":
-
-                    break;*/
+                case "ArrayIndex":
+                    result += "["+generateOllirExpressionCode(content, args,branch_counter, symbolTable)+"].i32";
+                    break;
 
 
                 default:

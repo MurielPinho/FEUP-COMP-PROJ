@@ -36,6 +36,6 @@ public class Main {
 
     public String parseInput(String[] args){
         if(args.length != 0) return args[0];
-        else return "fixtures/public/teste1.jmm";
+        else return "fixtures/checkpoint3/Pot1.jmm";
     }
 }

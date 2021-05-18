@@ -6,6 +6,10 @@ class Pot1 {
         In this case it's sub.
     */
 
+    public int getNum() {
+        return 21;
+    }
+
     public int sum(int a, int b) {
         return a + b;
     }
