@@ -1,0 +1,32 @@
+import A;
+
+class Pot1 {
+    /*
+        Class used to demonstrate that supports overload methods.
+        In this case it's sub.
+    */
+
+    public int sum(int a, int b) {
+        return a + b;
+    }
+
+    public int sub(int a, int b) {
+        return a - b;
+    }
+
+    public int sub(A a, A b) {
+        return a.getNum() - b.getNum();
+    }
+
+    public int sub(int a) {
+        return 0 - a;
+    }
+
+    public int sub(A a) {
+        return 0 - a.getNum();
+    }
+
+    public int mult(int a, int b) {
+        return a * b;
+    }
+}

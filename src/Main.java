@@ -22,7 +22,6 @@ public class Main {
 
         Main main = new Main();
 
-
         String file = main.parseInput(args);
 
         JmmParserResult jmmParserResult = new ParseStage().parse(SpecsIo.getResource(file));

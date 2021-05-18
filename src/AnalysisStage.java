@@ -10,7 +10,6 @@ import pt.up.fe.comp.jmm.report.Report;
 import pt.up.fe.comp.jmm.analysis.table.*;
 
 public class AnalysisStage implements JmmAnalysis {
-
     @Override
     public JmmSemanticsResult semanticAnalysis(JmmParserResult parserResult) {
         // if (TestUtils.getNumReports(parserResult.getReports(), ReportType.ERROR) > 0) {
