@@ -1,3 +1,49 @@
 class Pot2 {
+    public static void main(String[] args) {
+        boolean final;
 
+        final = this.expr1() && !this.expr3() && 4 < this.expr2();
+    }
+
+    public boolean expr1() {
+        int a;
+        int b;
+        boolean c;
+
+        a = 2;
+        b = 3;
+        c = false;
+
+        return a < b && c;
+    }
+
+    public int expr2() {
+        int a;
+        int b;
+        int c;
+        boolean d;
+        boolean e;
+        boolean f;
+        boolean g;
+
+        return a * c - b < !d && e && !(f && g);
+    }
+
+    public boolean expr3() {
+        int a;
+        int b;
+        int c;
+        int d;
+        int e;
+        int f;
+        int g;
+        boolean h;
+        boolean i;
+        boolean j;
+        boolean k;
+        boolean l;
+        boolean m;
+
+        return (a*c < h) && (!((((i)) && j))) && !(b / d + e < f - g) && k && (((l))) && !m;
+    }
 }
