@@ -15,10 +15,12 @@
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import org.junit.Test;
 
 import pt.up.fe.comp.TestUtils;
+import pt.up.fe.comp.jmm.analysis.JmmSemanticsResult;
 import pt.up.fe.comp.jmm.ollir.OllirResult;
 import pt.up.fe.comp.jmm.ollir.OllirUtils;
 import pt.up.fe.specs.util.SpecsIo;
@@ -28,15 +30,56 @@ public class BackendTest {
 
     @Test
     public void testHelloWorld() {
-/*
-        var result = TestUtils.backend(new OllirResult(OllirUtils.parse(SpecsIo.getResource("fixtures/public/ollir/myclass1.ollir")), null, new ArrayList<>()));
 
-        //var result = TestUtils.backend(SpecsIo.getResource("fixtures/public/HelloWorld.jmm"));
+        var result = TestUtils.backend(SpecsIo.getResource("fixtures/public/HelloWorld.jmm"));
+        System.out.println("\n"+result.getJasminCode());
         TestUtils.noErrors(result.getReports());
-
         var output = result.run();
-        //assertEquals("Hello, World!", output.trim());
-*/
+        assertEquals("Hello, World!", output.trim());
+    }
+
+    @Test
+    public void testVarLimit() {
+
+        var result = TestUtils.backend(SpecsIo.getResource("fixtures/public/varLimits.jmm"));
+        System.out.println("\n"+result.getJasminCode());
+        TestUtils.noErrors(result.getReports());
+        var output = result.run();
 
     }
+
+    @Test
+    public void testAssign() {
+
+        var result = TestUtils.backend(SpecsIo.getResource("fixtures/public/Test.jmm"));
+        System.out.println("\n"+result.getJasminCode());
+        StringTokenizer defaultTokenizer = new StringTokenizer(result.getJasminCode(),"\n");
+        int lines = defaultTokenizer.countTokens();
+        TestUtils.noErrors(result.getReports());
+        var output = result.run();
+        assertEquals(lines,25);
+
+    }
+
+
+    @Test
+    public void testIfElse() {
+        var result = TestUtils.backend(new OllirResult(SpecsIo.getResource("fixtures/public/ollir/if.ollir")));
+        System.out.println("\n"+result.getJasminCode());
+        //var result = TestUtils.backend(SpecsIo.getResource("fixtures/public/SimpleIF.jmm"));
+        TestUtils.noErrors(result.getReports());
+        var output = result.run();
+
+    }
+
+    @Test
+    public void testWhile() {
+        var result = TestUtils.backend(new OllirResult(SpecsIo.getResource("fixtures/public/ollir/myclass1.ollir")));
+        System.out.println("\n"+result.getJasminCode());
+        //var result = TestUtils.backend(SpecsIo.getResource("fixtures/public/SimpleIF.jmm"));
+        TestUtils.noErrors(result.getReports());
+        var output = result.run();
+
+    }
+
 }
