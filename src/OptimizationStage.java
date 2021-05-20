@@ -433,6 +433,13 @@ myClass {
                     method_body += generateOllirBodyCode(bodyContent, args, branch_counter, symbolTable);
                     break;
 
+                case "ArrayIndex":
+                    if (bodyContent.equals(methodBodyContents.get(methodBodyContents.size()-1)) || (!methodBodyContents.get(i+1).getKind().equals("MethodInvocation") && !methodBodyContents.get(i+1).getKind().equals("Assignment")))
+                        method_body += "["+generateOllirExpressionCode(bodyContent, args,branch_counter, symbolTable)+"].i32";
+                    else
+                        var += "["+generateOllirExpressionCode(bodyContent, args,branch_counter, symbolTable)+"].i32";
+                    break;
+
                 default:
                     throw new IllegalStateException("Unexpected value: " + bodyContent.getKind());
             }
@@ -568,7 +575,25 @@ myClass {
                     break;
 
                 case "And":
-                    result += " &&.bool" + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
+                    if(content.getNumChildren() == 1){
+                        result += " &&.bool " + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
+                    }else{
+                        result += " &&.bool ";
+
+                        branch_counter.incrementTemp();
+                        String temp = "temp" + branch_counter.getTemp_counter() + ".bool" ;
+
+                        result += temp;
+
+                        temp += " :=.bool ";
+                        temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+
+                        temp += ";\n";
+
+                        temps += branch_counter.getident() + temp;
+                    }
+
+
                     break;
 
                 case "Less":
@@ -702,6 +727,18 @@ myClass {
 
                 case "ArrayIndex":
                     result += "["+generateOllirExpressionCode(content, args,branch_counter, symbolTable)+"].i32";
+                    break;
+
+                case "ConstructorIntArray":
+                    result += "["+generateOllirExpressionCode(content, args,branch_counter, symbolTable)+"].i32";
+                    break;
+
+                case "True":
+                    result += "1.bool";
+                    break;
+
+                case "False":
+                    result += "0.bool";
                     break;
 
 

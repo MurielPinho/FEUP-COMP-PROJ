@@ -1,0 +1,14 @@
+class simpleIF {
+    public static void main(String[] args) {
+        int a;
+        int b;
+        int m;
+
+    if( a < b){
+        m  = a-1;
+    }else{
+        m = b-1;
+    }
+
+    }
+}
