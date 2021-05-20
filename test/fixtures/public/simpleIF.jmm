@@ -4,10 +4,11 @@ class simpleIF {
         int b;
         int m;
 
-   if(a < b){
-   m = b;
-   }else{ m = a;}
-
+    if( a < b){
+        m  = a-1;
+    }else{
+        m = b-1;
     }
 
+    }
 }
