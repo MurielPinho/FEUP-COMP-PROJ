@@ -349,6 +349,16 @@ myClass {
             switch (bodyContent.getKind())
             {
 
+                /*
+
+                Var -> d
+                ArrayIndex -> null
+                 Var -> c
+                Assignment -> null
+                 Var -> a
+                 MinusExpression -> null
+                  Var -> b
+                 */
                 case "Var":
                     var = searchArgs(bodyContent.get("val"), args, symbolTable);
                     if(var.equals(""))
@@ -357,7 +367,7 @@ myClass {
                         if(!var.equals(""))
                         {
                             // getfield
-                            if (bodyContent.equals(methodBodyContents.get(methodBodyContents.size()-1)) || (!methodBodyContents.get(i+1).getKind().equals("MethodInvocation") && !methodBodyContents.get(i+1).getKind().equals("Assignment")))
+                            if (bodyContent.equals(methodBodyContents.get(methodBodyContents.size()-1)) || (!methodBodyContents.get(i+1).getKind().equals("MethodInvocation") && !methodBodyContents.get(i+1).getKind().equals("Assignment") && !methodBodyContents.get(i+1).getKind().equals("ArrayIndex")))
                             {
                                 branch_counter.incrementTemp();
                                 String aux_temp = "temp"+ branch_counter.getTemp_counter() + ".i32";
@@ -377,7 +387,13 @@ myClass {
                     else
                     {
                         if (bodyContent.equals(methodBodyContents.get(methodBodyContents.size()-1)) || (!methodBodyContents.get(i+1).getKind().equals("MethodInvocation") && !methodBodyContents.get(i+1).getKind().equals("Assignment")))
-                            method_body += var;
+                            if(i != methodBodyContents.size() - 1 && methodBodyContents.get(i+1).getKind().equals("ArrayIndex"))
+                                if(var.split("\\.")[0].charAt(0) == '$')
+                                    var = var.split("\\.")[1]; // $1.var.whaetever
+                                else
+                                    var = var.split("\\.")[0]; // var.whaetever
+                            else
+                                method_body += var;
                         String[] aux_split = var.split("\\.");
                         assignment_type = aux_split[aux_split.length-1];
                     }
@@ -434,10 +450,11 @@ myClass {
                     break;
 
                 case "ArrayIndex":
-                    if (bodyContent.equals(methodBodyContents.get(methodBodyContents.size()-1)) || (!methodBodyContents.get(i+1).getKind().equals("MethodInvocation") && !methodBodyContents.get(i+1).getKind().equals("Assignment")))
-                        method_body += "["+generateOllirExpressionCode(bodyContent, args,branch_counter, symbolTable)+"].i32";
+                    String arrayIndex = "["+generateOllirExpressionCode(bodyContent, args,branch_counter, symbolTable)+"].i32";
+                    if(bodyContent.equals(methodBodyContents.get(methodBodyContents.size()-1)) || (!methodBodyContents.get(i+1).getKind().equals("Assignment")))
+                        method_body += arrayIndex;
                     else
-                        var += "["+generateOllirExpressionCode(bodyContent, args,branch_counter, symbolTable)+"].i32";
+                        var += arrayIndex;
                     break;
 
                 default:
@@ -534,7 +551,7 @@ myClass {
                         if(!var.equals(""))
                         {
                             // getfield
-                            if (content.equals(contents.get(contents.size()-1)) || (!contents.get(i+1).getKind().equals("MethodInvocation") && !contents.get(i+1).getKind().equals("Assignment")))
+                            if (content.equals(contents.get(contents.size()-1)) || (!contents.get(i+1).getKind().equals("MethodInvocation") && !contents.get(i+1).getKind().equals("Assignment") && !contents.get(i+1).getKind().equals("ArrayIndex")))
                             {
                                 branch_counter.incrementTemp();
                                 String aux_temp = "temp"+ branch_counter.getTemp_counter() + ".i32";
@@ -556,9 +573,9 @@ myClass {
                         if (content.equals(contents.get(contents.size()-1)) || (!contents.get(i+1).getKind().equals("MethodInvocation") && !contents.get(i+1).getKind().equals("Assignment")))
                             if(i != contents.size() - 1 && contents.get(i+1).getKind().equals("ArrayIndex"))
                                 if(var.split("\\.")[0].charAt(0) == '$')
-                                    result += var.split("\\.")[1];
+                                    var = var.split("\\.")[1]; // $1.var.whaetever
                                 else
-                                    result += var.split("\\.")[0];
+                                    var = var.split("\\.")[0]; // var.whaetever
                             else
                                 result += var;
                     }
@@ -598,9 +615,9 @@ myClass {
 
                 case "Less":
                     if(content.getNumChildren() == 1){
-                        result += " >=.i32 " + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
+                        result += " <.i32 " + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
                     }else{
-                        result += " >=.i32 ";
+                        result += " <.i32 ";
 
                         branch_counter.incrementTemp();
                         String temp = "temp" + branch_counter.getTemp_counter() + ".bool" ;
@@ -659,7 +676,7 @@ myClass {
                     break;
 
                 case "MultExpression":
-                    if(content.getNumChildren() == 1 ){
+                    if(content.getNumChildren() == 1){
                         result += " *.i32 " + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                     }else{
                         result += " *.i32 ";
@@ -726,7 +743,11 @@ myClass {
                     break;
 
                 case "ArrayIndex":
-                    result += "["+generateOllirExpressionCode(content, args,branch_counter, symbolTable)+"].i32";
+                    String arrayIndex = "["+generateOllirExpressionCode(content, args,branch_counter, symbolTable)+"].i32";
+                    if(content.equals(contents.get(contents.size()-1)) || (!contents.get(i+1).getKind().equals("Assignment")))
+                        result += arrayIndex;
+                    else
+                        var += arrayIndex;
                     break;
 
                 case "ConstructorIntArray":
@@ -853,8 +874,8 @@ myClass {
                     String aux = generateOllirExpressionCode(content, args,branch_counter, symbolTable);
 
                     result+= temps;
-                    result = "";
-                    result += current_branch_ident + "if (";
+                    temps = "";
+                    result += current_branch_ident + "if (!.bool ";
 
                     result += aux + ")";
                     if(else_exists)
