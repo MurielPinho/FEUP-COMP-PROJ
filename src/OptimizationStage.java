@@ -150,8 +150,7 @@ myClass {
         String methodDec="";
         List<JmmNode> methodType = node.getChildren();
 
-        String ident = "\t\t";
-
+        BranchCounter finalBranchCounter = new BranchCounter();
 
         for(JmmNode method : methodType)
         {
@@ -233,17 +232,24 @@ myClass {
                             vars = new ArrayList(Arrays.asList(args.split(",")));
                             vars.remove("");
                             body = generateOllirBodyCode(child, vars, branch_counter, symbolTable);
-                            ident = branch_counter.getident();
+                            finalBranchCounter = branch_counter;
                             break;
 
                         case "ReturnStatement":
 
-                            BranchCounter branch_counter_2 = new BranchCounter();
-                            String statement = generateOllirExpressionCode(child, vars, branch_counter_2, symbolTable);
+                            String statement = generateOllirExpressionCode(child, vars, finalBranchCounter, symbolTable);
                             String[] elements = statement.split(" ");
                             String[] aux_split = elements[0].split("\\.");
                             String type = aux_split[aux_split.length-1];
-                            returnStatement += temps + ident + "ret." + type + " " + statement + ";";
+                            if(elements.length != 1)
+                            {
+                                finalBranchCounter.incrementTemp();
+                                String returnTemp = "temp"+finalBranchCounter.getTemp_counter() +"." + type;
+                                temps += finalBranchCounter.getident() + returnTemp + " =."+type + " " + statement +";\n";
+                                statement = returnTemp;
+                            }
+
+                            returnStatement += temps + finalBranchCounter.getident() + "ret." + type + " " + statement + ";";
                             temps = "";
                             break;
 
