@@ -16,11 +16,11 @@ public class ExampleTest {
 
   @Test
   public void testExpression() {		
-    System.out.println("SYNTATIC TESTING");
+  /*  System.out.println("SYNTATIC TESTING");
     var parserResult = TestUtils.parse(SpecsIo.getResource("fixtures/public/HelloWorld.jmm"));
 
     System.out.println("SEMANTIC TESTING");
-    var analysisResult = TestUtils.analyse(SpecsIo.getResource("fixtures/public/HelloWorld.jmm"));
+    var analysisResult = TestUtils.analyse(SpecsIo.getResource("fixtures/public/HelloWorld.jmm"));*/
   }
 
 }
