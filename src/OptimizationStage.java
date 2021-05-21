@@ -390,18 +390,27 @@ myClass {
                     }
                     else
                     {
-                        if (bodyContent.equals(methodBodyContents.get(methodBodyContents.size()-1)) || (!methodBodyContents.get(i+1).getKind().equals("MethodInvocation") && !methodBodyContents.get(i+1).getKind().equals("Assignment")))
+                        String[] var_split = var.split("\\.");
+                        if (bodyContent.equals(methodBodyContents.get(methodBodyContents.size()-1)) || !methodBodyContents.get(i+1).getKind().equals("Assignment"))
+                        {
                             if(i != methodBodyContents.size() - 1 && methodBodyContents.get(i+1).getKind().equals("ArrayIndex"))
                             {
-                                String[] var_split = var.split("\\.");
                                 if(var_split[0].charAt(0) == '$')
-                                    var = var_split[0] + "." + var_split[1]; // $1.var.whaetever
+                                    var = var_split[0] + "." + var_split[1]; // {$1.var}.whaetever
                                 else
-                                    var = var_split[0]; // var.whaetever
+                                    var = var_split[0]; // {var}.whaetever
                             }
-
+                            else if(i != methodBodyContents.size() - 1 && methodBodyContents.get(i+1).getKind().equals("MethodInvocation"))
+                            {
+                                if(var_split[0].charAt(0) == '$')
+                                    var = var_split[1]; // $1.{var}.whaetever
+                                else
+                                    var = var_split[0]; // {var}.whaetever
+                            }
                             else
                                 method_body += var;
+                        }
+
                         String[] aux_split = var.split("\\.");
                         assignment_type = aux_split[aux_split.length-1];
                     }
@@ -579,14 +588,21 @@ myClass {
                     }
                     else
                     {
-                        if (content.equals(contents.get(contents.size()-1)) || (!contents.get(i+1).getKind().equals("MethodInvocation") && !contents.get(i+1).getKind().equals("Assignment")))
+                        String[] var_split = var.split("\\.");
+                        if (content.equals(contents.get(contents.size()-1)) || !contents.get(i+1).getKind().equals("Assignment"))
                             if(i != contents.size() - 1 && contents.get(i+1).getKind().equals("ArrayIndex"))
                             {
-                                String[] var_split = var.split("\\.");
                                 if(var_split[0].charAt(0) == '$')
                                     var = var_split[0] + "." + var_split[1]; // $1.var.whaetever
                                 else
                                     var = var_split[0]; // var.whaetever
+                            }
+                            else if(i != contents.size() - 1 && contents.get(i+1).getKind().equals("MethodInvocation"))
+                            {
+                                if(var_split[0].charAt(0) == '$')
+                                    var = var_split[1]; // $1.{var}.whaetever
+                                else
+                                    var = var_split[0]; // {var}.whaetever
                             }
                             else
                                 result += var;
@@ -626,10 +642,25 @@ myClass {
                     break;
 
                 case "Less":
-                    if(content.getNumChildren() == 1){
-                        result += " <.i32 " + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
-                    }else{
+                    boolean isInIfExpression = false;
+                    JmmNode aux = content;
+                    while(!aux.getParent().getKind().equals("MethodBody")){
+                        if(aux.getParent().getKind().equals("IfExpression")){
+                            result += " >=.i32 ";
+                            isInIfExpression = true;
+                            break;
+                        }
+                        aux = aux.getParent();
+                    }
+
+                    if(!isInIfExpression){
                         result += " <.i32 ";
+                    }
+
+                    if(content.getNumChildren() == 1){
+                        generateOllirExpressionCode(content, args, branch_counter, symbolTable);
+                    }else {
+                        //result += " >=.i32 ";
 
                         branch_counter.incrementTemp();
                         String temp = "temp" + branch_counter.getTemp_counter() + ".bool" ;
@@ -888,7 +919,7 @@ myClass {
 
                     result+= temps;
                     temps = "";
-                    result += current_branch_ident + "if (!.bool ";
+                    result += current_branch_ident + "if (";
 
                     result += aux + ")";
                     if(else_exists)
