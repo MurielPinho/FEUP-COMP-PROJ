@@ -5,12 +5,12 @@ class Pot4 {
         int num_aux;
         int a;
         a=0;
-        while(a < 5){
-            if(a< 1)
+        while(true && true){
+            if(true && false)
                 while(a <3)
                     a = a + 1;
             else
-                a=7;
+                a = 8;
         }
         num_aux=a;
         return num_aux;

@@ -44,6 +44,6 @@ class Pot2 {
         boolean l;
         boolean m;
 
-        return (a*c < h) && (!((((i)) && j))) && !(b / d + e < f - g) && k && (((l))) && !m;
+        return (h < a*c) && (!((((i)) && j))) && !(b / d + e < f - g) && k && (((l))) && !m;
     }
 }
