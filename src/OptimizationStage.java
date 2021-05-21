@@ -245,7 +245,7 @@ myClass {
                             {
                                 finalBranchCounter.incrementTemp();
                                 String returnTemp = "temp"+finalBranchCounter.getTemp_counter() +"." + type;
-                                temps += finalBranchCounter.getident() + returnTemp + " =."+type + " " + statement +";\n";
+                                temps += finalBranchCounter.getident() + returnTemp + " :=."+type + " " + statement +";\n";
                                 statement = returnTemp;
                             }
 
@@ -370,15 +370,13 @@ myClass {
                     if(var.equals(""))
                     {
                         var = searchFields(bodyContent.get("val"));
-                        if(!var.equals(""))
-                        {
+                        if(!var.equals("")) {
                             // getfield
-                            if (bodyContent.equals(methodBodyContents.get(methodBodyContents.size()-1)) || (!methodBodyContents.get(i+1).getKind().equals("MethodInvocation") && !methodBodyContents.get(i+1).getKind().equals("Assignment") && !methodBodyContents.get(i+1).getKind().equals("ArrayIndex")))
-                            {
+                            if (bodyContent.equals(methodBodyContents.get(methodBodyContents.size() - 1)) || (!methodBodyContents.get(i + 1).getKind().equals("MethodInvocation") && !methodBodyContents.get(i + 1).getKind().equals("Assignment") && !methodBodyContents.get(i + 1).getKind().equals("ArrayIndex"))) {
                                 branch_counter.incrementTemp();
-                                String aux_temp = "temp"+ branch_counter.getTemp_counter() + ".i32";
+                                String aux_temp = "temp" + branch_counter.getTemp_counter() + ".i32";
 
-                                String temp  = aux_temp + "getfield(this, " + var + ").i32;\n";
+                                String temp = aux_temp + "getfield(this, " + var + ").i32;\n";
 
                                 temps += branch_counter.getident() + temp;
                                 method_body += var;
@@ -394,10 +392,14 @@ myClass {
                     {
                         if (bodyContent.equals(methodBodyContents.get(methodBodyContents.size()-1)) || (!methodBodyContents.get(i+1).getKind().equals("MethodInvocation") && !methodBodyContents.get(i+1).getKind().equals("Assignment")))
                             if(i != methodBodyContents.size() - 1 && methodBodyContents.get(i+1).getKind().equals("ArrayIndex"))
-                                if(var.split("\\.")[0].charAt(0) == '$')
-                                    var = var.split("\\.")[1]; // $1.var.whaetever
+                            {
+                                String[] var_split = var.split("\\.");
+                                if(var_split[0].charAt(0) == '$')
+                                    var = var_split[0] + "." + var_split[1]; // $1.var.whaetever
                                 else
-                                    var = var.split("\\.")[0]; // var.whaetever
+                                    var = var_split[0]; // var.whaetever
+                            }
+
                             else
                                 method_body += var;
                         String[] aux_split = var.split("\\.");
@@ -457,8 +459,8 @@ myClass {
 
                 case "ArrayIndex":
                     String arrayIndex = "["+generateOllirExpressionCode(bodyContent, args,branch_counter, symbolTable)+"].i32";
-                    if(bodyContent.equals(methodBodyContents.get(methodBodyContents.size()-1)) || (!methodBodyContents.get(i+1).getKind().equals("Assignment")))
-                        method_body += arrayIndex;
+                    if(i == methodBodyContents.size() - 1 || (!methodBodyContents.get(i+1).getKind().equals("Assignment")))
+                         method_body += var + arrayIndex;
                     else
                         var += arrayIndex;
                     break;
@@ -551,6 +553,7 @@ myClass {
                 case "Var":
 
                     var = searchArgs(content.get("val"), args, symbolTable);
+
                     if(var.equals(""))
                     {
                         var = searchFields(content.get("val"));
@@ -578,10 +581,13 @@ myClass {
                     {
                         if (content.equals(contents.get(contents.size()-1)) || (!contents.get(i+1).getKind().equals("MethodInvocation") && !contents.get(i+1).getKind().equals("Assignment")))
                             if(i != contents.size() - 1 && contents.get(i+1).getKind().equals("ArrayIndex"))
-                                if(var.split("\\.")[0].charAt(0) == '$')
-                                    var = var.split("\\.")[1]; // $1.var.whaetever
+                            {
+                                String[] var_split = var.split("\\.");
+                                if(var_split[0].charAt(0) == '$')
+                                    var = var_split[0] + "." + var_split[1]; // $1.var.whaetever
                                 else
-                                    var = var.split("\\.")[0]; // var.whaetever
+                                    var = var_split[0]; // var.whaetever
+                            }
                             else
                                 result += var;
                     }
@@ -750,10 +756,11 @@ myClass {
 
                 case "ArrayIndex":
                     String arrayIndex = "["+generateOllirExpressionCode(content, args,branch_counter, symbolTable)+"].i32";
-                    if(content.equals(contents.get(contents.size()-1)) || (!contents.get(i+1).getKind().equals("Assignment")))
-                        result += arrayIndex;
+                    if(i == contents.size() - 1 || (!contents.get(i+1).getKind().equals("Assignment")))
+                        result += var + arrayIndex;
                     else
                         var += arrayIndex;
+                    var += arrayIndex;
                     break;
 
                 case "ConstructorIntArray":

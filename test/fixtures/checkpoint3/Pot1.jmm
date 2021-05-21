@@ -3,12 +3,10 @@ import A;
 class Pot1 {
     /*
         Class used to demonstrate that supports overload methods.
-        In this case it's sub.
+        In this case it's sum and sub.
     */
 
     public int getNum() {
-        boolean x;
-        x = true && false && 3 < 5 + 3 *6 -(((1)));
         return 21;
     }
 

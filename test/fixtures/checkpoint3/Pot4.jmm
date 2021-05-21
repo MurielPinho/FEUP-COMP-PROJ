@@ -1,0 +1,19 @@
+import io;
+
+class Pot4 {
+    public int func(int num) {
+        int num_aux;
+        int a;
+        a=0;
+        while(a < 5){
+            if(a< 1)
+                while(a <3)
+                    a = a + 1;
+            else
+                a=7;
+        }
+        num_aux=a;
+        return num_aux;
+    }
+
+}
