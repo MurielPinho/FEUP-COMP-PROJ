@@ -545,16 +545,6 @@ myClass {
 
         String var = "";
 
-        boolean isInIfExpression = false;
-        JmmNode aux = node;
-        while(!aux.getKind().equals("Program")){
-            if(aux.getKind().equals("IfExpression")){
-                isInIfExpression = true;
-                break;
-            }
-            aux = aux.getParent();
-        }
-
         for(int i = 0; i < contents.size(); i++)
         {
             JmmNode content = contents.get(i);
@@ -614,12 +604,6 @@ myClass {
                                 else
                                     var = var_split[0]; // {var}.whaetever
                             }
-                            /*else if(i != contents.size() - 1 && (contents.get(i+1).getKind().equals("Less") || contents.get(i+1).getKind().equals("And")))
-                            {
-
-                                if(!isInIfExpression)
-                                    result += var;
-                            }*/
                             else
                                 result += var;
                     }
@@ -636,7 +620,7 @@ myClass {
                     break;
 
                 case "And":
-/*
+
                     if(content.getNumChildren() == 1){
                         result += " &&.bool " + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
                     }else{
@@ -653,43 +637,12 @@ myClass {
                         temp += ";\n";
 
                         temps += branch_counter.getident() + temp;
-                    }*/
-
-
-                    if(content.getNumChildren() == 1){
-                        result += " &&.bool " + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
-                    }else{
-
-                        branch_counter.incrementTemp();
-                        String temp = "temp" + branch_counter.getTemp_counter() + ".bool" ;
-
-                        String temp_assignment = temp;
-
-                        temp_assignment += " :=.bool ";
-                        if(content.getParent().getKind().equals("IfExpression"))
-                            temp_assignment += var + " &&.bool ";
-                        else
-                            result += temp;
-                        temp_assignment += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
-
-                        temp_assignment += ";\n";
-
-                        temps += branch_counter.getident() + temp_assignment;
-                        if(content.getParent().getKind().equals("IfExpression"))
-                        {
-                            result += temp +" ==.bool 0.bool";
-                        }
-                        else
-                        {
-                            result += " &&.bool " + temp;
-                        }
                     }
-
 
                     break;
 
                 case "Less":
-/*
+
                     if(content.getNumChildren() == 1){
                         result += " <.i32 " + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
                     }else{
@@ -706,39 +659,6 @@ myClass {
                         temp += ";\n";
 
                         temps += branch_counter.getident() + temp;
-                    }*/
-
-                    if(content.getNumChildren() == 1){
-                        result += " <.i32 " + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
-                    }else {
-
-                        branch_counter.incrementTemp();
-                        String temp = "temp" + branch_counter.getTemp_counter() + ".bool" ;
-
-                        //result += temp;
-
-                        String temp_assignment = temp;
-
-                        temp_assignment += " :=.bool ";
-                        if(content.getParent().getKind().equals("IfExpression"))
-                            temp_assignment += var + " &&.bool ";
-                        else
-                            result += temp;
-                        temp_assignment += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
-
-                        temp_assignment += ";\n";
-
-                        temps += branch_counter.getident() + temp_assignment;
-
-                        if(content.getParent().getKind().equals("IfExpression"))
-                        {
-                            result += temp +" ==.bool 0.bool";
-                        }
-                        else
-                        {
-                            result += " <.i32 " + temp;
-                        }
-
                     }
                     break;
 
@@ -864,21 +784,11 @@ myClass {
                     break;
 
                 case "True":
-                    if(isInIfExpression && i != contents.size() - 1 && (contents.get(i+1).getKind().equals("Less") || contents.get(i+1).getKind().equals("And")))
-                    {
-                        var = "1.bool";
-                    }
-                    else
-                        result += "1.bool";
+                    result += "1.bool";
                     break;
 
                 case "False":
-                    if(isInIfExpression && i != contents.size() - 1 && (contents.get(i+1).getKind().equals("Less") || contents.get(i+1).getKind().equals("And")))
-                    {
-                        var = "0.bool";
-                    }
-                    else
-                        result += "0.bool";
+                    result += "0.bool";
                     break;
 
 
@@ -993,10 +903,15 @@ myClass {
                     String aux = generateOllirExpressionCode(content, args,branch_counter, symbolTable);
 
                     result+= temps;
+
+                    branch_counter.incrementTemp();
+                    String ifTemp = "temp" + branch_counter.getTemp_counter() + ".bool";
+                    result += branch_counter.getident() + ifTemp + ":=.bool " + aux + ";\n";
+
                     temps = "";
                     result += current_branch_ident + "if (";
 
-                    result += aux + ")";
+                    result += ifTemp + " ==.bool 0.bool)";
                     if(else_exists)
                         result += " goto else";
                     else
