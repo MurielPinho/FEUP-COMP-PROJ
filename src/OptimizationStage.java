@@ -620,6 +620,7 @@ myClass {
                     break;
 
                 case "And":
+
                     if(content.getNumChildren() == 1){
                         result += " &&.bool " + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
                     }else{
@@ -638,29 +639,14 @@ myClass {
                         temps += branch_counter.getident() + temp;
                     }
 
-
                     break;
 
                 case "Less":
-                    boolean isInIfExpression = false;
-                    JmmNode aux = content;
-                    while(!aux.getParent().getKind().equals("MethodBody")){
-                        if(aux.getParent().getKind().equals("IfExpression")){
-                            result += " >=.i32 ";
-                            isInIfExpression = true;
-                            break;
-                        }
-                        aux = aux.getParent();
-                    }
-
-                    if(!isInIfExpression){
-                        result += " <.i32 ";
-                    }
 
                     if(content.getNumChildren() == 1){
-                        generateOllirExpressionCode(content, args, branch_counter, symbolTable);
-                    }else {
-                        //result += " >=.i32 ";
+                        result += " <.i32 " + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
+                    }else{
+                        result += " <.i32 ";
 
                         branch_counter.incrementTemp();
                         String temp = "temp" + branch_counter.getTemp_counter() + ".bool" ;
@@ -673,7 +659,6 @@ myClass {
                         temp += ";\n";
 
                         temps += branch_counter.getident() + temp;
-
                     }
                     break;
 
@@ -918,10 +903,15 @@ myClass {
                     String aux = generateOllirExpressionCode(content, args,branch_counter, symbolTable);
 
                     result+= temps;
+
+                    branch_counter.incrementTemp();
+                    String ifTemp = "temp" + branch_counter.getTemp_counter() + ".bool";
+                    result += branch_counter.getident() + ifTemp + ":=.bool " + aux + ";\n";
+
                     temps = "";
                     result += current_branch_ident + "if (";
 
-                    result += aux + ")";
+                    result += ifTemp + " ==.bool 0.bool)";
                     if(else_exists)
                         result += " goto else";
                     else
