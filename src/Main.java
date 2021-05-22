@@ -34,9 +34,9 @@ public class Main {
         System.out.println(node.toTree());
     }
 
-    public String parseInput(String[] args){
-        if(args.length != 0) return args[0];
-        else return "fixtures/checkpoint3/Pot3.jmm";
-        //else return "fixtures/public/WhileAndIF.jmm";
+    public String parseInput(String[] args) {
+        if (args.length != 0) return args[0];
+        else return "fixtures/checkpoint3/Pot2.jmm";
+        //else return "fixtures/public/WhileAndIF.jmm"
     }
 }

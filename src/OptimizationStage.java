@@ -1,4 +1,6 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import pt.up.fe.comp.jmm.JmmNode;
@@ -9,7 +11,6 @@ import pt.up.fe.comp.jmm.ollir.JmmOptimization;
 import pt.up.fe.comp.jmm.ollir.OllirResult;
 import pt.up.fe.comp.jmm.report.Report;
 
-import java.util.Arrays;
 
 /**
  * Copyright 2021 SPeCS.
@@ -537,13 +538,39 @@ myClass {
         return result;
     }
 
+    String handleSiblings(ArrayList<String> siblings, String content, int sibling_index,BranchCounter branch_counter)
+    {
+        if(sibling_index == 0)
+            return content;
+        else if (sibling_index == 1){
+            return siblings.get(0) + content;
+        }else{
+            branch_counter.incrementTemp();
+            String previous = siblings.get(sibling_index-1);
+            String[] elements = previous.split(" ");
+            String[] aux_split = elements[0].split("\\.");
+            String type = aux_split[aux_split.length-1];
 
+
+            String temp="temp" + branch_counter.getTemp_counter() + "." + type;
+            temps += branch_counter.getident() + temp + " :=."+ type + " " + previous + ";\n";
+
+            return temp + content;
+        }
+    }
     String generateOllirExpressionCode(JmmNode node, ArrayList<String> args, BranchCounter branch_counter, SymbolTable symbolTable)
     {
         String result = "";
         List<JmmNode> contents = node.getChildren();
 
         String var = "";
+
+        ArrayList<String> siblings = new ArrayList<>();
+        boolean moreThanTwo = false;
+        if(contents.size() > 2)
+        {
+            moreThanTwo = true;
+        }
 
         for(int i = 0; i < contents.size(); i++)
         {
@@ -552,11 +579,19 @@ myClass {
             {
 
                 case "MethodInvocation":
-                    result += generateOllirMethodInvocation(content, args, branch_counter, symbolTable, var);
+                    String content_string = generateOllirMethodInvocation(content, args, branch_counter, symbolTable, var);
+                    if(moreThanTwo)
+                        siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                    else
+                        result += content_string;
                     break;
 
                 case "Identifier":
-                    result += searchArgs(content.get("val"), args, symbolTable);
+                    content_string = searchArgs(content.get("val"), args, symbolTable);
+                    if(moreThanTwo)
+                        siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                    else
+                        result += content_string;
                     break;
 
                 case "Var":
@@ -604,32 +639,48 @@ myClass {
                                 else
                                     var = var_split[0]; // {var}.whaetever
                             }
-                            else
+                            else if(!moreThanTwo)
                                 result += var;
+                        if(moreThanTwo)
+                            siblings.add(handleSiblings(siblings, var, i, branch_counter));
                     }
 
                     break;
 
                 case "IntegerLiteral":
-                    result += content.get("val") + ".i32";
+                    content_string = content.get("val") + ".i32";
+                    if(moreThanTwo)
+                        siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                    else
+                        result += content_string;
                     break;
 
                 case "This":
                     var = "this";
+                    if(moreThanTwo)
+                        siblings.add(handleSiblings(siblings, var, i, branch_counter));
+                    else
+                        result += var;
                     //result += " invokevirtual(this, " + content.get("val") + ")"; // invokevirtual ??
                     break;
 
                 case "And":
-
                     if(content.getNumChildren() == 1){
-                        result += " &&.bool " + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
+                        content_string = " &&.bool " + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
+                        if(moreThanTwo)
+                            siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                        else
+                            result += content_string;
                     }else{
-                        result += " &&.bool ";
 
                         branch_counter.incrementTemp();
                         String temp = "temp" + branch_counter.getTemp_counter() + ".bool" ;
 
-                        result += temp;
+                        content_string = " &&.bool " + temp;
+                        if(moreThanTwo)
+                            siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                        else
+                            result += content_string;
 
                         temp += " :=.bool ";
                         temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
@@ -644,14 +695,21 @@ myClass {
                 case "Less":
 
                     if(content.getNumChildren() == 1){
-                        result += " <.i32 " + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
+                        content_string = " <.i32 " + generateOllirExpressionCode(content, args, branch_counter, symbolTable);
+                        if(moreThanTwo)
+                            siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                        else
+                            result += content_string;
                     }else{
-                        result += " <.i32 ";
 
                         branch_counter.incrementTemp();
                         String temp = "temp" + branch_counter.getTemp_counter() + ".bool" ;
 
-                        result += temp;
+                        content_string = " <.i32 " + temp;
+                        if(moreThanTwo)
+                            siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                        else
+                            result += content_string;
 
                         temp += " :=.bool ";
                         temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
@@ -665,14 +723,23 @@ myClass {
                 case "PlusExpression":
 
                     if(content.getNumChildren() == 1){
-                        result += " +.i32 " + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+                        content_string = " +.i32 " + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+                        if(moreThanTwo)
+                            siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                        else
+                            result += content_string;
+
                     }else{
-                        result += " +.i32 ";
 
                         branch_counter.incrementTemp();
                         String temp = "temp"+ branch_counter.getTemp_counter() +".i32";
 
-                        result += temp;
+                        content_string =" +.i32 " + temp;
+                        if(moreThanTwo)
+                            siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                        else
+                            result += content_string;
+
 
                         temp += " :=.i32 ";
                         temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
@@ -685,14 +752,21 @@ myClass {
 
                 case "MinusExpression":
                     if(content.getNumChildren() == 1){
-                        result += " -.i32 " + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+                        content_string = " -.i32 " + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+                        if(moreThanTwo)
+                            siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                        else
+                            result += content_string;
                     }else{
-                        result += " -.i32 ";
 
                         branch_counter.incrementTemp();
                         String temp = "temp" + branch_counter.getTemp_counter() + ".i32";
 
-                        result += temp;
+                        content_string = " -.i32 " + temp;
+                        if(moreThanTwo)
+                            siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                        else
+                            result += content_string;
 
                         temp += " :=.i32 ";
                         temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
@@ -705,14 +779,21 @@ myClass {
 
                 case "MultExpression":
                     if(content.getNumChildren() == 1){
-                        result += " *.i32 " + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+                        content_string = " *.i32 " + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+                        if(moreThanTwo)
+                            siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                        else
+                            result += content_string;
                     }else{
-                        result += " *.i32 ";
+
 
                         branch_counter.incrementTemp();
                         String temp = "temp" + branch_counter.getTemp_counter() + ".i32";
-
-                        result += temp;
+                        String content_string1 = " *.i32 " + temp;
+                        if(moreThanTwo)
+                            handleSiblings(siblings, content_string1, i, branch_counter);
+                        else
+                        result += content_string1;
 
                         temp += " :=.i32 ";
                         temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
@@ -724,15 +805,25 @@ myClass {
                     break;
 
                 case "DivExpression":
+
+
                     if(content.getNumChildren() == 1){
-                        result += " /.i32 " + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+                        content_string = " /.i32 " + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+                        if(moreThanTwo)
+                            siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                        else
+                            result += content_string;
                     }else{
-                        result += " /.i32 ";
+
 
                         branch_counter.incrementTemp();
                         String temp = "temp" + branch_counter.getTemp_counter() + ".i32";
 
-                        result += temp;
+                        content_string = " /.i32 " + temp;
+                        if(moreThanTwo)
+                            siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                        else
+                            result += content_string;
 
                         temp += " :=.i32 ";
                         temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
@@ -744,7 +835,32 @@ myClass {
                     break;
 
                 case "NotExpression":
-                    result += " !.bool " + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+
+
+                    if(content.getNumChildren() == 1){
+                        content_string = "!.bool " + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+                        if(moreThanTwo)
+                            siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                        else
+                            result += content_string;
+                    }else{
+
+                        branch_counter.incrementTemp();
+                        String temp = "temp" + branch_counter.getTemp_counter() + ".bool" ;
+
+                        content_string = " !.bool " + temp;
+                        if(moreThanTwo)
+                            siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                        else
+                            result += content_string;
+
+                        temp += " :=.bool ";
+                        temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+
+                        temp += ";\n";
+
+                        temps += branch_counter.getident() + temp;
+                    }
                     break;
 
                 case "SubExpression":
@@ -752,7 +868,10 @@ myClass {
                     branch_counter.incrementTemp();
                     String temp = "temp" + branch_counter.getTemp_counter() + ".i32" ;
 
-                    result += temp;
+                    if(moreThanTwo)
+                        siblings.add(handleSiblings(siblings, temp, i, branch_counter));
+                    else
+                        result += temp;
 
                     temp += " :=.i32 ";
                     temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
@@ -763,32 +882,54 @@ myClass {
                     break;
 
                 case "Length":
-                    result += ".length()";
+
+                    content_string = ".length()";
+                    if(moreThanTwo)
+                        siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                    else
+                        result += content_string;
                     break;
 
                 case "ConstructorClass":
-                    result += "new(" + content.get("val") + ")." + content.get("val");
+                    content_string = "new(" + content.get("val") + ")." + content.get("val");
+                    if(moreThanTwo)
+                        siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                    else
+                        result += content_string;
                     break;
 
-                case "ArrayIndex":
+                case "ArrayIndex": // TODO: NEED FIXING BECAUSE OF moreThanTwo?
+
                     String arrayIndex = "["+generateOllirExpressionCode(content, args,branch_counter, symbolTable)+"].i32";
+
                     if(i == contents.size() - 1 || (!contents.get(i+1).getKind().equals("Assignment")))
                         result += var + arrayIndex;
                     else
                         var += arrayIndex;
-                    var += arrayIndex;
                     break;
 
                 case "ConstructorIntArray":
-                    result += "["+generateOllirExpressionCode(content, args,branch_counter, symbolTable)+"].i32";
+                    content_string = "["+generateOllirExpressionCode(content, args,branch_counter, symbolTable)+"].i32";
+                    if(moreThanTwo)
+                        siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                    else
+                        result += content_string;
                     break;
 
                 case "True":
-                    result += "1.bool";
+                    content_string = "1.bool";
+                    if(moreThanTwo)
+                        siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                    else
+                        result += content_string;
                     break;
 
                 case "False":
-                    result += "0.bool";
+                    content_string = "0.bool";
+                    if(moreThanTwo)
+                        siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                    else
+                        result += content_string;
                     break;
 
 
@@ -796,7 +937,10 @@ myClass {
                     throw new IllegalStateException("Unexpected value: " + content.getKind());
             }
         }
-        return result;
+        if(moreThanTwo)
+            return siblings.get(siblings.size()-1);
+        else
+            return result;
     }
 
 
