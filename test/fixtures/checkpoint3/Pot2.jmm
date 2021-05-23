@@ -1,8 +1,8 @@
 class Pot2 {
     public static void main(String[] args) {
-        boolean final;
+        boolean final123;
 
-        final = this.expr1() && !this.expr3() && 4 < this.expr2();
+        final123 = this.expr1() && !this.expr3() && 4 < this.expr2();
     }
 
     public boolean expr1() {

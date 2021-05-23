@@ -835,6 +835,28 @@ myClass {
                 case "NotExpression":
 
 
+                    //result += "!.bool " + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+
+
+                    branch_counter.incrementTemp();
+                    String temp = "temp" + branch_counter.getTemp_counter() + ".bool" ;
+
+                    content_string = temp;
+                    if(moreThanTwo)
+                        siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
+                    else
+                        result += content_string;
+
+                    temp += " :=.bool !.bool ";
+                    temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+
+                    System.out.println("NotExprResult: " + temp);
+
+                    temp += ";\n";
+
+                    temps += branch_counter.getident() + temp;
+
+                    /*
                     if(content.getNumChildren() == 1){
                         content_string = "!.bool " + generateOllirExpressionCode(content, args,branch_counter, symbolTable);
                         if(moreThanTwo)
@@ -843,28 +865,14 @@ myClass {
                             result += content_string;
                     }else{
 
-                        branch_counter.incrementTemp();
-                        String temp = "temp" + branch_counter.getTemp_counter() + ".bool" ;
 
-                        content_string = " !.bool " + temp;
-                        if(moreThanTwo)
-                            siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
-                        else
-                            result += content_string;
-
-                        temp += " :=.bool ";
-                        temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
-
-                        temp += ";\n";
-
-                        temps += branch_counter.getident() + temp;
-                    }
+                    }*/
                     break;
 
                 case "SubExpression":
 
                     branch_counter.incrementTemp();
-                    String temp = "temp" + branch_counter.getTemp_counter() + ".i32" ;
+                    temp = "temp" + branch_counter.getTemp_counter() + ".i32" ;
 
                     if(moreThanTwo)
                         siblings.add(handleSiblings(siblings, temp, i, branch_counter));
@@ -935,6 +943,9 @@ myClass {
                     throw new IllegalStateException("Unexpected value: " + content.getKind());
             }
         }
+
+        System.out.println(siblings);
+
         if(moreThanTwo)
             return siblings.get(siblings.size()-1);
         else

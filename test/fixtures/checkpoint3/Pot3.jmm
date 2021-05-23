@@ -6,7 +6,7 @@ class Pot3 {
         int a;
         a = 0;
 
-        if(true && 3<4)
+        if(!(true && !(3<4)))
             num_aux=a;
         else
             num_aux=0;
