@@ -658,9 +658,7 @@ myClass {
                 case "This":
                     var = "this";
                     if(moreThanTwo)
-                        siblings.add(handleSiblings(siblings, var, i, branch_counter));
-                    else
-                        result += var;
+                        siblings.add(handleSiblings(siblings, "", i, branch_counter));
                     //result += " invokevirtual(this, " + content.get("val") + ")"; // invokevirtual ??
                     break;
 
