@@ -24,7 +24,7 @@ class Pot1 {
         sum = 0;
 
         while(ind < b) {
-            sum = sum + a[ind];
+            sum = sum + a[ind] * 6 - ((1));
         }
 
         return sum;
@@ -35,7 +35,8 @@ class Pot1 {
     }
 
     public int sub(A a, A b) {
-        return a.getNum() - b.getNum();
+        int x;
+        return x.getNum() - b.getNum();
     }
 
     public int sub(int a) {
