@@ -3,6 +3,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import jdk.swing.interop.SwingInterOpUtils;
 import pt.up.fe.comp.jmm.JmmNode;
 import pt.up.fe.comp.jmm.analysis.JmmSemanticsResult;
 import pt.up.fe.comp.jmm.analysis.table.SymbolTable;
@@ -60,33 +61,6 @@ public class OptimizationStage implements JmmOptimization {
         // THIS IS JUST FOR CHECKPOINT 3
         return ollirResult;
     }
-
-
-
-/*
-myClass {
-    .construct myClass().V {
-        invokespecial(this, "<init>").V;
-    }
-
-    .method public sum(A.array.i32).i32 {
-        sum.i32 :=.i32 0.i32;
-        i.i32 :=.i32 0.i32;
-
-        Loop:
-            t1.i32 :=.i32 arraylength($1.A.array.i32).i32;
-            if (i.i32 >=.i32 t1.i32) goto End;
-            t2.i32 :=.i32 $1.A[i.i32].i32;
-            sum.i32 :=.i32 sum.i32 +.i32 t2.i32;
-            i.i32 :=.i32 i.i32 +.i32 1.i32;
-            goto Loop;
-        End:
-            ret.i32 sum.i32;
-
-
-    }
-}
- */
 
 
     String generateOllirCode(JmmNode root, SymbolTable symbolTable)
@@ -152,7 +126,6 @@ myClass {
         List<JmmNode> methodType = node.getChildren();
 
         BranchCounter finalBranchCounter = new BranchCounter();
-        HashMap<String, String> finalFields = new HashMap<String, String>();
 
         for(JmmNode method : methodType)
         {
@@ -233,19 +206,15 @@ myClass {
                             BranchCounter branch_counter = new BranchCounter();
                             vars = new ArrayList(Arrays.asList(args.split(",")));
                             vars.remove("");
-                            HashMap<String, String> fields_hashmap = new HashMap<String, String>();
                             body = generateOllirBodyCode(child, vars, branch_counter, symbolTable);
                             finalBranchCounter = branch_counter;
-                            finalFields = fields_hashmap;
                             break;
 
                         case "ReturnStatement":
 
                             String statement = generateOllirExpressionCode(child, vars, finalBranchCounter, symbolTable);
-                            String[] elements = statement.split(" ");
-                            String[] aux_split = elements[0].split("\\.");
-                            String type = aux_split[aux_split.length-1];
-                            if(elements.length != 1)
+                            String type = getType(statement);
+                            if(statement.contains(" "))
                             {
                                 finalBranchCounter.incrementTemp();
                                 String returnTemp = "temp"+finalBranchCounter.getTemp_counter() +"." + type;
@@ -377,9 +346,12 @@ myClass {
                             // getfield
                             if (i == methodBodyContents.size() - 1 || (!methodBodyContents.get(i + 1).getKind().equals("MethodInvocation") && !methodBodyContents.get(i + 1).getKind().equals("Assignment") && !methodBodyContents.get(i + 1).getKind().equals("ArrayIndex"))) {
                                 branch_counter.incrementTemp();
-                                String aux_temp = "temp" + branch_counter.getTemp_counter() + ".i32";
 
-                                String temp = aux_temp + "getfield(this, " + var + ").i32;\n";
+                                String type = getType(var);
+
+                                String aux_temp = "temp" + branch_counter.getTemp_counter() + "." + type;
+
+                                String temp = aux_temp + "getfield(this, " + var + ")." + type +";\n";
 
                                 temps += branch_counter.getident() + temp;
                                 method_body += aux_temp;
@@ -430,13 +402,18 @@ myClass {
 
                     String aux= generateOllirExpressionCode(bodyContent, args,branch_counter, symbolTable);
 
+                    // a.i32
+                    // a.i32 +.i32 4.i32
+                    // a.i32 <.i32 4.i32
 
                     if(aux.contains(" "))
                     {
                         branch_counter.incrementTemp();
-                        String temp = "temp" + branch_counter.getTemp_counter() + ".bool" ;
+                        String type = getType(aux);
 
-                        String temp_assignment = temp + " :=.bool " + aux + ";\n";
+                        String temp = "temp" + branch_counter.getTemp_counter() + "." + type;
+
+                        String temp_assignment = temp + " :=." + type + " " + aux + ";\n";
                         temps += branch_counter.getident() + temp_assignment;
 
                         aux = temp;
@@ -556,11 +533,29 @@ myClass {
         return result;
     }
 
+    String getType(String str)
+    {
+        System.out.println("==============");
+        System.out.println("str:" + str);
+
+        String type ="";
+        if(str.contains("<.i32")){
+            System.out.println("type: bool");
+            return "bool";
+        }
+
+        String[] elements = str.split(" ");
+        String[] aux_split = elements[elements.length-1].split("\\.");
+        type = aux_split[aux_split.length-1];
+        System.out.println("type:" + type);
+        return type;
+    }
+
     String handleSiblings(ArrayList<String> siblings, String content, int sibling_index,BranchCounter branch_counter)
     {
-        System.out.println("================");
+        /*System.out.println("================");
         System.out.println("sibligs: " + siblings);
-        System.out.println("content: " + content);
+        System.out.println("content: " + content);*/
 
 
         if(sibling_index == 0)
@@ -570,10 +565,7 @@ myClass {
         }else{
             branch_counter.incrementTemp();
             String previous = siblings.get(sibling_index-1);
-            String[] elements = previous.split(" ");
-            String[] aux_split = elements[0].split("\\.");
-            String type = aux_split[aux_split.length-1];
-
+            String type = getType(previous);
 
             String temp="temp" + branch_counter.getTemp_counter() + "." + type;
             temps += branch_counter.getident() + temp + " :=."+ type + " " + previous + ";\n";
@@ -630,9 +622,11 @@ myClass {
                             if (i == contents.size() - 1 || (!contents.get(i+1).getKind().equals("MethodInvocation") && !contents.get(i+1).getKind().equals("Assignment") && !contents.get(i+1).getKind().equals("ArrayIndex")))
                             {
                                 branch_counter.incrementTemp();
-                                String aux_temp = "temp"+ branch_counter.getTemp_counter() + ".i32";
 
-                                String temp  = aux_temp + " :=.i32 getfield(this, " + var + ").i32;\n";
+                                String type=getType(var);
+                                String aux_temp = "temp"+ branch_counter.getTemp_counter() + "." + type;
+
+                                String temp  = aux_temp + " :=.i32 getfield(this, " + var + ")." + type +";\n";
 
                                 temps += branch_counter.getident() + temp;
                                 result += aux_temp;
@@ -890,16 +884,20 @@ myClass {
 
                 case "SubExpression":
 
+                    String aux = generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+
+                    String type = getType(aux);
+
                     branch_counter.incrementTemp();
-                    temp = "temp" + branch_counter.getTemp_counter() + ".i32" ;
+                    temp = "temp" + branch_counter.getTemp_counter() + "." + type;
 
                     if(moreThanTwo)
                         siblings.add(handleSiblings(siblings, temp, i, branch_counter));
                     else
                         result += temp;
 
-                    temp += " :=.i32 ";
-                    temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+                    temp += " :=." + type;
+                    temp += aux;
                     temp += ";\n";
 
                     temps += branch_counter.getident() + temp;
@@ -908,7 +906,7 @@ myClass {
 
                 case "Length":
 
-                    content_string = ".length()";
+                    content_string = ".length";
                     if(moreThanTwo)
                         siblings.add(handleSiblings(siblings, content_string, i, branch_counter));
                     else
