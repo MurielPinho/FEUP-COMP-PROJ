@@ -13,7 +13,7 @@
 ; methods
 .method public static func(I)I
 		.limit stack 2
-		.limit locals 15
+		.limit locals 16
 
 		iconst_0
 		istore_1
@@ -132,6 +132,9 @@
 		iload 11
 		iconst_5
 		imul
+		istore 12
+
+		iload 12
 		istore 7
 
 	endif2:
@@ -140,13 +143,13 @@
 		iconst_1
 		if_icmplt cmpt5
 		iconst_0
-		istore 12
+		istore 13
 		goto endcmp5
 	cmpt5:
 		iconst_1
-		istore 12
+		istore 13
 	endcmp5:
-		iload 12
+		iload 13
 
 		iconst_0
 		if_icmpeq else4

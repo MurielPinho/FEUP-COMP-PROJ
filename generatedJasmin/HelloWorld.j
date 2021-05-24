@@ -14,7 +14,7 @@
 ; methods
 .method public static main([Ljava/lang/String;)V
 		.limit stack 2
-		.limit locals 8
+		.limit locals 9
 		invokestatic ioPlus/printHelloWorld()V
 
 

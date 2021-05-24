@@ -13,7 +13,7 @@
 ; methods
 .method public static main([Ljava/lang/String;)V
 		.limit stack 2
-		.limit locals 13
+		.limit locals 14
 
 		iload_0
 		istore_1
@@ -54,6 +54,9 @@
 		iload 7
 		iand
 		istore 8
+
+		iload 8
+		istore 9
 
 		return
 .end method
