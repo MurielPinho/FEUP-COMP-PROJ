@@ -12,7 +12,7 @@
 
 ; methods
 .method public static func(I)I
-		.limit stack 20 ; TBD
+		.limit stack 2
 		.limit locals 15
 
 		iconst_0
@@ -20,18 +20,44 @@
 
 		iconst_3
 		iconst_4
-		ilth
+		if_icmplt cmpt0
+		iconst_0
 		istore_2
+		goto endcmp0
+	cmpt0:
+		iconst_1
+		istore_2
+	endcmp0:
+
+		iload_2
+		ifeq cmpt1
+		iconst_0
+		istore_3
+		goto endcmp1
+	cmpt1:
+		iconst_1
+		istore_3
+	endcmp1:
 
 		iconst_1
 		iload_3
-		iandb
+		iand
 		istore 4
+
+		iload 4
+		ifeq cmpt2
+		iconst_0
+		istore 5
+		goto endcmp2
+	cmpt2:
+		iconst_1
+		istore 5
+	endcmp2:
 
 		iload 5
 		istore 6
+		iload 6
 
-		iload_6
 		iconst_0
 		if_icmpeq else1
 
@@ -49,19 +75,31 @@
 
 		iload_0
 		iconst_1
-		ilth
+		if_icmplt cmpt3
+		iconst_0
 		istore 8
+		goto endcmp3
+	cmpt3:
+		iconst_1
+		istore 8
+	endcmp3:
+		iload 8
 
-		iload_8
 		iconst_0
 		if_icmpeq else2
 
 		iconst_1
 		iconst_3
-		ilth
+		if_icmplt cmpt4
+		iconst_0
 		istore 9
+		goto endcmp4
+	cmpt4:
+		iconst_1
+		istore 9
+	endcmp4:
+		iload 9
 
-		iload_9
 		iconst_0
 		if_icmpeq else3
 
@@ -100,10 +138,16 @@
 
 		iconst_2
 		iconst_1
-		ilth
+		if_icmplt cmpt5
+		iconst_0
 		istore 12
+		goto endcmp5
+	cmpt5:
+		iconst_1
+		istore 12
+	endcmp5:
+		iload 12
 
-		iload_12
 		iconst_0
 		if_icmpeq else4
 
@@ -119,7 +163,7 @@
 
 	endif4:
 
-		iload_7
+		iload 7
 		ireturn
 
 .end method

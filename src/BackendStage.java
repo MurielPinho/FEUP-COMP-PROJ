@@ -27,7 +27,10 @@ import pt.up.fe.comp.jmm.report.Stage;
 
 public class BackendStage implements JasminBackend {
     StringBuilder jasminString = new StringBuilder();
+    StringBuilder methodString = new StringBuilder();
+    int stackLimit = 0;
     private ClassUnit ollirClass;
+    private int cmpCounter = 0;
 
     @Override
     public JasminResult toJasmin(OllirResult ollirResult) {
@@ -110,7 +113,6 @@ public class BackendStage implements JasminBackend {
         jasminString.append("; methods");
         for (var method: ollirClass.getMethods()) {
              generateMethod(method);
-
         }
     }
 
@@ -121,7 +123,6 @@ public class BackendStage implements JasminBackend {
             jasminString.append("static ");
             jasminString.append(method.getMethodName());
             getMethodParameters(method);
-            getMethodLimits(method);
             try {
                 getMethodBody(method);
             } catch (OllirErrorException e) {
@@ -159,23 +160,20 @@ public class BackendStage implements JasminBackend {
     }
 
     private void getMethodLimits(Method method) {
-        String stack = "20 ; TBD";
         int locals = method.getVarTable().size() + method.getParams().size() + 1;
         jasminString.append("\n\t\t.limit stack ");
-        jasminString.append(stack);
+        jasminString.append(stackLimit);
         jasminString.append("\n\t\t.limit locals ");
         jasminString.append(locals);
     }
 
     private void getMethodBody(Method method) throws OllirErrorException {
-
-
-
+        methodString = new StringBuilder();
         for (var instr:method.getInstructions()) {
             HashMap<String, Instruction> map = method.getLabels();
             for (Map.Entry<String, Instruction> entry : map.entrySet()) {
                 String key = entry.getKey();
-                if(method.getLabels().get(key)==instr) jasminString.append("\n\n\t"+key+":");
+                if(method.getLabels().get(key)==instr) methodString.append("\n\n\t"+key+":");
             }
             InstructionType instType = instr.getInstType();
             switch(instType){
@@ -199,36 +197,119 @@ public class BackendStage implements JasminBackend {
             }
         }
         getMethodReturn(method);
+        getMethodLimits(method);
+        jasminString.append(methodString.toString());
     }
 
     private void generateInst(CallInstruction instr, Method method) {
+
         Element e1 = instr.getFirstArg();
         Element e2 = instr.getSecondArg();
-        jasminString.append("\n\n\t\tinvokestatic ");
-        if(e1.isLiteral()){
-            String literal = ((LiteralElement)e1).getLiteral();
-            String newLit = literal.replace("\"","");
-            jasminString.append(newLit);
-        }
-        else{
-            Operand o1 = (Operand) e1;
-            jasminString.append(o1.getName());
-        }
-        jasminString.append("/");
-        if(e2.isLiteral())
+        stackLimit = Integer.max(stackLimit,instr.getListOfOperands().size());
+        Type type = e1.getType();
+        int auxvirtualReg;
+        if(type.toString().equals("CLASS"))
         {
-            String literal = ((LiteralElement)e2).getLiteral();
-            String newLit = literal.replace("\"","");
-            jasminString.append(newLit);
-        }
-        else{
-            Operand o2 = (Operand) e2;
-            jasminString.append(o2.getName());
-        }
-        jasminString.append("(");
-        //for (var oper :instr.getListOfOperands()) { }
-        jasminString.append(")V\n");
+            for (var oper :instr.getListOfOperands()) {
+                if(oper.isLiteral()){
+                    int N = Integer.parseInt(((LiteralElement) oper).getLiteral());
+                    if(N <=5) methodString.append("\n\n\t\ticonst_"+N);
+                    else {
+                        methodString.append("\n\n\t\tbipush "+ N);
+                    }
+                }else{
+                    auxvirtualReg = method.getVarTable().get(((Operand)oper).getName()).getVirtualReg() -1 ;
+                    if(auxvirtualReg <=3) methodString.append("\n\t\tiload_"+auxvirtualReg);
+                    else {
+                        methodString.append("\n\t\tiload "+auxvirtualReg);
+                    }
+                }
+            }
+            methodString.append("\n\t\tinvokestatic ");
+            if(e1.isLiteral()){
+                String literal = ((LiteralElement)e1).getLiteral();
+                String newLit = literal.replace("\"","");
+                methodString.append(newLit);
+            }
+            else{
+                Operand o1 = (Operand) e1;
+                methodString.append(o1.getName());
+            }
+            methodString.append("/");
+            if(e2.isLiteral())
+            {
+                String literal = ((LiteralElement)e2).getLiteral();
+                String newLit = literal.replace("\"","");
+                methodString.append(newLit);
+            }
+            else{
+                Operand o2 = (Operand) e2;
+                methodString.append(o2.getName());
+            }
+            methodString.append("(");
+            for (var oper :instr.getListOfOperands()) {
+                if(oper.isLiteral()){
+                    methodString.append("I");
+                }else if (oper.getType().toString().equals("INT32")){
+                    methodString.append("I");
+                }
+            }
 
+            methodString.append(")V\n");
+        }
+        else if(type.toString().equals("OBJECTREF")){
+            for (var oper :instr.getListOfOperands()) {
+                if(oper.isLiteral()){
+                    int N = Integer.parseInt(((LiteralElement) oper).getLiteral());
+                    if(N <=5) methodString.append("\n\n\t\ticonst_"+N);
+                    else {
+                        methodString.append("\n\n\t\tbipush "+ N);
+                    }
+                }else{
+                    auxvirtualReg = method.getVarTable().get(((Operand)oper).getName()).getVirtualReg() -1 ;
+                    if(auxvirtualReg <=3) methodString.append("\n\t\tiload_"+auxvirtualReg);
+                    else {
+                        methodString.append("\n\t\tiload "+auxvirtualReg);
+                    }
+                }
+            }
+            String aux = ((LiteralElement)e2).getLiteral();
+            String Func = aux.replace("\"","");
+            if(Func.equals("<init>")) {
+                methodString.append("\n\t\tinvokespecial ");
+            }
+            else{
+                int valuevirtualReg = method.getVarTable().get(((Operand) e1).getName()).getVirtualReg() - 1;
+
+                if(valuevirtualReg <=3) methodString.append("\n\t\taload_"+valuevirtualReg);
+                else {
+                    methodString.append("\n\t\taload "+valuevirtualReg);
+                }
+                methodString.append("\n\t\tinvokevirtual ");
+            }
+            methodString.append(Func);
+            methodString.append("(");
+            for (var oper :instr.getListOfOperands()) {
+                if(oper.isLiteral()){
+                    methodString.append("I");
+                }else if (oper.getType().toString().equals("INT32")){
+                    methodString.append("I");
+                }
+            }
+            methodString.append(")V\n");
+
+        }
+        else if(type.toString().equals("THIS")){
+            String aux = ((LiteralElement)e2).getLiteral();
+            String Func = aux.replace("\"","");
+            methodString.append("\n\n\t\taload_0");
+            methodString.append("\n\t\tinvokespecial java/lang/Object.");
+            methodString.append(Func);
+            methodString.append("(");
+            // for (var oper :instr.getListOfOperands()) {methodString.append(oper); }
+            methodString.append(")V\n");
+
+        }
 
     }
 
@@ -236,189 +317,412 @@ public class BackendStage implements JasminBackend {
         InstructionType rhs = instr.getRhs().getInstType();
         String dest = ((Operand)instr.getDest()).getName();
         int virtualReg = method.getVarTable().get(dest).getVirtualReg() -1 ;
+        int auxvirtualReg;
+        int N;
+        Operand o1 ;
+        Operand o2 ;
         switch(rhs){
             case NOPER:
+                stackLimit = Integer.max(stackLimit,1);
                 Element operand = ((SingleOpInstruction) instr.getRhs()).getSingleOperand();
                 if (operand.isLiteral()) {
-                    jasminString.append("\n\n\t\ticonst_" + ((LiteralElement) operand).getLiteral());
-                    if(virtualReg <=3) jasminString.append("\n\t\tistore_"+virtualReg);
+                    N = Integer.parseInt(((LiteralElement) operand).getLiteral());
+                    if(N <=5) methodString.append("\n\n\t\ticonst_"+N);
                     else {
-                        jasminString.append("\n\t\tistore "+virtualReg);
+                        methodString.append("\n\n\t\tbipush "+ N);
+                    }
+                    if(virtualReg <=3) methodString.append("\n\t\tistore_"+virtualReg);
+                    else {
+                        methodString.append("\n\t\tistore "+virtualReg);
                     }
                 }
                 else {
-                    Operand o1 = (Operand)((SingleOpInstruction) instr.getRhs()).getSingleOperand();
-                    int auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() -1 ;
+                    o1 = (Operand)((SingleOpInstruction) instr.getRhs()).getSingleOperand();
+                    auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() -1 ;
                     int iVirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1 ;
 
                     if(o1.getName().equals("i")){
-                        jasminString.append("\n\n\t\taload_0");
+                        methodString.append("\n\n\t\taload_0");
                     }
-                    else jasminString.append("\n");
-                    if(iVirtualReg <=3) jasminString.append("\n\t\tiload_"+iVirtualReg);
+                    else methodString.append("\n");
+                    if(iVirtualReg <=3) methodString.append("\n\t\tiload_"+iVirtualReg);
                     else {
-                        jasminString.append("\n\t\tiload "+iVirtualReg);
+                        methodString.append("\n\t\tiload "+iVirtualReg);
                     }
                     if(o1.getName().equals("i")){
-                        jasminString.append("\n\t\tiaload");
+                        methodString.append("\n\t\tiaload");
                     }
-                    if(auxvirtualReg <=3) jasminString.append("\n\t\tistore_"+auxvirtualReg);
+                    if(auxvirtualReg <=3) methodString.append("\n\t\tistore_"+auxvirtualReg);
                     else {
-                        jasminString.append("\n\t\tistore "+auxvirtualReg);
+                        methodString.append("\n\t\tistore "+auxvirtualReg);
                     }
 
                 }
                 break;
             case BINARYOPER:
-
                 Element e1 = ((BinaryOpInstruction) instr.getRhs()).getLeftOperand();
                 Element e2 = ((BinaryOpInstruction) instr.getRhs()).getRightOperand();
                 OperationType operation = ((UnaryOpInstruction) instr.getRhs()).getUnaryOperation().getOpType();
                 if(dest.equals("i") && operation.toString() =="ADD" && e2.isLiteral()) {
-                    Operand o1 = (Operand) e1;
-                    int auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1 ;
-                    jasminString.append("\n\n\t\tiinc "+auxvirtualReg+" "+((LiteralElement) e2).getLiteral());
+                    stackLimit = Integer.max(stackLimit,2);
+                    o1 = (Operand) e1;
+                    auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1 ;
+                    methodString.append("\n\n\t\tiinc "+auxvirtualReg+" "+((LiteralElement) e2).getLiteral());
                     break;
                 }
 
                 if(e1.isLiteral()) {
-                    jasminString.append("\n\n\t\ticonst_"+((LiteralElement) e1).getLiteral());
-                } else {
-                    Operand o1 = (Operand) e1;
-                    int auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1 ;
-                    if(auxvirtualReg <=3) jasminString.append("\n\n\t\tiload_"+auxvirtualReg);
+                    N = Integer.parseInt(((LiteralElement) e1).getLiteral());
+                    if(N <=5) methodString.append("\n\n\t\ticonst_"+N);
                     else {
-                        jasminString.append("\n\n\t\tiload "+auxvirtualReg);
+                        methodString.append("\n\n\t\tbipush "+ N);
                     }
-
+                } else {
+                    o1 = (Operand) e1;
+                    auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1 ;
+                    if(auxvirtualReg <=3) methodString.append("\n\n\t\tiload_"+auxvirtualReg);
+                    else {
+                        methodString.append("\n\n\t\tiload "+auxvirtualReg);
+                    }
                 }
-
-
                 if(e2.isLiteral()) {
-                    jasminString.append("\n\t\ticonst_"+((LiteralElement) e2).getLiteral());
-                } else {
-                    Operand o1 = (Operand) e2;
-                    int auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1 ;
-                    if(auxvirtualReg <=3) jasminString.append("\n\t\tiload_"+auxvirtualReg);
+                    N = Integer.parseInt(((LiteralElement) e2).getLiteral());
+                    if(N <=5) methodString.append("\n\t\ticonst_"+N);
                     else {
-                        jasminString.append("\n\t\tiload "+auxvirtualReg);
+                        methodString.append("\n\t\tbipush "+ N);
+                    }
+                } else {
+                    o1 = (Operand) e2;
+                    auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1 ;
+                    if(auxvirtualReg <=3) methodString.append("\n\t\tiload_"+auxvirtualReg);
+                    else {
+                        methodString.append("\n\t\tiload "+auxvirtualReg);
                     }
 
 
                 }
-                int auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() -1 ;
+                auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() -1 ;
                 operation = ((UnaryOpInstruction) instr.getRhs()).getUnaryOperation().getOpType();
-                jasminString.append("\n\t\ti"+ operation.toString().toLowerCase(Locale.ROOT));
-                if(auxvirtualReg <=3) jasminString.append("\n\t\tistore_"+auxvirtualReg);
-                else {
-                    jasminString.append("\n\t\tistore "+auxvirtualReg);
+                if(operation.toString().equals("ANDB")){
+
+                    methodString.append("\n\t\tiand");
+                    if(auxvirtualReg <=3) methodString.append("\n\t\tistore_"+auxvirtualReg);
+                    else {
+                        methodString.append("\n\t\tistore "+auxvirtualReg);
+                    }
+
                 }
+                else if(operation.toString().equals("LTH")){
+                    methodString.append("\n\t\tif_icmplt cmpt"+cmpCounter);
+                    methodString.append("\n\t\ticonst_0");
+                    if(auxvirtualReg <=3) methodString.append("\n\t\tistore_"+auxvirtualReg);
+                    else {
+                        methodString.append("\n\t\tistore "+auxvirtualReg);
+                    }
+                    methodString.append("\n\t\tgoto endcmp"+cmpCounter);
+                    methodString.append("\n\tcmpt"+cmpCounter+":");
+                    methodString.append("\n\t\ticonst_1");
+                    if(auxvirtualReg <=3) methodString.append("\n\t\tistore_"+auxvirtualReg);
+                    else {
+                        methodString.append("\n\t\tistore "+auxvirtualReg);
+                    }
+                    methodString.append("\n\tendcmp"+cmpCounter+":");
+                    cmpCounter++;
+                }
+                else  {
+
+                    methodString.append("\n\t\ti"+ operation.toString().toLowerCase(Locale.ROOT));
+                    if(auxvirtualReg <=3) methodString.append("\n\t\tistore_"+auxvirtualReg);
+                    else {
+                        methodString.append("\n\t\tistore "+auxvirtualReg);
+                    }
+                }
+                stackLimit = Integer.max(stackLimit,2);
+                break;
+            case UNARYOPER:
+                stackLimit = Integer.max(stackLimit,1);
+                auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() -1 ;
+                operand = ((UnaryOpInstruction) instr.getRhs()).getRightOperand();
+                if(operand.isLiteral())
+                {
+                    N = Integer.parseInt(((LiteralElement) operand).getLiteral());
+                    if(N <=5) methodString.append("\n\n\t\ticonst_"+N);
+                    else {
+                        methodString.append("\n\n\t\tbipush "+ N);
+                    }
+                    methodString.append("\n\t\tifeq cmpt"+cmpCounter);
+                    methodString.append("\n\t\ticonst_0");
+                    if(auxvirtualReg <=3) methodString.append("\n\t\tistore_"+auxvirtualReg);
+                    else {
+                        methodString.append("\n\t\tistore "+auxvirtualReg);
+                    }
+                    methodString.append("\n\t\tgoto endcmp"+cmpCounter);
+                    methodString.append("\n\tcmpt"+cmpCounter+":");
+                    methodString.append("\n\t\ticonst_1");
+                    if(auxvirtualReg <=3) methodString.append("\n\t\tistore_"+auxvirtualReg);
+                    else {
+                        methodString.append("\n\t\tistore "+auxvirtualReg);
+                    }
+                    methodString.append("\n\tendcmp"+cmpCounter+":");
+                    cmpCounter++;
+                }
+                else{
+                    o1 = (Operand) operand;
+                    int destvirtualReg = method.getVarTable().get(dest).getVirtualReg() - 1;
+                    auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1 ;
+                    if(auxvirtualReg <=3) methodString.append("\n\n\t\tiload_"+auxvirtualReg);
+                    else {
+                        methodString.append("\n\n\t\tiload "+auxvirtualReg);
+                    }
+                    methodString.append("\n\t\tifeq cmpt"+cmpCounter);
+                    methodString.append("\n\t\ticonst_0");
+                    if(auxvirtualReg <=3) methodString.append("\n\t\tistore_"+destvirtualReg);
+                    else {
+                        methodString.append("\n\t\tistore "+destvirtualReg);
+                    }
+                    methodString.append("\n\t\tgoto endcmp"+cmpCounter);
+                    methodString.append("\n\tcmpt"+cmpCounter+":");
+                    methodString.append("\n\t\ticonst_1");
+                    if(auxvirtualReg <=3) methodString.append("\n\t\tistore_"+destvirtualReg);
+                    else {
+                        methodString.append("\n\t\tistore "+destvirtualReg);
+                    }
+                    methodString.append("\n\tendcmp"+cmpCounter+":");
+                    cmpCounter++;
+                }
+
                 break;
             case CALL:
                 Element firstArg = ((CallInstruction) instr.getRhs()).getFirstArg();
                 Element secondArg = ((CallInstruction) instr.getRhs()).getSecondArg();
 
                 if(firstArg.toString().equals("ARRAYREF")){
-                auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() -1 ;
-                jasminString.append("\n\n\t\taload_0");
-                jasminString.append("\n\t\tarraylength");
-                    if(auxvirtualReg <=3) jasminString.append("\n\t\tistore_"+auxvirtualReg);
-                    else {
-                        jasminString.append("\n\t\tistore "+auxvirtualReg);
+                    if(((CallInstruction) instr.getRhs()).getNumOperands() > 1)
+                    {
+                        stackLimit = Integer.max(stackLimit,1);
+                        auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() -1;
+                        Element d = (((CallInstruction) instr.getRhs()).getListOfOperands().get(0));
+                        N = Integer.parseInt(((LiteralElement) d).getLiteral());
+                        if(N <=5) methodString.append("\n\n\t\ticonst_"+N);
+                        else {
+                            methodString.append("\n\n\t\tbipush "+ N);
+                        }
+                        methodString.append("\n\t\tanewarray "+ollirClass.getClassName());
+                        if(auxvirtualReg <=3) methodString.append("\n\t\tastore_"+auxvirtualReg);
+                        else {
+                            methodString.append("\n\t\tastore "+auxvirtualReg);
+                        }
+                    }
+                    else{
+                        stackLimit = Integer.max(stackLimit,1);
+                        auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() -1 ;
+                        int valuevirtualReg = method.getVarTable().get(((Operand) firstArg).getName()).getVirtualReg() - 1;
+
+                        if(valuevirtualReg <=3) methodString.append("\n\n\t\taload_"+valuevirtualReg);
+                        else {
+                            methodString.append("\n\n\t\taload "+valuevirtualReg);
+                        }
+                        methodString.append("\n\t\tarraylength");
+                        if(auxvirtualReg <=3) methodString.append("\n\t\tistore_"+auxvirtualReg);
+                        else {
+                            methodString.append("\n\t\tistore "+auxvirtualReg);
+                        }
                     }
                 }
-                else {
-                    /*for (var oper :((CallInstruction) instr.getRhs()).getListOfOperands()) {
+                else if(instr.getDest().getType().toString().equals("OBJECTREF")){
+                    stackLimit = Integer.max(stackLimit,1);
+
+                    methodString.append("\n\n\t\tnew "+((Operand)firstArg).getName());
+                    methodString.append("\n\t\tdup");
+
+                }
+                else if(instr.getDest().getType().toString().equals("INT32")) {
+                    for (var oper :((CallInstruction) instr.getRhs()).getListOfOperands()) {
                         if(oper.isLiteral()){
-                            jasminString.append(((LiteralElement) oper).getLiteral());
+                            N = Integer.parseInt(((LiteralElement) oper).getLiteral());
+                            if(N <=5) methodString.append("\n\n\t\ticonst_"+N);
+                            else {
+                                methodString.append("\n\n\t\tbipush "+ N);
+                            }
+                        }else{
+                            auxvirtualReg = method.getVarTable().get(((Operand)oper).getName()).getVirtualReg() -1 ;
+                            if(auxvirtualReg <=3) methodString.append("\n\n\t\tiload_"+auxvirtualReg);
+                            else {
+                                methodString.append("\n\n\t\tiload "+auxvirtualReg);
+                            }
                         }
-                        else {
-                            jasminString.append(((Operand)oper).getName());
+                    }
+                    String aux = ((LiteralElement)secondArg).getLiteral();
+                    String Func = aux.replace("\"","");
+                    if(Func.equals("<init>")) {
+                        methodString.append("\n\t\tinvokespecial ");
+                    }
+                    else{
+                        int valuevirtualReg = method.getVarTable().get(((Operand) firstArg).getName()).getVirtualReg() - 1;
+
+                        if(((Operand) firstArg).getName().equals("this")){
+                            methodString.append("\n\t\taload_0");
                         }
-                    }*/
+                        else{
+                            if(valuevirtualReg <=3) methodString.append("\n\t\taload_"+valuevirtualReg);
+                            else {
+                                methodString.append("\n\t\taload "+valuevirtualReg);
+                            }
+                        }
+
+                        methodString.append("\n\t\tinvokevirtual ");
+                    }
+                    methodString.append(Func);
+                    methodString.append("(");
+                    for (var oper :((CallInstruction) instr.getRhs()).getListOfOperands()) {
+                        if(oper.isLiteral()){
+                            methodString.append("I");
+                        }else if (oper.getType().toString().equals("INT32")){
+                            methodString.append("I");
+                        }
+                    }
+                    methodString.append(")V\n");
 
                 }
                 break;
             case GETFIELD:
+                stackLimit = Integer.max(stackLimit,2);
                 int destvirtualReg = method.getVarTable().get(dest).getVirtualReg() -1 ;
-                Element e = ((GetFieldInstruction) instr.getRhs()).getSecondOperand();
-                Operand o1 = (Operand) e;
+                o1 = (Operand)(((GetFieldInstruction) instr.getRhs()).getFirstOperand());
+                o2 = (Operand)(((GetFieldInstruction) instr.getRhs()).getSecondOperand());
                 auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1;
-                if(auxvirtualReg <=3) jasminString.append("\n\n\t\tiload_"+auxvirtualReg);
-                else {
-                    jasminString.append("\n\t\tiload "+ auxvirtualReg);
-                }
-                if(destvirtualReg <=3) jasminString.append("\n\t\tistore_"+destvirtualReg);
-                else {
-                    jasminString.append("\n\t\tistore " + destvirtualReg);
-                }
+                if(o1.getName().equals("this")){
+                    methodString.append("\n\n\t\taload_0");
+                    methodString.append("\n\t\tgetfield I " +o2.getName());
+                    if(destvirtualReg <=3) methodString.append("\n\t\tistore_"+destvirtualReg);
+                    else {
+                        methodString.append("\n\t\tistore " + destvirtualReg);
+                    }
+                }else{
+                    if(auxvirtualReg <=3) methodString.append("\n\n\t\taload_"+auxvirtualReg);
+                    else {
+                        methodString.append("\n\n\t\taload "+auxvirtualReg);
+                    }
+                    methodString.append("\n\t\tgetfield I " +o2.getName());
+                    if(destvirtualReg <=3) methodString.append("\n\t\tistore_"+destvirtualReg);
+                    else {
+                        methodString.append("\n\t\tistore " + destvirtualReg);
+                    }
 
+                }
+            break;
+            case PUTFIELD:
+                stackLimit = Integer.max(stackLimit,1);
+                o1 = (Operand)(((GetFieldInstruction) instr.getRhs()).getFirstOperand());
+                o2 = (Operand)(((GetFieldInstruction) instr.getRhs()).getSecondOperand());
+                auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1;
+                if(o1.getName().equals("this")){
+                    methodString.append("\n\n\t\taload_0");
+                    methodString.append("\n\t\tputfield " +o2.getName() +" I");
+                }else{
+                    if(auxvirtualReg <=3) methodString.append("\n\n\t\taload_"+auxvirtualReg);
+                    else {
+                        methodString.append("\n\n\t\taload "+auxvirtualReg);
+                    }
+                    methodString.append("\n\t\tputfield " +o2.getName() +" I");
+                }
+            break;
         }
 
     }
 
     private void generateInst(ReturnInstruction instr, Method method) {
-        if (!instr.hasReturnValue()) jasminString.append("\n\t\treturn");
+        if (!instr.hasReturnValue()) methodString.append("\n\t\treturn");
         else {
+            stackLimit = Integer.max(stackLimit,1);
             Element e1 = instr.getOperand();
             String o1 = ((Operand) e1).getName();
+            String type = e1.getType().toString();
             int virtualReg = method.getVarTable().get(o1).getVirtualReg() -1 ;
-            jasminString.append("\n\n\t\tiload_" + virtualReg);
-            jasminString.append("\n\t\tireturn\n");
+            if(type.equals("OBJECTREF")||type.equals("ARRAYREF"))
+            {
+                if(virtualReg <=3) methodString.append("\n\n\t\taload_"+virtualReg);
+                else {
+                    methodString.append("\n\n\t\taload "+ virtualReg);
+                }
+                methodString.append("\n\t\tareturn\n");
+            }
+            else if(type.equals("BOOLEAN")||type.equals("INT32")){
+                if(virtualReg <=3) methodString.append("\n\n\t\tiload_"+virtualReg);
+                else {
+                    methodString.append("\n\n\t\tiload "+ virtualReg);
+                }
+                methodString.append("\n\t\tireturn\n");
+            }
+            else{
+                methodString.append("\n\n\t\treturn\n");
+            }
         }
-
     }
 
     private void generateInst(GotoInstruction instr, Method method) {
-        jasminString.append("\n\n\t\tgoto "+instr.getLabel());
-
-
+        methodString.append("\n\n\t\tgoto "+instr.getLabel());
     }
 
     private void generateInst(CondBranchInstruction instr, Method method) {
-
+        stackLimit = Integer.max(stackLimit,2);
         Element e1 = instr.getLeftOperand();
         Element e2 = instr.getRightOperand();
-        String o1 = ((Operand) e1).getName();
-        int e1VirtualReg = method.getVarTable().get(o1).getVirtualReg() -1 ;
-        jasminString.append("\n\n\t\tiload_" + e1VirtualReg);
+        int N;
+        if(e1.isLiteral())
+        {
+            N = Integer.parseInt(((LiteralElement) e1).getLiteral());
+            if(N <=5) methodString.append("\n\n\t\ticonst_"+N);
+            else {
+                methodString.append("\n\n\t\tbipush "+ N);
+            }
+        }
+        else{
+            String o1 = ((Operand) e1).getName();
+            int e1VirtualReg = method.getVarTable().get(o1).getVirtualReg() -1 ;
+            if(e1VirtualReg <=3) methodString.append("\n\t\tiload_"+e1VirtualReg);
+            else {
+                methodString.append("\n\t\tiload "+ e1VirtualReg);
+            }
+        }
+
         String o2;
         if(e2.isLiteral())
         {
-            jasminString.append("\n\t\ticonst_"+((LiteralElement) e2).getLiteral());
+            N = Integer.parseInt(((LiteralElement) e2).getLiteral());
+            if(N <=5) methodString.append("\n\n\t\ticonst_"+N);
+            else {
+                methodString.append("\n\n\t\tbipush "+ N);
+            }
         }else{
             o2 = ((Operand) e2).getName();
             int e2VirtualReg = method.getVarTable().get(o2).getVirtualReg() -1 ;
-            if(e2VirtualReg <=3) jasminString.append("\n\t\tiload_"+e2VirtualReg);
+            if(e2VirtualReg <=3) methodString.append("\n\t\tiload_"+e2VirtualReg);
             else {
-                jasminString.append("\n\t\tiload "+ e2VirtualReg);
+                methodString.append("\n\t\tiload "+ e2VirtualReg);
             }
         }
-        jasminString.append("\n\t\tif_icmp");
+        methodString.append("\n\t\tif_icmp");
         String cond = instr.getCondOperation().getOpType().toString();
         if(cond.equals("LTH")){
-            jasminString.append("lt ");
+            methodString.append("lt ");
         }else if(cond.equals("GTH")){
-            jasminString.append("gt ");
+            methodString.append("gt ");
         }else if(cond.equals("EQ")){
-            jasminString.append("eq ");
+            methodString.append("eq ");
         }else if(cond.equals("NEQ")){
-            jasminString.append("ne ");
+            methodString.append("ne ");
         }else if(cond.equals("LTE")){
-            jasminString.append("le ");
+            methodString.append("le ");
         }else if(cond.equals("GTE")){
-            jasminString.append("ge ");
+            methodString.append("ge ");
         }
-        jasminString.append(instr.getLabel());
+        methodString.append(instr.getLabel());
     }
 
 
     private void getMethodReturn(Method method) {
-        if(method.getMethodName().equals("main")) jasminString.append("\n\n\t\treturn");
+        if(method.getMethodName().equals("main")) methodString.append("\n\n\t\treturn");
     }
-
-
-
-
 
 }

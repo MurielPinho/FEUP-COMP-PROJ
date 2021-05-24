@@ -38,12 +38,12 @@ class Pot2 {
         int f;
         int g;
         int h;
-        boolean i;
         boolean j;
         boolean k;
         boolean l;
         boolean m;
+        boolean n;
 
-        return (h < a*c) && (!((((i)) && j))) && !(b / d + e < f - g) && k && (((l))) && !m;
+        return (h < a*c) && (!((((n)) && j))) && !(b / d + e < f - g) && k && (((l))) && !m;
     }
 }

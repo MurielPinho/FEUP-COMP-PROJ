@@ -1,5 +1,6 @@
 import org.junit.Test;
 import pt.up.fe.comp.TestUtils;
+import pt.up.fe.comp.jmm.ollir.OllirResult;
 import pt.up.fe.comp.jmm.report.Report;
 import pt.up.fe.comp.jmm.report.ReportType;
 import pt.up.fe.comp.jmm.report.Stage;
@@ -244,13 +245,36 @@ public class Checkpoint3Tests {
     @Test
     public void testJasmin1() {
         System.out.println("-------------------");
-        System.out.println("Test 1 - Jasmin");
+        System.out.println("Test 1 - Jasmin: Tests the precedence of the equations.");
+        System.out.println("The test passes if the output of the equation is correct.");
+        var result = TestUtils.backend(SpecsIo.getResource("fixtures/checkpoint3/jasmin1.jmm"));
+        System.out.println("\n--- START OF JASMIN CODE OUTPUT ---\n");
+        System.out.println("\n"+result.getJasminCode());
+        System.out.println("\n--- END OF JASMIN CODE OUTPUT ---\n");
+        TestUtils.noErrors(result.getReports());
+        System.out.println("The equation is 2+(8*16)/4+32-2");
+        System.out.println("Expected Output: 64");
+        System.out.println("Result:");
+        var output = result.run();
+        assertEquals("64", output.trim());
+
     }
 
     @Test
     public void testJasmin2() {
         System.out.println("-------------------");
-        System.out.println("Test 2 - Jasmin");
+        System.out.println("Test 2 - Jasmin: Tests IF Else and While Generation");
+        System.out.println("The test passes if the output of the loop is correct.");
+        var result = TestUtils.backend(new OllirResult(SpecsIo.getResource("fixtures/checkpoint3/jasmin2.ollir")));
+        System.out.println("\n--- START OF JASMIN CODE OUTPUT ---\n");
+        System.out.println("\n"+result.getJasminCode());
+        System.out.println("\n--- END OF JASMIN CODE OUTPUT ---\n");
+        TestUtils.noErrors(result.getReports());
+        System.out.println("The While loop adds 8 to the current value 16 times, with the initial value 0.");
+        System.out.println("Expected Output: 128");
+        System.out.println("Result:");
+        var output = result.run();
+        assertEquals("128", output.trim());
     }
 
     /**

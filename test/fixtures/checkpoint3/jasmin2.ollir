@@ -1,0 +1,19 @@
+ifElseWhile {
+	.construct ifElse().V {
+		invokespecial(this, "<init>").V;
+	}
+	
+	.method public static main(args.array.String).V {
+	    a.i32 :=.i32 16.i32;
+	    b.i32 :=.i32 0.i32;
+	    i.i32 :=.i32 0.i32;
+	    Loop:
+		if (a.i32 <=.i32 i.i32) goto endif;
+			b.i32 :=.i32 b.i32 +.i32 8.i32;
+			i.i32 :=.i32 i.i32 +.i32 1.i32;
+		    goto Loop;
+		endif:
+			invokestatic(io, "println", b.i32).V;
+	}
+
+}

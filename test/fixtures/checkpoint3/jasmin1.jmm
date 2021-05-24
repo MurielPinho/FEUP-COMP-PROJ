@@ -1,0 +1,21 @@
+import io;
+class Precedence {
+    public static void main(String[] args) {
+        int i1;
+        int i2;
+        int i3;
+        int i4;
+        int i5;
+        int i6;
+
+
+        i1 = 2;
+        i2 = 4;
+        i3 = 8;
+        i4 = 16;
+        i5 = 32;
+        i6 = i1+(i3*i4)/i2+i5-2;
+        io.println(i6);
+
+    }
+}
