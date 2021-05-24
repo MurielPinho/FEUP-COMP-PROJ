@@ -230,12 +230,18 @@ public class Checkpoint3Tests {
     public void testOllir1() {
         System.out.println("-------------------");
         System.out.println("Test 1 - Ollir");
+        System.out.println("-------------------");
+        var result = TestUtils.optimize(SpecsIo.getResource("fixtures/checkpoint3/ollir1.jmm"));
+        TestUtils.noErrors(result.getReports());
     }
 
     @Test
     public void testOllir2() {
         System.out.println("-------------------");
         System.out.println("Test 2 - Ollir");
+        System.out.println("-------------------");
+        var result = TestUtils.optimize(SpecsIo.getResource("fixtures/checkpoint3/ollir2.jmm"));
+        TestUtils.noErrors(result.getReports());
     }
 
     /**
