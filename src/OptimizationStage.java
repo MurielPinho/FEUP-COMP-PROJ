@@ -63,6 +63,21 @@ public class OptimizationStage implements JmmOptimization {
     }
 
 
+    String getType(String str)
+    {
+
+        String type ="";
+        if(str.contains("<.i32")){
+            return "bool";
+        }
+
+        String[] elements = str.split(" ");
+        String[] aux_split = elements[elements.length-1].split("\\.");
+        type = aux_split[aux_split.length-1];
+        return type;
+    }
+
+
     String generateOllirCode(JmmNode root, SymbolTable symbolTable)
     {
         String result = "";
@@ -212,7 +227,7 @@ public class OptimizationStage implements JmmOptimization {
 
                         case "ReturnStatement":
 
-                            String statement = generateOllirExpressionCode(child, vars, finalBranchCounter, symbolTable);
+                            String statement = generateOllirExpressionCode(child, vars, finalBranchCounter, symbolTable);;
                             String type = getType(statement);
                             if(statement.contains(" "))
                             {
@@ -349,9 +364,9 @@ public class OptimizationStage implements JmmOptimization {
 
                                 String type = getType(var);
 
-                                String aux_temp = "temp" + branch_counter.getTemp_counter() + "." + type;
+                                String aux_temp = "temp" + branch_counter.getTemp_counter() + "."+type;
 
-                                String temp = aux_temp + "getfield(this, " + var + ")." + type +";\n";
+                                String temp = aux_temp + "getfield(this, " + var + ")."+type+";\n";
 
                                 temps += branch_counter.getident() + temp;
                                 method_body += aux_temp;
@@ -387,8 +402,6 @@ public class OptimizationStage implements JmmOptimization {
                                 method_body += var;
                         }
 
-                        String[] aux_split = var.split("\\.");
-                        assignment_type = aux_split[aux_split.length-1];
                     }
 
 
@@ -398,22 +411,15 @@ public class OptimizationStage implements JmmOptimization {
                 case "Assignment":
 
 
-                    //System.out.println(fields);
-
                     String aux= generateOllirExpressionCode(bodyContent, args,branch_counter, symbolTable);
-
-                    // a.i32
-                    // a.i32 +.i32 4.i32
-                    // a.i32 <.i32 4.i32
+                    String type = getType(aux);
 
                     if(aux.contains(" "))
                     {
                         branch_counter.incrementTemp();
-                        String type = getType(aux);
+                        String temp = "temp" + branch_counter.getTemp_counter() + "." +type;
 
-                        String temp = "temp" + branch_counter.getTemp_counter() + "." + type;
-
-                        String temp_assignment = temp + " :=." + type + " " + aux + ";\n";
+                        String temp_assignment = temp + " :=."+type+" " + aux + ";\n";
                         temps += branch_counter.getident() + temp_assignment;
 
                         aux = temp;
@@ -424,7 +430,7 @@ public class OptimizationStage implements JmmOptimization {
                     String[] aux_split = var.split("\\.");
                     if(searchFields(aux_split[0]).equals(""))
                     {
-                        method_body += branch_counter.getident() + var + " :=." + assignment_type + " " + aux + ";\n";
+                        method_body += branch_counter.getident() + var + " :=." + type + " " + aux + ";\n";
                     } else {
                         method_body += branch_counter.getident() + "putfield(this," + var + ", " + aux + ").V;\n";
                     }
@@ -553,10 +559,6 @@ public class OptimizationStage implements JmmOptimization {
 
     String handleSiblings(ArrayList<String> siblings, String content, int sibling_index,BranchCounter branch_counter)
     {
-        /*System.out.println("================");
-        System.out.println("sibligs: " + siblings);
-        System.out.println("content: " + content);*/
-
 
         if(sibling_index == 0)
             return content;
@@ -623,10 +625,11 @@ public class OptimizationStage implements JmmOptimization {
                             {
                                 branch_counter.incrementTemp();
 
-                                String type=getType(var);
-                                String aux_temp = "temp"+ branch_counter.getTemp_counter() + "." + type;
+                                String type = getType(var);
 
-                                String temp  = aux_temp + " :=.i32 getfield(this, " + var + ")." + type +";\n";
+                                String aux_temp = "temp"+ branch_counter.getTemp_counter() + "."+type;
+
+                                String temp  = aux_temp + " :=."+type+" getfield(this, " + var + ")."+type+";\n";
 
                                 temps += branch_counter.getident() + temp;
                                 result += aux_temp;
@@ -658,7 +661,10 @@ public class OptimizationStage implements JmmOptimization {
                             else if(!moreThanTwo)
                                 result += var;
                         if(moreThanTwo)
-                            siblings.add(handleSiblings(siblings, var, i, branch_counter));
+                            if(i != contents.size() - 1 && contents.get(i+1).getKind().equals("MethodInvocation"))
+                                siblings.add(handleSiblings(siblings, "", i, branch_counter));
+                            else
+                                siblings.add(handleSiblings(siblings, var, i, branch_counter));
                     }
 
                     break;
@@ -717,7 +723,7 @@ public class OptimizationStage implements JmmOptimization {
                     }else{
 
                         branch_counter.incrementTemp();
-                        String temp = "temp" + branch_counter.getTemp_counter() + ".bool" ;
+                        String temp = "temp" + branch_counter.getTemp_counter() + ".i32" ;
 
                         content_string = " <.i32 " + temp;
                         if(moreThanTwo)
@@ -725,7 +731,7 @@ public class OptimizationStage implements JmmOptimization {
                         else
                             result += content_string;
 
-                        temp += " :=.bool ";
+                        temp += " :=.i32 ";
                         temp += generateOllirExpressionCode(content, args,branch_counter, symbolTable);
 
                         temp += ";\n";
@@ -889,14 +895,14 @@ public class OptimizationStage implements JmmOptimization {
                     String type = getType(aux);
 
                     branch_counter.incrementTemp();
-                    temp = "temp" + branch_counter.getTemp_counter() + "." + type;
+                    temp = "temp" + branch_counter.getTemp_counter() + "."+type ;
 
                     if(moreThanTwo)
                         siblings.add(handleSiblings(siblings, temp, i, branch_counter));
                     else
                         result += temp;
 
-                    temp += " :=." + type;
+                    temp += " :=."+type+" ";
                     temp += aux;
                     temp += ";\n";
 
@@ -923,7 +929,18 @@ public class OptimizationStage implements JmmOptimization {
 
                 case "ArrayIndex":
 
-                    String arrayIndex = "["+generateOllirExpressionCode(content, args,branch_counter, symbolTable)+"].i32";
+                    String inside = generateOllirExpressionCode(content, args,branch_counter, symbolTable);
+
+                    if(Character.isDigit(inside.charAt(0)))
+                    {
+                        branch_counter.incrementTemp();
+                        String inside_temp = "temp" + branch_counter.getTemp_counter() + ".i32";
+                        String inside_temp_assignment = inside_temp + " :=.i32 " + inside + ";\n";
+                        temps += branch_counter.getident() + inside_temp_assignment;
+                        inside = inside_temp;
+                    }
+
+                    String arrayIndex = "["+inside+"].i32";
 
 
                     if(moreThanTwo)
@@ -968,7 +985,6 @@ public class OptimizationStage implements JmmOptimization {
             }
         }
 
-        System.out.println(siblings);
 
         if(moreThanTwo)
             return siblings.get(siblings.size()-1);
@@ -1083,7 +1099,7 @@ public class OptimizationStage implements JmmOptimization {
 
                     branch_counter.incrementTemp();
                     String ifTemp = "temp" + branch_counter.getTemp_counter() + ".bool";
-                    result += branch_counter.getident() + ifTemp + ":=.bool " + aux + ";\n";
+                    result += branch_counter.getident() + ifTemp + " :=.bool " + aux + ";\n";
 
                     temps = "";
                     result += current_branch_ident + "if (";
