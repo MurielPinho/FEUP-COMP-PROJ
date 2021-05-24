@@ -28,7 +28,7 @@ public class Main {
         JmmSemanticsResult jmmSemanticsResult = new AnalysisStage().semanticAnalysis(jmmParserResult);
         OllirResult ollirResult = new OptimizationStage().toOllir(jmmSemanticsResult);
         JasminResult jasminResult = new BackendStage().toJasmin(ollirResult);
-
+        System.out.println("\n"+jasminResult.getJasminCode());
         JmmNode node = jmmSemanticsResult.getRootNode();
 
         System.out.println(node.toTree());
@@ -36,7 +36,7 @@ public class Main {
 
     public String parseInput(String[] args) {
         if (args.length != 0) return args[0];
-        else return "fixtures/checkpoint3/Pot4.jmm";
+        else return "fixtures/checkpoint3/Pot5.jmm";
         //else return "fixtures/public/Test.jmm";
     }
 }
