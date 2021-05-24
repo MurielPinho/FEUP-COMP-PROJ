@@ -14,15 +14,10 @@
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
 import org.junit.Test;
 
 import pt.up.fe.comp.TestUtils;
-import pt.up.fe.comp.jmm.analysis.JmmSemanticsResult;
 import pt.up.fe.comp.jmm.ollir.OllirResult;
-import pt.up.fe.comp.jmm.ollir.OllirUtils;
 import pt.up.fe.specs.util.SpecsIo;
 
 
@@ -39,47 +34,61 @@ public class BackendTest {
     }
 
     @Test
-    public void testVarLimit() {
+    public void testPrecedence() {
 
-        var result = TestUtils.backend(SpecsIo.getResource("fixtures/public/varLimits.jmm"));
+        var result = TestUtils.backend(SpecsIo.getResource("fixtures/checkpoint3/jasmin1.jmm"));
         System.out.println("\n"+result.getJasminCode());
         TestUtils.noErrors(result.getReports());
         var output = result.run();
+        assertEquals("64", output.trim());
 
     }
 
     @Test
-    public void testAssign() {
-
-        var result = TestUtils.backend(SpecsIo.getResource("fixtures/public/Test.jmm"));
+    public void testIfElseWhile() {
+        var result = TestUtils.backend(new OllirResult(SpecsIo.getResource("fixtures/checkpoint3/jasmin2.ollir")));
         System.out.println("\n"+result.getJasminCode());
-        StringTokenizer defaultTokenizer = new StringTokenizer(result.getJasminCode(),"\n");
-        int lines = defaultTokenizer.countTokens();
         TestUtils.noErrors(result.getReports());
         var output = result.run();
-        assertEquals(lines,25);
-
-    }
-
-
-    @Test
-    public void testIfElse() {
-        var result = TestUtils.backend(new OllirResult(SpecsIo.getResource("fixtures/public/ollir/if.ollir")));
-        System.out.println("\n"+result.getJasminCode());
-        //var result = TestUtils.backend(SpecsIo.getResource("fixtures/public/SimpleIF.jmm"));
-        TestUtils.noErrors(result.getReports());
-        var output = result.run();
-
+        assertEquals("128", output.trim());
     }
 
     @Test
     public void testWhile() {
         var result = TestUtils.backend(new OllirResult(SpecsIo.getResource("fixtures/public/ollir/myclass1.ollir")));
         System.out.println("\n"+result.getJasminCode());
-        //var result = TestUtils.backend(SpecsIo.getResource("fixtures/public/SimpleIF.jmm"));
         TestUtils.noErrors(result.getReports());
         var output = result.run();
 
     }
+    @Test
+    public void testFac() {
+
+        var result = TestUtils.backend(new OllirResult(SpecsIo.getResource("fixtures/public/ollir/Fac.ollir")));
+        System.out.println("\n"+result.getJasminCode());
+        TestUtils.noErrors(result.getReports());
+        var output = result.run();
+
+    }
+
+    @Test
+    public void testPot2() {
+
+        var result = TestUtils.backend(SpecsIo.getResource("fixtures/checkpoint3/Pot2.jmm"));
+        System.out.println("\n"+result.getJasminCode());
+        TestUtils.noErrors(result.getReports());
+        var output = result.run();
+
+    }
+    @Test
+    public void testPot3() {
+
+        var result = TestUtils.backend(SpecsIo.getResource("fixtures/checkpoint3/Pot3.jmm"));
+        System.out.println("\n"+result.getJasminCode());
+        TestUtils.noErrors(result.getReports());
+        var output = result.run();
+
+    }
+
 
 }

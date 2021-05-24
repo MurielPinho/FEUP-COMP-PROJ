@@ -12,7 +12,7 @@
 
 ; methods
 .method public static sum([I)I
-		.limit stack 20 ; TBD
+		.limit stack 2
 		.limit locals 7
 
 		iconst_0
@@ -26,7 +26,6 @@
 		aload_0
 		arraylength
 		istore_3
-
 		iload_2
 		iload_3
 		if_icmpge End

@@ -1,4 +1,4 @@
-.class public VarLimits
+.class public ifElseWhile
 .super java/lang/Object
 
 ; class fields
@@ -12,20 +12,36 @@
 
 ; methods
 .method public static main([Ljava/lang/String;)V
-		.limit stack 20 ; TBD
+		.limit stack 2
 		.limit locals 7
 
-		iconst_2
+		bipush 16
 		istore_0
 
-		iconst_3
+		iconst_0
 		istore_1
 
-		iconst_4
+		iconst_0
 		istore_2
 
-		iconst_5
-		istore_3
+	Loop:
+		iload_0
+		iload_2
+		if_icmple endif
+
+		iload_1
+		bipush 8
+		iadd
+		istore_1
+
+		iinc 2 1
+
+		goto Loop
+
+	endif:
+		iload_1
+		invokestatic io/println(I)V
+
 
 		return
 .end method
