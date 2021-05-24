@@ -71,6 +71,17 @@ public class BackendTest {
 
     }
 
+    /*
+    @Test
+    public void testPot1() {
+
+        var result = TestUtils.backend(SpecsIo.getResource("fixtures/checkpoint3/Pot1.jmm"));
+        System.out.println("\n"+result.getJasminCode());
+        TestUtils.noErrors(result.getReports());
+        var output = result.run();
+
+    }*/
+
     @Test
     public void testPot2() {
 
@@ -89,6 +100,28 @@ public class BackendTest {
         var output = result.run();
 
     }
+/*
+    @Test
+    public void testPot4() {
+
+        var result = TestUtils.backend(SpecsIo.getResource("fixtures/checkpoint3/Pot4.jmm"));
+        System.out.println("\n"+result.getJasminCode());
+        TestUtils.noErrors(result.getReports());
+        var output = result.run();
+
+    }
+*/
+
+    @Test
+    public void testPot5() {
+
+        var result = TestUtils.backend(SpecsIo.getResource("fixtures/checkpoint3/Pot5.jmm"));
+        System.out.println("\n"+result.getJasminCode());
+        TestUtils.noErrors(result.getReports());
+        var output = result.run();
+
+    }
+
 
 
 }
