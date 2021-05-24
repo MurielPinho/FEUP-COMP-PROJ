@@ -23,7 +23,8 @@
 		iconst_1
 
 		iconst_1
-		if_icmpBody1
+		iand
+		if_icmpeq Body1
 
 		goto EndLoop1
 

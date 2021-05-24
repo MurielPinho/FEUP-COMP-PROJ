@@ -247,6 +247,7 @@ public class Checkpoint3Tests {
         System.out.println("-------------------");
         System.out.println("Test 1 - Jasmin: Tests the precedence of the equations.");
         System.out.println("The test passes if the output of the equation is correct.");
+        System.out.println("-------------------");
         var result = TestUtils.backend(SpecsIo.getResource("fixtures/checkpoint3/jasmin1.jmm"));
         System.out.println("\n--- START OF JASMIN CODE OUTPUT ---\n");
         System.out.println("\n"+result.getJasminCode());
@@ -265,6 +266,7 @@ public class Checkpoint3Tests {
         System.out.println("-------------------");
         System.out.println("Test 2 - Jasmin: Tests IF Else and While Generation");
         System.out.println("The test passes if the output of the loop is correct.");
+        System.out.println("-------------------");
         var result = TestUtils.backend(new OllirResult(SpecsIo.getResource("fixtures/checkpoint3/jasmin2.ollir")));
         System.out.println("\n--- START OF JASMIN CODE OUTPUT ---\n");
         System.out.println("\n"+result.getJasminCode());
@@ -285,11 +287,63 @@ public class Checkpoint3Tests {
     public void testFull1() {
         System.out.println("-------------------");
         System.out.println("Test 1 - Full");
+        System.out.println("-------------------");
+        var result = TestUtils.backend(SpecsIo.getResource("fixtures/checkpoint3/Pot1.jmm"));
+        System.out.println("\n--- START OF JASMIN CODE OUTPUT ---\n");
+        System.out.println("\n"+result.getJasminCode());
+        System.out.println("\n--- END OF JASMIN CODE OUTPUT ---\n");
+        TestUtils.noErrors(result.getReports());
+        var output = result.run();
     }
 
     @Test
     public void testFull2() {
         System.out.println("-------------------");
         System.out.println("Test 2 - Full");
+        System.out.println("-------------------");
+        var result = TestUtils.backend(SpecsIo.getResource("fixtures/checkpoint3/Pot2.jmm"));
+        System.out.println("\n--- START OF JASMIN CODE OUTPUT ---\n");
+        System.out.println("\n"+result.getJasminCode());
+        System.out.println("\n--- END OF JASMIN CODE OUTPUT ---\n");
+        TestUtils.noErrors(result.getReports());
+        var output = result.run();
+    }
+
+    @Test
+    public void testFull3() {
+        System.out.println("-------------------");
+        System.out.println("Test 3 - Full");
+        System.out.println("-------------------");
+        var result = TestUtils.backend(SpecsIo.getResource("fixtures/checkpoint3/Pot3.jmm"));
+        System.out.println("\n--- START OF JASMIN CODE OUTPUT ---\n");
+        System.out.println("\n"+result.getJasminCode());
+        System.out.println("\n--- END OF JASMIN CODE OUTPUT ---\n");
+        TestUtils.noErrors(result.getReports());
+        var output = result.run();
+    }
+
+    @Test
+    public void testFull4() {
+        System.out.println("-------------------");
+        System.out.println("Test 4 - Full");
+        System.out.println("-------------------");
+        var result = TestUtils.backend(SpecsIo.getResource("fixtures/checkpoint3/Pot4.jmm"));
+        System.out.println("\n--- START OF JASMIN CODE OUTPUT ---\n");
+        System.out.println("\n"+result.getJasminCode());
+        System.out.println("\n--- END OF JASMIN CODE OUTPUT ---\n");
+        TestUtils.noErrors(result.getReports());
+        var output = result.run();
+    }
+    @Test
+    public void testFull5() {
+        System.out.println("-------------------");
+        System.out.println("Test 5 - Full");
+        System.out.println("-------------------");
+        var result = TestUtils.backend(SpecsIo.getResource("fixtures/checkpoint3/Pot5.jmm"));
+        System.out.println("\n--- START OF JASMIN CODE OUTPUT ---\n");
+        System.out.println("\n"+result.getJasminCode());
+        System.out.println("\n--- END OF JASMIN CODE OUTPUT ---\n");
+        TestUtils.noErrors(result.getReports());
+        var output = result.run();
     }
 }

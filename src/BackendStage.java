@@ -636,26 +636,38 @@ public class BackendStage implements JasminBackend {
         else {
             stackLimit = Integer.max(stackLimit,1);
             Element e1 = instr.getOperand();
-            String o1 = ((Operand) e1).getName();
-            String type = e1.getType().toString();
-            int virtualReg = method.getVarTable().get(o1).getVirtualReg() -1 ;
-            if(type.equals("OBJECTREF")||type.equals("ARRAYREF"))
-            {
-                if(virtualReg <=3) methodString.append("\n\n\t\taload_"+virtualReg);
+            int virtualReg;
+
+            if(e1.isLiteral()){
+                int N = Integer.parseInt(((LiteralElement) e1).getLiteral());
+                if(N <=5) methodString.append("\n\n\t\ticonst_"+N);
                 else {
-                    methodString.append("\n\n\t\taload "+ virtualReg);
-                }
-                methodString.append("\n\t\tareturn\n");
-            }
-            else if(type.equals("BOOLEAN")||type.equals("INT32")){
-                if(virtualReg <=3) methodString.append("\n\n\t\tiload_"+virtualReg);
-                else {
-                    methodString.append("\n\n\t\tiload "+ virtualReg);
+                    methodString.append("\n\n\t\tbipush "+ N);
                 }
                 methodString.append("\n\t\tireturn\n");
             }
             else{
-                methodString.append("\n\n\t\treturn\n");
+                String o1 = ((Operand) e1).getName();
+                String type = e1.getType().toString();
+                virtualReg = method.getVarTable().get(o1).getVirtualReg() -1 ;
+                if(type.equals("OBJECTREF")||type.equals("ARRAYREF"))
+                {
+                    if(virtualReg <=3) methodString.append("\n\n\t\taload_"+virtualReg);
+                    else {
+                        methodString.append("\n\n\t\taload "+ virtualReg);
+                    }
+                    methodString.append("\n\t\tareturn\n");
+                }
+                else if(type.equals("BOOLEAN")||type.equals("INT32")){
+                    if(virtualReg <=3) methodString.append("\n\n\t\tiload_"+virtualReg);
+                    else {
+                        methodString.append("\n\n\t\tiload "+ virtualReg);
+                    }
+                    methodString.append("\n\t\tireturn\n");
+                }
+                else{
+                    methodString.append("\n\n\t\treturn\n");
+                }
             }
         }
     }
@@ -685,7 +697,6 @@ public class BackendStage implements JasminBackend {
                 methodString.append("\n\t\tiload "+ e1VirtualReg);
             }
         }
-
         String o2;
         if(e2.isLiteral())
         {
@@ -702,8 +713,16 @@ public class BackendStage implements JasminBackend {
                 methodString.append("\n\t\tiload "+ e2VirtualReg);
             }
         }
-        methodString.append("\n\t\tif_icmp");
+        OperationType operation = instr.getCondOperation().getOpType();
         String cond = instr.getCondOperation().getOpType().toString();
+        if(operation.toString().equals("ANDB")){
+
+            methodString.append("\n\t\tiand");
+            cond = "EQ";
+
+        }
+        methodString.append("\n\t\tif_icmp");
+
         if(cond.equals("LTH")){
             methodString.append("lt ");
         }else if(cond.equals("GTH")){

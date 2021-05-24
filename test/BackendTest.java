@@ -71,7 +71,7 @@ public class BackendTest {
 
     }
 
-    /*
+
     @Test
     public void testPot1() {
 
@@ -80,7 +80,7 @@ public class BackendTest {
         TestUtils.noErrors(result.getReports());
         var output = result.run();
 
-    }*/
+    }
 
     @Test
     public void testPot2() {
@@ -100,7 +100,7 @@ public class BackendTest {
         var output = result.run();
 
     }
-/*
+
     @Test
     public void testPot4() {
 
@@ -110,7 +110,7 @@ public class BackendTest {
         var output = result.run();
 
     }
-*/
+
 
     @Test
     public void testPot5() {
