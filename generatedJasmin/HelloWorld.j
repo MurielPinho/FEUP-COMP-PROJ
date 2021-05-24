@@ -2,7 +2,6 @@
 .super java/lang/Object
 
 ; class fields
-.field private a I
 
 ; standard initializer
 .method public <init>()V
@@ -13,22 +12,10 @@
 
 ; methods
 .method public static main([Ljava/lang/String;)V
-		.limit stack 2
-		.limit locals 9
+		.limit stack 0
+		.limit locals 4
 		invokestatic ioPlus/printHelloWorld()V
 
-
-		iconst_2
-		iconst_1
-		iadd
-		istore_1
-
-		aload_0
-		getfield I a
-		istore_2
-
-		iload_2
-		istore_3
 
 		return
 .end method
