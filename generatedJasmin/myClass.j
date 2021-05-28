@@ -11,40 +11,40 @@
 .end method
 
 ; methods
-.method public static sum([I)I
+.method public sum([I)I
 		.limit stack 2
 		.limit locals 7
 
 		iconst_0
-		istore_1
+		istore_2
 
 		iconst_0
-		istore_2
+		istore_3
 
 	Loop:
 
-		aload_0
+		aload_1
 		arraylength
-		istore_3
-		iload_2
+		istore 4
 		iload_3
+		iload 4
 		if_icmpge End
 
-		iload_0
-		istore 4
-
 		iload_1
-		iload 4
-		iadd
-		istore_1
+		istore 5
 
-		iinc 2 1
+		iload_2
+		iload 5
+		iadd
+		istore_2
+
+		iinc 3 1
 
 		goto Loop
 
 	End:
 
-		iload_1
+		iload_2
 		ireturn
 
 .end method

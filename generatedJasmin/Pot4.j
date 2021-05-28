@@ -11,12 +11,12 @@
 .end method
 
 ; methods
-.method public static func(I)I
+.method public func(I)I
 		.limit stack 2
 		.limit locals 6
 
 		iconst_0
-		istore_1
+		istore_2
 
 	Loop1:
 
@@ -33,14 +33,14 @@
 		iconst_1
 		iconst_0
 		iand
-		istore_2
-		iload_2
+		istore_3
+		iload_3
 
 		iconst_0
 		if_icmpeq else1
 
 	Loop2:
-		iload_1
+		iload_2
 
 		iconst_3
 		if_icmplt Body2
@@ -56,16 +56,16 @@
 	else1:
 
 		bipush 8
-		istore_1
+		istore_2
 
 	EndLoop1:
 
 	endif1:
 
-		iload_1
-		istore_3
+		iload_2
+		istore 4
 
-		iload_3
+		iload 4
 		ireturn
 
 .end method

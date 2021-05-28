@@ -119,8 +119,10 @@ public class BackendStage implements JasminBackend {
     private void generateMethod(Method method) {
         if(!method.isConstructMethod())
         {
-            jasminString.append("\n.method public ");
-            jasminString.append("static ");
+            jasminString.append("\n.method ");
+            jasminString.append(method.getMethodAccessModifier().toString().toLowerCase(Locale.ROOT));
+
+            jasminString.append(method.isStaticMethod() ? " static ": " ");
             jasminString.append(method.getMethodName());
             getMethodParameters(method);
             try {
@@ -218,7 +220,7 @@ public class BackendStage implements JasminBackend {
                         methodString.append("\n\n\t\tbipush "+ N);
                     }
                 }else{
-                    auxvirtualReg = method.getVarTable().get(((Operand)oper).getName()).getVirtualReg() -1 ;
+                    auxvirtualReg = method.getVarTable().get(((Operand)oper).getName()).getVirtualReg() ;
                     if(auxvirtualReg <=3) methodString.append("\n\t\tiload_"+auxvirtualReg);
                     else {
                         methodString.append("\n\t\tiload "+auxvirtualReg);
@@ -266,7 +268,7 @@ public class BackendStage implements JasminBackend {
                         methodString.append("\n\n\t\tbipush "+ N);
                     }
                 }else{
-                    auxvirtualReg = method.getVarTable().get(((Operand)oper).getName()).getVirtualReg() -1 ;
+                    auxvirtualReg = method.getVarTable().get(((Operand)oper).getName()).getVirtualReg() ;
                     if(auxvirtualReg <=3) methodString.append("\n\t\tiload_"+auxvirtualReg);
                     else {
                         methodString.append("\n\t\tiload "+auxvirtualReg);
@@ -279,7 +281,7 @@ public class BackendStage implements JasminBackend {
                 methodString.append("\n\t\tinvokespecial ");
             }
             else{
-                int valuevirtualReg = method.getVarTable().get(((Operand) e1).getName()).getVirtualReg() - 1;
+                int valuevirtualReg = method.getVarTable().get(((Operand) e1).getName()).getVirtualReg();
 
                 if(valuevirtualReg <=3) methodString.append("\n\t\taload_"+valuevirtualReg);
                 else {
@@ -316,7 +318,7 @@ public class BackendStage implements JasminBackend {
     private void generateInst(AssignInstruction instr, Method method) {
         InstructionType rhs = instr.getRhs().getInstType();
         String dest = ((Operand)instr.getDest()).getName();
-        int virtualReg = method.getVarTable().get(dest).getVirtualReg() -1 ;
+        int virtualReg = method.getVarTable().get(dest).getVirtualReg() ;
         int auxvirtualReg;
         int N;
         Operand o1 ;
@@ -338,8 +340,8 @@ public class BackendStage implements JasminBackend {
                 }
                 else {
                     o1 = (Operand)((SingleOpInstruction) instr.getRhs()).getSingleOperand();
-                    auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() -1 ;
-                    int iVirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1 ;
+                    auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() ;
+                    int iVirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() ;
 
                     if(o1.getName().equals("i")){
                         methodString.append("\n\n\t\taload_0");
@@ -366,7 +368,7 @@ public class BackendStage implements JasminBackend {
                 if(dest.equals("i") && operation.toString() =="ADD" && e2.isLiteral()) {
                     stackLimit = Integer.max(stackLimit,2);
                     o1 = (Operand) e1;
-                    auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1 ;
+                    auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() ;
                     methodString.append("\n\n\t\tiinc "+auxvirtualReg+" "+((LiteralElement) e2).getLiteral());
                     break;
                 }
@@ -379,7 +381,7 @@ public class BackendStage implements JasminBackend {
                     }
                 } else {
                     o1 = (Operand) e1;
-                    auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1 ;
+                    auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() ;
                     if(auxvirtualReg <=3) methodString.append("\n\n\t\tiload_"+auxvirtualReg);
                     else {
                         methodString.append("\n\n\t\tiload "+auxvirtualReg);
@@ -393,7 +395,7 @@ public class BackendStage implements JasminBackend {
                     }
                 } else {
                     o1 = (Operand) e2;
-                    auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1 ;
+                    auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() ;
                     if(auxvirtualReg <=3) methodString.append("\n\t\tiload_"+auxvirtualReg);
                     else {
                         methodString.append("\n\t\tiload "+auxvirtualReg);
@@ -401,7 +403,7 @@ public class BackendStage implements JasminBackend {
 
 
                 }
-                auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() -1 ;
+                auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() ;
                 operation = ((UnaryOpInstruction) instr.getRhs()).getUnaryOperation().getOpType();
                 if(operation.toString().equals("ANDB")){
 
@@ -441,7 +443,7 @@ public class BackendStage implements JasminBackend {
                 break;
             case UNARYOPER:
                 stackLimit = Integer.max(stackLimit,1);
-                auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() -1 ;
+                auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() ;
                 operand = ((UnaryOpInstruction) instr.getRhs()).getRightOperand();
                 if(operand.isLiteral())
                 {
@@ -468,22 +470,22 @@ public class BackendStage implements JasminBackend {
                 }
                 else{
                     o1 = (Operand) operand;
-                    int destvirtualReg = method.getVarTable().get(dest).getVirtualReg() - 1;
-                    auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1 ;
+                    int destvirtualReg = method.getVarTable().get(dest).getVirtualReg();
+                    auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() ;
                     if(auxvirtualReg <=3) methodString.append("\n\n\t\tiload_"+auxvirtualReg);
                     else {
                         methodString.append("\n\n\t\tiload "+auxvirtualReg);
                     }
                     methodString.append("\n\t\tifeq cmpt"+cmpCounter);
                     methodString.append("\n\t\ticonst_0");
-                    if(auxvirtualReg <=3) methodString.append("\n\t\tistore_"+destvirtualReg);
+                    if(destvirtualReg <=3) methodString.append("\n\t\tistore_"+destvirtualReg);
                     else {
                         methodString.append("\n\t\tistore "+destvirtualReg);
                     }
                     methodString.append("\n\t\tgoto endcmp"+cmpCounter);
                     methodString.append("\n\tcmpt"+cmpCounter+":");
                     methodString.append("\n\t\ticonst_1");
-                    if(auxvirtualReg <=3) methodString.append("\n\t\tistore_"+destvirtualReg);
+                    if(destvirtualReg <=3) methodString.append("\n\t\tistore_"+destvirtualReg);
                     else {
                         methodString.append("\n\t\tistore "+destvirtualReg);
                     }
@@ -500,7 +502,7 @@ public class BackendStage implements JasminBackend {
                     if(((CallInstruction) instr.getRhs()).getNumOperands() > 1)
                     {
                         stackLimit = Integer.max(stackLimit,1);
-                        auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() -1;
+                        auxvirtualReg = method.getVarTable().get(dest).getVirtualReg();
                         Element d = (((CallInstruction) instr.getRhs()).getListOfOperands().get(0));
                         N = Integer.parseInt(((LiteralElement) d).getLiteral());
                         if(N <=5) methodString.append("\n\n\t\ticonst_"+N);
@@ -515,8 +517,8 @@ public class BackendStage implements JasminBackend {
                     }
                     else{
                         stackLimit = Integer.max(stackLimit,1);
-                        auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() -1 ;
-                        int valuevirtualReg = method.getVarTable().get(((Operand) firstArg).getName()).getVirtualReg() - 1;
+                        auxvirtualReg = method.getVarTable().get(dest).getVirtualReg() ;
+                        int valuevirtualReg = method.getVarTable().get(((Operand) firstArg).getName()).getVirtualReg();
 
                         if(valuevirtualReg <=3) methodString.append("\n\n\t\taload_"+valuevirtualReg);
                         else {
@@ -545,7 +547,7 @@ public class BackendStage implements JasminBackend {
                                 methodString.append("\n\n\t\tbipush "+ N);
                             }
                         }else{
-                            auxvirtualReg = method.getVarTable().get(((Operand)oper).getName()).getVirtualReg() -1 ;
+                            auxvirtualReg = method.getVarTable().get(((Operand)oper).getName()).getVirtualReg() ;
                             if(auxvirtualReg <=3) methodString.append("\n\n\t\tiload_"+auxvirtualReg);
                             else {
                                 methodString.append("\n\n\t\tiload "+auxvirtualReg);
@@ -558,7 +560,7 @@ public class BackendStage implements JasminBackend {
                         methodString.append("\n\t\tinvokespecial ");
                     }
                     else{
-                        int valuevirtualReg = method.getVarTable().get(((Operand) firstArg).getName()).getVirtualReg() - 1;
+                        int valuevirtualReg = method.getVarTable().get(((Operand) firstArg).getName()).getVirtualReg();
 
                         if(((Operand) firstArg).getName().equals("this")){
                             methodString.append("\n\t\taload_0");
@@ -587,10 +589,10 @@ public class BackendStage implements JasminBackend {
                 break;
             case GETFIELD:
                 stackLimit = Integer.max(stackLimit,2);
-                int destvirtualReg = method.getVarTable().get(dest).getVirtualReg() -1 ;
+                int destvirtualReg = method.getVarTable().get(dest).getVirtualReg() ;
                 o1 = (Operand)(((GetFieldInstruction) instr.getRhs()).getFirstOperand());
                 o2 = (Operand)(((GetFieldInstruction) instr.getRhs()).getSecondOperand());
-                auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1;
+                auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg();
                 if(o1.getName().equals("this")){
                     methodString.append("\n\n\t\taload_0");
                     methodString.append("\n\t\tgetfield I " +o2.getName());
@@ -615,7 +617,7 @@ public class BackendStage implements JasminBackend {
                 stackLimit = Integer.max(stackLimit,1);
                 o1 = (Operand)(((GetFieldInstruction) instr.getRhs()).getFirstOperand());
                 o2 = (Operand)(((GetFieldInstruction) instr.getRhs()).getSecondOperand());
-                auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg() -1;
+                auxvirtualReg = method.getVarTable().get(o1.getName()).getVirtualReg();
                 if(o1.getName().equals("this")){
                     methodString.append("\n\n\t\taload_0");
                     methodString.append("\n\t\tputfield " +o2.getName() +" I");
@@ -649,7 +651,7 @@ public class BackendStage implements JasminBackend {
             else{
                 String o1 = ((Operand) e1).getName();
                 String type = e1.getType().toString();
-                virtualReg = method.getVarTable().get(o1).getVirtualReg() -1 ;
+                virtualReg = method.getVarTable().get(o1).getVirtualReg() ;
                 if(type.equals("OBJECTREF")||type.equals("ARRAYREF"))
                 {
                     if(virtualReg <=3) methodString.append("\n\n\t\taload_"+virtualReg);
@@ -691,7 +693,7 @@ public class BackendStage implements JasminBackend {
         }
         else{
             String o1 = ((Operand) e1).getName();
-            int e1VirtualReg = method.getVarTable().get(o1).getVirtualReg() -1 ;
+            int e1VirtualReg = method.getVarTable().get(o1).getVirtualReg() ;
             if(e1VirtualReg <=3) methodString.append("\n\t\tiload_"+e1VirtualReg);
             else {
                 methodString.append("\n\t\tiload "+ e1VirtualReg);
@@ -707,7 +709,7 @@ public class BackendStage implements JasminBackend {
             }
         }else{
             o2 = ((Operand) e2).getName();
-            int e2VirtualReg = method.getVarTable().get(o2).getVirtualReg() -1 ;
+            int e2VirtualReg = method.getVarTable().get(o2).getVirtualReg() ;
             if(e2VirtualReg <=3) methodString.append("\n\t\tiload_"+e2VirtualReg);
             else {
                 methodString.append("\n\t\tiload "+ e2VirtualReg);

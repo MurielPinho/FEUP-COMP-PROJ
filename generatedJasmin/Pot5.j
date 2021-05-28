@@ -11,55 +11,55 @@
 .end method
 
 ; methods
-.method public static func_x()I
+.method public func_x()I
 		.limit stack 2
 		.limit locals 6
 
-		iload_0
 		iload_1
-		iand
-		istore_2
-
 		iload_2
+		iand
+		istore_3
+
+		iload_3
 		ireturn
 
 .end method
 
-.method public static func_x([II)I
+.method public func_x([II)I
 		.limit stack 2
 		.limit locals 11
 
 		iconst_0
 		iconst_1
 		isub
-		istore_2
-
-		iload_2
 		istore_3
 
-		iload_0
+		iload_3
 		istore 4
 
-		iload 4
+		iload_1
+		istore 5
+
+		iload 5
 		iconst_2
 		if_icmplt cmpt0
 		iconst_0
-		istore 5
+		istore 6
 		goto endcmp0
 	cmpt0:
 		iconst_1
-		istore 5
+		istore 6
 	endcmp0:
-		iload 5
+		iload 6
 
 		iconst_0
 		if_icmpeq else1
 
 		iconst_0
-		istore 6
+		istore 7
 
-		iload_0
-		istore_3
+		iload_1
+		istore 4
 
 		goto endif1
 
@@ -68,28 +68,28 @@
 		iconst_0
 		iconst_2
 		isub
-		istore 7
+		istore 8
 
-		iload 7
-		istore_3
+		iload 8
+		istore 4
 
 	endif1:
 
-		iload_3
+		iload 4
 		ireturn
 
 .end method
 
-.method public static func_y(II)I
+.method public func_y(II)I
 		.limit stack 2
 		.limit locals 6
 
-		iload_0
 		iload_1
-		isub
-		istore_2
-
 		iload_2
+		isub
+		istore_3
+
+		iload_3
 		ireturn
 
 .end method

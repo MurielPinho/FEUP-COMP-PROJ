@@ -16,48 +16,48 @@
 		.limit locals 15
 
 		iconst_2
-		istore_0
-
-		iconst_4
 		istore_1
 
-		bipush 8
+		iconst_4
 		istore_2
 
-		bipush 16
+		bipush 8
 		istore_3
 
-		bipush 32
+		bipush 16
 		istore 4
 
-		iload_2
-		iload_3
-		imul
+		bipush 32
 		istore 5
 
-		iload 5
-		iload_1
-		idiv
+		iload_3
+		iload 4
+		imul
 		istore 6
 
-		iload 4
-		iconst_2
-		isub
+		iload 6
+		iload_2
+		idiv
 		istore 7
 
-		iload 6
-		iload 7
-		iadd
+		iload 5
+		iconst_2
+		isub
 		istore 8
 
-		iload_0
+		iload 7
 		iload 8
 		iadd
 		istore 9
 
+		iload_1
 		iload 9
+		iadd
 		istore 10
+
 		iload 10
+		istore 11
+		iload 11
 		invokestatic io/println(I)V
 
 

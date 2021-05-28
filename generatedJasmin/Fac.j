@@ -11,39 +11,39 @@
 .end method
 
 ; methods
-.method public static compFac(I)I
+.method public compFac(I)I
 		.limit stack 2
 		.limit locals 7
-		iload_0
+		iload_1
 
 		iconst_1
 		if_icmpge else
 
 		iconst_1
-		istore_1
+		istore_2
 
 		goto endif
 
 	else:
 
-		iload_0
+		iload_1
 		iconst_1
 		isub
-		istore_2
+		istore_3
 
-		iload_2
+		iload_3
 		aload_0
 		invokevirtual compFac(I)V
 
 
-		iload_0
-		iload_3
+		iload_1
+		iload 4
 		imul
-		istore_1
+		istore_2
 
 	endif:
 
-		iload_1
+		iload_2
 		ireturn
 
 .end method
@@ -58,15 +58,15 @@
 
 
 		iconst_2
-		aload_2
+		aload_3
 		invokevirtual put(I)V
 
 
 		bipush 10
-		aload_0
+		aload_1
 		invokevirtual compFac(I)V
 
-		iload_3
+		iload 4
 		invokestatic io/println(I)V
 
 

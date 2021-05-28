@@ -16,30 +16,30 @@
 		.limit locals 7
 
 		bipush 16
-		istore_0
-
-		iconst_0
 		istore_1
 
 		iconst_0
 		istore_2
 
+		iconst_0
+		istore_3
+
 	Loop:
-		iload_0
-		iload_2
+		iload_1
+		iload_3
 		if_icmple endif
 
-		iload_1
+		iload_2
 		bipush 8
 		iadd
-		istore_1
+		istore_2
 
-		iinc 2 1
+		iinc 3 1
 
 		goto Loop
 
 	endif:
-		iload_1
+		iload_2
 		invokestatic io/println(I)V
 
 
