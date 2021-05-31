@@ -1,5 +1,58 @@
 # Compilers Project
 
+**GROUP:** 6c
+
+ 
+NAME1: Diogo Santos, NR1: 201806878, GRADE1: 17, CONTRIBUTION1: 25%  
+NAME2: José Eduardo Henriques, NR2: 201806372, GRADE2: 16, CONTRIBUTION2: 25%  
+NAME3: Mariana Soares, NR3: 201605775, GRADE3: --, CONTRIBUTION3: 25%  
+NAME4: Muriel Pinho, NR4: 201700132, GRADE4: --, CONTRIBUTION4: 25%  
+
+ 
+
+GLOBAL Grade of the project: 17
+
+ 
+
+**SUMMARY:** Parsing of a text file to an AST; Grammar reconstruction to remove left recursion and LOOKAHEAD=1 convertion; Syntactic analysis and error handling; Generation of a symbol table; Semantic analysis and error detection; OLLIR code generation; Jasmin code generation;
+
+ 
+
+
+
+**DEALING WITH SYNTACTIC ERRORS:** Analysis of the 'WhileExpression', with a tolerance of 10 errors. In this case, when the error is detected, everything inside the 'WhileExpression' is skipped and continues the code processing. No error tolerance for any other cases.
+
+ 
+
+
+**SEMANTIC ANALYSIS:** 'MethodInvocation' checks if its invoker is valid and if the correct parameter types are being used; 'Assignment checks if the expression is valid and the return type is the same as its left side operator; 'ArrayIndex' and 'ConstructorIntArray' check if inside [] there is a number, an int variable or a method invocation that returns an integer; 'IfExpression' and 'WhileExpression' check if its expression returns a boolean value; 'Length' checks if its invoker is an int array. As an additional feature, method overloads are allowed.
+
+ 
+
+
+**CODE GENERATION:** From the root node, recursive method calls to generate OLLIR code for each child node, using the symbol table as a reference for imported classes and method names/return types. (jasmin)
+
+ 
+
+
+**TASK DISTRIBUTION:**
+- Diogo Santos: AST parsing, grammar conversion for LL(1) including operator precedence, left-side recursion elimination, syntatic errors, semantic analysis, symbol table
+- José Eduardo: AST parsing, semantic analysis, OLLIR generation
+- Mariana Soares: AST parsing, grammar conversion for LL(1) including operator precedence, OLLIR code generation
+- Muriel Pinho: Semantic analysis, Jasmin code generation
+
+ 
+
+
+**PROS:** Method overloads allowed; Correct error handling. Clean OLLIR code identation.
+
+ 
+
+
+**CONS:** No optimizations implemented. Minor bugs in method invocations of imported classes (OLLIR) and in array indexing (Jasmin).
+
+
+
 For this project, you need to [install Gradle](https://gradle.org/install/)
 
 ## Project setup
