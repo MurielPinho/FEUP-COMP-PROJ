@@ -16,7 +16,7 @@ class Pot1 {
         return a + b;
     }
 
-    public int sum(int[] a, int b) {
+    public int sum(int[] A, int b) {
         int ind;
         int sum;
 
@@ -24,7 +24,7 @@ class Pot1 {
         sum = 0;
 
         while(ind < b) {
-            sum = sum + a[ind];
+            sum = sum + A[ind];
         }
 
         return sum;
@@ -34,7 +34,7 @@ class Pot1 {
         return a - b;
     }
 
-    public int sub(A a, A b) {
+    public int sub(Pot1 a, Pot1 b) {
         return a.getNum() - b.getNum();
     }
 

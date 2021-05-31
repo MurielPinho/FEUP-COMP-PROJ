@@ -133,6 +133,32 @@
 
 .end method
 
+.method public sub()I
+		.limit stack 2
+		.limit locals 10
+		aload_1
+		invokevirtual getNum()V
+
+
+		iload_3
+		istore 4
+		aload_2
+		invokevirtual getNum()V
+
+
+		iload 5
+		istore 6
+
+		iload 4
+		iload 6
+		isub
+		istore 7
+
+		iload 7
+		ireturn
+
+.end method
+
 .method public sub(I)I
 		.limit stack 2
 		.limit locals 4
@@ -143,6 +169,26 @@
 		istore_2
 
 		iload_2
+		ireturn
+
+.end method
+
+.method public sub()I
+		.limit stack 2
+		.limit locals 6
+		aload_1
+		invokevirtual getNum()V
+
+
+		iload_2
+		istore_3
+
+		iconst_0
+		iload_3
+		isub
+		istore 4
+
+		iload 4
 		ireturn
 
 .end method

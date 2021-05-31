@@ -282,7 +282,8 @@ public class OptimizationStage implements JmmOptimization {
         }
         if(finalMethod.equals("")) {
             List<String> imports = symbolTable.getImports();
-            if (imports.contains(var)) {
+            System.out.println(getType(var));
+            if (imports.contains(getType(var))) {
                 finalMethod = "\"" + methodInvocation.get("val") + "\"";
                 returnType=  "void";
                 invoke = "invokestatic";
