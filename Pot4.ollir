@@ -1,0 +1,27 @@
+Pot4 {
+
+	.construct Pot4().V {
+		invokespecial(this, "<init>").V;
+	}
+	.method public func(num.i32).i32 {
+		a.i32 :=.i32 0.i32;
+		Loop1:
+			if (1.bool &&.bool 1.bool) goto Body1;
+			goto EndLoop1; 
+		Body1:
+			temp1.bool :=.bool 1.bool &&.bool 0.bool;
+			if (temp1.bool ==.bool 0.bool) goto else1;
+				Loop2:
+					if (a.i32 <.i32 3.i32) goto Body2;
+					goto EndLoop2; 
+				Body2:
+				EndLoop2:
+					goto endif1;
+			else1:
+				a.i32 :=.i32 8.i32;
+			endif1:
+		EndLoop1:
+			num_aux.i32 :=.i32 a.i32;
+			ret.i32 num_aux.i32;
+	}
+}

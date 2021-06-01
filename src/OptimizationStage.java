@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -43,10 +45,35 @@ public class OptimizationStage implements JmmOptimization {
 
         System.out.println(ollirCode);
 
+
+        String className = symbolTable.getClassName();
+        createSymbolTablefile(ollirCode, className);
+
         // More reports from this stage
         List<Report> reports = new ArrayList<>();
 
         return new OllirResult(semanticsResult, ollirCode, reports);
+    }
+
+    private void createSymbolTablefile(String ollirCode, String className) {
+        try {
+            System.out.println("\n#######################");
+            System.out.println("Creating Ollir file...");
+
+            File file = new File("./"+className+".ollir");
+            file.createNewFile();
+
+            FileWriter myWriter = new FileWriter(file);
+            myWriter.write(ollirCode);
+            myWriter.close();
+
+            System.out.println("JSON file created at: ./"+className+".ollir");
+            System.out.println("#######################\n");
+        }
+        catch(Exception e){
+            System.out.println("Error creating Ollir file!");
+            System.out.println("#######################\n");
+        }
     }
 
     @Override
