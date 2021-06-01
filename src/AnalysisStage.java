@@ -63,25 +63,25 @@ public class AnalysisStage implements JmmAnalysis {
 
         System.out.println("#######################\n");
 
-        this.createSymbolTablefile(rootSymbolTable.print());
+        this.createSymbolTablefile(rootSymbolTable);
 
         return new JmmSemanticsResult(parserResult, rootSymbolTable, analysisSemanticInfo.getReports());
 
     }
 
-    private void createSymbolTablefile(String symbolTable) {
+    private void createSymbolTablefile(RootSymbolTable rootSymbolTable) {
         try {
             System.out.println("\n#######################");
+
             System.out.println("Creating SymbolTable file...");
-
-            File file = new File("./Simple.symbols.txt");
+            String filename = rootSymbolTable.getClassName();
+            File file = new File("./"+filename+".symbols.txt");
             file.createNewFile();
-
             FileWriter myWriter = new FileWriter(file);
-            myWriter.write(symbolTable);
+            myWriter.write(rootSymbolTable.print());
             myWriter.close();
 
-            System.out.println("JSON file created at: ./Simple.symbols.txt");
+            System.out.println("JSON file created at: ./"+filename+".symbols.txt");
             System.out.println("#######################\n");
         }
         catch(Exception e){

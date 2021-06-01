@@ -1,0 +1,751 @@
+{
+  "kind": "Program",
+  "attributes": {
+    "val": "null"
+  },
+  "children": [
+    {
+      "kind": "Imports",
+      "attributes": {
+        "val": "null"
+      },
+      "children": [
+        {
+          "kind": "ImportDeclaration",
+          "attributes": {
+            "val": "io",
+            "col": "8",
+            "line": "1"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "Class",
+      "attributes": {
+        "val": "Pot3",
+        "col": "7",
+        "line": "3"
+      },
+      "children": [
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {
+            "val": "null"
+          },
+          "children": [
+            {
+              "kind": "RegularMethod",
+              "attributes": {
+                "val": "func1",
+                "col": "16",
+                "line": "4"
+              },
+              "children": [
+                {
+                  "kind": "ReturnType",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "Type",
+                      "attributes": {
+                        "val": "int",
+                        "col": "12",
+                        "line": "4"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "kind": "MethodParams",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "MethodParam",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "21",
+                            "line": "4"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "num",
+                            "col": "25",
+                            "line": "4"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "MethodBody",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "5"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "num_aux",
+                            "col": "13",
+                            "line": "5"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "6"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "a",
+                            "col": "13",
+                            "line": "6"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "a",
+                        "col": "9",
+                        "line": "7"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "Assignment",
+                      "attributes": {
+                        "val": "null",
+                        "col": "11",
+                        "line": "7"
+                      },
+                      "children": [
+                        {
+                          "kind": "IntegerLiteral",
+                          "attributes": {
+                            "val": "0",
+                            "col": "13",
+                            "line": "7"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "IfAndElse",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "IfExpression",
+                          "attributes": {
+                            "val": "null",
+                            "col": "11",
+                            "line": "9"
+                          },
+                          "children": [
+                            {
+                              "kind": "NotExpression",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "SubExpression",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "True",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": []
+                                    },
+                                    {
+                                      "kind": "And",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "NotExpression",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "SubExpression",
+                                              "attributes": {
+                                                "val": "null"
+                                              },
+                                              "children": [
+                                                {
+                                                  "kind": "IntegerLiteral",
+                                                  "attributes": {
+                                                    "val": "3",
+                                                    "col": "24",
+                                                    "line": "9"
+                                                  },
+                                                  "children": []
+                                                },
+                                                {
+                                                  "kind": "Less",
+                                                  "attributes": {
+                                                    "val": "null"
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "kind": "IntegerLiteral",
+                                                      "attributes": {
+                                                        "val": "4",
+                                                        "col": "26",
+                                                        "line": "9"
+                                                      },
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "IfBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "num_aux",
+                                "col": "13",
+                                "line": "10"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "Assignment",
+                              "attributes": {
+                                "val": "null",
+                                "col": "20",
+                                "line": "10"
+                              },
+                              "children": [
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "a",
+                                    "col": "21",
+                                    "line": "10"
+                                  },
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "ElseBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "num_aux",
+                                "col": "13",
+                                "line": "12"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "Assignment",
+                              "attributes": {
+                                "val": "null",
+                                "col": "20",
+                                "line": "12"
+                              },
+                              "children": [
+                                {
+                                  "kind": "IntegerLiteral",
+                                  "attributes": {
+                                    "val": "0",
+                                    "col": "21",
+                                    "line": "12"
+                                  },
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "IfAndElse",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "IfExpression",
+                          "attributes": {
+                            "val": "null",
+                            "col": "12",
+                            "line": "14"
+                          },
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "num",
+                                "col": "13",
+                                "line": "14"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "Less",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "IntegerLiteral",
+                                  "attributes": {
+                                    "val": "1",
+                                    "col": "19",
+                                    "line": "14"
+                                  },
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "IfBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "IfAndElse",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "IfExpression",
+                                  "attributes": {
+                                    "val": "null",
+                                    "col": "15",
+                                    "line": "15"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "IntegerLiteral",
+                                      "attributes": {
+                                        "val": "1",
+                                        "col": "16",
+                                        "line": "15"
+                                      },
+                                      "children": []
+                                    },
+                                    {
+                                      "kind": "Less",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "IntegerLiteral",
+                                          "attributes": {
+                                            "val": "3",
+                                            "col": "20",
+                                            "line": "15"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "kind": "IfBody",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "Var",
+                                      "attributes": {
+                                        "val": "num_aux",
+                                        "col": "17",
+                                        "line": "16"
+                                      },
+                                      "children": []
+                                    },
+                                    {
+                                      "kind": "Assignment",
+                                      "attributes": {
+                                        "val": "null",
+                                        "col": "25",
+                                        "line": "16"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "IntegerLiteral",
+                                          "attributes": {
+                                            "val": "1",
+                                            "col": "27",
+                                            "line": "16"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "kind": "ElseBody",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "Var",
+                                      "attributes": {
+                                        "val": "num_aux",
+                                        "col": "17",
+                                        "line": "18"
+                                      },
+                                      "children": []
+                                    },
+                                    {
+                                      "kind": "Assignment",
+                                      "attributes": {
+                                        "val": "null",
+                                        "col": "25",
+                                        "line": "18"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "a",
+                                            "col": "27",
+                                            "line": "18"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "ElseBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "num_aux",
+                                "col": "13",
+                                "line": "20"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "Assignment",
+                              "attributes": {
+                                "val": "null",
+                                "col": "21",
+                                "line": "20"
+                              },
+                              "children": [
+                                {
+                                  "kind": "SubExpression",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "IntegerLiteral",
+                                      "attributes": {
+                                        "val": "1",
+                                        "col": "24",
+                                        "line": "20"
+                                      },
+                                      "children": []
+                                    },
+                                    {
+                                      "kind": "PlusExpression",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "IntegerLiteral",
+                                          "attributes": {
+                                            "val": "2",
+                                            "col": "28",
+                                            "line": "20"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "kind": "MultExpression",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "IntegerLiteral",
+                                              "attributes": {
+                                                "val": "2",
+                                                "col": "32",
+                                                "line": "20"
+                                              },
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "kind": "MultExpression",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "IntegerLiteral",
+                                      "attributes": {
+                                        "val": "5",
+                                        "col": "37",
+                                        "line": "20"
+                                      },
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "IfAndElse",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "IfExpression",
+                          "attributes": {
+                            "val": "null",
+                            "col": "11",
+                            "line": "22"
+                          },
+                          "children": [
+                            {
+                              "kind": "IntegerLiteral",
+                              "attributes": {
+                                "val": "2",
+                                "col": "12",
+                                "line": "22"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "Less",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "IntegerLiteral",
+                                  "attributes": {
+                                    "val": "1",
+                                    "col": "14",
+                                    "line": "22"
+                                  },
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "IfBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "num_aux",
+                                "col": "13",
+                                "line": "23"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "Assignment",
+                              "attributes": {
+                                "val": "null",
+                                "col": "21",
+                                "line": "23"
+                              },
+                              "children": [
+                                {
+                                  "kind": "IntegerLiteral",
+                                  "attributes": {
+                                    "val": "3",
+                                    "col": "23",
+                                    "line": "23"
+                                  },
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "ElseBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "num_aux",
+                                "col": "13",
+                                "line": "25"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "Assignment",
+                              "attributes": {
+                                "val": "null",
+                                "col": "21",
+                                "line": "25"
+                              },
+                              "children": [
+                                {
+                                  "kind": "IntegerLiteral",
+                                  "attributes": {
+                                    "val": "4",
+                                    "col": "23",
+                                    "line": "25"
+                                  },
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "ReturnStatement",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "num_aux",
+                        "col": "16",
+                        "line": "27"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

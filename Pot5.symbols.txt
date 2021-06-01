@@ -1,0 +1,67 @@
+IMPORTS:
+   A
+
+CLASS:
+   NAME: Pot5
+
+   EXTENDS:
+
+   FIELDS:
+
+   MAIN_METHOD:
+      ARG_NAME: null
+
+      SCOPE:
+         LOCALS:
+
+   METHODS:
+      METHOD: func_x2
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+            NAME: a
+               TYPE: int
+               IS_ARRAY: true
+            NAME: b
+               TYPE: int
+               IS_ARRAY: false
+
+         SCOPE:
+            LOCALS:
+               NAME: x
+                  TYPE: int
+                  IS_ARRAY: false
+
+      METHOD: func_x1
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+            NAME: a
+               TYPE: boolean
+               IS_ARRAY: false
+            NAME: b
+               TYPE: boolean
+               IS_ARRAY: false
+
+         SCOPE:
+            LOCALS:
+
+      METHOD: func_y1
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+            NAME: a
+               TYPE: int
+               IS_ARRAY: false
+            NAME: b
+               TYPE: int
+               IS_ARRAY: false
+
+         SCOPE:
+            LOCALS:

@@ -1,0 +1,40 @@
+IMPORTS:
+   C
+
+CLASS:
+   NAME: Semantic12
+
+   EXTENDS:
+      A
+
+   FIELDS:
+
+   MAIN_METHOD:
+      ARG_NAME: a
+
+      SCOPE:
+         LOCALS:
+            NAME: b
+               TYPE: Semantic12
+               IS_ARRAY: false
+
+   METHODS:
+      METHOD: a1
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+
+         SCOPE:
+            LOCALS:
+
+      METHOD: getA1
+         RETURN:
+            TYPE: Semantic12
+            IS_ARRAY: false
+
+         PARAMS:
+
+         SCOPE:
+            LOCALS:

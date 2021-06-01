@@ -1,0 +1,17 @@
+IMPORTS:
+   ioPlus
+
+CLASS:
+   NAME: HelloWorld
+
+   EXTENDS:
+
+   FIELDS:
+
+   MAIN_METHOD:
+      ARG_NAME: args
+
+      SCOPE:
+         LOCALS:
+
+   METHODS:

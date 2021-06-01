@@ -1,0 +1,1544 @@
+{
+  "kind": "Program",
+  "attributes": {
+    "val": "null"
+  },
+  "children": [
+    {
+      "kind": "Imports",
+      "attributes": {
+        "val": "null"
+      },
+      "children": []
+    },
+    {
+      "kind": "Class",
+      "attributes": {
+        "val": "Pot2",
+        "col": "7",
+        "line": "1"
+      },
+      "children": [
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {
+            "val": "null"
+          },
+          "children": [
+            {
+              "kind": "Main",
+              "attributes": {
+                "val": "null"
+              },
+              "children": [
+                {
+                  "kind": "ArgName",
+                  "attributes": {
+                    "val": "args",
+                    "col": "38",
+                    "line": "2"
+                  },
+                  "children": []
+                },
+                {
+                  "kind": "MethodBody",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "boolean",
+                            "col": "9",
+                            "line": "3"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "final123",
+                            "col": "17",
+                            "line": "3"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "final123",
+                        "col": "9",
+                        "line": "5"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "Assignment",
+                      "attributes": {
+                        "val": "null",
+                        "col": "18",
+                        "line": "5"
+                      },
+                      "children": [
+                        {
+                          "kind": "This",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "MethodInvocation",
+                          "attributes": {
+                            "val": "expr1",
+                            "col": "25",
+                            "line": "5"
+                          },
+                          "children": [
+                            {
+                              "kind": "MethodArgs",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "And",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "NotExpression",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "This",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": []
+                                },
+                                {
+                                  "kind": "MethodInvocation",
+                                  "attributes": {
+                                    "val": "expr3",
+                                    "col": "42",
+                                    "line": "5"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "MethodArgs",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "And",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "IntegerLiteral",
+                                  "attributes": {
+                                    "val": "4",
+                                    "col": "53",
+                                    "line": "5"
+                                  },
+                                  "children": []
+                                },
+                                {
+                                  "kind": "Less",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "This",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": []
+                                    },
+                                    {
+                                      "kind": "MethodInvocation",
+                                      "attributes": {
+                                        "val": "expr2",
+                                        "col": "62",
+                                        "line": "5"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "MethodArgs",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {
+            "val": "null"
+          },
+          "children": [
+            {
+              "kind": "RegularMethod",
+              "attributes": {
+                "val": "expr11",
+                "col": "20",
+                "line": "8"
+              },
+              "children": [
+                {
+                  "kind": "ReturnType",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "Type",
+                      "attributes": {
+                        "val": "boolean",
+                        "col": "12",
+                        "line": "8"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "kind": "MethodBody",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "9"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "a",
+                            "col": "13",
+                            "line": "9"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "10"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "b",
+                            "col": "13",
+                            "line": "10"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "boolean",
+                            "col": "9",
+                            "line": "11"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "c",
+                            "col": "17",
+                            "line": "11"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "a",
+                        "col": "9",
+                        "line": "13"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "Assignment",
+                      "attributes": {
+                        "val": "null",
+                        "col": "11",
+                        "line": "13"
+                      },
+                      "children": [
+                        {
+                          "kind": "IntegerLiteral",
+                          "attributes": {
+                            "val": "2",
+                            "col": "13",
+                            "line": "13"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "b",
+                        "col": "9",
+                        "line": "14"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "Assignment",
+                      "attributes": {
+                        "val": "null",
+                        "col": "11",
+                        "line": "14"
+                      },
+                      "children": [
+                        {
+                          "kind": "IntegerLiteral",
+                          "attributes": {
+                            "val": "3",
+                            "col": "13",
+                            "line": "14"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "c",
+                        "col": "9",
+                        "line": "15"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "Assignment",
+                      "attributes": {
+                        "val": "null",
+                        "col": "11",
+                        "line": "15"
+                      },
+                      "children": [
+                        {
+                          "kind": "False",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "ReturnStatement",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "a",
+                        "col": "16",
+                        "line": "17"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "Less",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Var",
+                          "attributes": {
+                            "val": "b",
+                            "col": "20",
+                            "line": "17"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "And",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Var",
+                          "attributes": {
+                            "val": "c",
+                            "col": "25",
+                            "line": "17"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {
+            "val": "null"
+          },
+          "children": [
+            {
+              "kind": "RegularMethod",
+              "attributes": {
+                "val": "expr21",
+                "col": "16",
+                "line": "20"
+              },
+              "children": [
+                {
+                  "kind": "ReturnType",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "Type",
+                      "attributes": {
+                        "val": "int",
+                        "col": "12",
+                        "line": "20"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "kind": "MethodBody",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "21"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "a",
+                            "col": "13",
+                            "line": "21"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "22"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "b",
+                            "col": "13",
+                            "line": "22"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "23"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "c",
+                            "col": "13",
+                            "line": "23"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "boolean",
+                            "col": "9",
+                            "line": "24"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "d",
+                            "col": "17",
+                            "line": "24"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "boolean",
+                            "col": "9",
+                            "line": "25"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "e",
+                            "col": "17",
+                            "line": "25"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "boolean",
+                            "col": "9",
+                            "line": "26"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "f",
+                            "col": "17",
+                            "line": "26"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "boolean",
+                            "col": "9",
+                            "line": "27"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "g",
+                            "col": "17",
+                            "line": "27"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "ReturnStatement",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "a",
+                        "col": "16",
+                        "line": "29"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "MultExpression",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Var",
+                          "attributes": {
+                            "val": "c",
+                            "col": "20",
+                            "line": "29"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "MinusExpression",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Var",
+                          "attributes": {
+                            "val": "b",
+                            "col": "24",
+                            "line": "29"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Less",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "NotExpression",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "d",
+                                "col": "29",
+                                "line": "29"
+                              },
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "And",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Var",
+                          "attributes": {
+                            "val": "e",
+                            "col": "34",
+                            "line": "29"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "And",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "NotExpression",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "SubExpression",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "Var",
+                                      "attributes": {
+                                        "val": "f",
+                                        "col": "41",
+                                        "line": "29"
+                                      },
+                                      "children": []
+                                    },
+                                    {
+                                      "kind": "And",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "g",
+                                            "col": "46",
+                                            "line": "29"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {
+            "val": "null"
+          },
+          "children": [
+            {
+              "kind": "RegularMethod",
+              "attributes": {
+                "val": "expr31",
+                "col": "20",
+                "line": "32"
+              },
+              "children": [
+                {
+                  "kind": "ReturnType",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "Type",
+                      "attributes": {
+                        "val": "boolean",
+                        "col": "12",
+                        "line": "32"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "kind": "MethodBody",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "33"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "a",
+                            "col": "13",
+                            "line": "33"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "34"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "b",
+                            "col": "13",
+                            "line": "34"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "35"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "c",
+                            "col": "13",
+                            "line": "35"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "36"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "d",
+                            "col": "13",
+                            "line": "36"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "37"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "e",
+                            "col": "13",
+                            "line": "37"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "38"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "f",
+                            "col": "13",
+                            "line": "38"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "39"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "g",
+                            "col": "13",
+                            "line": "39"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "int",
+                            "col": "9",
+                            "line": "40"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "h",
+                            "col": "13",
+                            "line": "40"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "boolean",
+                            "col": "9",
+                            "line": "41"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "j",
+                            "col": "17",
+                            "line": "41"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "boolean",
+                            "col": "9",
+                            "line": "42"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "k",
+                            "col": "17",
+                            "line": "42"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "boolean",
+                            "col": "9",
+                            "line": "43"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "l",
+                            "col": "17",
+                            "line": "43"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "boolean",
+                            "col": "9",
+                            "line": "44"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "m",
+                            "col": "17",
+                            "line": "44"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "boolean",
+                            "col": "9",
+                            "line": "45"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "n",
+                            "col": "17",
+                            "line": "45"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "ReturnStatement",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "SubExpression",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Var",
+                          "attributes": {
+                            "val": "h",
+                            "col": "17",
+                            "line": "47"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "Less",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Var",
+                              "attributes": {
+                                "val": "a",
+                                "col": "21",
+                                "line": "47"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "MultExpression",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "c",
+                                    "col": "23",
+                                    "line": "47"
+                                  },
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "And",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "SubExpression",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "NotExpression",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "SubExpression",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "SubExpression",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "SubExpression",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "SubExpression",
+                                              "attributes": {
+                                                "val": "null"
+                                              },
+                                              "children": [
+                                                {
+                                                  "kind": "Var",
+                                                  "attributes": {
+                                                    "val": "n",
+                                                    "col": "35",
+                                                    "line": "47"
+                                                  },
+                                                  "children": []
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "kind": "And",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "Var",
+                                              "attributes": {
+                                                "val": "j",
+                                                "col": "42",
+                                                "line": "47"
+                                              },
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "And",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "NotExpression",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "SubExpression",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "Var",
+                                      "attributes": {
+                                        "val": "b",
+                                        "col": "52",
+                                        "line": "47"
+                                      },
+                                      "children": []
+                                    },
+                                    {
+                                      "kind": "DivExpression",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "d",
+                                            "col": "56",
+                                            "line": "47"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "kind": "PlusExpression",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "e",
+                                            "col": "60",
+                                            "line": "47"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "kind": "Less",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "Var",
+                                          "attributes": {
+                                            "val": "f",
+                                            "col": "64",
+                                            "line": "47"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "kind": "MinusExpression",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "Var",
+                                              "attributes": {
+                                                "val": "g",
+                                                "col": "68",
+                                                "line": "47"
+                                              },
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "And",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "k",
+                                    "col": "74",
+                                    "line": "47"
+                                  },
+                                  "children": []
+                                },
+                                {
+                                  "kind": "And",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "SubExpression",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "SubExpression",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "SubExpression",
+                                              "attributes": {
+                                                "val": "null"
+                                              },
+                                              "children": [
+                                                {
+                                                  "kind": "Var",
+                                                  "attributes": {
+                                                    "val": "l",
+                                                    "col": "82",
+                                                    "line": "47"
+                                                  },
+                                                  "children": []
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "kind": "And",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "NotExpression",
+                                          "attributes": {
+                                            "val": "null"
+                                          },
+                                          "children": [
+                                            {
+                                              "kind": "Var",
+                                              "attributes": {
+                                                "val": "m",
+                                                "col": "91",
+                                                "line": "47"
+                                              },
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

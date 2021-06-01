@@ -1,0 +1,117 @@
+IMPORTS:
+
+CLASS:
+   NAME: Pot2
+
+   EXTENDS:
+
+   FIELDS:
+
+   MAIN_METHOD:
+      ARG_NAME: args
+
+      SCOPE:
+         LOCALS:
+            NAME: final123
+               TYPE: boolean
+               IS_ARRAY: false
+
+   METHODS:
+      METHOD: expr31
+         RETURN:
+            TYPE: boolean
+            IS_ARRAY: false
+
+         PARAMS:
+
+         SCOPE:
+            LOCALS:
+               NAME: a
+                  TYPE: int
+                  IS_ARRAY: false
+               NAME: b
+                  TYPE: int
+                  IS_ARRAY: false
+               NAME: c
+                  TYPE: int
+                  IS_ARRAY: false
+               NAME: d
+                  TYPE: int
+                  IS_ARRAY: false
+               NAME: e
+                  TYPE: int
+                  IS_ARRAY: false
+               NAME: f
+                  TYPE: int
+                  IS_ARRAY: false
+               NAME: g
+                  TYPE: int
+                  IS_ARRAY: false
+               NAME: h
+                  TYPE: int
+                  IS_ARRAY: false
+               NAME: j
+                  TYPE: boolean
+                  IS_ARRAY: false
+               NAME: k
+                  TYPE: boolean
+                  IS_ARRAY: false
+               NAME: l
+                  TYPE: boolean
+                  IS_ARRAY: false
+               NAME: m
+                  TYPE: boolean
+                  IS_ARRAY: false
+               NAME: n
+                  TYPE: boolean
+                  IS_ARRAY: false
+
+      METHOD: expr11
+         RETURN:
+            TYPE: boolean
+            IS_ARRAY: false
+
+         PARAMS:
+
+         SCOPE:
+            LOCALS:
+               NAME: a
+                  TYPE: int
+                  IS_ARRAY: false
+               NAME: b
+                  TYPE: int
+                  IS_ARRAY: false
+               NAME: c
+                  TYPE: boolean
+                  IS_ARRAY: false
+
+      METHOD: expr21
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+
+         SCOPE:
+            LOCALS:
+               NAME: a
+                  TYPE: int
+                  IS_ARRAY: false
+               NAME: b
+                  TYPE: int
+                  IS_ARRAY: false
+               NAME: c
+                  TYPE: int
+                  IS_ARRAY: false
+               NAME: d
+                  TYPE: boolean
+                  IS_ARRAY: false
+               NAME: e
+                  TYPE: boolean
+                  IS_ARRAY: false
+               NAME: f
+                  TYPE: boolean
+                  IS_ARRAY: false
+               NAME: g
+                  TYPE: boolean
+                  IS_ARRAY: false

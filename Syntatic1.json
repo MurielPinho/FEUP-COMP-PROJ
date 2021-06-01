@@ -1,0 +1,81 @@
+{
+  "kind": "Program",
+  "attributes": {
+    "val": "null"
+  },
+  "children": [
+    {
+      "kind": "Imports",
+      "attributes": {
+        "val": "null"
+      },
+      "children": []
+    },
+    {
+      "kind": "Class",
+      "attributes": {
+        "val": "Syntatic1",
+        "col": "7",
+        "line": "1"
+      },
+      "children": [
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {
+            "val": "null"
+          },
+          "children": [
+            {
+              "kind": "Main",
+              "attributes": {
+                "val": "null"
+              },
+              "children": [
+                {
+                  "kind": "ArgName",
+                  "attributes": {
+                    "val": "args",
+                    "col": "35",
+                    "line": "2"
+                  },
+                  "children": []
+                },
+                {
+                  "kind": "MethodBody",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "While",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "WhileBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Scope",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

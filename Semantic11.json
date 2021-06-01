@@ -1,0 +1,364 @@
+{
+  "kind": "Program",
+  "attributes": {
+    "val": "null"
+  },
+  "children": [
+    {
+      "kind": "Imports",
+      "attributes": {
+        "val": "null"
+      },
+      "children": []
+    },
+    {
+      "kind": "Class",
+      "attributes": {
+        "val": "Semantic11",
+        "col": "7",
+        "line": "1"
+      },
+      "children": [
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {
+            "val": "null"
+          },
+          "children": [
+            {
+              "kind": "Main",
+              "attributes": {
+                "val": "null"
+              },
+              "children": [
+                {
+                  "kind": "ArgName",
+                  "attributes": {
+                    "val": "a",
+                    "col": "38",
+                    "line": "2"
+                  },
+                  "children": []
+                },
+                {
+                  "kind": "MethodBody",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "Semantic11",
+                            "col": "9",
+                            "line": "3"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "t",
+                            "col": "20",
+                            "line": "3"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "VarDeclaration",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "Type",
+                          "attributes": {
+                            "val": "F",
+                            "col": "9",
+                            "line": "4"
+                          },
+                          "children": []
+                        },
+                        {
+                          "kind": "VarId",
+                          "attributes": {
+                            "val": "r",
+                            "col": "11",
+                            "line": "4"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "IntegerLiteral",
+                      "attributes": {
+                        "val": "1",
+                        "col": "9",
+                        "line": "6"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "MethodInvocation",
+                      "attributes": {
+                        "val": "a",
+                        "col": "11",
+                        "line": "6"
+                      },
+                      "children": [
+                        {
+                          "kind": "MethodArgs",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "ConstructorClass",
+                      "attributes": {
+                        "val": "Semantic11",
+                        "col": "13",
+                        "line": "7"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "MethodInvocation",
+                      "attributes": {
+                        "val": "j",
+                        "col": "26",
+                        "line": "7"
+                      },
+                      "children": [
+                        {
+                          "kind": "MethodArgs",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "This",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "MethodInvocation",
+                      "attributes": {
+                        "val": "k",
+                        "col": "14",
+                        "line": "8"
+                      },
+                      "children": [
+                        {
+                          "kind": "MethodArgs",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "This",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "MethodInvocation",
+                      "attributes": {
+                        "val": "f",
+                        "col": "14",
+                        "line": "9"
+                      },
+                      "children": [
+                        {
+                          "kind": "MethodArgs",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "MethodInvocation",
+                      "attributes": {
+                        "val": "k",
+                        "col": "18",
+                        "line": "9"
+                      },
+                      "children": [
+                        {
+                          "kind": "MethodArgs",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "t",
+                        "col": "9",
+                        "line": "10"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "MethodInvocation",
+                      "attributes": {
+                        "val": "h",
+                        "col": "11",
+                        "line": "10"
+                      },
+                      "children": [
+                        {
+                          "kind": "MethodArgs",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "F",
+                        "col": "9",
+                        "line": "11"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "MethodInvocation",
+                      "attributes": {
+                        "val": "h",
+                        "col": "11",
+                        "line": "11"
+                      },
+                      "children": [
+                        {
+                          "kind": "MethodArgs",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "r",
+                        "col": "9",
+                        "line": "12"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "MethodInvocation",
+                      "attributes": {
+                        "val": "h",
+                        "col": "11",
+                        "line": "12"
+                      },
+                      "children": [
+                        {
+                          "kind": "MethodArgs",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {
+            "val": "null"
+          },
+          "children": [
+            {
+              "kind": "RegularMethod",
+              "attributes": {
+                "val": "f1",
+                "col": "16",
+                "line": "15"
+              },
+              "children": [
+                {
+                  "kind": "ReturnType",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "Type",
+                      "attributes": {
+                        "val": "int",
+                        "col": "12",
+                        "line": "15"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "kind": "MethodBody",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": []
+                },
+                {
+                  "kind": "ReturnStatement",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "IntegerLiteral",
+                      "attributes": {
+                        "val": "0",
+                        "col": "16",
+                        "line": "16"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

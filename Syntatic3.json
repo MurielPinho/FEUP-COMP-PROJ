@@ -1,0 +1,211 @@
+{
+  "kind": "Program",
+  "attributes": {
+    "val": "null"
+  },
+  "children": [
+    {
+      "kind": "Imports",
+      "attributes": {
+        "val": "null"
+      },
+      "children": []
+    },
+    {
+      "kind": "Class",
+      "attributes": {
+        "val": "Syntatic3",
+        "col": "7",
+        "line": "1"
+      },
+      "children": [
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {
+            "val": "null"
+          },
+          "children": [
+            {
+              "kind": "Main",
+              "attributes": {
+                "val": "null"
+              },
+              "children": [
+                {
+                  "kind": "ArgName",
+                  "attributes": {
+                    "val": "args",
+                    "col": "35",
+                    "line": "2"
+                  },
+                  "children": []
+                },
+                {
+                  "kind": "MethodBody",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "While",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "WhileBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Scope",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "While",
+                      "attributes": {
+                        "val": "null"
+                      },
+                      "children": [
+                        {
+                          "kind": "WhileExpression",
+                          "attributes": {
+                            "val": "null",
+                            "col": "11",
+                            "line": "6"
+                          },
+                          "children": [
+                            {
+                              "kind": "IntegerLiteral",
+                              "attributes": {
+                                "val": "1",
+                                "col": "12",
+                                "line": "6"
+                              },
+                              "children": []
+                            },
+                            {
+                              "kind": "Less",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "SubExpression",
+                                  "attributes": {
+                                    "val": "null"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "IntegerLiteral",
+                                      "attributes": {
+                                        "val": "1",
+                                        "col": "17",
+                                        "line": "6"
+                                      },
+                                      "children": []
+                                    },
+                                    {
+                                      "kind": "PlusExpression",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "IntegerLiteral",
+                                          "attributes": {
+                                            "val": "8",
+                                            "col": "21",
+                                            "line": "6"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "WhileBody",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": [
+                            {
+                              "kind": "Scope",
+                              "attributes": {
+                                "val": "null"
+                              },
+                              "children": [
+                                {
+                                  "kind": "Var",
+                                  "attributes": {
+                                    "val": "a",
+                                    "col": "10",
+                                    "line": "7"
+                                  },
+                                  "children": []
+                                },
+                                {
+                                  "kind": "Assignment",
+                                  "attributes": {
+                                    "val": "null",
+                                    "col": "12",
+                                    "line": "7"
+                                  },
+                                  "children": [
+                                    {
+                                      "kind": "IntegerLiteral",
+                                      "attributes": {
+                                        "val": "4",
+                                        "col": "14",
+                                        "line": "7"
+                                      },
+                                      "children": []
+                                    },
+                                    {
+                                      "kind": "PlusExpression",
+                                      "attributes": {
+                                        "val": "null"
+                                      },
+                                      "children": [
+                                        {
+                                          "kind": "IntegerLiteral",
+                                          "attributes": {
+                                            "val": "5",
+                                            "col": "18",
+                                            "line": "7"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+IMPORTS:
+
+CLASS:
+   NAME: Semantic11
+
+   EXTENDS:
+
+   FIELDS:
+
+   MAIN_METHOD:
+      ARG_NAME: a
+
+      SCOPE:
+         LOCALS:
+            NAME: t
+               TYPE: Semantic11
+               IS_ARRAY: false
+            NAME: r
+               TYPE: F
+               IS_ARRAY: false
+
+   METHODS:
+      METHOD: f1
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+
+         SCOPE:
+            LOCALS:

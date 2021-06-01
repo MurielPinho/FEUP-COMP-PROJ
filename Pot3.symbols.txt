@@ -1,0 +1,35 @@
+IMPORTS:
+   io
+
+CLASS:
+   NAME: Pot3
+
+   EXTENDS:
+
+   FIELDS:
+
+   MAIN_METHOD:
+      ARG_NAME: null
+
+      SCOPE:
+         LOCALS:
+
+   METHODS:
+      METHOD: func1
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+            NAME: num
+               TYPE: int
+               IS_ARRAY: false
+
+         SCOPE:
+            LOCALS:
+               NAME: num_aux
+                  TYPE: int
+                  IS_ARRAY: false
+               NAME: a
+                  TYPE: int
+                  IS_ARRAY: false

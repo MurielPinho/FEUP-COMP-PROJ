@@ -1,0 +1,94 @@
+{
+  "kind": "Program",
+  "attributes": {
+    "val": "null"
+  },
+  "children": [
+    {
+      "kind": "Imports",
+      "attributes": {
+        "val": "null"
+      },
+      "children": [
+        {
+          "kind": "ImportDeclaration",
+          "attributes": {
+            "val": "ioPlus",
+            "col": "8",
+            "line": "1"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "Class",
+      "attributes": {
+        "val": "HelloWorld",
+        "col": "7",
+        "line": "2"
+      },
+      "children": [
+        {
+          "kind": "MethodDeclaration",
+          "attributes": {
+            "val": "null"
+          },
+          "children": [
+            {
+              "kind": "Main",
+              "attributes": {
+                "val": "null"
+              },
+              "children": [
+                {
+                  "kind": "ArgName",
+                  "attributes": {
+                    "val": "args",
+                    "col": "35",
+                    "line": "3"
+                  },
+                  "children": []
+                },
+                {
+                  "kind": "MethodBody",
+                  "attributes": {
+                    "val": "null"
+                  },
+                  "children": [
+                    {
+                      "kind": "Var",
+                      "attributes": {
+                        "val": "ioPlus",
+                        "col": "3",
+                        "line": "4"
+                      },
+                      "children": []
+                    },
+                    {
+                      "kind": "MethodInvocation",
+                      "attributes": {
+                        "val": "printHelloWorld",
+                        "col": "10",
+                        "line": "4"
+                      },
+                      "children": [
+                        {
+                          "kind": "MethodArgs",
+                          "attributes": {
+                            "val": "null"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+IMPORTS:
+   A
+
+CLASS:
+   NAME: Pot1
+
+   EXTENDS:
+
+   FIELDS:
+
+   MAIN_METHOD:
+      ARG_NAME: null
+
+      SCOPE:
+         LOCALS:
+
+   METHODS:
+      METHOD: sum1
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+            NAME: a
+               TYPE: int
+               IS_ARRAY: false
+            NAME: b
+               TYPE: int
+               IS_ARRAY: false
+
+         SCOPE:
+            LOCALS:
+
+      METHOD: sum2
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+            NAME: A
+               TYPE: int
+               IS_ARRAY: true
+            NAME: b
+               TYPE: int
+               IS_ARRAY: false
+
+         SCOPE:
+            LOCALS:
+               NAME: ind
+                  TYPE: int
+                  IS_ARRAY: false
+               NAME: sum
+                  TYPE: int
+                  IS_ARRAY: false
+
+      METHOD: getNum1
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+
+         SCOPE:
+            LOCALS:
+               NAME: x
+                  TYPE: boolean
+                  IS_ARRAY: false
+
+      METHOD: sub4
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+            NAME: a
+               TYPE: A
+               IS_ARRAY: false
+
+         SCOPE:
+            LOCALS:
+
+      METHOD: sub2
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+            NAME: a
+               TYPE: Pot1
+               IS_ARRAY: false
+            NAME: b
+               TYPE: Pot1
+               IS_ARRAY: false
+
+         SCOPE:
+            LOCALS:
+
+      METHOD: sub3
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+            NAME: a
+               TYPE: int
+               IS_ARRAY: false
+
+         SCOPE:
+            LOCALS:
+
+      METHOD: sub1
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+            NAME: a
+               TYPE: int
+               IS_ARRAY: false
+            NAME: b
+               TYPE: int
+               IS_ARRAY: false
+
+         SCOPE:
+            LOCALS:
+
+      METHOD: mult1
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+            NAME: a
+               TYPE: int
+               IS_ARRAY: false
+            NAME: b
+               TYPE: int
+               IS_ARRAY: false
+
+         SCOPE:
+            LOCALS:

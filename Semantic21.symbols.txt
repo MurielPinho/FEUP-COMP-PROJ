@@ -1,0 +1,41 @@
+IMPORTS:
+
+CLASS:
+   NAME: Semantic21
+
+   EXTENDS:
+
+   FIELDS:
+
+   MAIN_METHOD:
+      ARG_NAME: a
+
+      SCOPE:
+         LOCALS:
+            NAME: t
+               TYPE: Semantic21
+               IS_ARRAY: false
+
+   METHODS:
+      METHOD: k1
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+            NAME: a
+               TYPE: int
+               IS_ARRAY: false
+
+         SCOPE:
+            LOCALS:
+
+      METHOD: f1
+         RETURN:
+            TYPE: int
+            IS_ARRAY: false
+
+         PARAMS:
+
+         SCOPE:
+            LOCALS:
