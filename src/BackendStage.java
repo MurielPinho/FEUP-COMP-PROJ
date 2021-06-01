@@ -1,16 +1,20 @@
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
-
 import org.specs.comp.ollir.*;
 
 import org.specs.comp.ollir.AssignInstruction;
 
 import pt.up.fe.comp.jmm.jasmin.JasminBackend;
 import pt.up.fe.comp.jmm.jasmin.JasminResult;
+import pt.up.fe.comp.jmm.jasmin.JasminUtils;
 import pt.up.fe.comp.jmm.ollir.OllirResult;
 import pt.up.fe.comp.jmm.report.Report;
 import pt.up.fe.comp.jmm.report.Stage;
+import pt.up.fe.specs.util.SpecsIo;
 
 /**
  * Copyright 2021 SPeCS.
@@ -37,7 +41,7 @@ public class BackendStage implements JasminBackend {
         ollirClass = ollirResult.getOllirClass();
         try {
 
-            // Example of what you can do with the OLLIR class
+
             ollirClass.checkMethodLabels(); // check the use of labels in the OLLIR loaded
             //ollirClass.buildCFGs(); // build the CFG of each method
             //ollirClass.outputCFGs(); // output to .dot files the CFGs, one per method
@@ -50,21 +54,27 @@ public class BackendStage implements JasminBackend {
             generateInit();
             generateMethods();
 
+            // // Convert the generated string to a .j file
+            String Filename = ollirClass.getClassName()+".j";
             try {
-                FileWriter myWriter = new FileWriter("generatedJasmin/"+ollirClass.getClassName()+".j");
+                FileWriter myWriter = new FileWriter(Filename);
                 myWriter.write(jasminString.toString());
                 myWriter.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            // // Convert the OLLIR to a String containing the equivalent Jasmin code
-             String jasminCode = jasminString.toString(); // Convert node ...
+            // // Convert the .j file to .class
+            File jasminFile = new File(Filename);
+            Path dir = Path.of("./");
+            JasminUtils.assemble(jasminFile,dir.toFile());
+
+            String jasminCode = jasminString.toString();
 
             // // More reports from this stage
-             List<Report> reports = new ArrayList<>();
+            List<Report> reports = new ArrayList<>();
 
-             return new JasminResult(ollirResult, jasminCode, reports);
+            return new JasminResult(ollirResult, jasminCode, reports);
 
 
         } catch (OllirErrorException e) {
