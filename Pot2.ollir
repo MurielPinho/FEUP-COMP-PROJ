@@ -1,0 +1,64 @@
+Pot2 {
+
+	.construct Pot2().V {
+		invokespecial(this, "<init>").V;
+	}
+	.method public static main(args.array.String).V {
+
+		temp1.bool :=.bool invokevirtual(this, "expr1").bool;
+		temp3.bool :=.bool temp1.bool;
+		temp5.bool :=.bool invokevirtual(this, "expr3").bool;
+		temp4.bool :=.bool !.bool temp5.bool;
+		temp8.i32 :=.i32 invokevirtual(this, "expr2").i32;
+		temp7.i32 :=.i32 temp8.i32;
+		temp6.bool :=.bool 4.i32 <.i32 temp7.i32;
+		temp2.bool :=.bool temp4.bool &&.bool temp6.bool;
+		temp9.bool :=.bool temp3.bool &&.bool temp2.bool;
+		final123.bool :=.bool temp9.bool;
+
+	}
+	.method public expr1().bool {
+		a.i32 :=.i32 2.i32;
+		b.i32 :=.i32 3.i32;
+		c.bool :=.bool 0.bool;
+		temp1.bool :=.bool a.i32 <.i32 b.i32;
+		temp2.bool :=.bool temp1.bool &&.bool c.bool;
+		ret.bool temp2.bool;
+	}
+	.method public expr2().i32 {
+		temp1.i32 :=.i32 a.i32 *.i32 c.i32;
+		temp2.bool :=.bool !.bool d.bool;
+		temp3.i32 :=.i32 temp1.i32 -.i32 b.i32;
+		temp5.bool :=.bool temp3.i32 <.i32 temp2.bool;
+		temp7.bool :=.bool f.bool &&.bool g.bool;
+		temp6.bool :=.bool !.bool temp7.bool;
+		temp4.bool :=.bool e.bool &&.bool temp6.bool;
+		temp8.bool :=.bool temp5.bool &&.bool temp4.bool;
+		ret.bool temp8.bool;
+	}
+	.method public expr3().bool {
+		temp1.i32 :=.i32 a.i32 *.i32 c.i32;
+		temp2.bool :=.bool h.i32 <.i32 temp1.i32;
+		temp5.bool :=.bool n.bool;
+		temp6.bool :=.bool temp5.bool;
+		temp7.bool :=.bool temp6.bool &&.bool j.bool;
+		temp8.bool :=.bool temp7.bool;
+		temp4.bool :=.bool !.bool temp8.bool;
+		temp9.bool :=.bool temp4.bool;
+		temp12.i32 :=.i32 b.i32 /.i32 d.i32;
+		temp14.i32 :=.i32 temp12.i32 +.i32 e.i32;
+		temp13.i32 :=.i32 f.i32 -.i32 g.i32;
+		temp15.bool :=.bool temp14.i32 <.i32 temp13.i32;
+		temp11.bool :=.bool !.bool temp15.bool;
+		temp18.bool :=.bool l.bool;
+		temp19.bool :=.bool temp18.bool;
+		temp20.bool :=.bool temp19.bool;
+		temp21.bool :=.bool !.bool m.bool;
+		temp17.bool :=.bool temp20.bool &&.bool temp21.bool;
+		temp16.bool :=.bool k.bool &&.bool temp17.bool;
+		temp10.bool :=.bool temp11.bool &&.bool temp16.bool;
+		temp3.bool :=.bool temp9.bool &&.bool temp10.bool;
+		temp22.bool :=.bool temp2.bool &&.bool temp3.bool;
+		ret.bool temp22.bool;
+	}
+}
