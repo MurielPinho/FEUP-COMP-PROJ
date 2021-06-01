@@ -1,5 +1,9 @@
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import pt.up.fe.comp.TestUtils;
 import pt.up.fe.comp.jmm.JmmNode;
 import pt.up.fe.comp.jmm.JmmParserResult;
 import pt.up.fe.comp.jmm.analysis.JmmAnalysis;
@@ -8,21 +12,23 @@ import pt.up.fe.comp.jmm.ast.examples.AnalysisSemanticInfo;
 import pt.up.fe.comp.jmm.ast.examples.AnalysisSemanticVisitor;
 import pt.up.fe.comp.jmm.report.Report;
 import pt.up.fe.comp.jmm.analysis.table.*;
+import pt.up.fe.comp.jmm.report.ReportType;
+import pt.up.fe.comp.jmm.report.Stage;
 
 public class AnalysisStage implements JmmAnalysis {
     @Override
     public JmmSemanticsResult semanticAnalysis(JmmParserResult parserResult) {
-        // if (TestUtils.getNumReports(parserResult.getReports(), ReportType.ERROR) > 0) {
-        //     var errorReport = new Report(ReportType.ERROR, Stage.SEMANTIC, -1,
-        //             "Started semantic analysis but there are errors from previous stage");
-        //     return new JmmSemanticsResult(parserResult, null, Arrays.asList(errorReport));
-        // }
+        if (TestUtils.getNumReports(parserResult.getReports(), ReportType.ERROR) > 0) {
+            var errorReport = new Report(ReportType.ERROR, Stage.SEMANTIC, -1,
+                    "Started semantic analysis but there are errors from previous stage");
+            return new JmmSemanticsResult(parserResult, null, Arrays.asList(errorReport));
+        }
 
-        // if (parserResult.getRootNode() == null) {
-        //     var errorReport = new Report(ReportType.ERROR, Stage.SEMANTIC, -1,
-        //             "Started semantic analysis but AST root node is null");
-        //     return new JmmSemanticsResult(parserResult, null, Arrays.asList(errorReport));
-        // }
+        if (parserResult.getRootNode() == null) {
+            var errorReport = new Report(ReportType.ERROR, Stage.SEMANTIC, -1,
+                    "Started semantic analysis but AST root node is null");
+            return new JmmSemanticsResult(parserResult, null, Arrays.asList(errorReport));
+        }
 
         // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
         //            BUILD SYMBOL TABLE
@@ -57,8 +63,31 @@ public class AnalysisStage implements JmmAnalysis {
 
         System.out.println("#######################\n");
 
+        this.createSymbolTablefile(rootSymbolTable.print());
+
         return new JmmSemanticsResult(parserResult, rootSymbolTable, analysisSemanticInfo.getReports());
 
+    }
+
+    private void createSymbolTablefile(String symbolTable) {
+        try {
+            System.out.println("\n#######################");
+            System.out.println("Creating SymbolTable file...");
+
+            File file = new File("./Simple.symbols.txt");
+            file.createNewFile();
+
+            FileWriter myWriter = new FileWriter(file);
+            myWriter.write(symbolTable);
+            myWriter.close();
+
+            System.out.println("JSON file created at: ./Simple.symbols.txt");
+            System.out.println("#######################\n");
+        }
+        catch(Exception e){
+            System.out.println("Error creating SymbolTable file!");
+            System.out.println("#######################\n");
+        }
     }
 
 }

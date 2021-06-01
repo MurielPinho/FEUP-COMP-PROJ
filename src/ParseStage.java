@@ -11,8 +11,7 @@ public class ParseStage implements JmmParser {
             SimpleNode root = myProg.Program(); // returns reference to root node
 
             root.dump(""); // prints the tree on the screen
-            String json = root.toJson();
-            this.createJSONfile(json);
+            this.createJSONfile(root.toJson());
 
             myProg.printErrorMessages();
 
@@ -28,14 +27,14 @@ public class ParseStage implements JmmParser {
             System.out.println("\n#######################");
             System.out.println("Creating JSON file...");
             
-            File file = new File("./generated_file.json");
+            File file = new File("./Simple.json");
             file.createNewFile();
 
             FileWriter myWriter = new FileWriter(file);
             myWriter.write(json);
             myWriter.close();
 
-            System.out.println("JSON file created at: ./generated_file.json");
+            System.out.println("JSON file created at: ./Simple.json");
             System.out.println("#######################\n");
         }
         catch(Exception e){

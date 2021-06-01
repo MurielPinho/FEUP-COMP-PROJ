@@ -29,8 +29,9 @@ public class Main {
         OllirResult ollirResult = new OptimizationStage().toOllir(jmmSemanticsResult);
         JasminResult jasminResult = new BackendStage().toJasmin(ollirResult);
         System.out.println("\n"+jasminResult.getJasminCode());
-        JmmNode node = jmmSemanticsResult.getRootNode();
 
+
+        JmmNode node = jmmSemanticsResult.getRootNode();
         System.out.println(node.toTree());
     }
 
